@@ -268,15 +268,18 @@ button {
 }
 .approach-rail ol {
   display: grid;
+  min-width: 0;
   gap: 0.25rem;
   max-height: min(65vh, 32rem);
   margin: 0.5rem 0 0;
   padding: 0;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   list-style: none;
 }
 .approach-rail a {
   display: block;
+  max-width: 100%;
   padding: 0.3rem 0.4rem;
   overflow: hidden;
   color: var(--muted);
