@@ -43,7 +43,7 @@ const { page } = Astro.props;
           : page.source.repositoryUrl}>Latest source ↗</a
       >
     </p>
-  </header><nav class="approach-nav" aria-label="Approaches">
+  </header><nav class="approach-nav" aria-label="Approaches" data-approach-menu>
     <strong>Approaches</strong><ol>
       {
         page.approaches.map((a) => (
@@ -55,7 +55,40 @@ const { page } = Astro.props;
         ))
       }
     </ol>
-  </nav>{
+  </nav><aside
+    class="approach-rail"
+    data-approach-rail
+    aria-label="Quick approach navigation"
+  >
+    <nav class="approach-rail-desktop" aria-label="Quick approach navigation">
+      <strong>Approaches</strong>
+      <ol>
+        {
+          page.approaches.map((a) => (
+            <li>
+              <a href={`#approach-${a.id}`}>
+                {a.order + 1}. {a.title}
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </nav>
+    <details class="approach-rail-mobile">
+      <summary>Approaches</summary>
+      <ol>
+        {
+          page.approaches.map((a) => (
+            <li>
+              <a href={`#approach-${a.id}`}>
+                {a.order + 1}. {a.title}
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </details>
+  </aside>{
     page.approaches.map((approach) => (
       <section class="approach" id={`approach-${approach.id}`}>
         <>
@@ -66,13 +99,38 @@ const { page } = Astro.props;
               <p>{approach.summary}</p>
             </>
           </header>
-          <div class="comparison" aria-label={`${approach.title} revisions`}>
-            {approach.revisions.map((revision) => (
-              <RevisionCard
-                revision={revision}
-                language={page.language.shikiLanguage}
-              />
-            ))}
+          <div class="carousel" data-carousel>
+            <div class="carousel-controls">
+              <p aria-live="polite" data-carousel-status />
+              <div>
+                <button
+                  type="button"
+                  data-carousel-previous
+                  aria-label={`Show previous ${approach.title} revisions`}
+                >
+                  ← Previous
+                </button>
+                <button
+                  type="button"
+                  data-carousel-next
+                  aria-label={`Show next ${approach.title} revisions`}
+                >
+                  Next →
+                </button>
+              </div>
+            </div>
+            <div
+              class="comparison"
+              aria-label={`${approach.title} revisions`}
+              tabindex="0"
+            >
+              {approach.revisions.map((revision) => (
+                <RevisionCard
+                  revision={revision}
+                  language={page.language.shikiLanguage}
+                />
+              ))}
+            </div>
           </div>
         </>
       </section>

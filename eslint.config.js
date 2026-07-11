@@ -9,8 +9,10 @@ export default [
     languageOptions: {
       globals: {
         document: 'readonly',
+        window: 'readonly',
         navigator: 'readonly',
         FormData: 'readonly',
+        getComputedStyle: 'readonly',
         setTimeout: 'readonly',
       },
     },

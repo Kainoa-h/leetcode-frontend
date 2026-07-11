@@ -7,9 +7,6 @@ const { revision, language } = Astro.props as {
   language: string;
 };
 const full = await highlight(revision.code, language);
-const diff = revision.diffFromPreviousRelevantRevision
-  ? await highlight(revision.diffFromPreviousRelevantRevision, 'diff')
-  : null;
 ---
 
 <article class:list={['revision', revision.markedWrong && 'incorrect']}>
@@ -30,16 +27,6 @@ const diff = revision.diffFromPreviousRelevantRevision
       ><a href={sourceUrl(revision.sha, revision.sourcePath)}
         >{revision.sourceFilename}</a
       >{revision.commitComment && <> · {revision.commitComment}</>}</small
-    ><div class="actions">
-      {
-        diff && (
-          <button type="button" data-toggle>
-            Show diff
-          </button>
-        )
-      }<button type="button" data-copy>Copy code</button>
-    </div>
-  </header><div class="code-view full" set:html={full} />{
-    diff && <div class="code-view diff" hidden set:html={diff} />
-  }<textarea hidden data-source>{revision.code}</textarea>
+    >
+  </header><div class="code-view full" set:html={full} />
 </article>
