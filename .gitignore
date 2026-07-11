@@ -5,3 +5,4 @@ dist/
 source-solutions/
 .wrangler/
 /.direnv
+/set_env.sh
