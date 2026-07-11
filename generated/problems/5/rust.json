@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 5,
+    "title": "Longest Palandromic Substring",
+    "slug": "longest-palandromic-substring"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/5_longest_palandromic_substring.rs",
+    "latestSha": "150aa26a509f8d2fe2cda15cba4340d51d3cabde",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-06-09T01:07:20+08:00",
+    "lastCommittedAt": "2026-06-09T20:16:52+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "b24bd11fcd88893a8415a7194dfd4fc2f74c664cbaea3da42b70970603759bc5"
+  },
+  "approaches": [
+    {
+      "id": "expand_around_center",
+      "title": "Expand Around Center",
+      "summary": "Iterate through each character and expand outward to find the longest palindromic substring centered at each position.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "93bf6ba3be1c0ede977c6169da4c6f43a2eab685",
+          "shortSha": "93bf6ba",
+          "parentSha": "2b7989f65a6b39e99fa1b9bb7389830e95df91fe",
+          "authoredAt": "2026-06-09T01:07:20+08:00",
+          "committedAt": "2026-06-09T01:07:20+08:00",
+          "chronologicalIndex": 149,
+          "problemId": 5,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/5_longest_palandromic_substring.rs",
+          "sourceFilename": "5_longest_palandromic_substring.rs",
+          "code": "impl Solution {\n    pub fn longest_palindrome(s: String) -> String {\n        if s.is_empty() {\n            return \"\".to_owned();\n        }\n        if s.len() == 1 {\n            return s;\n        }\n\n        fn find_palindrome(mut left: usize, mut right: usize, s: &str) -> &str {\n            while right < s.len() && s.as_bytes()[left] == s.as_bytes()[right] {\n                if left == 0 {\n                    return &s[0..=right];\n                }\n                left -= 1;\n                right += 1;\n            }\n            &s[left + 1..right]\n        }\n\n        let mut longest = \"\";\n        for i in 0..s.len() - 1 {\n            let x = find_palindrome(i, i, &s);\n            if longest.len() < x.len() {\n                longest = x;\n            }\n            let y = find_palindrome(i, i + 1, &s);\n            if longest.len() < y.len() {\n                longest = y;\n            }\n        }\n        longest.to_owned()\n    }\n}\nstruct Solution {}\nfn main() {\n    println!(\"{:?}\", Solution::longest_palindrome(\"babad\".to_owned()));\n    println!(\"{:?}\", Solution::longest_palindrome(\"cbbd\".to_owned()));\n    println!(\"{:?}\", Solution::longest_palindrome(\"a\".to_owned()));\n    println!(\"{:?}\", Solution::longest_palindrome(\"aa\".to_owned()));\n    println!(\"{:?}\", Solution::longest_palindrome(\"ab\".to_owned()));\n}\n",
+          "codeHash": "04d1103f624b9b8f81b45879799ab9f4acbf06f63f5f5f65641d4fb74d940614",
+          "markedWrong": false,
+          "commitComment": "i cheated.",
+          "rawCommitSubject": "rust 5: i cheated.",
+          "commitBody": "too tired to know wtf is gg on",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "expand_around_center",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation with flawed edge-case handling and redundant checks.",
+          "warnings": []
+        },
+        {
+          "sha": "689ca153a906b96481dd32fd1970d048e6929ff4",
+          "shortSha": "689ca15",
+          "parentSha": "f6e00951603f40a1d24cf3d982c3a8021c8dc80f",
+          "authoredAt": "2026-06-09T20:00:57+08:00",
+          "committedAt": "2026-06-09T20:00:57+08:00",
+          "chronologicalIndex": 151,
+          "problemId": 5,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/5_longest_palandromic_substring.rs",
+          "sourceFilename": "5_longest_palandromic_substring.rs",
+          "code": "impl Solution {\n    pub fn longest_palindrome(s: String) -> String {\n        if s.is_empty() || s.len() == 1 {\n            return s;\n        }\n\n        let find_substring = |mut start, mut end| -> &str {\n            let b = s.as_bytes();\n            if b[start] != b[end] {\n                return &s[start..=start];\n            }\n            while start > 0 && end < s.len() - 1 && b[start - 1] == b[end + 1] {\n                start -= 1;\n                end += 1;\n            }\n            &s[start..=end]\n        };\n\n        let mut longest = \"\";\n        for idx in 0..s.len() - 1 {\n            let even = find_substring(idx, idx + 1);\n            if even.len() > longest.len() {\n                longest = even;\n            }\n            let odd = find_substring(idx, idx);\n            if odd.len() > longest.len() {\n                longest = odd;\n            }\n        }\n\n        longest.to_owned()\n    }\n}\nstruct Solution {}\nfn main() {\n    println!(\"{:?}\", Solution::longest_palindrome(\"babad\".to_owned()));\n    println!(\"{:?}\", Solution::longest_palindrome(\"cbbd\".to_owned()));\n    println!(\"{:?}\", Solution::longest_palindrome(\"a\".to_owned()));\n    println!(\"{:?}\", Solution::longest_palindrome(\"aa\".to_owned()));\n    println!(\"{:?}\", Solution::longest_palindrome(\"ab\".to_owned()));\n}\n",
+          "codeHash": "2a31a1c0105aefe03b216f2e78162c0eec1db3606616e38dcbbc05724a0b6a2c",
+          "markedWrong": false,
+          "commitComment": "worked ts out",
+          "rawCommitSubject": "rust 5: worked ts out",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/5_longest_palandromic_substring.rs b/rust/src/bin/5_longest_palandromic_substring.rs\nindex 6c0f343..e4b4bbf 100644\n--- a/rust/src/bin/5_longest_palandromic_substring.rs\n+++ b/rust/src/bin/5_longest_palandromic_substring.rs\n@@ -1,34 +1,33 @@\n impl Solution {\n     pub fn longest_palindrome(s: String) -> String {\n-        if s.is_empty() {\n-            return \"\".to_owned();\n-        }\n-        if s.len() == 1 {\n+        if s.is_empty() || s.len() == 1 {\n             return s;\n         }\n \n-        fn find_palindrome(mut left: usize, mut right: usize, s: &str) -> &str {\n-            while right < s.len() && s.as_bytes()[left] == s.as_bytes()[right] {\n-                if left == 0 {\n-                    return &s[0..=right];\n-                }\n-                left -= 1;\n-                right += 1;\n+        let find_substring = |mut start, mut end| -> &str {\n+            let b = s.as_bytes();\n+            if b[start] != b[end] {\n+                return &s[start..=start];\n             }\n-            &s[left + 1..right]\n-        }\n+            while start > 0 && end < s.len() - 1 && b[start - 1] == b[end + 1] {\n+                start -= 1;\n+                end += 1;\n+            }\n+            &s[start..=end]\n+        };\n \n         let mut longest = \"\";\n-        for i in 0..s.len() - 1 {\n-            let x = find_palindrome(i, i, &s);\n-            if longest.len() < x.len() {\n-                longest = x;\n+        for idx in 0..s.len() - 1 {\n+            let even = find_substring(idx, idx + 1);\n+            if even.len() > longest.len() {\n+                longest = even;\n             }\n-            let y = find_palindrome(i, i + 1, &s);\n-            if longest.len() < y.len() {\n-                longest = y;\n+            let odd = find_substring(idx, idx);\n+            if odd.len() > longest.len() {\n+                longest = odd;\n             }\n         }\n+\n         longest.to_owned()\n     }\n }\n",
+          "changedLineCounts": {
+            "additions": 19,
+            "deletions": 20
+          },
+          "approachId": "expand_around_center",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Fixed edge-case handling and simplified logic for even/odd length palindromes.",
+          "warnings": []
+        },
+        {
+          "sha": "150aa26a509f8d2fe2cda15cba4340d51d3cabde",
+          "shortSha": "150aa26",
+          "parentSha": "689ca153a906b96481dd32fd1970d048e6929ff4",
+          "authoredAt": "2026-06-09T20:16:52+08:00",
+          "committedAt": "2026-06-09T20:16:52+08:00",
+          "chronologicalIndex": 152,
+          "problemId": 5,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/5_longest_palandromic_substring.rs",
+          "sourceFilename": "5_longest_palandromic_substring.rs",
+          "code": "impl Solution {\n    pub fn longest_palindrome(s: String) -> String {\n        let b = s.as_bytes();\n        let find_substring = |mut start: usize, mut end: usize| -> &str {\n            while end < b.len() && b[start] == b[end] {\n                if start == 0 || end == b.len() - 1 {\n                    return &s[start..=end];\n                }\n                start -= 1;\n                end += 1;\n            }\n            &s[start + 1..end]\n        };\n\n        let mut longest = \"\";\n        for idx in 0..s.len() {\n            let even = find_substring(idx, idx + 1);\n            if even.len() > longest.len() {\n                longest = even;\n            }\n            let odd = find_substring(idx, idx);\n            if odd.len() > longest.len() {\n                longest = odd;\n            }\n        }\n\n        longest.to_owned()\n    }\n}\nstruct Solution {}\nfn main() {\n    println!(\"{:?}\", Solution::longest_palindrome(\"babad\".to_owned()));\n    println!(\"{:?}\", Solution::longest_palindrome(\"cbbd\".to_owned()));\n    println!(\"{:?}\", Solution::longest_palindrome(\"a\".to_owned()));\n    println!(\"{:?}\", Solution::longest_palindrome(\"aa\".to_owned()));\n    println!(\"{:?}\", Solution::longest_palindrome(\"ab\".to_owned()));\n}\n",
+          "codeHash": "87c2883eeb91165c0ef24d0446ac5d45341ebcd267aac3c9c26142535fbbab21",
+          "markedWrong": false,
+          "commitComment": "simplified",
+          "rawCommitSubject": "rust 5: simplified",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/5_longest_palandromic_substring.rs b/rust/src/bin/5_longest_palandromic_substring.rs\nindex e4b4bbf..829cc41 100644\n--- a/rust/src/bin/5_longest_palandromic_substring.rs\n+++ b/rust/src/bin/5_longest_palandromic_substring.rs\n@@ -1,23 +1,19 @@\n impl Solution {\n     pub fn longest_palindrome(s: String) -> String {\n-        if s.is_empty() || s.len() == 1 {\n-            return s;\n-        }\n-\n-        let find_substring = |mut start, mut end| -> &str {\n-            let b = s.as_bytes();\n-            if b[start] != b[end] {\n-                return &s[start..=start];\n-            }\n-            while start > 0 && end < s.len() - 1 && b[start - 1] == b[end + 1] {\n+        let b = s.as_bytes();\n+        let find_substring = |mut start: usize, mut end: usize| -> &str {\n+            while end < b.len() && b[start] == b[end] {\n+                if start == 0 || end == b.len() - 1 {\n+                    return &s[start..=end];\n+                }\n                 start -= 1;\n                 end += 1;\n             }\n-            &s[start..=end]\n+            &s[start + 1..end]\n         };\n \n         let mut longest = \"\";\n-        for idx in 0..s.len() - 1 {\n+        for idx in 0..s.len() {\n             let even = find_substring(idx, idx + 1);\n             if even.len() > longest.len() {\n                 longest = even;\n",
+          "changedLineCounts": {
+            "additions": 8,
+            "deletions": 12
+          },
+          "approachId": "expand_around_center",
+          "narrativeIndex": 2,
+          "shortChangeSummary": "Further simplified by removing redundant checks and improving boundary conditions.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "93bf6ba3be1c0ede977c6169da4c6f43a2eab685",
+    "689ca153a906b96481dd32fd1970d048e6929ff4",
+    "150aa26a509f8d2fe2cda15cba4340d51d3cabde"
+  ],
+  "warnings": []
+}

@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3612,
+    "title": "Process String With Special Operations I",
+    "slug": "process-string-with-special-operations-i"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3612_process_string_with_special_operations_I.rs",
+    "latestSha": "b5703b87bd607906da8df20433798fa6db7a0a60",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-06-16T10:50:52+08:00",
+    "lastCommittedAt": "2026-06-16T10:50:52+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "30426b61d4e2c61306424d9d632c29f7c20006ee96e374315e3dd64ca54643f2"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "b5703b87bd607906da8df20433798fa6db7a0a60",
+          "shortSha": "b5703b8",
+          "parentSha": "9293d7938767c3f973e04e3080184b9a35708941",
+          "authoredAt": "2026-06-16T10:50:52+08:00",
+          "committedAt": "2026-06-16T10:50:52+08:00",
+          "chronologicalIndex": 167,
+          "problemId": 3612,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3612_process_string_with_special_operations_I.rs",
+          "sourceFilename": "3612_process_string_with_special_operations_I.rs",
+          "code": "impl Solution {\n    pub fn process_str(s: String) -> String {\n        let mut result = String::new();\n\n        for c in s.chars() {\n            match c {\n                '*' => {\n                    result.pop();\n                }\n                '#' => {\n                    result += &result.clone();\n                }\n                '%' => {\n                    result = result.chars().rev().collect::<String>();\n                }\n                _ => {\n                    result.push(c);\n                }\n            }\n        }\n\n        result\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "4c1dd47ea37e9157670e37434c0a8e94268d73da690a0801c49c6d80843e3e68",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 3612",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "b5703b87bd607906da8df20433798fa6db7a0a60"
+  ],
+  "warnings": []
+}

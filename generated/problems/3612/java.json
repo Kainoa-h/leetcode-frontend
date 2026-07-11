@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3612,
+    "title": "Process String With Special Operations I",
+    "slug": "process-string-with-special-operations-i"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/3612_process_string_with_special_operations_I.java",
+    "latestSha": "48658a5ab30001fd6f3edb25e4fa9fb25b43a46c",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-06-17T17:46:06+08:00",
+    "lastCommittedAt": "2026-06-17T17:46:06+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "57816c6b5cba691b9c04b967e26945e18aac446084424162be352ac5ed359daa"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "48658a5ab30001fd6f3edb25e4fa9fb25b43a46c",
+          "shortSha": "48658a5",
+          "parentSha": "06d2c79bf9f0d49a8b2fdd449619c4abfcb966ed",
+          "authoredAt": "2026-06-17T17:46:06+08:00",
+          "committedAt": "2026-06-17T17:46:06+08:00",
+          "chronologicalIndex": 171,
+          "problemId": 3612,
+          "language": "java",
+          "sourcePath": "java/src/solutions/3612_process_string_with_special_operations_I.java",
+          "sourceFilename": "3612_process_string_with_special_operations_I.java",
+          "code": "class Solution {\n  public String processStr(String s) {\n    StringBuilder result = new StringBuilder();\n\n    for (int c : s.chars().toArray()) {\n      switch (c) {\n        case int x when x == '*' && result.length() > 0 -> result.deleteCharAt(result.length() - 1);\n        case '*' -> {}\n        case '#' -> result.append(result.toString());\n        case '%' -> result.reverse();\n        default -> result.append((char) c);\n      }\n    }\n\n    return result.toString();\n  }\n}\n",
+          "codeHash": "2726fdcb5d9ba304d0a79be56be4fe9b123f2884a8f41212356dd4af53272215",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "java 3612",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "48658a5ab30001fd6f3edb25e4fa9fb25b43a46c"
+  ],
+  "warnings": []
+}

@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1340,
+    "title": "Jump Game V",
+    "slug": "jump-game-v"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/1340_jump_game_V.rs",
+    "latestSha": "b403dfffc867cc84cb650841aa914af4235d01b6",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 2,
+    "incorrectRevisionCount": 1,
+    "firstCommittedAt": "2026-05-24T23:28:21+08:00",
+    "lastCommittedAt": "2026-05-24T23:39:45+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "2e6619cf4171993294cfd7085acd21bce628df5385950a6f723f7137e5eafacb"
+  },
+  "approaches": [
+    {
+      "id": "357e6b0b0495ff760b3785393de16411ea08d5de",
+      "title": "Incorrect: Max selection with memoization",
+      "summary": "Attempts DP with memoization but incorrectly tracks max values by storing indices and values separately, leading to wrong jumps.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "357e6b0b0495ff760b3785393de16411ea08d5de",
+          "shortSha": "357e6b0",
+          "parentSha": "940f2fe961adcf5a0c9cfcd52c839029f4be9d98",
+          "authoredAt": "2026-05-24T23:28:21+08:00",
+          "committedAt": "2026-05-24T23:28:21+08:00",
+          "chronologicalIndex": 125,
+          "problemId": 1340,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1340_jump_game_V.rs",
+          "sourceFilename": "1340_jump_game_V.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn max_jumps(arr: Vec<i32>, d: i32) -> i32 {\n        let mut memo = vec![0; arr.len()];\n\n        fn jump(arr: &[i32], memo: &mut [i32], d: usize, index: usize) -> i32 {\n            if memo[index] != 0 {\n                return memo[index];\n            }\n\n            let left_most = index.saturating_sub(d);\n            let right_most = (index + d).min(arr.len() - 1);\n\n            let mut max_left = (0_usize, 0_i32);\n            for i in (left_most..index).rev() {\n                if arr[index] <= arr[i] {\n                    break;\n                }\n                if arr[i] > max_left.1 {\n                    max_left = (i, arr[i]);\n                }\n            }\n            let mut max_right = (0_usize, 0_i32);\n            for i in (index + 1)..=right_most {\n                if arr[index] <= arr[i] {\n                    break;\n                }\n                if arr[i] > max_right.1 {\n                    max_right = (i, arr[i]);\n                }\n            }\n\n            if max_left.1 == 0 && max_right.1 == 0 {\n                memo[index] = 1;\n                return 1;\n            }\n            let (mut left, mut right) = (0, 0);\n\n            if max_left.1 != 0 {\n                left = jump(arr, memo, d, max_left.0);\n            }\n            if max_right.1 != 0 {\n                right = jump(arr, memo, d, max_right.0);\n            }\n            let visted = left.max(right) + 1;\n            memo[index] = visted;\n            visted\n        }\n\n        let mut max = 0;\n        for i in 0..arr.len() {\n            max = max.max(jump(&arr, &mut memo, d as usize, i));\n        }\n\n        max\n    }\n}\n\nfn main() {\n    println!(\"1\");\n    assert_eq!(\n        Solution::max_jumps(vec![6, 4, 14, 6, 8, 13, 9, 7, 10, 6, 12], 2),\n        4\n    );\n    println!(\"2\");\n    assert_eq!(Solution::max_jumps(vec![3, 3, 3, 3, 3], 3), 1);\n    println!(\"3\");\n    assert_eq!(Solution::max_jumps(vec![7, 6, 5, 4, 3, 2, 1], 1), 7);\n}\n",
+          "codeHash": "6546555f5ea9975111416c9fb6f451aeae16dfc76a6cc07b0e0ebf0864941147",
+          "markedWrong": true,
+          "commitComment": "hm",
+          "rawCommitSubject": "rust 1340!: hm",
+          "commitBody": "probably not working due to multiple max_left/right",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "357e6b0b0495ff760b3785393de16411ea08d5de",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial incorrect approach using separate max tracking for left/right jumps with memoization.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "b403dfffc867cc84cb650841aa914af4235d01b6",
+      "title": "Correct: Dynamic programming with memoization",
+      "summary": "Proper DP solution using memoization to compute maximum jumps by recursively exploring valid left/right positions.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "b403dfffc867cc84cb650841aa914af4235d01b6",
+          "shortSha": "b403dff",
+          "parentSha": "357e6b0b0495ff760b3785393de16411ea08d5de",
+          "authoredAt": "2026-05-24T23:39:45+08:00",
+          "committedAt": "2026-05-24T23:39:45+08:00",
+          "chronologicalIndex": 126,
+          "problemId": 1340,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1340_jump_game_V.rs",
+          "sourceFilename": "1340_jump_game_V.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn max_jumps(arr: Vec<i32>, d: i32) -> i32 {\n        let mut memo = vec![0; arr.len()];\n\n        fn jump(arr: &[i32], memo: &mut [i32], d: usize, index: usize) -> i32 {\n            if memo[index] != 0 {\n                return memo[index];\n            }\n\n            let left_most = index.saturating_sub(d);\n            let right_most = (index + d).min(arr.len() - 1);\n\n            let mut max_left = 0;\n            for i in (left_most..index).rev() {\n                if arr[index] <= arr[i] {\n                    break;\n                }\n                max_left = max_left.max(jump(arr, memo, d, i));\n            }\n            let mut max_right = 0;\n            for i in (index + 1)..=right_most {\n                if arr[index] <= arr[i] {\n                    break;\n                }\n                max_right = max_right.max(jump(arr, memo, d, i));\n            }\n\n            let visted = max_left.max(max_right) + 1;\n            memo[index] = visted;\n            visted\n        }\n\n        let mut max = 0;\n        for i in 0..arr.len() {\n            max = max.max(jump(&arr, &mut memo, d as usize, i));\n        }\n\n        max\n    }\n}\n\nfn main() {\n    println!(\"1\");\n    assert_eq!(\n        Solution::max_jumps(vec![6, 4, 14, 6, 8, 13, 9, 7, 10, 6, 12], 2),\n        4\n    );\n    println!(\"2\");\n    assert_eq!(Solution::max_jumps(vec![3, 3, 3, 3, 3], 3), 1);\n    println!(\"3\");\n    assert_eq!(Solution::max_jumps(vec![7, 6, 5, 4, 3, 2, 1], 1), 7);\n}\n",
+          "codeHash": "2633c90381cb1001c7fd16fdabb0059d6e702f47fa0d3ebc8e68604e34deab3b",
+          "markedWrong": false,
+          "commitComment": "proper dp",
+          "rawCommitSubject": "rust 1340: proper dp",
+          "commitBody": "lfg",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/1340_jump_game_V.rs b/rust/src/bin/1340_jump_game_V.rs\nindex 66a842f..faec43e 100644\n--- a/rust/src/bin/1340_jump_game_V.rs\n+++ b/rust/src/bin/1340_jump_game_V.rs\n@@ -11,38 +11,22 @@ impl Solution {\n             let left_most = index.saturating_sub(d);\n             let right_most = (index + d).min(arr.len() - 1);\n \n-            let mut max_left = (0_usize, 0_i32);\n+            let mut max_left = 0;\n             for i in (left_most..index).rev() {\n                 if arr[index] <= arr[i] {\n                     break;\n                 }\n-                if arr[i] > max_left.1 {\n-                    max_left = (i, arr[i]);\n-                }\n+                max_left = max_left.max(jump(arr, memo, d, i));\n             }\n-            let mut max_right = (0_usize, 0_i32);\n+            let mut max_right = 0;\n             for i in (index + 1)..=right_most {\n                 if arr[index] <= arr[i] {\n                     break;\n                 }\n-                if arr[i] > max_right.1 {\n-                    max_right = (i, arr[i]);\n-                }\n-            }\n-\n-            if max_left.1 == 0 && max_right.1 == 0 {\n-                memo[index] = 1;\n-                return 1;\n+                max_right = max_right.max(jump(arr, memo, d, i));\n             }\n-            let (mut left, mut right) = (0, 0);\n \n-            if max_left.1 != 0 {\n-                left = jump(arr, memo, d, max_left.0);\n-            }\n-            if max_right.1 != 0 {\n-                right = jump(arr, memo, d, max_right.0);\n-            }\n-            let visted = left.max(right) + 1;\n+            let visted = max_left.max(max_right) + 1;\n             memo[index] = visted;\n             visted\n         }\n",
+          "changedLineCounts": {
+            "additions": 5,
+            "deletions": 21
+          },
+          "approachId": "b403dfffc867cc84cb650841aa914af4235d01b6",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Fixed DP approach by directly using recursive results for max jumps instead of tracking max values.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "357e6b0b0495ff760b3785393de16411ea08d5de",
+    "b403dfffc867cc84cb650841aa914af4235d01b6"
+  ],
+  "warnings": []
+}

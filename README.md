@@ -61,7 +61,7 @@ export OPENROUTER_APP_NAME="LeetCode Solution History"
 pnpm ingest --source ./source-solutions
 ```
 
-Requests use Chat Completions structured output, local Zod validation, a 60-second timeout, and three bounded retries. Complete snapshots and relevant diffs are sent per group. `PROMPT_VERSION` in `scripts/lib/schemas.ts` participates in cache identity; bump it after a material prompt change. Large histories currently use the provider context window; increase model context or ingest in no-LLM mode if a group exceeds it.
+Requests use Chat Completions structured output, local Zod validation, a 60-second timeout, and three bounded retries. Groups with only one revision bypass OpenRouter and use the deterministic fallback because there is no history to classify. Complete snapshots and relevant diffs are sent for larger groups. `PROMPT_VERSION` in `scripts/lib/schemas.ts` participates in cache identity; bump it after a material prompt change. Large histories currently use the provider context window; increase model context or ingest in no-LLM mode if a group exceeds it.
 
 ## Parsing and generated data
 

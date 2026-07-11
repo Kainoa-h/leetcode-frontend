@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2130,
+    "title": "Maximum Twin Sum of A Linked List",
+    "slug": "maximum-twin-sum-of-a-linked-list"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/2130_maximum_twin_sum_of_a_linked_list.rs",
+    "latestSha": "8680f811a1d68191cc7ee6eca256bd89bf7f14c6",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-06-14T08:50:15+08:00",
+    "lastCommittedAt": "2026-06-14T09:10:31+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "9886e846d9d5d71321957ee2d77f3d6a2daee7953651e2af358939518f1c68a3"
+  },
+  "approaches": [
+    {
+      "id": "copy_approach",
+      "title": "Copy Approach",
+      "summary": "Copies all node values into a vector, then computes the maximum twin sum by pairing the first half with the reversed second half.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "4b2924ceb345ebbd4f8dbae01ab22b3f217de5dc",
+          "shortSha": "4b2924c",
+          "parentSha": "df6483d54f5a237b2628057023d054a2e153b889",
+          "authoredAt": "2026-06-14T08:50:15+08:00",
+          "committedAt": "2026-06-14T08:50:15+08:00",
+          "chronologicalIndex": 162,
+          "problemId": 2130,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2130_maximum_twin_sum_of_a_linked_list.rs",
+          "sourceFilename": "2130_maximum_twin_sum_of_a_linked_list.rs",
+          "code": "// Definition for singly-linked list.\n#[derive(PartialEq, Eq, Clone, Debug)]\npub struct ListNode {\n    pub val: i32,\n    pub next: Option<Box<ListNode>>,\n}\n\nimpl ListNode {\n    #[inline]\n    fn new(val: i32) -> Self {\n        ListNode { next: None, val }\n    }\n}\nimpl Solution {\n    pub fn pair_sum(mut head: Option<Box<ListNode>>) -> i32 {\n        let mut vec = Vec::new();\n        while let Some(node) = head {\n            head = node.next;\n            vec.push(node.val);\n        }\n        let mut max = 0;\n        for i in 0..(vec.len() / 2) {\n            max = max.max(vec[i] + vec[vec.len() - 1 - i]);\n        }\n        max\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "db4c6af564bfa79b12e67cdf06872c2ea9e097a4526e31de35068858d05e5a99",
+          "markedWrong": false,
+          "commitComment": "simple copy approach",
+          "rawCommitSubject": "rust 2130: simple copy approach",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "copy_approach",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation with full copying of node values.",
+          "warnings": []
+        },
+        {
+          "sha": "8680f811a1d68191cc7ee6eca256bd89bf7f14c6",
+          "shortSha": "8680f81",
+          "parentSha": "e1c66792016c91bec854dceee1b323ee947929c8",
+          "authoredAt": "2026-06-14T09:10:31+08:00",
+          "committedAt": "2026-06-14T09:10:31+08:00",
+          "chronologicalIndex": 164,
+          "problemId": 2130,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2130_maximum_twin_sum_of_a_linked_list.rs",
+          "sourceFilename": "2130_maximum_twin_sum_of_a_linked_list.rs",
+          "code": "// Definition for singly-linked list.\n#[derive(PartialEq, Eq, Clone, Debug)]\npub struct ListNode {\n    pub val: i32,\n    pub next: Option<Box<ListNode>>,\n}\n\nimpl ListNode {\n    #[inline]\n    fn new(val: i32) -> Self {\n        ListNode { next: None, val }\n    }\n}\nimpl Solution {\n    pub fn pair_sum(head: Option<Box<ListNode>>) -> i32 {\n        let mut vec = Vec::new();\n        let mut h = &head;\n        while let Some(node) = &h {\n            h = &node.next;\n            vec.push(node.val);\n        }\n        let mut max = 0;\n        for i in 0..vec.len() / 2 {\n            max = max.max(vec[i] + vec[vec.len() - 1 - i]);\n        }\n        max\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "0cf83f77113efb4a46991c4d76b50c8ba436f4f8ebcc4494824a8074e3881ecb",
+          "markedWrong": false,
+          "commitComment": "copy approach again, but less copying",
+          "rawCommitSubject": "rust 2130: copy approach again, but less copying",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2130_maximum_twin_sum_of_a_linked_list.rs b/rust/src/bin/2130_maximum_twin_sum_of_a_linked_list.rs\nindex 193e102..47bbe63 100644\n--- a/rust/src/bin/2130_maximum_twin_sum_of_a_linked_list.rs\n+++ b/rust/src/bin/2130_maximum_twin_sum_of_a_linked_list.rs\n@@ -13,34 +13,16 @@ impl ListNode {\n }\n impl Solution {\n     pub fn pair_sum(head: Option<Box<ListNode>>) -> i32 {\n-        let mut fast_head = &head;\n-        let mut flipper_head = &head;\n-        while let Some(flipper_node) = flipper_head\n-            && let Some(fast_node) = fast_head\n-        {\n-            flipper_head = &flipper_node.next;\n-            fast_head = &fast_node.next.as_ref().unwrap().next;\n+        let mut vec = Vec::new();\n+        let mut h = &head;\n+        while let Some(node) = &h {\n+            h = &node.next;\n+            vec.push(node.val);\n         }\n-\n-        let mut flipper_head = flipper_head.clone();\n-        let mut prev_node = None;\n-        while let Some(mut node) = flipper_head {\n-            flipper_head = node.next;\n-            node.next = prev_node;\n-            prev_node = Some(node);\n-        }\n-\n-        let mut head_head = &head;\n-        let mut rev_head = &prev_node;\n         let mut max = 0;\n-        while let Some(head_node) = &head_head\n-            && let Some(rev_node) = &rev_head\n-        {\n-            max = max.max(head_node.val + rev_node.val);\n-            head_head = &head_node.next;\n-            rev_head = &rev_node.next;\n+        for i in 0..vec.len() / 2 {\n+            max = max.max(vec[i] + vec[vec.len() - 1 - i]);\n         }\n-\n         max\n     }\n }\n",
+          "changedLineCounts": {
+            "additions": 7,
+            "deletions": 25
+          },
+          "approachId": "copy_approach",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Optimized to reduce copying by using references during traversal.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "reverse_pointer",
+      "title": "Reverse Pointer Approach",
+      "summary": "Uses a fast/slow pointer to find the middle, reverses the second half in-place, then pairs nodes from both halves.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "e1c66792016c91bec854dceee1b323ee947929c8",
+          "shortSha": "e1c6679",
+          "parentSha": "4b2924ceb345ebbd4f8dbae01ab22b3f217de5dc",
+          "authoredAt": "2026-06-14T09:07:54+08:00",
+          "committedAt": "2026-06-14T09:07:54+08:00",
+          "chronologicalIndex": 163,
+          "problemId": 2130,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2130_maximum_twin_sum_of_a_linked_list.rs",
+          "sourceFilename": "2130_maximum_twin_sum_of_a_linked_list.rs",
+          "code": "// Definition for singly-linked list.\n#[derive(PartialEq, Eq, Clone, Debug)]\npub struct ListNode {\n    pub val: i32,\n    pub next: Option<Box<ListNode>>,\n}\n\nimpl ListNode {\n    #[inline]\n    fn new(val: i32) -> Self {\n        ListNode { next: None, val }\n    }\n}\nimpl Solution {\n    pub fn pair_sum(head: Option<Box<ListNode>>) -> i32 {\n        let mut fast_head = &head;\n        let mut flipper_head = &head;\n        while let Some(flipper_node) = flipper_head\n            && let Some(fast_node) = fast_head\n        {\n            flipper_head = &flipper_node.next;\n            fast_head = &fast_node.next.as_ref().unwrap().next;\n        }\n\n        let mut flipper_head = flipper_head.clone();\n        let mut prev_node = None;\n        while let Some(mut node) = flipper_head {\n            flipper_head = node.next;\n            node.next = prev_node;\n            prev_node = Some(node);\n        }\n\n        let mut head_head = &head;\n        let mut rev_head = &prev_node;\n        let mut max = 0;\n        while let Some(head_node) = &head_head\n            && let Some(rev_node) = &rev_head\n        {\n            max = max.max(head_node.val + rev_node.val);\n            head_head = &head_node.next;\n            rev_head = &rev_node.next;\n        }\n\n        max\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "0385a0c2b2daa035015fe7ea01a19015432dbc94bef7553429a7ddf8d7a7c9fc",
+          "markedWrong": false,
+          "commitComment": "reverse pointer",
+          "rawCommitSubject": "rust 2130: reverse pointer",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2130_maximum_twin_sum_of_a_linked_list.rs b/rust/src/bin/2130_maximum_twin_sum_of_a_linked_list.rs\nindex db65600..193e102 100644\n--- a/rust/src/bin/2130_maximum_twin_sum_of_a_linked_list.rs\n+++ b/rust/src/bin/2130_maximum_twin_sum_of_a_linked_list.rs\n@@ -12,16 +12,35 @@ impl ListNode {\n     }\n }\n impl Solution {\n-    pub fn pair_sum(mut head: Option<Box<ListNode>>) -> i32 {\n-        let mut vec = Vec::new();\n-        while let Some(node) = head {\n-            head = node.next;\n-            vec.push(node.val);\n+    pub fn pair_sum(head: Option<Box<ListNode>>) -> i32 {\n+        let mut fast_head = &head;\n+        let mut flipper_head = &head;\n+        while let Some(flipper_node) = flipper_head\n+            && let Some(fast_node) = fast_head\n+        {\n+            flipper_head = &flipper_node.next;\n+            fast_head = &fast_node.next.as_ref().unwrap().next;\n         }\n+\n+        let mut flipper_head = flipper_head.clone();\n+        let mut prev_node = None;\n+        while let Some(mut node) = flipper_head {\n+            flipper_head = node.next;\n+            node.next = prev_node;\n+            prev_node = Some(node);\n+        }\n+\n+        let mut head_head = &head;\n+        let mut rev_head = &prev_node;\n         let mut max = 0;\n-        for i in 0..(vec.len() / 2) {\n-            max = max.max(vec[i] + vec[vec.len() - 1 - i]);\n+        while let Some(head_node) = &head_head\n+            && let Some(rev_node) = &rev_head\n+        {\n+            max = max.max(head_node.val + rev_node.val);\n+            head_head = &head_node.next;\n+            rev_head = &rev_node.next;\n         }\n+\n         max\n     }\n }\n",
+          "changedLineCounts": {
+            "additions": 26,
+            "deletions": 7
+          },
+          "approachId": "reverse_pointer",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Implements the reverse pointer technique to avoid extra space for copying.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "4b2924ceb345ebbd4f8dbae01ab22b3f217de5dc",
+    "e1c66792016c91bec854dceee1b323ee947929c8",
+    "8680f811a1d68191cc7ee6eca256bd89bf7f14c6"
+  ],
+  "warnings": []
+}

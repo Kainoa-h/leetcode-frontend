@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 396,
+    "title": "Rotate Function",
+    "slug": "rotate-function"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/396_rotate_function.rs",
+    "latestSha": "5d2cdebb215682a485f84a720b05673f67d78348",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 2,
+    "incorrectRevisionCount": 1,
+    "firstCommittedAt": "2026-05-05T20:12:03+08:00",
+    "lastCommittedAt": "2026-05-05T20:46:08+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "402288bfe0fc68b1633bb20372ed7bc07d330bb0bd6c7dca0123af7a6ca6678d"
+  },
+  "approaches": [
+    {
+      "id": "brute_force",
+      "title": "Brute Force with Nested Loops",
+      "summary": "Iterate over all possible rotations using nested loops to compute the sum for each rotation.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "f9992490ebaa9e88aa6b193be148c2b249fa659b",
+          "shortSha": "f999249",
+          "parentSha": "41e73e913279c569959a31e122e8bdbdc4e0f82b",
+          "authoredAt": "2026-05-05T20:12:03+08:00",
+          "committedAt": "2026-05-05T20:12:03+08:00",
+          "chronologicalIndex": 118,
+          "problemId": 396,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/396_rotate_function.rs",
+          "sourceFilename": "396_rotate_function.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn max_rotate_function(nums: Vec<i32>) -> i32 {\n        let mut max = i32::MIN;\n        for i in 0..nums.len() {\n            let mut sum = 0;\n            for mult in 1..nums.len() as i32 {\n                let idx = (i + mult as usize) % nums.len();\n                sum += mult * nums[idx];\n            }\n            max = max.max(sum);\n        }\n        max\n    }\n}\nfn main() {\n    assert_eq!(Solution::max_rotate_function(vec![4, 3, 2, 6]), 26);\n    assert_eq!(Solution::max_rotate_function(vec![100]), 0);\n}\n",
+          "codeHash": "0f8d19ebc7d819f69e0b781ce2055c72541acd0e7915564d3910ecca5244dd5f",
+          "markedWrong": true,
+          "commitComment": "tle",
+          "rawCommitSubject": "rust 396!: tle",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "brute_force",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial brute force approach with O(n²) time complexity, leading to TLE.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "math_optimization",
+      "title": "Mathematical Optimization with Incremental Sum",
+      "summary": "Derive a formula to compute each rotation's sum incrementally from the previous one, reducing time complexity to O(n).",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "5d2cdebb215682a485f84a720b05673f67d78348",
+          "shortSha": "5d2cdeb",
+          "parentSha": "f9992490ebaa9e88aa6b193be148c2b249fa659b",
+          "authoredAt": "2026-05-05T20:46:08+08:00",
+          "committedAt": "2026-05-05T20:46:08+08:00",
+          "chronologicalIndex": 119,
+          "problemId": 396,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/396_rotate_function.rs",
+          "sourceFilename": "396_rotate_function.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn max_rotate_function(nums: Vec<i32>) -> i32 {\n        let incr = nums.iter().sum::<i32>();\n        let mut prev = (1..nums.len()).fold(0, |acc, idx| acc + (idx as i32 * nums[idx]));\n        let mut max = prev;\n\n        // k=0, i=0\n        // k=1, i=3,\n        // k=2, i=2,\n        // k=3, i=1\n        for i in (1..nums.len()).rev() {\n            prev = prev + incr - (nums[i] * nums.len() as i32);\n            max = max.max(prev);\n        }\n        max\n    }\n}\nfn main() {\n    assert_eq!(Solution::max_rotate_function(vec![4, 3, 2, 6]), 26);\n    assert_eq!(Solution::max_rotate_function(vec![100]), 0);\n}\n",
+          "codeHash": "65ef283d264e4935fa70a4e5718c36e3e1e11c9778a9923cd859c4eda14b1bd5",
+          "markedWrong": false,
+          "commitComment": "oh right multiplication is just addition...",
+          "rawCommitSubject": "rust 396: oh right multiplication is just addition...",
+          "commitBody": "time: O(n)\nspace: O(1)",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/396_rotate_function.rs b/rust/src/bin/396_rotate_function.rs\nindex bb0880c..63196af 100644\n--- a/rust/src/bin/396_rotate_function.rs\n+++ b/rust/src/bin/396_rotate_function.rs\n@@ -1,14 +1,17 @@\n struct Solution {}\n impl Solution {\n     pub fn max_rotate_function(nums: Vec<i32>) -> i32 {\n-        let mut max = i32::MIN;\n-        for i in 0..nums.len() {\n-            let mut sum = 0;\n-            for mult in 1..nums.len() as i32 {\n-                let idx = (i + mult as usize) % nums.len();\n-                sum += mult * nums[idx];\n-            }\n-            max = max.max(sum);\n+        let incr = nums.iter().sum::<i32>();\n+        let mut prev = (1..nums.len()).fold(0, |acc, idx| acc + (idx as i32 * nums[idx]));\n+        let mut max = prev;\n+\n+        // k=0, i=0\n+        // k=1, i=3,\n+        // k=2, i=2,\n+        // k=3, i=1\n+        for i in (1..nums.len()).rev() {\n+            prev = prev + incr - (nums[i] * nums.len() as i32);\n+            max = max.max(prev);\n         }\n         max\n     }\n",
+          "changedLineCounts": {
+            "additions": 11,
+            "deletions": 8
+          },
+          "approachId": "math_optimization",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Optimized solution using mathematical insight to avoid recomputation, achieving O(n) time and O(1) space.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "f9992490ebaa9e88aa6b193be148c2b249fa659b",
+    "5d2cdebb215682a485f84a720b05673f67d78348"
+  ],
+  "warnings": []
+}

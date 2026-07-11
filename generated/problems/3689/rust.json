@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3689,
+    "title": "Maximum Total Subaarray Value I",
+    "slug": "maximum-total-subaarray-value-i"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3689_maximum_total_subaarray_value_I.rs",
+    "latestSha": "f6e00951603f40a1d24cf3d982c3a8021c8dc80f",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-06-09T09:42:54+08:00",
+    "lastCommittedAt": "2026-06-09T09:42:54+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "6f425103e7414dd3bbd1372248f865ce2b4dafc0a5b7eccb93ca727d1d2ba41a"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "f6e00951603f40a1d24cf3d982c3a8021c8dc80f",
+          "shortSha": "f6e0095",
+          "parentSha": "93bf6ba3be1c0ede977c6169da4c6f43a2eab685",
+          "authoredAt": "2026-06-09T09:42:54+08:00",
+          "committedAt": "2026-06-09T09:42:54+08:00",
+          "chronologicalIndex": 150,
+          "problemId": 3689,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3689_maximum_total_subaarray_value_I.rs",
+          "sourceFilename": "3689_maximum_total_subaarray_value_I.rs",
+          "code": "impl Solution {\n    pub fn max_total_value(nums: Vec<i32>, k: i32) -> i64 {\n        let (min, max) = nums\n            .iter()\n            .skip(1)\n            .fold((&nums[0], &nums[0]), |(min, max), x| {\n                (min.min(x), max.max(x))\n            });\n        (max - min) as i64 * k as i64\n    }\n}\nstruct Solution {}\n",
+          "codeHash": "9a3d1d4b5272f5a0fe8215f366629be9539581700bc90c2fe8b7ee5dfd44af20",
+          "markedWrong": false,
+          "commitComment": "stupid qn",
+          "rawCommitSubject": "rust 3689: stupid qn",
+          "commitBody": "fold might be slower here as the max vector size is 5*10^4\nThis could make the SIMD instructions of discrete min(), max() calls\nfaser",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "stupid qn",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "f6e00951603f40a1d24cf3d982c3a8021c8dc80f"
+  ],
+  "warnings": []
+}

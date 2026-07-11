@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 6,
+    "title": "Zigzag Conversation",
+    "slug": "zigzag-conversation"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/6_zigzag_conversation.rs",
+    "latestSha": "96f78d46c3d91d2080a6ddfd0155282630466cf5",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-01-31T14:33:07+08:00",
+    "lastCommittedAt": "2026-01-31T14:33:07+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "89acf4588ca23e01d13c70ac15974ec601debd343110d828bcbd2e273a5938bc"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "96f78d46c3d91d2080a6ddfd0155282630466cf5",
+          "shortSha": "96f78d4",
+          "parentSha": "74a3de0475a2c5753d2b42a663fd763140f05775",
+          "authoredAt": "2026-01-31T14:33:07+08:00",
+          "committedAt": "2026-01-31T14:33:07+08:00",
+          "chronologicalIndex": 43,
+          "problemId": 6,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/6_zigzag_conversation.rs",
+          "sourceFilename": "6_zigzag_conversation.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn convert(s: String, num_rows: i32) -> String {\n        if num_rows == 1 {\n            return s;\n        }\n\n        let mut rows: Vec<Vec<char>> = (0..num_rows).map(|_| Vec::new()).collect();\n        let mut row_idx = 0;\n        let mut forwards = true;\n        for c in s.chars() {\n            rows[row_idx].push(c);\n            if forwards {\n                if row_idx as i32 == num_rows - 1 {\n                    row_idx -= 1;\n                    forwards = false;\n                    continue;\n                }\n                row_idx += 1;\n                continue;\n            }\n            if row_idx == 0 {\n                row_idx = 1;\n                forwards = true;\n                continue;\n            }\n            row_idx -= 1;\n        }\n        rows.into_iter().flatten().collect()\n    }\n}\n\nfn what(s: &str, num_rows: i32, ans: &str) {\n    println!(\"{}\", s);\n    assert_eq!(Solution::convert(s.to_owned(), num_rows), ans);\n}\n\nfn main() {\n    what(\"PAYPALISHIRING\", 3, \"PAHNAPLSIIGYIR\");\n}\n",
+          "codeHash": "87a05a56afb1f4ae756a5bbd7990a71f3ce792e88b112d006547260728ca75bc",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "6",
+          "commitBody": "time: O(n)\nspace: O(n)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "96f78d46c3d91d2080a6ddfd0155282630466cf5"
+  ],
+  "warnings": []
+}

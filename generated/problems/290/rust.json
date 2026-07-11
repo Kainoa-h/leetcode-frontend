@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 290,
+    "title": "Word Pattern",
+    "slug": "word-pattern"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/290_word_pattern.rs",
+    "latestSha": "5a02ea5aec466c04e8092bd33d5f63006ce663ed",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-05-30T22:10:56+08:00",
+    "lastCommittedAt": "2026-05-30T22:10:56+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "578dc6dfcb53ff0163745e30979db0b53f776d55b39bbad88f2e74e542d13e3d"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "5a02ea5aec466c04e8092bd33d5f63006ce663ed",
+          "shortSha": "5a02ea5",
+          "parentSha": "b5f9f790dcc4008d1bb572b722a7511effc65afd",
+          "authoredAt": "2026-05-30T22:10:56+08:00",
+          "committedAt": "2026-05-30T22:10:56+08:00",
+          "chronologicalIndex": 133,
+          "problemId": 290,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/290_word_pattern.rs",
+          "sourceFilename": "290_word_pattern.rs",
+          "code": "use std::collections::HashMap;\n\nstruct Solution {}\nimpl Solution {\n    pub fn word_pattern(pattern: String, s: String) -> bool {\n        let mut char_map = [None::<&str>; 128];\n        let mut word_map: HashMap<&str, u8> = HashMap::new();\n        let words = s.split_ascii_whitespace().collect::<Vec<&str>>();\n\n        if words.len() != pattern.len() {\n            return false;\n        }\n\n        for (char, word) in pattern.bytes().zip(words) {\n            let ce = char_map.get_mut(char as usize).unwrap().get_or_insert(word);\n            if *ce != word {\n                return false;\n            }\n\n            let we = word_map.entry(word).or_insert(char);\n            if *we != char {\n                return false;\n            }\n        }\n\n        true\n    }\n}\n\nfn main() {\n    assert!(Solution::word_pattern(\n        \"abba\".to_owned(),\n        \"dog cat cat dog\".to_owned()\n    ));\n\n    assert!(!Solution::word_pattern(\n        \"abba\".to_owned(),\n        \"dog cat cat fish\".to_owned()\n    ));\n\n    assert!(!Solution::word_pattern(\n        \"aaaa\".to_owned(),\n        \"dog cat cat dog\".to_owned()\n    ));\n\n    assert!(!Solution::word_pattern(\n        \"aaa\".to_owned(),\n        \"aa aa aa aa\".to_owned()\n    ));\n}\n",
+          "codeHash": "c0341a35c14c63a27a07c7593ce70d97d7398387f7e812a3cf015c5a7b7f6f84",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 290",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "5a02ea5aec466c04e8092bd33d5f63006ce663ed"
+  ],
+  "warnings": []
+}

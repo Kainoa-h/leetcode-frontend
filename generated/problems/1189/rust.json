@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1189,
+    "title": "Number of Baloons",
+    "slug": "number-of-baloons"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/1189_number_of_baloons.rs",
+    "latestSha": "ff0200ed871bfbc2e78ca14553b7f518ad636e6e",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-06-22T15:36:51+08:00",
+    "lastCommittedAt": "2026-06-22T15:36:51+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "3b2c11ba90fc0466be3db6bd7f946210f8c0673f6ddefddce054190266253915"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "ff0200ed871bfbc2e78ca14553b7f518ad636e6e",
+          "shortSha": "ff0200e",
+          "parentSha": "e6583c06ac6793c0baaf1b65c1466c19310eab45",
+          "authoredAt": "2026-06-22T15:36:51+08:00",
+          "committedAt": "2026-06-22T15:36:51+08:00",
+          "chronologicalIndex": 183,
+          "problemId": 1189,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1189_number_of_baloons.rs",
+          "sourceFilename": "1189_number_of_baloons.rs",
+          "code": "impl Solution {\n    pub fn max_number_of_balloons(text: String) -> i32 {\n        let mut balloons = [0.0_f32; 5];\n        for c in text.as_bytes() {\n            match c {\n                b'b' => balloons[0] += 1.0,\n                b'a' => balloons[1] += 1.0,\n                b'l' => balloons[2] += 0.5,\n                b'o' => balloons[3] += 0.5,\n                b'n' => balloons[4] += 1.0,\n                _ => {}\n            }\n        }\n        balloons.into_iter().map(|x| x as i32).min().unwrap()\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(Solution::max_number_of_balloons(\"nlaebolko\".to_owned()), 1);\n}\n\n",
+          "codeHash": "c04830fa4ae743640c42b4bf80b73446a0a7597d76d59c0e70768a1532816c1d",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 1189",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "ff0200ed871bfbc2e78ca14553b7f518ad636e6e"
+  ],
+  "warnings": []
+}

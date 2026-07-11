@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3488,
+    "title": "Closest Equal Element Queries",
+    "slug": "closest-equal-element-queries"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/3488_closest_equal_element_queries.java",
+    "latestSha": "316c5f40dd9228ec19dbcbf7720624ee2f074984",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-04-16T18:09:38+08:00",
+    "lastCommittedAt": "2026-04-16T18:09:38+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "d9389ca20d57b0867c8cabfff2e951a81adcb90fdd003a3a05168f31845a3172"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "316c5f40dd9228ec19dbcbf7720624ee2f074984",
+          "shortSha": "316c5f4",
+          "parentSha": "349304ea95e5d87857c5595fac995278fd7f32e9",
+          "authoredAt": "2026-04-16T18:07:39+08:00",
+          "committedAt": "2026-04-16T18:09:38+08:00",
+          "chronologicalIndex": 105,
+          "problemId": 3488,
+          "language": "java",
+          "sourcePath": "java/src/solutions/3488_closest_equal_element_queries.java",
+          "sourceFilename": "3488_closest_equal_element_queries.java",
+          "code": "/*\nInput: nums = [1,3,1,4,1,3,2], queries = [0,3,5]\n\nOutput: [2,-1,3]\n\nExplanation:\n\nQuery 0: The element at queries[0] = 0 is nums[0] = 1. The nearest index with the same value is 2, and the distance between them is 2.\nQuery 1: The element at queries[1] = 3 is nums[3] = 4. No other index contains 4, so the result is -1.\nQuery 2: The element at queries[2] = 5 is nums[5] = 3. The nearest index with the same value is 1, and the distance between them is 3 (following the circular path: 5 -> 6 -> 0 -> 1).\n * */\n\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Collections;\nimport java.util.HashMap;\nimport java.util.Map;\n\nclass Solution {\n  public List<Integer> solveQueries(int[] nums, int[] queries) {\n    Map<Integer, List<Integer>> map = new HashMap<>();\n    List<Integer> result = new ArrayList<>();\n\n    for (int idx = 0; idx < nums.length; idx++) {\n      var val = nums[idx];\n      map.merge(val, new ArrayList<>(List.of(idx)), (a, b) -> {\n        a.addAll(b);\n        return a;\n      });\n    }\n\n    for (int idx : queries) {\n      var val = nums[idx];\n      var idxArr = map.get(val);\n      if (idxArr.size() == 1) {\n        result.add(-1);\n        continue;\n      }\n\n      int i = Collections.binarySearch(idxArr, idx);\n      int left = i - 1, right = i + 1;\n      int left_diff, right_diff;\n      if (i == 0) {\n        left_diff = nums.length - idxArr.getLast() + idx;\n        right_diff = Math.abs(idxArr.get(right) - idx);\n      } else if (i == idxArr.size() - 1) {\n        left_diff = Math.abs(idxArr.get(left) - idx);\n        right_diff = nums.length - idx + idxArr.getFirst();\n      } else {\n        left_diff = Math.abs(idxArr.get(left) - idx);\n        right_diff = Math.abs(idxArr.get(right) - idx);\n      }\n      // System.out.println(\"val:\" + val);\n      // System.out.println(\"idxArr:\" + idxArr.toString());\n      // System.out.println(\"left_idx:\" + left);\n      // System.out.println(\"i:\" + i);\n      // System.out.println(\"right_idx:\" + right);\n\n      result.add(\n          Math.min(left_diff, right_diff));\n\n    }\n\n    return result;\n  }\n\n  void main() {\n    System.out.println(\n        solveQueries(new int[] { 1, 3, 1, 4, 1, 3, 2 }, new int[] { 0, 3, 5 }).toString());\n  }\n}\n",
+          "codeHash": "30107281c19641b3288e68b886c86267cadc37b34a74647e527ec733b0a1e37b",
+          "markedWrong": false,
+          "commitComment": "mid ahh solution",
+          "rawCommitSubject": "java 3488: mid ahh solution",
+          "commitBody": "time: O(idk)... nlogn?\nspace: O(n)... i think",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "mid ahh solution",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "316c5f40dd9228ec19dbcbf7720624ee2f074984"
+  ],
+  "warnings": []
+}

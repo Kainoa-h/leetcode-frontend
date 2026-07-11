@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3,
+    "title": "Longest Substring Without Repeating Characters",
+    "slug": "longest-substring-without-repeating-characters"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3_longest_substring_without_repeating_characters.rs",
+    "latestSha": "8e05f20bfa5e1c96c2645d5bcd484ad2686f54a0",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-03-14T18:58:53+08:00",
+    "lastCommittedAt": "2026-03-14T18:58:53+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "9eebf1f1a62b9740b07c7fd364006a08ec920adab53f305780c3c0f1f7c6ac19"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "8e05f20bfa5e1c96c2645d5bcd484ad2686f54a0",
+          "shortSha": "8e05f20",
+          "parentSha": "f005f1f1aa6c9d61fd60608b4e3b6e95f56a0a15",
+          "authoredAt": "2026-03-14T18:58:36+08:00",
+          "committedAt": "2026-03-14T18:58:53+08:00",
+          "chronologicalIndex": 62,
+          "problemId": 3,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3_longest_substring_without_repeating_characters.rs",
+          "sourceFilename": "3_longest_substring_without_repeating_characters.rs",
+          "code": "use std::collections::HashMap;\n\nstruct Solution {}\nimpl Solution {\n    pub fn length_of_longest_substring(s: String) -> i32 {\n        let mut longest = 0;\n        let mut start_idx = 0;\n        let mut char_set: HashMap<char, usize> = HashMap::new();\n        for (end_index, char) in s.char_indices() {\n            if let Some(old_dup_idx) = char_set.insert(char, end_index) {\n                longest = longest.max(char_set.len());\n                for idx in start_idx..old_dup_idx {\n                    let c = s.as_bytes()[idx] as char;\n                    char_set.remove(&c);\n                }\n\n                start_idx = old_dup_idx + 1;\n                continue;\n            }\n        }\n        longest = longest.max(char_set.len());\n        longest as i32\n    }\n}\n\nfn main() {\n    assert_eq!(\n        3,\n        Solution::length_of_longest_substring(\"abcabcbb\".to_string())\n    );\n    assert_eq!(\n        8,\n        Solution::length_of_longest_substring(\"abcadefgh\".to_string())\n    );\n    assert_eq!(\n        4,\n        Solution::length_of_longest_substring(\"abccbad\".to_string())\n    );\n}\n",
+          "codeHash": "d5cf5c50b7d9784eaa12051b40c6ca099f54e4d2eda7f52d5be739005311d9bf",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "3",
+          "commitBody": "time: O(n)\nspace: O(n)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "8e05f20bfa5e1c96c2645d5bcd484ad2686f54a0"
+  ],
+  "warnings": []
+}

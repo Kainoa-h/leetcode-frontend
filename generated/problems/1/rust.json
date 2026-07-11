@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1,
+    "title": "Two Sum",
+    "slug": "two-sum"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/1_two_sum.rs",
+    "latestSha": "2b7989f65a6b39e99fa1b9bb7389830e95df91fe",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-06-08T22:08:29+08:00",
+    "lastCommittedAt": "2026-06-08T22:08:29+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "0d41264bc188ffed3a0e78f27bb1f60321bcb21be5b507c34aa0e939c0f62e9a"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "2b7989f65a6b39e99fa1b9bb7389830e95df91fe",
+          "shortSha": "2b7989f",
+          "parentSha": "adb8c6f87656b92d50d016fe183f6378c0570906",
+          "authoredAt": "2026-06-08T22:04:44+08:00",
+          "committedAt": "2026-06-08T22:08:29+08:00",
+          "chronologicalIndex": 148,
+          "problemId": 1,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1_two_sum.rs",
+          "sourceFilename": "1_two_sum.rs",
+          "code": "use std::collections::HashMap;\n\nimpl Solution {\n    pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {\n        match nums.into_iter().enumerate().try_fold(\n            HashMap::<i32, usize>::with_capacity(nums.len()),\n            |mut map, (idx, x)| {\n                let diff = target - x;\n                if let Some(&other_idx) = map.get(&diff) {\n                    std::ops::ControlFlow::Break(vec![idx as i32, other_idx as i32])\n                } else {\n                    map.insert(x, idx);\n                    std::ops::ControlFlow::Continue(map)\n                }\n            },\n        ) {\n            std::ops::ControlFlow::Break(x) => x,\n            std::ops::ControlFlow::Continue(_) => vec![],\n        }\n    }\n}\nstruct Solution {}\n",
+          "codeHash": "24d7bceb62e46945134452efeb4a72500c021e095697001e50c54ce63c3b959e",
+          "markedWrong": false,
+          "commitComment": "functional 2 sum with try_fold",
+          "rawCommitSubject": "rust 1: functional 2 sum with try_fold",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "functional 2 sum with try_fold",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "2b7989f65a6b39e99fa1b9bb7389830e95df91fe"
+  ],
+  "warnings": []
+}

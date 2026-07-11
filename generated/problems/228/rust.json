@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 228,
+    "title": "Summary Ranges",
+    "slug": "summary-ranges"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/228_summary_ranges.rs",
+    "latestSha": "2a2555b2de70550743eaa166cfb3d1e408d1b638",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-06-19T09:15:04+08:00",
+    "lastCommittedAt": "2026-06-19T09:15:32+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "87d733e661dc8fd48681efc77c8f8a393a01d2bf23343636a2718b097fceb862"
+  },
+  "approaches": [
+    {
+      "id": "linear-scan-with-separate-range-checks",
+      "title": "Linear scan with separate range checks",
+      "summary": "Iterate through the array, tracking start and previous values, and handle ranges and single values separately.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "fff085be25820fb13df469affecb4f0b4426a377",
+          "shortSha": "fff085b",
+          "parentSha": "5a2a3059847707dff898f48963a4319ac5d73d52",
+          "authoredAt": "2026-06-18T23:47:40+08:00",
+          "committedAt": "2026-06-19T09:15:04+08:00",
+          "chronologicalIndex": 177,
+          "problemId": 228,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/228_summary_ranges.rs",
+          "sourceFilename": "228_summary_ranges.rs",
+          "code": "impl Solution {\n    pub fn summary_ranges(nums: Vec<i32>) -> Vec<String> {\n        let Some(mut start) = nums.first().copied() else {\n            return Vec::new();\n        };\n        let mut result = Vec::new();\n        let mut prev = start;\n\n        for &n in nums.iter().skip(1) {\n            if n == prev {\n                continue;\n            }\n\n            if prev + 1 == n {\n                prev = n;\n                continue;\n            }\n\n            let mut range = start.to_string();\n            if start != prev {\n                range.push_str(\"->\");\n                range.push_str(&prev.to_string());\n            }\n            prev = n;\n            start = n;\n            result.push(range);\n        }\n        let mut range = start.to_string();\n        if start != prev {\n            range.push_str(\"->\");\n            range.push_str(&prev.to_string());\n        }\n        result.push(range);\n        result\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "a1dca0ef5a97373d429ffb265af128701e9a59a22e0268eee8229a1779443915",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 228",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "linear-scan-with-separate-range-checks",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation with separate checks for range continuation and single values.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "linear-scan-with-combined-checks",
+      "title": "Linear scan with combined checks",
+      "summary": "Simplify the logic by combining equality and range checks into a single condition for cleaner code.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "2a2555b2de70550743eaa166cfb3d1e408d1b638",
+          "shortSha": "2a2555b",
+          "parentSha": "fff085be25820fb13df469affecb4f0b4426a377",
+          "authoredAt": "2026-06-19T09:14:56+08:00",
+          "committedAt": "2026-06-19T09:15:32+08:00",
+          "chronologicalIndex": 178,
+          "problemId": 228,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/228_summary_ranges.rs",
+          "sourceFilename": "228_summary_ranges.rs",
+          "code": "impl Solution {\n    pub fn summary_ranges(nums: Vec<i32>) -> Vec<String> {\n        let Some(mut start) = nums.first().copied() else {\n            return Vec::new();\n        };\n        let mut result = Vec::new();\n        let mut prev = start;\n\n        for &n in nums.iter().skip(1) {\n            if n == prev || prev + 1 == n {\n                prev = n;\n                continue;\n            }\n\n            result.push(if start != prev {\n                format!(\"{}->{}\", start, prev)\n            } else {\n                start.to_string()\n            });\n\n            prev = n;\n            start = n;\n        }\n\n        result.push(if start != prev {\n            format!(\"{}->{}\", start, prev)\n        } else {\n            start.to_string()\n        });\n\n        result\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "b7a441ad0cad4a774b2aa552e8929d1ebda6a0320f7ca1cf6d0f09fb55fd35eb",
+          "markedWrong": false,
+          "commitComment": "cleanup",
+          "rawCommitSubject": "rust 228: cleanup",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/228_summary_ranges.rs b/rust/src/bin/228_summary_ranges.rs\nindex 31d1144..f5d67f5 100644\n--- a/rust/src/bin/228_summary_ranges.rs\n+++ b/rust/src/bin/228_summary_ranges.rs\n@@ -7,30 +7,27 @@ impl Solution {\n         let mut prev = start;\n \n         for &n in nums.iter().skip(1) {\n-            if n == prev {\n-                continue;\n-            }\n-\n-            if prev + 1 == n {\n+            if n == prev || prev + 1 == n {\n                 prev = n;\n                 continue;\n             }\n \n-            let mut range = start.to_string();\n-            if start != prev {\n-                range.push_str(\"->\");\n-                range.push_str(&prev.to_string());\n-            }\n+            result.push(if start != prev {\n+                format!(\"{}->{}\", start, prev)\n+            } else {\n+                start.to_string()\n+            });\n+\n             prev = n;\n             start = n;\n-            result.push(range);\n-        }\n-        let mut range = start.to_string();\n-        if start != prev {\n-            range.push_str(\"->\");\n-            range.push_str(&prev.to_string());\n         }\n-        result.push(range);\n+\n+        result.push(if start != prev {\n+            format!(\"{}->{}\", start, prev)\n+        } else {\n+            start.to_string()\n+        });\n+\n         result\n     }\n }\n",
+          "changedLineCounts": {
+            "additions": 14,
+            "deletions": 17
+          },
+          "approachId": "linear-scan-with-combined-checks",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Refactored to merge equality and range checks, and improved string formatting.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "fff085be25820fb13df469affecb4f0b4426a377",
+    "2a2555b2de70550743eaa166cfb3d1e408d1b638"
+  ],
+  "warnings": []
+}

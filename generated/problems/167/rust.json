@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 167,
+    "title": "Two Sum Ii Input Array Sorted",
+    "slug": "two-sum-ii-input-array-sorted"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/167_two_sum_II_input_array_sorted.rs",
+    "latestSha": "eb1b18ae71f4bf6e811926454b2991e041a041bf",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-02-05T17:31:58+08:00",
+    "lastCommittedAt": "2026-02-05T17:31:58+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "7da3307c7cbafa1e1e607b93c32fd1ef8e0964e64f67bafccd2aeba98969aad1"
+  },
+  "approaches": [
+    {
+      "id": "brute-force",
+      "title": "Brute Force",
+      "summary": "Iterate through all pairs of numbers to find the target sum.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "a0b2d44aad30371381c52ea5d7d438c00b075d0a",
+          "shortSha": "a0b2d44",
+          "parentSha": "283f787230126b65b0dc9a3de79dacbbcf72cb11",
+          "authoredAt": "2026-02-05T17:20:07+08:00",
+          "committedAt": "2026-02-05T17:31:58+08:00",
+          "chronologicalIndex": 48,
+          "problemId": 167,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/167_two_sum_II_input_array_sorted.rs",
+          "sourceFilename": "167_two_sum_II_input_array_sorted.rs",
+          "code": "struct Solution {}\n\nimpl Solution {\n    pub fn two_sum(numbers: Vec<i32>, target: i32) -> Vec<i32> {\n        for out_idx in 0..numbers.len() {\n            for in_idx in (out_idx + 1)..numbers.len() {\n                let sum = numbers[out_idx] + numbers[in_idx];\n                if sum > target {\n                    break;\n                }\n\n                if sum == target {\n                    return vec![(out_idx + 1) as i32, (in_idx + 1) as i32];\n                }\n            }\n        }\n        panic!(\"invalid\");\n    }\n}\n\nfn main() {\n    assert_eq!(Solution::two_sum(vec![2, 7, 11, 15], 9), vec![1, 2]);\n    assert_eq!(Solution::two_sum(vec![2, 3, 4], 6), vec![1, 3]);\n    assert_eq!(Solution::two_sum(vec![-1, 0, 4], -1), vec![1, 2]);\n}\n",
+          "codeHash": "90fb4f03cf78c541d26c0b2340149e8f4fdd189dd86ee789506c86baed8f9c6e",
+          "markedWrong": false,
+          "commitComment": "brute force",
+          "rawCommitSubject": "167: brute force",
+          "commitBody": "time: O(n^2)\nspace: O(1)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "brute-force",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial brute force solution with O(n^2) time complexity.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "two-pointers",
+      "title": "Two Pointers",
+      "summary": "Use two pointers starting from both ends to efficiently find the target sum.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "eb1b18ae71f4bf6e811926454b2991e041a041bf",
+          "shortSha": "eb1b18a",
+          "parentSha": "a0b2d44aad30371381c52ea5d7d438c00b075d0a",
+          "authoredAt": "2026-02-05T17:31:48+08:00",
+          "committedAt": "2026-02-05T17:31:58+08:00",
+          "chronologicalIndex": 49,
+          "problemId": 167,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/167_two_sum_II_input_array_sorted.rs",
+          "sourceFilename": "167_two_sum_II_input_array_sorted.rs",
+          "code": "struct Solution {}\n\nimpl Solution {\n    pub fn two_sum(numbers: Vec<i32>, target: i32) -> Vec<i32> {\n        let mut l = 0_usize;\n        let mut r = numbers.len() - 1;\n\n        while l < r {\n            let sum = numbers[l] + numbers[r];\n            if sum == target {\n                return vec![(l + 1) as i32, (r + 1) as i32];\n            }\n            if sum > target {\n                r -= 1;\n            } else {\n                l += 1;\n            }\n        }\n        panic!()\n    }\n}\n\nfn main() {\n    assert_eq!(Solution::two_sum(vec![2, 7, 11, 15], 9), vec![1, 2]);\n    assert_eq!(Solution::two_sum(vec![2, 7, 11, 15], 26), vec![3, 4]);\n    assert_eq!(Solution::two_sum(vec![2, 3, 4], 6), vec![1, 3]);\n    assert_eq!(Solution::two_sum(vec![-1, 0, 4], -1), vec![1, 2]);\n}\n",
+          "codeHash": "cc5df956f1905a835944a1212b2a01473e99c48e43e0a0a7088ee05ff543c316",
+          "markedWrong": false,
+          "commitComment": "two pointers",
+          "rawCommitSubject": "167: two pointers",
+          "commitBody": "time: O(n)\nspace: O(1)",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/167_two_sum_II_input_array_sorted.rs b/rust/src/bin/167_two_sum_II_input_array_sorted.rs\nindex 7a3ba76..ffe7e56 100644\n--- a/rust/src/bin/167_two_sum_II_input_array_sorted.rs\n+++ b/rust/src/bin/167_two_sum_II_input_array_sorted.rs\n@@ -2,24 +2,27 @@ struct Solution {}\n \n impl Solution {\n     pub fn two_sum(numbers: Vec<i32>, target: i32) -> Vec<i32> {\n-        for out_idx in 0..numbers.len() {\n-            for in_idx in (out_idx + 1)..numbers.len() {\n-                let sum = numbers[out_idx] + numbers[in_idx];\n-                if sum > target {\n-                    break;\n-                }\n+        let mut l = 0_usize;\n+        let mut r = numbers.len() - 1;\n \n-                if sum == target {\n-                    return vec![(out_idx + 1) as i32, (in_idx + 1) as i32];\n-                }\n+        while l < r {\n+            let sum = numbers[l] + numbers[r];\n+            if sum == target {\n+                return vec![(l + 1) as i32, (r + 1) as i32];\n+            }\n+            if sum > target {\n+                r -= 1;\n+            } else {\n+                l += 1;\n             }\n         }\n-        panic!(\"invalid\");\n+        panic!()\n     }\n }\n \n fn main() {\n     assert_eq!(Solution::two_sum(vec![2, 7, 11, 15], 9), vec![1, 2]);\n+    assert_eq!(Solution::two_sum(vec![2, 7, 11, 15], 26), vec![3, 4]);\n     assert_eq!(Solution::two_sum(vec![2, 3, 4], 6), vec![1, 3]);\n     assert_eq!(Solution::two_sum(vec![-1, 0, 4], -1), vec![1, 2]);\n }\n",
+          "changedLineCounts": {
+            "additions": 13,
+            "deletions": 10
+          },
+          "approachId": "two-pointers",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Optimized to O(n) time using two pointers on the sorted array.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "a0b2d44aad30371381c52ea5d7d438c00b075d0a",
+    "eb1b18ae71f4bf6e811926454b2991e041a041bf"
+  ],
+  "warnings": []
+}

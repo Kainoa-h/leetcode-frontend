@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2751,
+    "title": "Robot Collisions",
+    "slug": "robot-collisions"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/2751_robot_collisions.java",
+    "latestSha": "225c5a6c509360b9ef627750d363cde6123c1494",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-04-01T22:27:50+08:00",
+    "lastCommittedAt": "2026-04-01T22:27:50+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "dcab1fbb3d413006da113d77c3982aa4240449ccf0bce69b1276f015afaa6efe"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "225c5a6c509360b9ef627750d363cde6123c1494",
+          "shortSha": "225c5a6",
+          "parentSha": "df2c9cfedd36374412d0597428773cf052b8ed47",
+          "authoredAt": "2026-04-01T21:53:04+08:00",
+          "committedAt": "2026-04-01T22:27:50+08:00",
+          "chronologicalIndex": 93,
+          "problemId": 2751,
+          "language": "java",
+          "sourcePath": "java/src/solutions/2751_robot_collisions.java",
+          "sourceFilename": "2751_robot_collisions.java",
+          "code": "import java.util.ArrayList;\nimport java.util.Arrays;\nimport java.util.List;\nimport java.util.Stack;\nimport java.util.stream.Collectors;\n\nclass Solution {\n  public List<Integer> survivedRobotsHealths(int[] positions, int[] healths, String directions) {\n    int n = positions.length;\n    Integer[] indices = new Integer[n];\n    for (int i = 0; i < n; i++) {\n      indices[i] = i;\n    }\n    Arrays.sort(indices, (a, b) -> Integer.compare(positions[a], positions[b]));\n\n    Stack<Integer> stack = new Stack<>();\n    for (int i : indices) {\n      if (directions.charAt(i) == 'R') {\n        stack.push(i);\n        continue;\n      }\n\n      while (stack.size() != 0 && healths[i] > 0) {\n        int mvRightIdx = stack.pop();\n        if (healths[mvRightIdx] > healths[i]) {\n          healths[mvRightIdx]--;\n          healths[i] = 0;\n          stack.push(mvRightIdx);\n        } else if (healths[mvRightIdx] < healths[i]) {\n          healths[i]--;\n          healths[mvRightIdx] = 0;\n        } else {\n          healths[mvRightIdx] = 0;\n          healths[i] = 0;\n        }\n      }\n    }\n\n    return Arrays.stream(healths).filter((x) -> x > 0).boxed()\n        .collect(Collectors.toCollection(ArrayList::new));\n  }\n\n  void main() {\n    System.out.println(\"-\");\n    assert List.of(2, 17, 9, 15, 10).equals(\n        survivedRobotsHealths(new int[] { 5, 4, 3, 2, 1 }, new int[] { 2, 17, 9, 15, 10 }, \"RRRRR\"));\n\n    System.out.println(\"-\");\n    assert List.of(14).equals(\n        survivedRobotsHealths(new int[] { 3, 5, 2, 6 }, new int[] { 10, 10, 15, 12 }, \"RLRL\"));\n\n    System.out.println(\"-\");\n    assert survivedRobotsHealths(new int[] { 1, 2, 5, 6 }, new int[] { 10, 10, 11, 11 }, \"RLRL\").size() == 0;\n\n    System.out.println(\"-\");\n    assert List.of(47).equals(\n        survivedRobotsHealths(new int[] { 12, 33, 37 }, new int[] { 49, 5, 38 }, \"RLL\"));\n  }\n}\n",
+          "codeHash": "ddb58131dc25a87efcc0d3ce97d526b99b7e8d2c2be1944fd36aed82cb048773",
+          "markedWrong": false,
+          "commitComment": "copied LC editorial hehehe",
+          "rawCommitSubject": "java 2751: copied LC editorial hehehe",
+          "commitBody": "time: O(nlogn)\nspace: O(n)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "copied LC editorial hehehe",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "225c5a6c509360b9ef627750d363cde6123c1494"
+  ],
+  "warnings": []
+}

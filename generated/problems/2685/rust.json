@@ -1,0 +1,214 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2685,
+    "title": "Count the Number of Complete Components",
+    "slug": "count-the-number-of-complete-components"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/2685_count_the_number_of_complete_components.rs",
+    "latestSha": "7f0e4cd14d71c9f16e15dbfe02e74726adb3425c",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 5,
+    "approachCount": 5,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-07-11T18:38:07+08:00",
+    "lastCommittedAt": "2026-07-11T20:12:44+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "45dece0c404349fa7f1c5cfba5571d7410e77d48dbecd960ba3a8fbdefc5edab"
+  },
+  "approaches": [
+    {
+      "id": "adjacency_matrix_initial",
+      "title": "Initial adjacency matrix approach",
+      "summary": "Represents the graph as a boolean adjacency matrix and checks connectivity by comparing rows.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "30467fb5a0c3bfba42869af8c3f83e3bf52c625e",
+          "shortSha": "30467fb",
+          "parentSha": "af115c187fff0f3db22e58d14824d87027def7e8",
+          "authoredAt": "2026-07-11T18:38:07+08:00",
+          "committedAt": "2026-07-11T18:38:07+08:00",
+          "chronologicalIndex": 198,
+          "problemId": 2685,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2685_count_the_number_of_complete_components.rs",
+          "sourceFilename": "2685_count_the_number_of_complete_components.rs",
+          "code": "impl Solution {\n    pub fn count_complete_components(n: i32, edges: Vec<Vec<i32>>) -> i32 {\n        let n = n as usize;\n        let mut adj_matrix = vec![vec![false; n]; n];\n        for edge in edges {\n            let (e1, e2) = (edge[0] as usize, edge[1] as usize);\n            adj_matrix[e1][e1]= true;\n            adj_matrix[e1][e2]= true;\n            adj_matrix[e2][e2]= true;\n            adj_matrix[e2][e1]= true;\n        }\n        let mut check_list = vec![false; n];\n        let mut count = 0;\n        for i in 0..n {\n            if check_list[i] {\n                continue;\n            }\n\n            let mut fully_connected = true;\n            for (idx, _conn) in adj_matrix[i].iter().enumerate().filter(|x|*x.1) {\n                check_list[idx] = true;\n                if adj_matrix[idx] != adj_matrix[i] {\n                    fully_connected = false;\n                    break;\n                }\n            }\n            count += fully_connected as i32;\n        }\n\n        count\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        Solution::count_complete_components(\n            6,\n            vec![vec![0, 1], vec![0, 2], vec![1, 2], vec![3, 4]]\n        ),\n        3\n    );\n    assert_eq!(\n        Solution::count_complete_components(\n            4,\n            vec![vec![1, 0], vec![2, 0], vec![3, 1], vec![3, 2]]\n        ),\n        0\n    );\n}\n",
+          "codeHash": "6617a017164ea61afc499c4fa64ff8afbe58cd3f32d5fec0b3448f13b5b1da25",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 2685",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "adjacency_matrix_initial",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation using a boolean adjacency matrix to track connections and verify complete components.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "bitwise_adjacency_optimization",
+      "title": "Bitwise adjacency optimization",
+      "summary": "Uses bitwise operations to represent the adjacency matrix, improving memory efficiency and access speed.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "059a3aa33f7207db73aa027285cbb29632985ec1",
+          "shortSha": "059a3aa",
+          "parentSha": "30467fb5a0c3bfba42869af8c3f83e3bf52c625e",
+          "authoredAt": "2026-07-11T19:03:20+08:00",
+          "committedAt": "2026-07-11T19:05:36+08:00",
+          "chronologicalIndex": 199,
+          "problemId": 2685,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2685_count_the_number_of_complete_components.rs",
+          "sourceFilename": "2685_count_the_number_of_complete_components.rs",
+          "code": "impl Solution {\n    pub fn count_complete_components(n: i32, edges: Vec<Vec<i32>>) -> i32 {\n        let n = n as usize;\n        let mut adj_matrix = vec![0_u64; n];\n        for edge in edges {\n            let (e1, e2) = (edge[0] as usize, edge[1] as usize);\n            let (em1, em2) = (1 << e1, 1 << e2);\n            adj_matrix[e1] |= em1 | em2;\n            adj_matrix[e2] |= em1 | em2;\n        }\n        let mut visited = 0_u64;\n        let mut count = 0;\n        for i in 0..n {\n            if (visited & (1 << i)) != 0 {\n                continue;\n            }\n\n            let mut fully_connected = true;\n            let byte = adj_matrix[i];\n            visited |= byte;\n            for off_set in 0..n {\n                let mask = 1 << off_set;\n                if (byte & mask) == 0 {\n                    continue;\n                }\n                if adj_matrix[off_set] != byte {\n                    fully_connected = false;\n                    break;\n                }\n            }\n\n            count += fully_connected as i32;\n        }\n\n        count\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        Solution::count_complete_components(\n            6,\n            vec![vec![0, 1], vec![0, 2], vec![1, 2], vec![3, 4]]\n        ),\n        3\n    );\n    assert_eq!(\n        Solution::count_complete_components(\n            4,\n            vec![vec![1, 0], vec![2, 0], vec![3, 1], vec![3, 2]]\n        ),\n        0\n    );\n}\n",
+          "codeHash": "202f0a937df1d6073fa7c5b32cb4d881489f0977660153a910ac7d7800c22389",
+          "markedWrong": false,
+          "commitComment": "bitwise optimisation",
+          "rawCommitSubject": "rust 2685: bitwise optimisation",
+          "commitBody": ".",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2685_count_the_number_of_complete_components.rs b/rust/src/bin/2685_count_the_number_of_complete_components.rs\nindex 7850bc2..584aafc 100644\n--- a/rust/src/bin/2685_count_the_number_of_complete_components.rs\n+++ b/rust/src/bin/2685_count_the_number_of_complete_components.rs\n@@ -1,29 +1,34 @@\n impl Solution {\n     pub fn count_complete_components(n: i32, edges: Vec<Vec<i32>>) -> i32 {\n         let n = n as usize;\n-        let mut adj_matrix = vec![vec![false; n]; n];\n+        let mut adj_matrix = vec![0_u64; n];\n         for edge in edges {\n             let (e1, e2) = (edge[0] as usize, edge[1] as usize);\n-            adj_matrix[e1][e1]= true;\n-            adj_matrix[e1][e2]= true;\n-            adj_matrix[e2][e2]= true;\n-            adj_matrix[e2][e1]= true;\n+            let (em1, em2) = (1 << e1, 1 << e2);\n+            adj_matrix[e1] |= em1 | em2;\n+            adj_matrix[e2] |= em1 | em2;\n         }\n-        let mut check_list = vec![false; n];\n+        let mut visited = 0_u64;\n         let mut count = 0;\n         for i in 0..n {\n-            if check_list[i] {\n+            if (visited & (1 << i)) != 0 {\n                 continue;\n             }\n \n             let mut fully_connected = true;\n-            for (idx, _conn) in adj_matrix[i].iter().enumerate().filter(|x|*x.1) {\n-                check_list[idx] = true;\n-                if adj_matrix[idx] != adj_matrix[i] {\n+            let byte = adj_matrix[i];\n+            visited |= byte;\n+            for off_set in 0..n {\n+                let mask = 1 << off_set;\n+                if (byte & mask) == 0 {\n+                    continue;\n+                }\n+                if adj_matrix[off_set] != byte {\n                     fully_connected = false;\n                     break;\n                 }\n             }\n+\n             count += fully_connected as i32;\n         }\n \n",
+          "changedLineCounts": {
+            "additions": 15,
+            "deletions": 10
+          },
+          "approachId": "bitwise_adjacency_optimization",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaced boolean matrix with u64 bitmasks for adjacency representation and optimized visited tracking.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "early_exit_bitwise_traversal",
+      "title": "Early exit bitwise traversal",
+      "summary": "Optimizes bitwise traversal by skipping inactive bits and exiting early when a mismatch is found.",
+      "order": 2,
+      "revisions": [
+        {
+          "sha": "3bd99ed44145272d7d13335a061492bbf6b9067a",
+          "shortSha": "3bd99ed",
+          "parentSha": "059a3aa33f7207db73aa027285cbb29632985ec1",
+          "authoredAt": "2026-07-11T19:27:24+08:00",
+          "committedAt": "2026-07-11T19:27:24+08:00",
+          "chronologicalIndex": 200,
+          "problemId": 2685,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2685_count_the_number_of_complete_components.rs",
+          "sourceFilename": "2685_count_the_number_of_complete_components.rs",
+          "code": "impl Solution {\n    pub fn count_complete_components(n: i32, edges: Vec<Vec<i32>>) -> i32 {\n        let n = n as usize;\n        let mut adj_matrix = vec![0_u64; n];\n        for edge in edges {\n            let (e1, e2) = (edge[0] as usize, edge[1] as usize);\n            let (em1, em2) = (1 << e1, 1 << e2);\n            adj_matrix[e1] |= em1 | em2;\n            adj_matrix[e2] |= em1 | em2;\n        }\n        let mut visited = 0_u64;\n        let mut count = 0;\n        for i in 0..n {\n            if (visited & (1 << i)) != 0 {\n                continue;\n            }\n\n            let mut fully_connected = true;\n            let byte = adj_matrix[i];\n            visited |= byte;\n            let mut active_bits = byte;\n            let mut off_set = 0;\n            while active_bits > 0 {\n                let mask = 1 << off_set;\n                if (byte & mask) != 0 {\n                    if adj_matrix[off_set] != byte {\n                        fully_connected = false;\n                        break;\n                    }\n                    active_bits ^= mask;\n                }\n\n                off_set += 1;\n            }\n\n            count += fully_connected as i32;\n        }\n\n        count\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        Solution::count_complete_components(\n            6,\n            vec![vec![0, 1], vec![0, 2], vec![1, 2], vec![3, 4]]\n        ),\n        3\n    );\n    assert_eq!(\n        Solution::count_complete_components(\n            4,\n            vec![vec![1, 0], vec![2, 0], vec![3, 1], vec![3, 2]]\n        ),\n        0\n    );\n}\n",
+          "codeHash": "7d82d8a166d849b17074a36d7866a79cec0d0d17a41e0a0c548461b5daa7340f",
+          "markedWrong": false,
+          "commitComment": "escape early if nothing else in byte",
+          "rawCommitSubject": "rust 2685: escape early if nothing else in byte",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2685_count_the_number_of_complete_components.rs b/rust/src/bin/2685_count_the_number_of_complete_components.rs\nindex 584aafc..4f9b034 100644\n--- a/rust/src/bin/2685_count_the_number_of_complete_components.rs\n+++ b/rust/src/bin/2685_count_the_number_of_complete_components.rs\n@@ -18,15 +18,19 @@ impl Solution {\n             let mut fully_connected = true;\n             let byte = adj_matrix[i];\n             visited |= byte;\n-            for off_set in 0..n {\n+            let mut active_bits = byte;\n+            let mut off_set = 0;\n+            while active_bits > 0 {\n                 let mask = 1 << off_set;\n-                if (byte & mask) == 0 {\n-                    continue;\n-                }\n-                if adj_matrix[off_set] != byte {\n-                    fully_connected = false;\n-                    break;\n+                if (byte & mask) != 0 {\n+                    if adj_matrix[off_set] != byte {\n+                        fully_connected = false;\n+                        break;\n+                    }\n+                    active_bits ^= mask;\n                 }\n+\n+                off_set += 1;\n             }\n \n             count += fully_connected as i32;\n",
+          "changedLineCounts": {
+            "additions": 11,
+            "deletions": 7
+          },
+          "approachId": "early_exit_bitwise_traversal",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Implemented active bit tracking with while loop and early exit to reduce unnecessary checks.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "brian_kernighan_optimization",
+      "title": "Brian Kernighan's optimization with trailing_zeros",
+      "summary": "Uses Brian Kernighan's algorithm to efficiently iterate over set bits, reducing traversal overhead.",
+      "order": 3,
+      "revisions": [
+        {
+          "sha": "48068ba5551e64fc2a6e2ebecc2261219eb799ee",
+          "shortSha": "48068ba",
+          "parentSha": "3bd99ed44145272d7d13335a061492bbf6b9067a",
+          "authoredAt": "2026-07-11T19:34:02+08:00",
+          "committedAt": "2026-07-11T19:34:02+08:00",
+          "chronologicalIndex": 201,
+          "problemId": 2685,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2685_count_the_number_of_complete_components.rs",
+          "sourceFilename": "2685_count_the_number_of_complete_components.rs",
+          "code": "impl Solution {\n    pub fn count_complete_components(n: i32, edges: Vec<Vec<i32>>) -> i32 {\n        let n = n as usize;\n        let mut adj_matrix = vec![0_u64; n];\n        for edge in edges {\n            let (e1, e2) = (edge[0] as usize, edge[1] as usize);\n            let (em1, em2) = (1 << e1, 1 << e2);\n            adj_matrix[e1] |= em1 | em2;\n            adj_matrix[e2] |= em1 | em2;\n        }\n        let mut visited = 0_u64;\n        let mut count = 0;\n        for i in 0..n {\n            if (visited & (1 << i)) != 0 {\n                continue;\n            }\n\n            let mut fully_connected = true;\n            let byte = adj_matrix[i];\n            visited |= byte;\n            let mut active_bits = byte;\n            while active_bits > 0 {\n                let off_set = active_bits.trailing_zeros() as usize;\n                if adj_matrix[off_set] != byte {\n                    fully_connected = false;\n                    break;\n                }\n                active_bits &= active_bits - 1;\n            }\n\n            count += fully_connected as i32;\n        }\n\n        count\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        Solution::count_complete_components(\n            6,\n            vec![vec![0, 1], vec![0, 2], vec![1, 2], vec![3, 4]]\n        ),\n        3\n    );\n    assert_eq!(\n        Solution::count_complete_components(\n            4,\n            vec![vec![1, 0], vec![2, 0], vec![3, 1], vec![3, 2]]\n        ),\n        0\n    );\n}\n",
+          "codeHash": "df8e717421eb94cc8b2c612dc079bf5dcdbb107346a6b9d5749064d621deced3",
+          "markedWrong": false,
+          "commitComment": "Brian Kernighan's optimisation with trailing_zeros()",
+          "rawCommitSubject": "rust 2685: Brian Kernighan's optimisation with trailing_zeros()",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2685_count_the_number_of_complete_components.rs b/rust/src/bin/2685_count_the_number_of_complete_components.rs\nindex 4f9b034..e2a35e4 100644\n--- a/rust/src/bin/2685_count_the_number_of_complete_components.rs\n+++ b/rust/src/bin/2685_count_the_number_of_complete_components.rs\n@@ -19,18 +19,13 @@ impl Solution {\n             let byte = adj_matrix[i];\n             visited |= byte;\n             let mut active_bits = byte;\n-            let mut off_set = 0;\n             while active_bits > 0 {\n-                let mask = 1 << off_set;\n-                if (byte & mask) != 0 {\n-                    if adj_matrix[off_set] != byte {\n-                        fully_connected = false;\n-                        break;\n-                    }\n-                    active_bits ^= mask;\n+                let off_set = active_bits.trailing_zeros() as usize;\n+                if adj_matrix[off_set] != byte {\n+                    fully_connected = false;\n+                    break;\n                 }\n-\n-                off_set += 1;\n+                active_bits &= active_bits - 1;\n             }\n \n             count += fully_connected as i32;\n",
+          "changedLineCounts": {
+            "additions": 5,
+            "deletions": 10
+          },
+          "approachId": "brian_kernighan_optimization",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Optimized bit iteration using trailing_zeros() and active_bits &= active_bits - 1 for faster set bit processing.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "disjoint_set_union_approach",
+      "title": "Disjoint Set Union (DSU) approach",
+      "summary": "Uses DSU to track connected components and checks for complete components by comparing expected vs actual edges.",
+      "order": 4,
+      "revisions": [
+        {
+          "sha": "7f0e4cd14d71c9f16e15dbfe02e74726adb3425c",
+          "shortSha": "7f0e4cd",
+          "parentSha": "48068ba5551e64fc2a6e2ebecc2261219eb799ee",
+          "authoredAt": "2026-07-11T19:15:03+08:00",
+          "committedAt": "2026-07-11T20:12:44+08:00",
+          "chronologicalIndex": 202,
+          "problemId": 2685,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2685_count_the_number_of_complete_components.rs",
+          "sourceFilename": "2685_count_the_number_of_complete_components.rs",
+          "code": "impl Solution {\n    pub fn count_complete_components(n: i32, edges: Vec<Vec<i32>>) -> i32 {\n        let n = n as usize;\n        let mut dsu = (0..n).collect::<Vec<usize>>();\n        let mut dsu_weight = vec![1; n];\n        let mut dsu_edges = vec![0; n];\n\n        fn find(dsu: &mut [usize], idx: usize) -> usize {\n            if dsu[idx] == idx {\n                return idx;\n            }\n            dsu[idx] = find(dsu, dsu[idx]);\n            dsu[idx]\n        }\n\n        for edge in edges {\n            let (n1, n2) = (edge[0] as usize, edge[1] as usize);\n            let (r1, r2) = (find(&mut dsu, n1), find(&mut dsu, n2));\n            if r1 == r2 {\n                dsu_edges[r1] += 1;\n                continue;\n            }\n            let (root, child) = if dsu_weight[r1] > dsu_weight[r2] {\n                (r1, r2)\n            } else {\n                (r2, r1)\n            };\n\n            dsu[child] = root;\n            dsu_weight[root] += dsu_weight[child];\n            dsu_edges[root] += dsu_edges[child] + 1;\n        }\n\n        (0..n)\n            .filter(|&x| dsu[x] == x)\n            .filter(|&x| {\n                let nodes = dsu_weight[x];\n                let edges = dsu_edges[x];\n                (nodes * (nodes -1))/2 == edges\n            }).count() as i32\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        Solution::count_complete_components(\n            6,\n            vec![vec![0, 1], vec![0, 2], vec![1, 2], vec![3, 4]]\n        ),\n        3\n    );\n    assert_eq!(\n        Solution::count_complete_components(\n            4,\n            vec![vec![1, 0], vec![2, 0], vec![3, 1], vec![3, 2]]\n        ),\n        0\n    );\n}\n",
+          "codeHash": "2f94208230ee5d713450cf19a6b5ff05414f0c46682ef6efa4da6ea7bdb618af",
+          "markedWrong": false,
+          "commitComment": "DSU approach",
+          "rawCommitSubject": "rust 2685: DSU approach",
+          "commitBody": "s",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2685_count_the_number_of_complete_components.rs b/rust/src/bin/2685_count_the_number_of_complete_components.rs\nindex e2a35e4..cec34bb 100644\n--- a/rust/src/bin/2685_count_the_number_of_complete_components.rs\n+++ b/rust/src/bin/2685_count_the_number_of_complete_components.rs\n@@ -1,37 +1,43 @@\n impl Solution {\n     pub fn count_complete_components(n: i32, edges: Vec<Vec<i32>>) -> i32 {\n         let n = n as usize;\n-        let mut adj_matrix = vec![0_u64; n];\n-        for edge in edges {\n-            let (e1, e2) = (edge[0] as usize, edge[1] as usize);\n-            let (em1, em2) = (1 << e1, 1 << e2);\n-            adj_matrix[e1] |= em1 | em2;\n-            adj_matrix[e2] |= em1 | em2;\n-        }\n-        let mut visited = 0_u64;\n-        let mut count = 0;\n-        for i in 0..n {\n-            if (visited & (1 << i)) != 0 {\n-                continue;\n+        let mut dsu = (0..n).collect::<Vec<usize>>();\n+        let mut dsu_weight = vec![1; n];\n+        let mut dsu_edges = vec![0; n];\n+\n+        fn find(dsu: &mut [usize], idx: usize) -> usize {\n+            if dsu[idx] == idx {\n+                return idx;\n             }\n+            dsu[idx] = find(dsu, dsu[idx]);\n+            dsu[idx]\n+        }\n \n-            let mut fully_connected = true;\n-            let byte = adj_matrix[i];\n-            visited |= byte;\n-            let mut active_bits = byte;\n-            while active_bits > 0 {\n-                let off_set = active_bits.trailing_zeros() as usize;\n-                if adj_matrix[off_set] != byte {\n-                    fully_connected = false;\n-                    break;\n-                }\n-                active_bits &= active_bits - 1;\n+        for edge in edges {\n+            let (n1, n2) = (edge[0] as usize, edge[1] as usize);\n+            let (r1, r2) = (find(&mut dsu, n1), find(&mut dsu, n2));\n+            if r1 == r2 {\n+                dsu_edges[r1] += 1;\n+                continue;\n             }\n+            let (root, child) = if dsu_weight[r1] > dsu_weight[r2] {\n+                (r1, r2)\n+            } else {\n+                (r2, r1)\n+            };\n \n-            count += fully_connected as i32;\n+            dsu[child] = root;\n+            dsu_weight[root] += dsu_weight[child];\n+            dsu_edges[root] += dsu_edges[child] + 1;\n         }\n \n-        count\n+        (0..n)\n+            .filter(|&x| dsu[x] == x)\n+            .filter(|&x| {\n+                let nodes = dsu_weight[x];\n+                let edges = dsu_edges[x];\n+                (nodes * (nodes -1))/2 == edges\n+            }).count() as i32\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 31,
+            "deletions": 25
+          },
+          "approachId": "disjoint_set_union_approach",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Switched to DSU to manage connected components and validate completeness via edge count formula.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "30467fb5a0c3bfba42869af8c3f83e3bf52c625e",
+    "059a3aa33f7207db73aa027285cbb29632985ec1",
+    "3bd99ed44145272d7d13335a061492bbf6b9067a",
+    "48068ba5551e64fc2a6e2ebecc2261219eb799ee",
+    "7f0e4cd14d71c9f16e15dbfe02e74726adb3425c"
+  ],
+  "warnings": []
+}

@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3653,
+    "title": "Xor After Range Multipilication Queries I",
+    "slug": "xor-after-range-multipilication-queries-i"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/3653_xor_after_range_multipilication_queries_I.java",
+    "latestSha": "d39ab977c0ae96c580c47b9670ac52b13aaec502",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-04-08T10:26:27+08:00",
+    "lastCommittedAt": "2026-04-08T10:26:27+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "ad2740f21346563e8434df9b24762d414271c4294e7cc9e924693e4ed10dc901"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "d39ab977c0ae96c580c47b9670ac52b13aaec502",
+          "shortSha": "d39ab97",
+          "parentSha": "4548ef93b29023b77ddb49452fe2e5eda658a364",
+          "authoredAt": "2026-04-08T10:26:27+08:00",
+          "committedAt": "2026-04-08T10:26:27+08:00",
+          "chronologicalIndex": 102,
+          "problemId": 3653,
+          "language": "java",
+          "sourcePath": "java/src/solutions/3653_xor_after_range_multipilication_queries_I.java",
+          "sourceFilename": "3653_xor_after_range_multipilication_queries_I.java",
+          "code": "class Solution {\n  public int xorAfterQueries(int[] nums, int[][] queries) {\n    for (int[] query : queries) {\n      for (int idx = query[0]; idx <= query[1]; idx += query[2]) {\n        nums[idx] = (int) (((long) nums[idx] * query[3]) % 1_000_000_007);\n      }\n    }\n\n    int result = nums[0];\n    for (int i = 1; i < nums.length; i++) {\n      result ^= nums[i];\n    }\n    return result;\n  }\n}\n",
+          "codeHash": "e9be5711f1e90ad6207d3198051603c03555b45d4cfea10231974f6faa776e12",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "java 3653",
+          "commitBody": "time: O(nm)\nspace: O(1)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "d39ab977c0ae96c580c47b9670ac52b13aaec502"
+  ],
+  "warnings": []
+}

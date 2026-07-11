@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 242,
+    "title": "Valid Anagram",
+    "slug": "valid-anagram"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/242_valid_anagram.rs",
+    "latestSha": "a1a448165c5c18bf23174f06ed85ba3246c9bdea",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-05-30T22:56:12+08:00",
+    "lastCommittedAt": "2026-05-30T22:56:12+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "315599e0ab5f093405695f206da3de7ab1c37d53461aa79a2c151baea487a423"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "a1a448165c5c18bf23174f06ed85ba3246c9bdea",
+          "shortSha": "a1a4481",
+          "parentSha": "5a02ea5aec466c04e8092bd33d5f63006ce663ed",
+          "authoredAt": "2026-05-30T22:47:18+08:00",
+          "committedAt": "2026-05-30T22:56:12+08:00",
+          "chronologicalIndex": 134,
+          "problemId": 242,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/242_valid_anagram.rs",
+          "sourceFilename": "242_valid_anagram.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn is_anagram(s: String, t: String) -> bool {\n        if s.len() != t.len() {\n            return false;\n        }\n\n        let mut counter = [0_u32; 256];\n        for c in s.bytes() {\n            counter[c as usize] += 1;\n        }\n\n        for c in t.bytes() {\n            let i = c as usize;\n            if counter[i] == 0 {\n                return false;\n            }\n            counter[i] -= 1;\n        }\n\n        true\n    }\n}\n\nfn main() {\n    assert!(Solution::is_anagram(\n        \"anagram\".to_owned(),\n        \"nagaram\".to_owned()\n    ));\n\n    assert!(!Solution::is_anagram(\"rat\".to_owned(), \"car\".to_owned()));\n\n    assert!(!Solution::is_anagram(\"am\".to_owned(), \"amm\".to_owned()));\n}\n",
+          "codeHash": "c5a9b4e02767ee8042d751c5e6b7bbdd3c6e941dd30b5094cffc5aee1cb738b4",
+          "markedWrong": false,
+          "commitComment": "remove math & bounds check",
+          "rawCommitSubject": "rust 242: remove math & bounds check",
+          "commitBody": "- u8 index is alw valid for a 256 len array. llvm compiles away bounds\ncheck\n- stack and mem allocation of 256 len array pales in comparasion to num\nof bounds checks and math",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "remove math & bounds check",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "a1a448165c5c18bf23174f06ed85ba3246c9bdea"
+  ],
+  "warnings": []
+}

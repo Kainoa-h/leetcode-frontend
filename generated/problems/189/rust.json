@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 189,
+    "title": "Rotate Array",
+    "slug": "rotate-array"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/189_rotate_array.rs",
+    "latestSha": "ed421c603c37ebb1eb21ad1cb1bfde88b2cea8ef",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 3,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-01-24T22:26:34+08:00",
+    "lastCommittedAt": "2026-01-24T23:15:04+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "50aac56b1892f9848786dec6c88573d1b3d83a3a0349b0f315d7304d10ee0788"
+  },
+  "approaches": [
+    {
+      "id": "brute_force_shift",
+      "title": "Brute Force Shift",
+      "summary": "Naive O(n*k) approach shifting elements one by one in a loop.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "7c8d806f33847a0ef0620b6eb3a9afe1db1f4d59",
+          "shortSha": "7c8d806",
+          "parentSha": "7aaa7de82d8e0036cdd346b5108516f8a9c27988",
+          "authoredAt": "2026-01-24T22:22:25+08:00",
+          "committedAt": "2026-01-24T22:26:34+08:00",
+          "chronologicalIndex": 10,
+          "problemId": 189,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/189_rotate_array.rs",
+          "sourceFilename": "189_rotate_array.rs",
+          "code": "struct Solution {}\n\nimpl Solution {\n    pub fn rotate(nums: &mut Vec<i32>, k: i32) {\n        for _ in 0..k {\n            let last = nums[nums.len() - 1];\n            for i in (1..nums.len()).rev() {\n                nums[i] = nums[i - 1];\n            }\n            nums[0] = last;\n        }\n    }\n}\n\nfn what(mut nums: Vec<i32>, k: i32) {\n    Solution::rotate(&mut nums, k);\n    println!(\"{:?}\", nums);\n}\n\nfn main() {\n    // Input: nums = [1,2,3,4,5,6,7], k = 3\n    // Output: [5,6,7,1,2,3,4]\n    what(vec![1, 2, 3, 4, 5, 6, 7], 3);\n\n    // Input: nums = [-1,-100,3,99], k = 2\n    // Output: [3,99,-1,-100]\n    what(vec![-1, -100, 3, 99], 2);\n}\n",
+          "codeHash": "16fae29e58c7c6f6ab37e287483aa1cb5061bd9e9b9521cdcc7d9197c99b29fb",
+          "markedWrong": false,
+          "commitComment": "initial naive brute force",
+          "rawCommitSubject": "189: initial naive brute force",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "brute_force_shift",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "O(n*k) time, O(1) space",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "clone_and_reassign",
+      "title": "Clone and Reassign",
+      "summary": "O(n) time and space approach using a clone to split and reassign blocks.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "8616f454c13796565159cbc3c63a3a48b16bf1b7",
+          "shortSha": "8616f45",
+          "parentSha": "7c8d806f33847a0ef0620b6eb3a9afe1db1f4d59",
+          "authoredAt": "2026-01-24T23:01:50+08:00",
+          "committedAt": "2026-01-24T23:02:21+08:00",
+          "chronologicalIndex": 11,
+          "problemId": 189,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/189_rotate_array.rs",
+          "sourceFilename": "189_rotate_array.rs",
+          "code": "struct Solution {}\n\nimpl Solution {\n    pub fn rotate(nums: &mut Vec<i32>, k: i32) {\n        let k = k % nums.len() as i32;\n        let len = nums.len();\n        let mut clone = nums.clone();\n        let (new_end_block, new_start_block) = clone.split_at_mut(len - k as usize);\n\n        let mut idx = 0;\n        for v in new_start_block {\n            nums[idx] = *v;\n            idx += 1;\n        }\n        for v in new_end_block {\n            nums[idx] = *v;\n            idx += 1;\n        }\n    }\n}\n\nfn what(mut nums: Vec<i32>, k: i32) {\n    Solution::rotate(&mut nums, k);\n    println!(\"{:?}\", nums);\n}\n\nfn main() {\n    // Input: nums = [1,2,3,4,5,6,7], k = 3\n    // Output: [5,6,7,1,2,3,4]\n    what(vec![1, 2, 3, 4, 5, 6, 7], 3);\n\n    // Input: nums = [-1,-100,3,99], k = 2\n    // Output: [3,99,-1,-100]\n    what(vec![-1, -100, 3, 99], 2);\n}\n",
+          "codeHash": "433a1a8fb7bc216eca9dd40ed513ede821f17add4d0722aba2918af069394b5f",
+          "markedWrong": false,
+          "commitComment": "initial duplicate vectors",
+          "rawCommitSubject": "189: initial duplicate vectors",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/189_rotate_array.rs b/rust/src/bin/189_rotate_array.rs\nindex b85a6d0..af6f7e3 100644\n--- a/rust/src/bin/189_rotate_array.rs\n+++ b/rust/src/bin/189_rotate_array.rs\n@@ -2,12 +2,19 @@ struct Solution {}\n \n impl Solution {\n     pub fn rotate(nums: &mut Vec<i32>, k: i32) {\n-        for _ in 0..k {\n-            let last = nums[nums.len() - 1];\n-            for i in (1..nums.len()).rev() {\n-                nums[i] = nums[i - 1];\n-            }\n-            nums[0] = last;\n+        let k = k % nums.len() as i32;\n+        let len = nums.len();\n+        let mut clone = nums.clone();\n+        let (new_end_block, new_start_block) = clone.split_at_mut(len - k as usize);\n+\n+        let mut idx = 0;\n+        for v in new_start_block {\n+            nums[idx] = *v;\n+            idx += 1;\n+        }\n+        for v in new_end_block {\n+            nums[idx] = *v;\n+            idx += 1;\n         }\n     }\n }\n",
+          "changedLineCounts": {
+            "additions": 13,
+            "deletions": 6
+          },
+          "approachId": "clone_and_reassign",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "O(n) time, O(n) space",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "triple_reverse",
+      "title": "Triple Reverse",
+      "summary": "O(n) time, O(1) space approach using three reverses to rotate in-place.",
+      "order": 2,
+      "revisions": [
+        {
+          "sha": "ed421c603c37ebb1eb21ad1cb1bfde88b2cea8ef",
+          "shortSha": "ed421c6",
+          "parentSha": "8616f454c13796565159cbc3c63a3a48b16bf1b7",
+          "authoredAt": "2026-01-24T23:15:04+08:00",
+          "committedAt": "2026-01-24T23:15:04+08:00",
+          "chronologicalIndex": 12,
+          "problemId": 189,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/189_rotate_array.rs",
+          "sourceFilename": "189_rotate_array.rs",
+          "code": "struct Solution {}\n\nimpl Solution {\n    pub fn rotate(nums: &mut Vec<i32>, k: i32) {\n        let k = k as usize % nums.len();\n        nums.reverse();\n        nums[..k].reverse();\n        nums[k..].reverse();\n    }\n}\n\nfn what(mut nums: Vec<i32>, k: i32) {\n    Solution::rotate(&mut nums, k);\n    println!(\"{:?}\", nums);\n}\n\nfn main() {\n    // Input: nums = [1,2,3,4,5,6,7], k = 3\n    // Output: [5,6,7,1,2,3,4]\n    what(vec![1, 2, 3, 4, 5, 6, 7], 3);\n\n    // Input: nums = [-1,-100,3,99], k = 2\n    // Output: [3,99,-1,-100]\n    what(vec![-1, -100, 3, 99], 2);\n}\n",
+          "codeHash": "16c11a4c1bfb394c40cfdee67018e4ea81481fb252367fea2a226ae83ce5eb05",
+          "markedWrong": false,
+          "commitComment": "triple reverse trick",
+          "rawCommitSubject": "189: triple reverse trick",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/189_rotate_array.rs b/rust/src/bin/189_rotate_array.rs\nindex af6f7e3..3691532 100644\n--- a/rust/src/bin/189_rotate_array.rs\n+++ b/rust/src/bin/189_rotate_array.rs\n@@ -2,20 +2,10 @@ struct Solution {}\n \n impl Solution {\n     pub fn rotate(nums: &mut Vec<i32>, k: i32) {\n-        let k = k % nums.len() as i32;\n-        let len = nums.len();\n-        let mut clone = nums.clone();\n-        let (new_end_block, new_start_block) = clone.split_at_mut(len - k as usize);\n-\n-        let mut idx = 0;\n-        for v in new_start_block {\n-            nums[idx] = *v;\n-            idx += 1;\n-        }\n-        for v in new_end_block {\n-            nums[idx] = *v;\n-            idx += 1;\n-        }\n+        let k = k as usize % nums.len();\n+        nums.reverse();\n+        nums[..k].reverse();\n+        nums[k..].reverse();\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 4,
+            "deletions": 14
+          },
+          "approachId": "triple_reverse",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "O(n) time, O(1) space",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "7c8d806f33847a0ef0620b6eb3a9afe1db1f4d59",
+    "8616f454c13796565159cbc3c63a3a48b16bf1b7",
+    "ed421c603c37ebb1eb21ad1cb1bfde88b2cea8ef"
+  ],
+  "warnings": []
+}

@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 57,
+    "title": "Insert Interval",
+    "slug": "insert-interval"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/57_insert_interval.rs",
+    "latestSha": "2dae8b4b965beea936ac967c9a738ba98d5953b6",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-06-25T21:45:25+08:00",
+    "lastCommittedAt": "2026-06-25T21:45:25+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "130d996ddf37f180f6579251b91ab3a807325196761332ecde86ae1c8240f6b6"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "2dae8b4b965beea936ac967c9a738ba98d5953b6",
+          "shortSha": "2dae8b4",
+          "parentSha": "d33dc80d60eea77becdfcfc2cb719f252d142f6a",
+          "authoredAt": "2026-06-25T21:05:51+08:00",
+          "committedAt": "2026-06-25T21:45:25+08:00",
+          "chronologicalIndex": 188,
+          "problemId": 57,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/57_insert_interval.rs",
+          "sourceFilename": "57_insert_interval.rs",
+          "code": "impl Solution {\n    pub fn insert(mut intervals: Vec<Vec<i32>>, new_interval: Vec<i32>) -> Vec<Vec<i32>> {\n        if intervals.is_empty() {\n            return vec![new_interval; 1];\n        }\n\n        let mut result = Vec::<Vec<i32>>::new();\n\n        let mut not_merged = true;\n\n        if new_interval[0] < intervals[0][0] {\n            if new_interval[1] >= intervals[0][0] {\n                intervals[0][0] = new_interval[0];\n                intervals[0][1] = intervals[0][1].max(new_interval[1]);\n            } else {\n                result.push(new_interval.clone());\n            }\n            not_merged = false;\n        }\n\n        for mut intv in intervals.into_iter() {\n            if not_merged {\n                if ((new_interval[0] >= intv[0] && new_interval[0] <= intv[1])\n                    || (new_interval[1] >= intv[0] && new_interval[1] <= intv[1])\n                    || (intv[0] >= new_interval[0] && intv[0] <= new_interval[1])\n                    || (intv[1] >= new_interval[0] && intv[1] <= new_interval[1]))\n                {\n                    intv[0] = intv[0].min(new_interval[0]);\n                    intv[1] = intv[1].max(new_interval[1]);\n                    not_merged = false;\n                } else if new_interval[1] < intv[0] {\n                    result.push(new_interval.clone());\n                    not_merged = false;\n                }\n            }\n\n            if let Some(prev) = result.last_mut()\n                && prev[1] >= intv[0]\n            {\n                prev[1] = prev[1].max(intv[1]);\n            } else {\n                result.push(intv);\n            }\n        }\n\n        if not_merged {\n            result.push(new_interval);\n        }\n\n        result\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "3fce42dcf94de1e48f874e3c8666435926259ad3f9c7a4c032aa7b942bd742bb",
+          "markedWrong": false,
+          "commitComment": "cursed solution",
+          "rawCommitSubject": "rust 57: cursed solution",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "cursed solution",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "2dae8b4b965beea936ac967c9a738ba98d5953b6"
+  ],
+  "warnings": []
+}

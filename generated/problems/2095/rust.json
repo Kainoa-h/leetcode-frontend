@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2095,
+    "title": "Delete the Middle Node of A Linked List",
+    "slug": "delete-the-middle-node-of-a-linked-list"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/2095_delete_the_middle_node_of_a_linked_list.rs",
+    "latestSha": "9293d7938767c3f973e04e3080184b9a35708941",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-06-15T16:14:18+08:00",
+    "lastCommittedAt": "2026-06-15T16:40:49+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "1fe0a35ee2fbebb3dc61a91d9addf8d4f3eee6912b7d79e7fdbdd22621595bc1"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "efb7d4778f421f2a5839fa6f3eb04ae7d70d9711",
+          "shortSha": "efb7d47",
+          "parentSha": "8680f811a1d68191cc7ee6eca256bd89bf7f14c6",
+          "authoredAt": "2026-06-15T16:14:18+08:00",
+          "committedAt": "2026-06-15T16:14:18+08:00",
+          "chronologicalIndex": 165,
+          "problemId": 2095,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2095_delete_the_middle_node_of_a_linked_list.rs",
+          "sourceFilename": "2095_delete_the_middle_node_of_a_linked_list.rs",
+          "code": "// Definition for singly-linked list.\n#[derive(PartialEq, Eq, Clone, Debug)]\npub struct ListNode {\n    pub val: i32,\n    pub next: Option<Box<ListNode>>,\n}\n\nimpl ListNode {\n    #[inline]\n    fn new(val: i32) -> Self {\n        ListNode { next: None, val }\n    }\n}\nimpl Solution {\n    pub fn delete_middle(mut head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {\n        let mut fast_head = head.as_ref();\n        let mut middle_index = 0;\n        while let Some(fast_node) = fast_head {\n            fast_head = fast_node.next.as_ref();\n            if fast_head.is_some() {\n                middle_index += 1;\n            }\n            fast_head = fast_head.and_then(|x| x.next.as_ref());\n        }\n\n        if middle_index == 0 {\n            return None;\n        }\n\n        let mut bef_middle_head = head.as_mut();\n        for _ in 0..middle_index - 1 {\n            bef_middle_head = bef_middle_head.unwrap().next.as_mut();\n        }\n\n        if let Some(bef_mid_node) = bef_middle_head {\n            let middle_head = bef_mid_node.next.take();\n            let mut mid_node = middle_head?;\n            bef_mid_node.next = mid_node.next.take();\n        }\n\n        head\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "fc4182fc134c407d69de5ee52eff8dd4c4d62564432d9f433037dd45b7eb27f5",
+          "markedWrong": false,
+          "commitComment": "ownership confusion",
+          "rawCommitSubject": "rust 2095: ownership confusion",
+          "commitBody": "fast pointer approach doesn't work here since I can't clone",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "ownership confusion",
+          "warnings": []
+        },
+        {
+          "sha": "9293d7938767c3f973e04e3080184b9a35708941",
+          "shortSha": "9293d79",
+          "parentSha": "efb7d4778f421f2a5839fa6f3eb04ae7d70d9711",
+          "authoredAt": "2026-06-15T16:40:14+08:00",
+          "committedAt": "2026-06-15T16:40:49+08:00",
+          "chronologicalIndex": 166,
+          "problemId": 2095,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2095_delete_the_middle_node_of_a_linked_list.rs",
+          "sourceFilename": "2095_delete_the_middle_node_of_a_linked_list.rs",
+          "code": "// Definition for singly-linked list.\n#[derive(PartialEq, Eq, Clone, Debug)]\npub struct ListNode {\n    pub val: i32,\n    pub next: Option<Box<ListNode>>,\n}\n\nimpl ListNode {\n    #[inline]\n    fn new(val: i32) -> Self {\n        ListNode { next: None, val }\n    }\n}\nimpl Solution {\n    pub fn delete_middle(mut head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {\n        let mut count_head = head.as_ref();\n        let mut middle_index = 0;\n        while let Some(fast_node) = count_head {\n            count_head = fast_node.next.as_ref();\n            middle_index += 1;\n        }\n        middle_index /= 2;\n\n        if middle_index == 0 {\n            return None;\n        }\n\n        let mut bef_middle_head = head.as_mut();\n        for _ in 0..middle_index - 1 {\n            bef_middle_head = bef_middle_head.unwrap().next.as_mut();\n        }\n\n        if let Some(bef_mid_node) = bef_middle_head {\n            let middle_head = bef_mid_node.next.take();\n            let mut mid_node = middle_head?;\n            bef_mid_node.next = mid_node.next.take();\n        }\n\n        head\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "9ad01bf144ebea331e47e02955c6e06eb1b9bef3fb68e4db06826dc956e50299",
+          "markedWrong": false,
+          "commitComment": "remove fast_head",
+          "rawCommitSubject": "rust 2095: remove fast_head",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2095_delete_the_middle_node_of_a_linked_list.rs b/rust/src/bin/2095_delete_the_middle_node_of_a_linked_list.rs\nindex 1e23723..7cc55f1 100644\n--- a/rust/src/bin/2095_delete_the_middle_node_of_a_linked_list.rs\n+++ b/rust/src/bin/2095_delete_the_middle_node_of_a_linked_list.rs\n@@ -13,15 +13,13 @@ impl ListNode {\n }\n impl Solution {\n     pub fn delete_middle(mut head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {\n-        let mut fast_head = head.as_ref();\n+        let mut count_head = head.as_ref();\n         let mut middle_index = 0;\n-        while let Some(fast_node) = fast_head {\n-            fast_head = fast_node.next.as_ref();\n-            if fast_head.is_some() {\n-                middle_index += 1;\n-            }\n-            fast_head = fast_head.and_then(|x| x.next.as_ref());\n+        while let Some(fast_node) = count_head {\n+            count_head = fast_node.next.as_ref();\n+            middle_index += 1;\n         }\n+        middle_index /= 2;\n \n         if middle_index == 0 {\n             return None;\n",
+          "changedLineCounts": {
+            "additions": 5,
+            "deletions": 7
+          },
+          "approachId": "chronological",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "remove fast_head",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "efb7d4778f421f2a5839fa6f3eb04ae7d70d9711",
+    "9293d7938767c3f973e04e3080184b9a35708941"
+  ],
+  "warnings": []
+}

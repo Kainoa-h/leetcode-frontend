@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 73,
+    "title": "Set Matrix Zeros",
+    "slug": "set-matrix-zeros"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/73_set_matrix_zeros.rs",
+    "latestSha": "15c00673456f1f35904417c3b4ed1f0ffb0d8110",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-03-27T23:46:05+08:00",
+    "lastCommittedAt": "2026-03-27T23:46:05+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "7b37c886c54edfc4e9cb87c709b4e61f6aea7995348dea03eede8adc1db19d9e"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "15c00673456f1f35904417c3b4ed1f0ffb0d8110",
+          "shortSha": "15c0067",
+          "parentSha": "68a1c3d2bffe82f9982ef5ad1f4f17b69c91d180",
+          "authoredAt": "2026-03-27T23:46:05+08:00",
+          "committedAt": "2026-03-27T23:46:05+08:00",
+          "chronologicalIndex": 79,
+          "problemId": 73,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/73_set_matrix_zeros.rs",
+          "sourceFilename": "73_set_matrix_zeros.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn set_zeroes(matrix: &mut Vec<Vec<i32>>) {\n        let rows = matrix.len();\n        let cols = matrix[0].len();\n        let zero_row = !matrix[0].iter().all(|&x| x != 0);\n        let zero_col = !matrix.iter().all(|row| row[0] != 0);\n\n        for row_idx in 1..rows {\n            for col_idx in 1..cols {\n                if matrix[row_idx][col_idx] == 0 {\n                    matrix[0][col_idx] = 0;\n                    matrix[row_idx][0] = 0;\n                }\n            }\n        }\n        for row in matrix.iter_mut().skip(1) {\n            if row[0] == 0 {\n                row.iter_mut().for_each(|c| *c = 0);\n            }\n        }\n\n        for col_idx in 1..cols {\n            if matrix[0][col_idx] == 0 {\n                matrix.iter_mut().for_each(|row| row[col_idx] = 0);\n            }\n        }\n        if zero_row {\n            matrix[0].iter_mut().for_each(|c| *c = 0);\n        }\n        if zero_col {\n            matrix.iter_mut().for_each(|row| row[0] = 0);\n        }\n    }\n}\n\nfn what(ans: Vec<Vec<i32>>, mut matrix: Vec<Vec<i32>>) {\n    println!(\"before: {:?}\\n\", matrix);\n    Solution::set_zeroes(&mut matrix);\n    println!(\"after: {:?}\\n\", matrix);\n    assert_eq!(ans, matrix);\n}\n\nfn main() {\n    what(\n        vec![vec![0, 0, 0, 0], vec![0, 4, 5, 0], vec![0, 3, 1, 0]],\n        vec![vec![0, 1, 2, 0], vec![3, 4, 5, 2], vec![1, 3, 1, 5]],\n    );\n}\n",
+          "codeHash": "76084756d1c10afb1f377a609d27b93f0293700c80c9a20137786a80181bb95b",
+          "markedWrong": false,
+          "commitComment": "in-place marking hint",
+          "rawCommitSubject": "73: in-place marking hint",
+          "commitBody": "time: O(n*m)\nspace: O(1)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "in-place marking hint",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "15c00673456f1f35904417c3b4ed1f0ffb0d8110"
+  ],
+  "warnings": []
+}

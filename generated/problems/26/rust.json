@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 26,
+    "title": "Remove Duplicates From Sorted Array",
+    "slug": "remove-duplicates-from-sorted-array"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/26_remove_duplicates_from_sorted_array.rs",
+    "latestSha": "3c0a7fe9e4fe8cc5c32dc985e14d109e715a11bf",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-01-24T20:16:53+08:00",
+    "lastCommittedAt": "2026-01-24T20:16:53+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "81857504e70d5b0f211dab2cb0ad866ed86bc7142b5e4d5e96a18d64fae0460a"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "3c0a7fe9e4fe8cc5c32dc985e14d109e715a11bf",
+          "shortSha": "3c0a7fe",
+          "parentSha": "a34eb6b62db2009b09e1159dc4fe40e65e9a82e2",
+          "authoredAt": "2026-01-24T20:16:53+08:00",
+          "committedAt": "2026-01-24T20:16:53+08:00",
+          "chronologicalIndex": 4,
+          "problemId": 26,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/26_remove_duplicates_from_sorted_array.rs",
+          "sourceFilename": "26_remove_duplicates_from_sorted_array.rs",
+          "code": "struct Solution {}\n\nimpl Solution {\n    pub fn remove_duplicates(nums: &mut Vec<i32>) -> i32 {\n        let mut real_idx = 1;\n        let mut prev_num = nums[0];\n        for i in 1..nums.len() {\n            let curr_num = nums[i];\n            if curr_num != prev_num {\n                nums[real_idx] = curr_num;\n                real_idx += 1;\n                prev_num = curr_num;\n            }\n        }\n        real_idx as i32\n    }\n}\n\nfn what(mut nums: Vec<i32>) {\n    println!(\"{:?}\", Solution::remove_duplicates(&mut nums));\n    println!(\"{:?}\", nums);\n}\n\nfn main() {\n    // Input: nums = [1,1,2]\n    // Output: 2, nums = [1,2,_]\n    what(vec![1, 1, 2]);\n\n    // Input: nums = [0,0,1,1,1,2,2,3,3,4]\n    // Output: 5, nums = [0,1,2,3,4,_,_,_,_,_]\n    what(vec![0, 0, 1, 1, 1, 2, 2, 3, 3, 4]);\n\n    what(vec![1, 1]);\n    what(vec![1]);\n}\n",
+          "codeHash": "f7e16253550f57599ebbb5714fbb0bea5dfabfa762ad48c8c23ad9140bcde527",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "26",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "3c0a7fe9e4fe8cc5c32dc985e14d109e715a11bf"
+  ],
+  "warnings": []
+}

@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 68,
+    "title": "Text Justification",
+    "slug": "text-justification"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/68_text_justification.rs",
+    "latestSha": "915a86366de035c4f2311d167ee3ba18f57af7fb",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 1,
+    "firstCommittedAt": "2026-02-01T15:06:52+08:00",
+    "lastCommittedAt": "2026-02-01T15:06:52+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "bb3d3df83f2f3946e4c82290fc16ba3de04d0d7347d44b8b3321c4f4b164bc19"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "915a86366de035c4f2311d167ee3ba18f57af7fb",
+          "shortSha": "915a863",
+          "parentSha": "529ba298af556fba563599d3fe590fee0c9cce68",
+          "authoredAt": "2026-02-01T15:06:41+08:00",
+          "committedAt": "2026-02-01T15:06:52+08:00",
+          "chronologicalIndex": 45,
+          "problemId": 68,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/68_text_justification.rs",
+          "sourceFilename": "68_text_justification.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn full_justify(words: Vec<String>, max_width: i32) -> Vec<String> {\n        let mut start_idx = 0;\n        let mut end_idx = 0;\n        let mut len_so_far = 0;\n        let mut line_list: Vec<String> = Vec::new();\n        for w in &words {\n            if w.len() + len_so_far + end_idx - start_idx <= max_width as usize {\n                len_so_far += w.len();\n                end_idx += 1;\n                continue;\n            }\n            // doesn't fit\n            let count = end_idx - start_idx;\n            let spaces = count - 1;\n            let extra_characters = max_width - len_so_far as i32;\n\n            let space_size = extra_characters.checked_div(spaces as i32).unwrap_or(0);\n            let padding_space = extra_characters.checked_rem(spaces as i32).unwrap_or(0);\n\n            let mut line = String::with_capacity(max_width as usize);\n            line.push_str(&words[start_idx]);\n            line.push_str(&\" \".repeat(padding_space as usize));\n            for i in start_idx + 1..end_idx {\n                line.push_str(&\" \".repeat(space_size as usize));\n                line.push_str(&words[i]);\n            }\n            line_list.push(line);\n\n            start_idx = end_idx;\n            len_so_far = w.len();\n            end_idx += 1;\n        }\n        let mut line = String::with_capacity(max_width as usize);\n        let mut chars = 0;\n        for idx in start_idx..words.len() {\n            chars += words[idx].len();\n            line.push_str(&words[idx]);\n            line.push_str(&\" \".repeat(max_width as usize - chars));\n        }\n        line_list.push(line);\n\n        line_list\n    }\n}\n\nfn what(words: Vec<String>, max_width: i32) {\n    for l in Solution::full_justify(words, max_width) {\n        println!(\"'{}'\", l);\n    }\n}\n\nfn main() {\n    what(\n        vec![\n            \"This\".to_owned(),\n            \"is\".to_owned(),\n            \"an\".to_owned(),\n            \"example\".to_owned(),\n            \"of\".to_owned(),\n            \"text\".to_owned(),\n            \"justification.\".to_owned(),\n        ],\n        16,\n    );\n}\n",
+          "codeHash": "15415e55f981fa32c74cdeb4c52d8614ccde19f860048fbf085c9d4b5277141c",
+          "markedWrong": true,
+          "commitComment": "hais",
+          "rawCommitSubject": "68!: hais",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "hais",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "915a86366de035c4f2311d167ee3ba18f57af7fb"
+  ],
+  "warnings": []
+}

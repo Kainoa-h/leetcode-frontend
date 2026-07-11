@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2069,
+    "title": "Walking Robot Simulation Ii",
+    "slug": "walking-robot-simulation-ii"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/2069_walking_robot_simulation_II.rs",
+    "latestSha": "4548ef93b29023b77ddb49452fe2e5eda658a364",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-04-07T22:42:05+08:00",
+    "lastCommittedAt": "2026-04-07T22:42:05+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "22297b2121f4eb0851c7cf94e43891763e8f97bd33d968a1df1b76f5e4f2f63d"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "4548ef93b29023b77ddb49452fe2e5eda658a364",
+          "shortSha": "4548ef9",
+          "parentSha": "8cb926af0b49cf3b8e281594060f0164706b02e5",
+          "authoredAt": "2026-04-07T22:40:59+08:00",
+          "committedAt": "2026-04-07T22:42:05+08:00",
+          "chronologicalIndex": 101,
+          "problemId": 2069,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2069_walking_robot_simulation_II.rs",
+          "sourceFilename": "2069_walking_robot_simulation_II.rs",
+          "code": "const DIR_VELS: [[i32; 2]; 4] = [[1, 0], [0, 1], [-1, 0], [0, -1]];\nconst DIR_STRS: [&str; 4] = [\"East\", \"North\", \"West\", \"South\"];\n\nstruct Space {\n    width_height: [i32; 2],\n    perimeter: i32,\n}\n\nstruct Robot {\n    xy: [i32; 2],\n    dir_idx: usize,\n    space: Space,\n}\n\nimpl Robot {\n    fn new(width: i32, height: i32) -> Self {\n        Robot {\n            xy: [0, 0],\n            dir_idx: 0,\n            space: Space {\n                width_height: [width - 1, height - 1],\n                perimeter: 2 * (width - 1) + 2 * (height - 1),\n            },\n        }\n    }\n\n    fn step(&mut self, num: i32) {\n        let mut num = num % self.space.perimeter;\n        if self.xy[0] == 0 && self.xy[1] == 0 && num == 0 {\n            self.dir_idx = 3;\n            return;\n        }\n\n        while num > 0 {\n            let i = self.dir_idx & 1;\n            let bounds = self.space.width_height[i];\n            let vec = (DIR_VELS[self.dir_idx][i] * num) + self.xy[i];\n            if vec < 0 {\n                self.xy[i] = 0;\n                self.dir_idx = (self.dir_idx + 1) % 4;\n                num = i32::abs(vec);\n            } else if vec > bounds {\n                self.xy[i] = bounds;\n                self.dir_idx = (self.dir_idx + 1) % 4;\n                num = vec - bounds;\n            } else {\n                self.xy[i] = vec;\n                break;\n            }\n        }\n    }\n\n    fn get_pos(&self) -> Vec<i32> {\n        self.xy.to_vec()\n    }\n\n    fn get_dir(&self) -> String {\n        DIR_STRS[self.dir_idx].to_string()\n    }\n}\n\nfn main() {\n    let mut r = Robot::new(6, 4);\n    r.step(1);\n    r.get_dir();\n    r.get_pos();\n}\n",
+          "codeHash": "0c89055fa43d0fd1d65551e0bc6d65851097290f8ff93356097e25244fc16a0e",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 2069",
+          "commitBody": "time: O(1)\nspace: O(1)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "4548ef93b29023b77ddb49452fe2e5eda658a364"
+  ],
+  "warnings": []
+}

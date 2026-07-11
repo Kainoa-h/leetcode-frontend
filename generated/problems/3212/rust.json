@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3212,
+    "title": "Count Submatrices With Equal Frequency of X and Y",
+    "slug": "count-submatrices-with-equal-frequency-of-x-and-y"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3212_count_submatrices_with_equal_frequency_of_x_and_y.rs",
+    "latestSha": "04453ac90ee34873f3f04c6a2c21c7d1149db88e",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 3,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-03-22T00:45:42+08:00",
+    "lastCommittedAt": "2026-03-22T15:29:37+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "d694f3fdfbeb6df059fe78ccd1f1d5eb0b06340f80aad5f8e9745e692fb96145"
+  },
+  "approaches": [
+    {
+      "id": "2d_prefix_sum",
+      "title": "2D Prefix Sum with Tracking",
+      "summary": "Initial solution using a 2D prefix sum grid to track cumulative sums and presence of 'X' in submatrices.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "9c9e82606597f62c9516a69da4a02b2ddcb8b77b",
+          "shortSha": "9c9e826",
+          "parentSha": "a7d8ff1f7cfb77a45df76da8b51998ae2a965710",
+          "authoredAt": "2026-03-22T00:45:31+08:00",
+          "committedAt": "2026-03-22T00:45:42+08:00",
+          "chronologicalIndex": 64,
+          "problemId": 3212,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3212_count_submatrices_with_equal_frequency_of_x_and_y.rs",
+          "sourceFilename": "3212_count_submatrices_with_equal_frequency_of_x_and_y.rs",
+          "code": "struct Solution {}\n\n#[derive(Clone, Copy, Default)]\nstruct Node {\n    sum: i32,\n    has_x: bool,\n}\n\nimpl Solution {\n    pub fn number_of_submatrices(grid: Vec<Vec<char>>) -> i32 {\n        let mut count = 0;\n        let rows = grid.len();\n        let cols = grid[0].len();\n        let mut prefix_grid = vec![vec![Node::default(); cols + 1]; rows + 1];\n        for r_idx in 0..rows {\n            for c_idx in 0..cols {\n                let char = grid[r_idx][c_idx];\n                let val = match char {\n                    'X' => 1,\n                    'Y' => -1,\n                    _ => 0,\n                };\n\n                let sum = prefix_grid[r_idx][c_idx + 1].sum + prefix_grid[r_idx + 1][c_idx].sum\n                    - prefix_grid[r_idx][c_idx].sum\n                    + val;\n                let has_x = prefix_grid[r_idx][c_idx + 1].has_x\n                    || prefix_grid[r_idx + 1][c_idx].has_x\n                    || val == 1;\n                prefix_grid[r_idx + 1][c_idx + 1] = Node { sum, has_x };\n\n                if sum == 0 && has_x {\n                    count += 1;\n                }\n            }\n        }\n        count\n    }\n}\n\nfn main() {\n    assert_eq!(\n        3,\n        Solution::number_of_submatrices(vec![vec!['X', 'Y', '.'], vec!['Y', '.', '.']])\n    )\n}\n",
+          "codeHash": "7b7e48bb3fd114c3152e6a7476f2f1191095ff82762b81629eef6276d3f5ff8a",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "3212",
+          "commitBody": "time: O(n)\nspace: O(n)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "2d_prefix_sum",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Implemented 2D prefix sum grid with Node struct to track sum and 'X' presence.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "1d_prefix_optimization",
+      "title": "1D Prefix Sum Optimization",
+      "summary": "Optimized to use a 1D prefix sum array per row, reducing space complexity while maintaining correctness.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "d6a0493f4a081f4f4f9582dc95ed2bebefa4dc19",
+          "shortSha": "d6a0493",
+          "parentSha": "9c9e82606597f62c9516a69da4a02b2ddcb8b77b",
+          "authoredAt": "2026-03-22T15:23:27+08:00",
+          "committedAt": "2026-03-22T15:23:27+08:00",
+          "chronologicalIndex": 65,
+          "problemId": 3212,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3212_count_submatrices_with_equal_frequency_of_x_and_y.rs",
+          "sourceFilename": "3212_count_submatrices_with_equal_frequency_of_x_and_y.rs",
+          "code": "struct Solution {}\n\n#[derive(Clone, Copy, Default)]\nstruct Node {\n    sum: i32,\n    has_x: bool,\n}\n\nimpl Solution {\n    pub fn number_of_submatrices(grid: Vec<Vec<char>>) -> i32 {\n        let mut count = 0;\n        let cols = grid[0].len();\n        let mut prefix_row = vec![Node::default(); cols];\n        for row in grid {\n            let mut row_sum = 0;\n            let mut row_has_x = false;\n            for (c_idx, &char) in row.iter().enumerate() {\n                row_sum += match char {\n                    'X' => 1,\n                    'Y' => -1,\n                    _ => 0,\n                };\n                if char == 'X' {\n                    row_has_x = true;\n                }\n\n                let sum = prefix_row[c_idx].sum + row_sum;\n                let has_x = prefix_row[c_idx].has_x || row_has_x;\n                prefix_row[c_idx] = Node { sum, has_x };\n\n                if sum == 0 && has_x {\n                    count += 1;\n                }\n            }\n        }\n        count\n    }\n}\n\nfn main() {\n    assert_eq!(\n        3,\n        Solution::number_of_submatrices(vec![vec!['X', 'Y', '.'], vec!['Y', '.', '.']])\n    )\n}\n",
+          "codeHash": "9e8b3d05ba162b8a012684e29c654974d3d2e840e59bc42628f4feaf971d4a5e",
+          "markedWrong": false,
+          "commitComment": "1D prefix optimisation",
+          "rawCommitSubject": "3212: 1D prefix optimisation",
+          "commitBody": "time: O(n)\nspace: O(n)",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3212_count_submatrices_with_equal_frequency_of_x_and_y.rs b/rust/src/bin/3212_count_submatrices_with_equal_frequency_of_x_and_y.rs\nindex abfa5f6..802dc46 100644\n--- a/rust/src/bin/3212_count_submatrices_with_equal_frequency_of_x_and_y.rs\n+++ b/rust/src/bin/3212_count_submatrices_with_equal_frequency_of_x_and_y.rs\n@@ -9,25 +9,24 @@ struct Node {\n impl Solution {\n     pub fn number_of_submatrices(grid: Vec<Vec<char>>) -> i32 {\n         let mut count = 0;\n-        let rows = grid.len();\n         let cols = grid[0].len();\n-        let mut prefix_grid = vec![vec![Node::default(); cols + 1]; rows + 1];\n-        for r_idx in 0..rows {\n-            for c_idx in 0..cols {\n-                let char = grid[r_idx][c_idx];\n-                let val = match char {\n+        let mut prefix_row = vec![Node::default(); cols];\n+        for row in grid {\n+            let mut row_sum = 0;\n+            let mut row_has_x = false;\n+            for (c_idx, &char) in row.iter().enumerate() {\n+                row_sum += match char {\n                     'X' => 1,\n                     'Y' => -1,\n                     _ => 0,\n                 };\n+                if char == 'X' {\n+                    row_has_x = true;\n+                }\n \n-                let sum = prefix_grid[r_idx][c_idx + 1].sum + prefix_grid[r_idx + 1][c_idx].sum\n-                    - prefix_grid[r_idx][c_idx].sum\n-                    + val;\n-                let has_x = prefix_grid[r_idx][c_idx + 1].has_x\n-                    || prefix_grid[r_idx + 1][c_idx].has_x\n-                    || val == 1;\n-                prefix_grid[r_idx + 1][c_idx + 1] = Node { sum, has_x };\n+                let sum = prefix_row[c_idx].sum + row_sum;\n+                let has_x = prefix_row[c_idx].has_x || row_has_x;\n+                prefix_row[c_idx] = Node { sum, has_x };\n \n                 if sum == 0 && has_x {\n                     count += 1;\n",
+          "changedLineCounts": {
+            "additions": 12,
+            "deletions": 13
+          },
+          "approachId": "1d_prefix_optimization",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Converted 2D prefix grid to 1D prefix row, simplifying logic and reducing space usage.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "bounds_check_reduction",
+      "title": "Bounds Check Reduction",
+      "summary": "Further optimized by eliminating redundant bounds checks and directly mutating the prefix array.",
+      "order": 2,
+      "revisions": [
+        {
+          "sha": "04453ac90ee34873f3f04c6a2c21c7d1149db88e",
+          "shortSha": "04453ac",
+          "parentSha": "d6a0493f4a081f4f4f9582dc95ed2bebefa4dc19",
+          "authoredAt": "2026-03-22T15:29:37+08:00",
+          "committedAt": "2026-03-22T15:29:37+08:00",
+          "chronologicalIndex": 66,
+          "problemId": 3212,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3212_count_submatrices_with_equal_frequency_of_x_and_y.rs",
+          "sourceFilename": "3212_count_submatrices_with_equal_frequency_of_x_and_y.rs",
+          "code": "struct Solution {}\n\n#[derive(Clone, Copy, Default)]\nstruct Node {\n    sum: i32,\n    has_x: bool,\n}\n\nimpl Solution {\n    pub fn number_of_submatrices(grid: Vec<Vec<char>>) -> i32 {\n        let mut count = 0;\n        let cols = grid[0].len();\n        let mut prefix_row = vec![Node::default(); cols];\n        for row in grid {\n            let mut row_sum = 0;\n            let mut row_has_x = false;\n            for (c_idx, node) in prefix_row.iter_mut().enumerate() {\n                row_sum += match row[c_idx] {\n                    'X' => 1,\n                    'Y' => -1,\n                    _ => 0,\n                };\n                if row[c_idx] == 'X' {\n                    row_has_x = true;\n                }\n\n                let sum = node.sum + row_sum;\n                let has_x = node.has_x || row_has_x;\n                *node = Node { sum, has_x };\n\n                if sum == 0 && has_x {\n                    count += 1;\n                }\n            }\n        }\n        count\n    }\n}\n\nfn main() {\n    assert_eq!(\n        3,\n        Solution::number_of_submatrices(vec![vec!['X', 'Y', '.'], vec!['Y', '.', '.']])\n    )\n}\n",
+          "codeHash": "e9293a2b11d0c1e92d6a1c44f388cc57092e59eedd70e83324ff7a99ed13c57a",
+          "markedWrong": false,
+          "commitComment": "reduce bounds checks",
+          "rawCommitSubject": "3212: reduce bounds checks",
+          "commitBody": "time: O(n)\nspace: O(n)",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3212_count_submatrices_with_equal_frequency_of_x_and_y.rs b/rust/src/bin/3212_count_submatrices_with_equal_frequency_of_x_and_y.rs\nindex 802dc46..ac8f730 100644\n--- a/rust/src/bin/3212_count_submatrices_with_equal_frequency_of_x_and_y.rs\n+++ b/rust/src/bin/3212_count_submatrices_with_equal_frequency_of_x_and_y.rs\n@@ -14,19 +14,19 @@ impl Solution {\n         for row in grid {\n             let mut row_sum = 0;\n             let mut row_has_x = false;\n-            for (c_idx, &char) in row.iter().enumerate() {\n-                row_sum += match char {\n+            for (c_idx, node) in prefix_row.iter_mut().enumerate() {\n+                row_sum += match row[c_idx] {\n                     'X' => 1,\n                     'Y' => -1,\n                     _ => 0,\n                 };\n-                if char == 'X' {\n+                if row[c_idx] == 'X' {\n                     row_has_x = true;\n                 }\n \n-                let sum = prefix_row[c_idx].sum + row_sum;\n-                let has_x = prefix_row[c_idx].has_x || row_has_x;\n-                prefix_row[c_idx] = Node { sum, has_x };\n+                let sum = node.sum + row_sum;\n+                let has_x = node.has_x || row_has_x;\n+                *node = Node { sum, has_x };\n \n                 if sum == 0 && has_x {\n                     count += 1;\n",
+          "changedLineCounts": {
+            "additions": 6,
+            "deletions": 6
+          },
+          "approachId": "bounds_check_reduction",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Reduced bounds checks by iterating over prefix_row directly and mutating in place.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "9c9e82606597f62c9516a69da4a02b2ddcb8b77b",
+    "d6a0493f4a081f4f4f9582dc95ed2bebefa4dc19",
+    "04453ac90ee34873f3f04c6a2c21c7d1149db88e"
+  ],
+  "warnings": []
+}

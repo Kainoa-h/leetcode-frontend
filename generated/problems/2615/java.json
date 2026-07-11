@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2615,
+    "title": "Sum of Distances",
+    "slug": "sum-of-distances"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/2615_sum_of_distances.java",
+    "latestSha": "3b0afa3d9dd5f970395d56605c87c29cdbacf390",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 1,
+    "firstCommittedAt": "2026-04-23T23:39:33+08:00",
+    "lastCommittedAt": "2026-04-23T23:39:33+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "e97cf1d1a945cdf2bbc9df42a32177da31379fa250cee7830d563b00af9a3471"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "3b0afa3d9dd5f970395d56605c87c29cdbacf390",
+          "shortSha": "3b0afa3",
+          "parentSha": "7d2deaaa5e2f584c2388361a744fd46cd974cd5f",
+          "authoredAt": "2026-04-23T23:39:23+08:00",
+          "committedAt": "2026-04-23T23:39:33+08:00",
+          "chronologicalIndex": 112,
+          "problemId": 2615,
+          "language": "java",
+          "sourcePath": "java/src/solutions/2615_sum_of_distances.java",
+          "sourceFilename": "2615_sum_of_distances.java",
+          "code": "import java.util.HashMap;\nimport java.util.Map;\nimport java.util.List;\nimport java.util.ArrayList;\n\nclass Solution {\n  public long[] distance(int[] nums) {\n    long[] result = new long[nums.length];\n    Map<Integer, List<Long>> numMap = new HashMap<>();\n\n    for (int i = 0; i < nums.length; i++) {\n      numMap.computeIfAbsent(nums[i], k -> new ArrayList<Long>()).add(Long.valueOf(i));\n    }\n\n    for (int i = 0; i < nums.length; i++) {\n      var idx = i;\n      result[i] = numMap.get(nums[i]).stream().mapToLong(x -> Math.abs(idx - x)).sum();\n    }\n    return result;\n  }\n}\n",
+          "codeHash": "286b9e3ece90298745413095f5e5e8a3545002ab99c496e3812735cd5be94d4c",
+          "markedWrong": true,
+          "commitComment": "TLE, needs prefix list",
+          "rawCommitSubject": "java 2615!: TLE, needs prefix list",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "TLE, needs prefix list",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "3b0afa3d9dd5f970395d56605c87c29cdbacf390"
+  ],
+  "warnings": []
+}

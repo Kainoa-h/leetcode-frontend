@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 121,
+    "title": "Best Time to Buy and Sell Stock",
+    "slug": "best-time-to-buy-and-sell-stock"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/121_best_time_to_buy_and_sell_stock.rs",
+    "latestSha": "6c7ed6a42435d29b416066f4cd8bd146dc407c27",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-01-25T13:23:54+08:00",
+    "lastCommittedAt": "2026-01-25T13:32:19+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "47db216a482b295c621119b2aa72507268d48a175a9bc0337b3cad8d8be63f7d"
+  },
+  "approaches": [
+    {
+      "id": "1",
+      "title": "Single Pass with Min Tracking",
+      "summary": "Iterate through prices once, tracking the minimum price seen so far and calculating the maximum profit possible at each step.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "128692b55cb122ea0461c95ad558c91c26bbd168",
+          "shortSha": "128692b",
+          "parentSha": "ed421c603c37ebb1eb21ad1cb1bfde88b2cea8ef",
+          "authoredAt": "2026-01-25T13:23:54+08:00",
+          "committedAt": "2026-01-25T13:23:54+08:00",
+          "chronologicalIndex": 13,
+          "problemId": 121,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/121_best_time_to_buy_and_sell_stock.rs",
+          "sourceFilename": "121_best_time_to_buy_and_sell_stock.rs",
+          "code": "struct Solution {}\n\nimpl Solution {\n    pub fn max_profit(prices: Vec<i32>) -> i32 {\n        let mut min = prices[0];\n        let mut max_profit = 0;\n\n        for &p in prices.iter().skip(1) {\n            if min > p {\n                min = p;\n                continue;\n            }\n            let diff = p - min;\n            if diff > max_profit {\n                max_profit = diff;\n            }\n        }\n\n        max_profit\n    }\n}\n\nfn main() {\n    println!(\"{}\", Solution::max_profit(vec![7, 1, 5, 3, 6, 4]));\n    println!(\"{}\", Solution::max_profit(vec![7, 6, 4, 3, 1]));\n}\n",
+          "codeHash": "41a2b716894d59abca785be7e1642b8eab43c564e68bf4ff84d3811600ad4cda",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "121",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation with explicit min tracking and conditional updates.",
+          "warnings": []
+        },
+        {
+          "sha": "6c7ed6a42435d29b416066f4cd8bd146dc407c27",
+          "shortSha": "6c7ed6a",
+          "parentSha": "128692b55cb122ea0461c95ad558c91c26bbd168",
+          "authoredAt": "2026-01-25T13:32:19+08:00",
+          "committedAt": "2026-01-25T13:32:19+08:00",
+          "chronologicalIndex": 14,
+          "problemId": 121,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/121_best_time_to_buy_and_sell_stock.rs",
+          "sourceFilename": "121_best_time_to_buy_and_sell_stock.rs",
+          "code": "struct Solution {}\n\nimpl Solution {\n    pub fn max_profit(prices: Vec<i32>) -> i32 {\n        let mut min = i32::MAX;\n        let mut max_profit = 0;\n\n        for p in prices {\n            min = min.min(p);\n            max_profit = max_profit.max(p - min);\n        }\n\n        max_profit\n    }\n}\n\nfn main() {\n    println!(\"{}\", Solution::max_profit(vec![7, 1, 5, 3, 6, 4]));\n    println!(\"{}\", Solution::max_profit(vec![7, 6, 4, 3, 1]));\n}\n",
+          "codeHash": "b53b0ad5ef7cbc9d283ad8feba9588d2aaabc7764680a4b40998c86dc8a233c6",
+          "markedWrong": false,
+          "commitComment": "idomatic refactor",
+          "rawCommitSubject": "121: idomatic refactor",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/121_best_time_to_buy_and_sell_stock.rs b/rust/src/bin/121_best_time_to_buy_and_sell_stock.rs\nindex 668b84e..2297517 100644\n--- a/rust/src/bin/121_best_time_to_buy_and_sell_stock.rs\n+++ b/rust/src/bin/121_best_time_to_buy_and_sell_stock.rs\n@@ -2,18 +2,12 @@ struct Solution {}\n \n impl Solution {\n     pub fn max_profit(prices: Vec<i32>) -> i32 {\n-        let mut min = prices[0];\n+        let mut min = i32::MAX;\n         let mut max_profit = 0;\n \n-        for &p in prices.iter().skip(1) {\n-            if min > p {\n-                min = p;\n-                continue;\n-            }\n-            let diff = p - min;\n-            if diff > max_profit {\n-                max_profit = diff;\n-            }\n+        for p in prices {\n+            min = min.min(p);\n+            max_profit = max_profit.max(p - min);\n         }\n \n         max_profit\n",
+          "changedLineCounts": {
+            "additions": 4,
+            "deletions": 10
+          },
+          "approachId": "1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Refactored to use idiomatic Rust methods (`min` and `max`) for cleaner code.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "128692b55cb122ea0461c95ad558c91c26bbd168",
+    "6c7ed6a42435d29b416066f4cd8bd146dc407c27"
+  ],
+  "warnings": []
+}

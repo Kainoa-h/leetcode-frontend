@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2130,
+    "title": "Maximum Twin Sum of A Linked List",
+    "slug": "maximum-twin-sum-of-a-linked-list"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/2130_maximum_twin_sum_of_a_linked_list.java",
+    "latestSha": "06d2c79bf9f0d49a8b2fdd449619c4abfcb966ed",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-06-17T17:24:02+08:00",
+    "lastCommittedAt": "2026-06-17T17:24:02+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "23900b7719cf727bf865745380eb90e7033bd373cccb9d53288d2c37dbfe657f"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "06d2c79bf9f0d49a8b2fdd449619c4abfcb966ed",
+          "shortSha": "06d2c79",
+          "parentSha": "800b01919ff45eac09ea2aa5e3929e6ffb434b9d",
+          "authoredAt": "2026-06-17T17:23:51+08:00",
+          "committedAt": "2026-06-17T17:24:02+08:00",
+          "chronologicalIndex": 170,
+          "problemId": 2130,
+          "language": "java",
+          "sourcePath": "java/src/solutions/2130_maximum_twin_sum_of_a_linked_list.java",
+          "sourceFilename": "2130_maximum_twin_sum_of_a_linked_list.java",
+          "code": "class Solution {\n  public int pairSum(ListNode head) {\n    var fast_head = head;\n    var slow_head = head;\n    while (fast_head != null) {\n      fast_head = fast_head.next.next;\n      slow_head = slow_head.next;\n    }\n\n    ListNode prev_head = null;\n    var flipper_head = slow_head;\n    while (flipper_head != null) {\n      var next = flipper_head.next;\n      flipper_head.next = prev_head;\n      prev_head = flipper_head;\n      flipper_head = next;\n    }\n\n    var end_head = prev_head;\n    var start_head = head;\n    int maxSum = 0;\n    while (end_head != null) {\n      maxSum = Math.max(maxSum, start_head.val + end_head.val);\n      end_head = end_head.next;\n      start_head = start_head.next;\n    }\n\n    return maxSum;\n  }\n}\n\nclass ListNode {\n  int val;\n  ListNode next;\n\n  ListNode() {\n  }\n\n  ListNode(int val) {\n    this.val = val;\n  }\n\n  ListNode(int val, ListNode next) {\n    this.val = val;\n    this.next = next;\n  }\n}\n",
+          "codeHash": "76a507a6ad9478f97c65b68ea6863a9a70fd1fd8dfebe7a20c55b23a364f387f",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "java 2130",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "06d2c79bf9f0d49a8b2fdd449619c4abfcb966ed"
+  ],
+  "warnings": []
+}

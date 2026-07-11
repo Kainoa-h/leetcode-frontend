@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 36,
+    "title": "Valid Sudoku",
+    "slug": "valid-sudoku"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/36_valid_sudoku.rs",
+    "latestSha": "28951821d5f4a7688a75869a4823f96019ecec13",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-01-24T00:39:07+08:00",
+    "lastCommittedAt": "2026-01-24T00:39:07+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "095f338ffc12a90696a87f850f2829eae051f2ed1841156970b248cf5b53469c"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "28951821d5f4a7688a75869a4823f96019ecec13",
+          "shortSha": "2895182",
+          "parentSha": null,
+          "authoredAt": "2026-01-24T00:39:07+08:00",
+          "committedAt": "2026-01-24T00:39:07+08:00",
+          "chronologicalIndex": 0,
+          "problemId": 36,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/36_valid_sudoku.rs",
+          "sourceFilename": "36_valid_sudoku.rs",
+          "code": "use std::collections::HashSet;\n\nstruct Solution {}\n\nimpl Solution {\n    pub fn is_valid_sudoku(board: Vec<Vec<char>>) -> bool {\n        for i in 0..9 {\n            if !Solution::row_map(&board, i) {\n                return false;\n            }\n            if !Solution::col_map(&board, i) {\n                return false;\n            }\n        }\n        let dex = [0_usize, 3_usize, 6_usize];\n        let row_iter = dex.iter();\n        for r_id in row_iter {\n            let col_iter = dex.iter();\n            for c_id in col_iter {\n                if !Solution::box_map(&board, *r_id, *c_id) {\n                    return false;\n                }\n            }\n        }\n        true\n    }\n\n    fn box_map(board: &[Vec<char>], row_idx: usize, col_idx: usize) -> bool {\n        let mut set: HashSet<char> = HashSet::new();\n        for row_off in 0..3 {\n            for coll_off in 0..3 {\n                let c = board[row_idx + row_off][col_idx + coll_off];\n                if c != '.' && !set.insert(c) {\n                    return false;\n                }\n            }\n        }\n        true\n    }\n\n    fn col_map(board: &[Vec<char>], row_idx: usize) -> bool {\n        let mut set: HashSet<char> = HashSet::new();\n        for i in 0..9 {\n            let c = board[i][row_idx];\n            if c != '.' && !set.insert(c) {\n                return false;\n            }\n        }\n        true\n    }\n\n    fn row_map(board: &[Vec<char>], col_idx: usize) -> bool {\n        let mut set: HashSet<char> = HashSet::new();\n        let row: &Vec<char> = &board[col_idx];\n        for c in row {\n            if *c != '.' && !set.insert(*c) {\n                return false;\n            }\n        }\n        true\n    }\n}\n\nfn what(board: Vec<Vec<char>>) {\n    if Solution::is_valid_sudoku(board) {\n        print!(\"nice\");\n    } else {\n        print!(\"nay\")\n    }\n    print!(\"\\n---\\n\")\n}\n\nfn main() {\n    what(vec![\n        vec!['5', '3', '.', '.', '7', '.', '.', '.', '.'],\n        vec!['6', '.', '.', '1', '9', '5', '.', '.', '.'],\n        vec!['.', '9', '8', '.', '.', '.', '.', '6', '.'],\n        vec!['8', '.', '.', '.', '6', '.', '.', '.', '3'],\n        vec!['4', '.', '.', '8', '.', '3', '.', '.', '1'],\n        vec!['7', '.', '.', '.', '2', '.', '.', '.', '6'],\n        vec!['.', '6', '.', '.', '.', '.', '2', '8', '.'],\n        vec!['.', '.', '.', '4', '1', '9', '.', '.', '5'],\n        vec!['.', '.', '.', '.', '8', '.', '.', '7', '9'],\n    ]);\n    what(vec![\n        vec!['8', '3', '.', '.', '7', '.', '.', '.', '.'],\n        vec!['6', '.', '.', '1', '9', '5', '.', '.', '.'],\n        vec!['.', '9', '8', '.', '.', '.', '.', '6', '.'],\n        vec!['8', '.', '.', '.', '6', '.', '.', '.', '3'],\n        vec!['4', '.', '.', '8', '.', '3', '.', '.', '1'],\n        vec!['7', '.', '.', '.', '2', '.', '.', '.', '6'],\n        vec!['.', '6', '.', '.', '.', '.', '2', '8', '.'],\n        vec!['.', '.', '.', '4', '1', '9', '.', '.', '5'],\n        vec!['.', '.', '.', '.', '8', '.', '.', '7', '9'],\n    ]);\n}\n",
+          "codeHash": "f13038d98bd834e1152167f21c6b4dafd2ddca9d78a775d2aa0b6fe4ad5a735d",
+          "markedWrong": false,
+          "commitComment": ", 36",
+          "rawCommitSubject": "22, 36",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": ", 36",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "28951821d5f4a7688a75869a4823f96019ecec13"
+  ],
+  "warnings": []
+}

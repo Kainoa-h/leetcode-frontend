@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 12,
+    "title": "Integer to Roman",
+    "slug": "integer-to-roman"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/12_integer_to_roman.rs",
+    "latestSha": "d8d641914a8475b2d47753a38ce6c9d75d8bdf2b",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-01-29T22:28:46+08:00",
+    "lastCommittedAt": "2026-01-29T22:43:26+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "5db1148dc41de5143bc00e5b047cda6bab24e5bc80ef46aab09993aebd6ac7b1"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "d6a34889eb4a23ef7b34fae1ceeaa8264c3ae1da",
+          "shortSha": "d6a3488",
+          "parentSha": "6d1ea7d6566ddfa2ad4354bd36a1223d724a52c6",
+          "authoredAt": "2026-01-29T22:28:46+08:00",
+          "committedAt": "2026-01-29T22:28:46+08:00",
+          "chronologicalIndex": 34,
+          "problemId": 12,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/12_integer_to_roman.rs",
+          "sourceFilename": "12_integer_to_roman.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn int_to_roman(mut num: i32) -> String {\n        let mut maps = [\n            |n| match n {\n                1..=3 => \"I\".repeat(n),\n                4 => \"IV\".to_owned(),\n                5..=8 => format!(\"V{}\", \"I\".repeat(n - 5)),\n                9 => \"IX\".to_owned(),\n                _ => \"\".to_owned(),\n            },\n            |n| match n {\n                1..=3 => \"X\".repeat(n),\n                4 => \"XL\".to_owned(),\n                5..=8 => format!(\"L{}\", \"X\".repeat(n - 5)),\n                9 => \"XC\".to_owned(),\n                _ => \"\".to_owned(),\n            },\n            |n| match n {\n                1..=3 => \"C\".repeat(n),\n                4 => \"CD\".to_owned(),\n                5..=8 => format!(\"D{}\", \"C\".repeat(n - 5)),\n                9 => \"CM\".to_owned(),\n                _ => \"\".to_owned(),\n            },\n            |n| match n {\n                1..=3 => \"M\".repeat(n),\n                _ => \"\".to_owned(),\n            },\n        ]\n        .iter();\n\n        let mut current_map;\n        let mut units: Vec<String> = Vec::new();\n        while num > 0 {\n            current_map = maps.next().unwrap();\n            let x = num % 10;\n            units.push(current_map(x as usize));\n            num = (num - x) / 10;\n        }\n        units.into_iter().rev().collect()\n    }\n}\n\nfn what(num: i32, ans: String) {\n    println!(\"{}\", num);\n    assert_eq!(Solution::int_to_roman(num), ans);\n}\n\nfn main() {\n    what(3, \"III\".to_owned());\n    what(10, \"X\".to_owned());\n    what(4, \"IV\".to_owned());\n    what(58, \"LVIII\".to_owned());\n    what(3999, \"MMMCMXCIX\".to_owned());\n}\n",
+          "codeHash": "6477db5da71940163484ab0b0f3cd0452dec663c1adeb7e5603d78dc83ae6d97",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "12",
+          "commitBody": "time: O(n)\nspace O(1)/O(log n)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        },
+        {
+          "sha": "d8d641914a8475b2d47753a38ce6c9d75d8bdf2b",
+          "shortSha": "d8d6419",
+          "parentSha": "d6a34889eb4a23ef7b34fae1ceeaa8264c3ae1da",
+          "authoredAt": "2026-01-29T22:42:51+08:00",
+          "committedAt": "2026-01-29T22:43:26+08:00",
+          "chronologicalIndex": 35,
+          "problemId": 12,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/12_integer_to_roman.rs",
+          "sourceFilename": "12_integer_to_roman.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn int_to_roman(mut num: i32) -> String {\n        let mut result = String::new();\n        let roman = [\n            \"M\", \"CM\", \"D\", \"CD\", \"C\", \"XC\", \"L\", \"XL\", \"X\", \"IX\", \"V\", \"IV\", \"I\",\n        ];\n        let nums = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1];\n        for i in 0..roman.len() {\n            while num >= nums[i] {\n                num -= nums[i];\n                result.push_str(roman[i]);\n            }\n        }\n\n        result\n    }\n}\n\nfn what(num: i32, ans: String) {\n    println!(\"{}\", num);\n    assert_eq!(Solution::int_to_roman(num), ans);\n}\n\nfn main() {\n    what(3, \"III\".to_owned());\n    what(10, \"X\".to_owned());\n    what(4, \"IV\".to_owned());\n    what(58, \"LVIII\".to_owned());\n    what(3999, \"MMMCMXCIX\".to_owned());\n}\n",
+          "codeHash": "7499329670eabdedaf882f238de5d41ccaf47bde7d48083dbbdfe0a8ab056d03",
+          "markedWrong": false,
+          "commitComment": "cleaner",
+          "rawCommitSubject": "12: cleaner",
+          "commitBody": "time: O(1)\nspace: O(1)/O(log n)",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/12_integer_to_roman.rs b/rust/src/bin/12_integer_to_roman.rs\nindex 1ceba4d..ed33663 100644\n--- a/rust/src/bin/12_integer_to_roman.rs\n+++ b/rust/src/bin/12_integer_to_roman.rs\n@@ -1,44 +1,19 @@\n struct Solution {}\n impl Solution {\n     pub fn int_to_roman(mut num: i32) -> String {\n-        let mut maps = [\n-            |n| match n {\n-                1..=3 => \"I\".repeat(n),\n-                4 => \"IV\".to_owned(),\n-                5..=8 => format!(\"V{}\", \"I\".repeat(n - 5)),\n-                9 => \"IX\".to_owned(),\n-                _ => \"\".to_owned(),\n-            },\n-            |n| match n {\n-                1..=3 => \"X\".repeat(n),\n-                4 => \"XL\".to_owned(),\n-                5..=8 => format!(\"L{}\", \"X\".repeat(n - 5)),\n-                9 => \"XC\".to_owned(),\n-                _ => \"\".to_owned(),\n-            },\n-            |n| match n {\n-                1..=3 => \"C\".repeat(n),\n-                4 => \"CD\".to_owned(),\n-                5..=8 => format!(\"D{}\", \"C\".repeat(n - 5)),\n-                9 => \"CM\".to_owned(),\n-                _ => \"\".to_owned(),\n-            },\n-            |n| match n {\n-                1..=3 => \"M\".repeat(n),\n-                _ => \"\".to_owned(),\n-            },\n-        ]\n-        .iter();\n-\n-        let mut current_map;\n-        let mut units: Vec<String> = Vec::new();\n-        while num > 0 {\n-            current_map = maps.next().unwrap();\n-            let x = num % 10;\n-            units.push(current_map(x as usize));\n-            num = (num - x) / 10;\n+        let mut result = String::new();\n+        let roman = [\n+            \"M\", \"CM\", \"D\", \"CD\", \"C\", \"XC\", \"L\", \"XL\", \"X\", \"IX\", \"V\", \"IV\", \"I\",\n+        ];\n+        let nums = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1];\n+        for i in 0..roman.len() {\n+            while num >= nums[i] {\n+                num -= nums[i];\n+                result.push_str(roman[i]);\n+            }\n         }\n-        units.into_iter().rev().collect()\n+\n+        result\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 12,
+            "deletions": 37
+          },
+          "approachId": "chronological",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "cleaner",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "d6a34889eb4a23ef7b34fae1ceeaa8264c3ae1da",
+    "d8d641914a8475b2d47753a38ce6c9d75d8bdf2b"
+  ],
+  "warnings": []
+}

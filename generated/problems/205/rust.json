@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 205,
+    "title": "Isomorphic Strings",
+    "slug": "isomorphic-strings"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/205_isomorphic_strings.rs",
+    "latestSha": "b5f9f790dcc4008d1bb572b722a7511effc65afd",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-05-30T21:30:04+08:00",
+    "lastCommittedAt": "2026-05-30T21:44:36+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "f5b5acc7fe1c39e84b8be4a9e95622d17c226c474b08540910aec0137dc9d5e4"
+  },
+  "approaches": [
+    {
+      "id": "two_arrays_mapping",
+      "title": "Two Arrays Mapping with Early Termination",
+      "summary": "Uses two fixed-size arrays to track character mappings between strings, terminating early on mismatches.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "28bb6ff651e0d1afca80e9cbe2fbbc0dce668ffb",
+          "shortSha": "28bb6ff",
+          "parentSha": "87167aadda29ad4a16fd94eedf96e3a811f02d5d",
+          "authoredAt": "2026-05-30T21:30:04+08:00",
+          "committedAt": "2026-05-30T21:30:04+08:00",
+          "chronologicalIndex": 131,
+          "problemId": 205,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/205_isomorphic_strings.rs",
+          "sourceFilename": "205_isomorphic_strings.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn is_isomorphic(s: String, t: String) -> bool {\n        let mut map = [-1_i16; 128];\n        let mut u_map = [false; 128];\n        for i in 0..s.len() {\n            let c1 = s.as_bytes()[i];\n            let c2 = t.as_bytes()[i];\n            let x = map.get_mut(c1 as usize).unwrap();\n            let y = u_map.get_mut(c2 as usize).unwrap();\n\n            if *x == -1 && !*y {\n                *x = c2 as i16;\n                *y = true;\n            } else if *x == -1 && *y {\n                return false;\n            } else if *x != c2 as i16 {\n                return false;\n            }\n        }\n        true\n    }\n}\n\nfn main() {\n    // assert!(Solution::is_isomorphic(\"egg\".to_owned(), \"add\".to_owned()));\n    // assert!(!Solution::is_isomorphic(\"f11\".to_owned(), \"b23\".to_owned()));\n    // assert!(Solution::is_isomorphic(\n    //     \"paper\".to_owned(),\n    //     \"title\".to_owned()\n    // ));\n    assert!(!Solution::is_isomorphic(\n        \"badc\".to_owned(),\n        \"baba\".to_owned()\n    ));\n}\n",
+          "codeHash": "83017cf314bac7bed32fd50e736cf933e27cbeeec9753397271dfee626da4901",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 205",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "two_arrays_mapping",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation using two arrays for bidirectional mapping with early termination.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "optional_arrays_mapping",
+      "title": "Optional Arrays Mapping with Idiomatic Style",
+      "summary": "Replaces fixed-size arrays with Option types for clearer mapping logic and more idiomatic Rust.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "b5f9f790dcc4008d1bb572b722a7511effc65afd",
+          "shortSha": "b5f9f79",
+          "parentSha": "28bb6ff651e0d1afca80e9cbe2fbbc0dce668ffb",
+          "authoredAt": "2026-05-30T21:44:36+08:00",
+          "committedAt": "2026-05-30T21:44:36+08:00",
+          "chronologicalIndex": 132,
+          "problemId": 205,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/205_isomorphic_strings.rs",
+          "sourceFilename": "205_isomorphic_strings.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn is_isomorphic(s: String, t: String) -> bool {\n        let mut s_map = [None::<u8>; 128];\n        let mut t_check = [None::<u8>; 128];\n\n        for (c1, c2) in s.bytes().zip(t.bytes()) {\n            let e1 = s_map.get_mut(c1 as usize).unwrap().get_or_insert(c2);\n            if *e1 != c2 {\n                return false;\n            }\n\n            let e2 = t_check.get_mut(c2 as usize).unwrap().get_or_insert(c1);\n            if *e2 != c1 {\n                return false;\n            }\n        }\n\n        true\n    }\n}\n\nfn main() {\n    assert!(Solution::is_isomorphic(\"egg\".to_owned(), \"add\".to_owned()));\n    assert!(!Solution::is_isomorphic(\"f11\".to_owned(), \"b23\".to_owned()));\n    assert!(Solution::is_isomorphic(\n        \"paper\".to_owned(),\n        \"title\".to_owned()\n    ));\n    assert!(!Solution::is_isomorphic(\n        \"badc\".to_owned(),\n        \"baba\".to_owned()\n    ));\n}\n",
+          "codeHash": "adc31c39c9a0b9c7eb750492a0d2cddb1bd3003fcdd67e4fc56b91b514d249ee",
+          "markedWrong": false,
+          "commitComment": "slower but more idomatic",
+          "rawCommitSubject": "rust 205: slower but more idomatic",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/205_isomorphic_strings.rs b/rust/src/bin/205_isomorphic_strings.rs\nindex 48a58ca..546954a 100644\n--- a/rust/src/bin/205_isomorphic_strings.rs\n+++ b/rust/src/bin/205_isomorphic_strings.rs\n@@ -1,34 +1,32 @@\n struct Solution {}\n impl Solution {\n     pub fn is_isomorphic(s: String, t: String) -> bool {\n-        let mut map = [-1_i16; 128];\n-        let mut u_map = [false; 128];\n-        for i in 0..s.len() {\n-            let c1 = s.as_bytes()[i];\n-            let c2 = t.as_bytes()[i];\n-            let x = map.get_mut(c1 as usize).unwrap();\n-            let y = u_map.get_mut(c2 as usize).unwrap();\n+        let mut s_map = [None::<u8>; 128];\n+        let mut t_check = [None::<u8>; 128];\n \n-            if *x == -1 && !*y {\n-                *x = c2 as i16;\n-                *y = true;\n-            } else if *x == -1 && *y {\n+        for (c1, c2) in s.bytes().zip(t.bytes()) {\n+            let e1 = s_map.get_mut(c1 as usize).unwrap().get_or_insert(c2);\n+            if *e1 != c2 {\n                 return false;\n-            } else if *x != c2 as i16 {\n+            }\n+\n+            let e2 = t_check.get_mut(c2 as usize).unwrap().get_or_insert(c1);\n+            if *e2 != c1 {\n                 return false;\n             }\n         }\n+\n         true\n     }\n }\n \n fn main() {\n-    // assert!(Solution::is_isomorphic(\"egg\".to_owned(), \"add\".to_owned()));\n-    // assert!(!Solution::is_isomorphic(\"f11\".to_owned(), \"b23\".to_owned()));\n-    // assert!(Solution::is_isomorphic(\n-    //     \"paper\".to_owned(),\n-    //     \"title\".to_owned()\n-    // ));\n+    assert!(Solution::is_isomorphic(\"egg\".to_owned(), \"add\".to_owned()));\n+    assert!(!Solution::is_isomorphic(\"f11\".to_owned(), \"b23\".to_owned()));\n+    assert!(Solution::is_isomorphic(\n+        \"paper\".to_owned(),\n+        \"title\".to_owned()\n+    ));\n     assert!(!Solution::is_isomorphic(\n         \"badc\".to_owned(),\n         \"baba\".to_owned()\n",
+          "changedLineCounts": {
+            "additions": 16,
+            "deletions": 18
+          },
+          "approachId": "optional_arrays_mapping",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Refactored to use Option arrays for cleaner mapping and improved readability.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "28bb6ff651e0d1afca80e9cbe2fbbc0dce668ffb",
+    "b5f9f790dcc4008d1bb572b722a7511effc65afd"
+  ],
+  "warnings": []
+}

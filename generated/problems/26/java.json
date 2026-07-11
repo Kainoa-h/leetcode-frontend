@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 26,
+    "title": "Remove Duplicates From Sorted Array",
+    "slug": "remove-duplicates-from-sorted-array"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/26_remove_duplicates_from_sorted_array.java",
+    "latestSha": "cf9bee2e0cb7b0db2e4cc52f7f03b6e5cd43b25d",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-03-29T19:23:03+08:00",
+    "lastCommittedAt": "2026-03-29T19:23:03+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "f7f318b4e83895151b906e86450a901c14c9f27740845e0f287b3b852fce0c38"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "cf9bee2e0cb7b0db2e4cc52f7f03b6e5cd43b25d",
+          "shortSha": "cf9bee2",
+          "parentSha": "e14d6583a81edd877c16d38a347a60f6c3ce7a5d",
+          "authoredAt": "2026-03-29T19:23:03+08:00",
+          "committedAt": "2026-03-29T19:23:03+08:00",
+          "chronologicalIndex": 87,
+          "problemId": 26,
+          "language": "java",
+          "sourcePath": "java/src/solutions/26_remove_duplicates_from_sorted_array.java",
+          "sourceFilename": "26_remove_duplicates_from_sorted_array.java",
+          "code": "class Solution {\n  public int removeDuplicates(int[] nums) {\n    int writeIdx = 1;\n    int prevNum = nums[0];\n    for (int n : nums) {\n      if (n != prevNum) {\n        nums[writeIdx] = n;\n        prevNum = n;\n        writeIdx++;\n      }\n    }\n    return writeIdx;\n  }\n\n  void main() {\n    int[] nums = new int[] { 1, 1, 2 };\n    int[] expectedNums = new int[] { 1, 2 };\n    int res = removeDuplicates(nums);\n    int ansLen = expectedNums.length;\n    assert ansLen == res;\n    for (int i = 0; i < ansLen; i++) {\n      assert nums[i] == expectedNums[i];\n    }\n    System.out.println(\"test 1 pass\");\n\n    nums = new int[] { 0, 0, 1, 1, 1, 2, 2, 3, 3, 4 };\n    expectedNums = new int[] { 0, 1, 2, 3, 4 };\n    res = removeDuplicates(nums);\n    ansLen = expectedNums.length;\n    assert ansLen == res;\n    for (int i = 0; i < ansLen; i++) {\n      assert nums[i] == expectedNums[i];\n    }\n    System.out.println(\"test 2 pass\");\n  }\n}\n",
+          "codeHash": "1b42968133ed55236349ac0c8aa09fc1028c57ee581a85b0fe71888c0beb2675",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "java 26",
+          "commitBody": "time: O(n)\nspace: O(1)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "cf9bee2e0cb7b0db2e4cc52f7f03b6e5cd43b25d"
+  ],
+  "warnings": []
+}

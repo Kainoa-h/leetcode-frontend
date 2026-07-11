@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2574,
+    "title": "Left and Right Sum Differences",
+    "slug": "left-and-right-sum-differences"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/2574_left_and_right_sum_differences.rs",
+    "latestSha": "0253780184f36047432a0b3ff5b1d6f031e18fe4",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-06-06T23:21:41+08:00",
+    "lastCommittedAt": "2026-06-06T23:27:15+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "e280709720f37e50077916bac7a945411624786b0cc44673a8dd46e65f32de8a"
+  },
+  "approaches": [
+    {
+      "id": "prefix-suffix-scans",
+      "title": "Prefix and Suffix Scans with Extra Allocations",
+      "summary": "Compute left and right sums using scans with separate allocations and combine results.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "e91ccbf0aa3ce788117953d906b86d4f936507cf",
+          "shortSha": "e91ccbf",
+          "parentSha": "b05f4eccc771cb3740f929a12dfc5ec81c458ad0",
+          "authoredAt": "2026-06-06T23:21:41+08:00",
+          "committedAt": "2026-06-06T23:21:41+08:00",
+          "chronologicalIndex": 139,
+          "problemId": 2574,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2574_left_and_right_sum_differences.rs",
+          "sourceFilename": "2574_left_and_right_sum_differences.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn left_right_difference(nums: Vec<i32>) -> Vec<i32> {\n        let left_sum = nums\n            .iter()\n            .scan(0, |acc, &n| {\n                let x = *acc;\n                *acc += n;\n                Some(x)\n            })\n            .collect::<Vec<_>>();\n\n        let mut right_sum = nums\n            .iter()\n            .rev()\n            .scan(0, |acc, &n| {\n                let x = *acc;\n                *acc += n;\n                Some(x)\n            })\n            .collect::<Vec<_>>();\n        right_sum.reverse();\n\n        left_sum\n            .iter()\n            .zip(right_sum)\n            .map(|(l, r)| (l - r).abs())\n            .collect::<Vec<_>>()\n    }\n}\n\nfn main() {\n    assert_eq!(\n        Solution::left_right_difference(vec![10, 4, 8, 3]),\n        vec![15, 1, 11, 22]\n    );\n    assert_eq!(Solution::left_right_difference(vec![1]), vec![0]);\n}\n",
+          "codeHash": "6dbf818544c602fe20f9d19c599a0f3458f8e4af3b6f5e49727cd5f8ba3a7d9f",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 2574",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "prefix-suffix-scans",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation using prefix and suffix scans with extra allocations for left and right sums.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "single-pass-total-sum",
+      "title": "Single-Pass Total Sum with In-Place Calculation",
+      "summary": "Calculate total sum once, then compute differences in a single pass without extra allocations.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "0253780184f36047432a0b3ff5b1d6f031e18fe4",
+          "shortSha": "0253780",
+          "parentSha": "e91ccbf0aa3ce788117953d906b86d4f936507cf",
+          "authoredAt": "2026-06-06T23:27:15+08:00",
+          "committedAt": "2026-06-06T23:27:15+08:00",
+          "chronologicalIndex": 140,
+          "problemId": 2574,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2574_left_and_right_sum_differences.rs",
+          "sourceFilename": "2574_left_and_right_sum_differences.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn left_right_difference(nums: Vec<i32>) -> Vec<i32> {\n        let total_sum = nums.iter().sum::<i32>();\n        let mut left_sum = 0;\n        nums.iter()\n            .map(|n| {\n                let right_sum = total_sum - left_sum - n;\n                let diff = (left_sum - right_sum).abs();\n                left_sum += n;\n                diff\n            })\n            .collect()\n    }\n}\n\nfn main() {\n    assert_eq!(\n        Solution::left_right_difference(vec![10, 4, 8, 3]),\n        vec![15, 1, 11, 22]\n    );\n    assert_eq!(Solution::left_right_difference(vec![1]), vec![0]);\n}\n",
+          "codeHash": "3ee25f953d44c141e2cc5bbd68d66219393493431a9b32275610a1beeb7d7d97",
+          "markedWrong": false,
+          "commitComment": "no extra allocations",
+          "rawCommitSubject": "rust 2574: no extra allocations",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2574_left_and_right_sum_differences.rs b/rust/src/bin/2574_left_and_right_sum_differences.rs\nindex 8626e29..bccd084 100644\n--- a/rust/src/bin/2574_left_and_right_sum_differences.rs\n+++ b/rust/src/bin/2574_left_and_right_sum_differences.rs\n@@ -1,31 +1,16 @@\n struct Solution {}\n impl Solution {\n     pub fn left_right_difference(nums: Vec<i32>) -> Vec<i32> {\n-        let left_sum = nums\n-            .iter()\n-            .scan(0, |acc, &n| {\n-                let x = *acc;\n-                *acc += n;\n-                Some(x)\n+        let total_sum = nums.iter().sum::<i32>();\n+        let mut left_sum = 0;\n+        nums.iter()\n+            .map(|n| {\n+                let right_sum = total_sum - left_sum - n;\n+                let diff = (left_sum - right_sum).abs();\n+                left_sum += n;\n+                diff\n             })\n-            .collect::<Vec<_>>();\n-\n-        let mut right_sum = nums\n-            .iter()\n-            .rev()\n-            .scan(0, |acc, &n| {\n-                let x = *acc;\n-                *acc += n;\n-                Some(x)\n-            })\n-            .collect::<Vec<_>>();\n-        right_sum.reverse();\n-\n-        left_sum\n-            .iter()\n-            .zip(right_sum)\n-            .map(|(l, r)| (l - r).abs())\n-            .collect::<Vec<_>>()\n+            .collect()\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 9,
+            "deletions": 24
+          },
+          "approachId": "single-pass-total-sum",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Optimized to avoid extra allocations by using total sum and in-place left sum tracking.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "e91ccbf0aa3ce788117953d906b86d4f936507cf",
+    "0253780184f36047432a0b3ff5b1d6f031e18fe4"
+  ],
+  "warnings": []
+}

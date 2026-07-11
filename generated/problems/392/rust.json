@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 392,
+    "title": "Is Valid Subsequence",
+    "slug": "is-valid-subsequence"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/392_is_valid_subsequence.rs",
+    "latestSha": "283f787230126b65b0dc9a3de79dacbbcf72cb11",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-02-05T17:05:21+08:00",
+    "lastCommittedAt": "2026-02-05T17:05:21+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "8edbd9e3e92dd41ed807c79303858c6ef09d3022ec143de4bc75e3e9c48ee164"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "283f787230126b65b0dc9a3de79dacbbcf72cb11",
+          "shortSha": "283f787",
+          "parentSha": "90e195a4a0f3b4c66a6f2ea6aaacda963064b987",
+          "authoredAt": "2026-02-05T17:04:52+08:00",
+          "committedAt": "2026-02-05T17:05:21+08:00",
+          "chronologicalIndex": 47,
+          "problemId": 392,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/392_is_valid_subsequence.rs",
+          "sourceFilename": "392_is_valid_subsequence.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn is_subsequence(s: String, t: String) -> bool {\n        if s.len() > t.len() {\n            return false;\n        }\n\n        let mut idx = 0_usize;\n        for &c in t.as_bytes() {\n            if idx == s.len() {\n                break;\n            }\n\n            if c == s.as_bytes()[idx] {\n                idx += 1;\n            }\n        }\n\n        idx == s.len()\n    }\n}\n\nfn main() {\n    assert!(Solution::is_subsequence(\n        \"abc\".to_owned(),\n        \"ahbgdc\".to_owned()\n    ));\n    assert!(!Solution::is_subsequence(\n        \"axc\".to_owned(),\n        \"ahbgdc\".to_owned()\n    ));\n}\n",
+          "codeHash": "2a72f4ea61e4ee7d72542a58f62b93a5ecd41deb560626c7189019f89055699a",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "392",
+          "commitBody": "time: O(n)\nspace: O(1)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "283f787230126b65b0dc9a3de79dacbbcf72cb11"
+  ],
+  "warnings": []
+}

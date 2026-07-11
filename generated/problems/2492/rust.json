@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2492,
+    "title": "Minimum Score of A Path Between Two Cities",
+    "slug": "minimum-score-of-a-path-between-two-cities"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/2492_minimum_score_of_a_path_between_two_cities.rs",
+    "latestSha": "092a8ed6fb17d6813bf28cc2e7bb2c2de049de22",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-07-04T22:35:48+08:00",
+    "lastCommittedAt": "2026-07-04T22:35:48+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "5f48294786da2f45d6a72cd2abbac759826382f127e1b0c72a6882b003afb149"
+  },
+  "approaches": [
+    {
+      "id": "dsu-union-find-min-score",
+      "title": "Union-Find (DSU) with Minimum Score Tracking",
+      "summary": "Uses Disjoint Set Union to track the minimum edge weight in connected components, progressively merging cities and updating the minimum score for the component.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "8c4e955a159d24f7d84c7b2e661a85a55f4c3d3d",
+          "shortSha": "8c4e955",
+          "parentSha": "f84952d94d344ee1b5eb6afefc38b8fb54db18f9",
+          "authoredAt": "2026-07-04T22:04:42+08:00",
+          "committedAt": "2026-07-04T22:35:48+08:00",
+          "chronologicalIndex": 192,
+          "problemId": 2492,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2492_minimum_score_of_a_path_between_two_cities.rs",
+          "sourceFilename": "2492_minimum_score_of_a_path_between_two_cities.rs",
+          "code": "impl Solution {\n    pub fn min_score(n: i32, roads: Vec<Vec<i32>>) -> i32 {\n        let mut dsu = DSU::new(n as usize + 1);\n        for r in roads {\n            let (a, b, d) = (r[0], r[1], r[2]);\n            dsu.merge(a as usize, b as usize, d);\n        }\n        dsu.flatten();\n        dsu.dsu[1].1\n    }\n}\n\nstruct DSU {\n    dsu: Vec<(usize, i32)>,\n}\n\nimpl DSU {\n    fn new(dsu: usize) -> Self {\n        Self {\n            dsu: (0..dsu).map(|x| (x, i32::MAX)).collect(),\n        }\n    }\n\n    fn find(&mut self, idx: usize, dist: i32) -> (usize, i32) {\n        let (i, d) = self.dsu[idx];\n        if i == idx {\n            self.dsu[i].1 = d.min(dist);\n            return (i, self.dsu[i].1);\n        }\n        self.dsu[idx] = self.find(i, dist.min(d));\n        self.dsu[idx]\n    }\n\n    fn merge(&mut self, a: usize, b: usize, d: i32) {\n        let (root_a, dist_a) = self.find(a, d);\n        let (root_b, dist_b) = self.find(b, d);\n        if root_a != root_b {\n            let (parent, child) = (root_a.min(root_b), root_a.max(root_b));\n            self.dsu[child] = (parent, dist_a.min(dist_b))\n        }\n    }\n\n    fn flatten(&mut self) {\n        for i in 0..self.dsu.len() {\n            self.find(i, i32::MAX);\n        }\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        Solution::min_score(4, vec![vec![1, 2, 2], vec![1, 3, 4], vec![3, 4, 7]]),\n        2\n    );\n\n    assert_eq!(\n        Solution::min_score(\n            13,\n            vec![\n                vec![2, 12, 1891],\n                vec![10, 9, 4138],\n                vec![11, 3, 2007],\n                vec![1, 10, 9390],\n                vec![12, 8, 1915],\n                vec![6, 2, 1098],\n                vec![5, 4, 2795],\n                vec![3, 13, 4562],\n                vec![9, 7, 9202],\n                vec![4, 6, 6752],\n                vec![8, 11, 1480],\n                vec![7, 5, 9827]\n            ]\n        ),\n        1098\n    );\n\n    assert_eq!(\n        Solution::min_score(\n            7,\n            vec![\n                vec![1, 3, 1484],\n                vec![3, 2, 3876],\n                vec![2, 4, 6823],\n                vec![6, 7, 579],\n                vec![5, 6, 4436],\n                vec![4, 5, 8830]\n            ]\n        ),\n        579\n    );\n}\n",
+          "codeHash": "adc5c692dbb5629720b9fe9fb05c4510d3c5940be21c92558adadf4d5fea00a9",
+          "markedWrong": false,
+          "commitComment": "cursed dsu",
+          "rawCommitSubject": "rust 2492: cursed dsu",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "dsu-union-find-min-score",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation with DSU storing (parent, min_distance) pairs and a flatten step to propagate minimum distances.",
+          "warnings": []
+        },
+        {
+          "sha": "8864bcba2efeebc400109bb5e225d39ef1e1f573",
+          "shortSha": "8864bcb",
+          "parentSha": "8c4e955a159d24f7d84c7b2e661a85a55f4c3d3d",
+          "authoredAt": "2026-07-04T22:22:50+08:00",
+          "committedAt": "2026-07-04T22:35:48+08:00",
+          "chronologicalIndex": 193,
+          "problemId": 2492,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2492_minimum_score_of_a_path_between_two_cities.rs",
+          "sourceFilename": "2492_minimum_score_of_a_path_between_two_cities.rs",
+          "code": "impl Solution {\n    pub fn min_score(n: i32, roads: Vec<Vec<i32>>) -> i32 {\n        let mut dsu = DSU::new(n as usize + 1);\n        for r in roads {\n            let (a, b, d) = (r[0], r[1], r[2]);\n            dsu.merge(a as usize, b as usize, d);\n        }\n        dsu.dsu[1].1\n    }\n}\n\nstruct DSU {\n    dsu: Vec<(usize, i32)>,\n}\n\nimpl DSU {\n    fn new(dsu: usize) -> Self {\n        Self {\n            dsu: (0..dsu).map(|x| (x, i32::MAX)).collect(),\n        }\n    }\n\n    fn find(&mut self, idx: usize) -> usize {\n        let (i, _d) = self.dsu[idx];\n        if i == idx {\n            return idx;\n        }\n        self.dsu[idx].0 = self.find(i);\n        self.dsu[idx].0\n    }\n\n    fn merge(&mut self, a: usize, b: usize, d: i32) {\n        let (root_a, root_b) = (self.find(a), self.find(b));\n        let (parent, child) = (root_a.min(root_b), root_a.max(root_b));\n        let min_dist = d.min(self.dsu[parent].1).min(self.dsu[child].1);\n        self.dsu[child] = (parent, min_dist);\n        self.dsu[parent].1 = min_dist;\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        Solution::min_score(4, vec![vec![1, 2, 2], vec![1, 3, 4], vec![3, 4, 7]]),\n        2\n    );\n\n    assert_eq!(\n        Solution::min_score(\n            13,\n            vec![\n                vec![2, 12, 1891],\n                vec![10, 9, 4138],\n                vec![11, 3, 2007],\n                vec![1, 10, 9390],\n                vec![12, 8, 1915],\n                vec![6, 2, 1098],\n                vec![5, 4, 2795],\n                vec![3, 13, 4562],\n                vec![9, 7, 9202],\n                vec![4, 6, 6752],\n                vec![8, 11, 1480],\n                vec![7, 5, 9827]\n            ]\n        ),\n        1098\n    );\n\n    assert_eq!(\n        Solution::min_score(\n            7,\n            vec![\n                vec![1, 3, 1484],\n                vec![3, 2, 3876],\n                vec![2, 4, 6823],\n                vec![6, 7, 579],\n                vec![5, 6, 4436],\n                vec![4, 5, 8830]\n            ]\n        ),\n        579\n    );\n}\n",
+          "codeHash": "47eb3c2c5f0ef2f96b66ca400e1d7436ea202d796362f3d256f12f0cfa0a25dc",
+          "markedWrong": false,
+          "commitComment": "simplified dsu",
+          "rawCommitSubject": "rust 2492: simplified dsu",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2492_minimum_score_of_a_path_between_two_cities.rs b/rust/src/bin/2492_minimum_score_of_a_path_between_two_cities.rs\nindex de2bf08..81d3661 100644\n--- a/rust/src/bin/2492_minimum_score_of_a_path_between_two_cities.rs\n+++ b/rust/src/bin/2492_minimum_score_of_a_path_between_two_cities.rs\n@@ -5,7 +5,6 @@ impl Solution {\n             let (a, b, d) = (r[0], r[1], r[2]);\n             dsu.merge(a as usize, b as usize, d);\n         }\n-        dsu.flatten();\n         dsu.dsu[1].1\n     }\n }\n@@ -21,29 +20,21 @@ impl DSU {\n         }\n     }\n \n-    fn find(&mut self, idx: usize, dist: i32) -> (usize, i32) {\n-        let (i, d) = self.dsu[idx];\n+    fn find(&mut self, idx: usize) -> usize {\n+        let (i, _d) = self.dsu[idx];\n         if i == idx {\n-            self.dsu[i].1 = d.min(dist);\n-            return (i, self.dsu[i].1);\n+            return idx;\n         }\n-        self.dsu[idx] = self.find(i, dist.min(d));\n-        self.dsu[idx]\n+        self.dsu[idx].0 = self.find(i);\n+        self.dsu[idx].0\n     }\n \n     fn merge(&mut self, a: usize, b: usize, d: i32) {\n-        let (root_a, dist_a) = self.find(a, d);\n-        let (root_b, dist_b) = self.find(b, d);\n-        if root_a != root_b {\n-            let (parent, child) = (root_a.min(root_b), root_a.max(root_b));\n-            self.dsu[child] = (parent, dist_a.min(dist_b))\n-        }\n-    }\n-\n-    fn flatten(&mut self) {\n-        for i in 0..self.dsu.len() {\n-            self.find(i, i32::MAX);\n-        }\n+        let (root_a, root_b) = (self.find(a), self.find(b));\n+        let (parent, child) = (root_a.min(root_b), root_a.max(root_b));\n+        let min_dist = d.min(self.dsu[parent].1).min(self.dsu[child].1);\n+        self.dsu[child] = (parent, min_dist);\n+        self.dsu[parent].1 = min_dist;\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 10,
+            "deletions": 19
+          },
+          "approachId": "dsu-union-find-min-score",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Simplified DSU by removing the flatten step and adjusting merge logic to update parent's min distance during union.",
+          "warnings": []
+        },
+        {
+          "sha": "092a8ed6fb17d6813bf28cc2e7bb2c2de049de22",
+          "shortSha": "092a8ed",
+          "parentSha": "8864bcba2efeebc400109bb5e225d39ef1e1f573",
+          "authoredAt": "2026-07-04T22:33:58+08:00",
+          "committedAt": "2026-07-04T22:35:48+08:00",
+          "chronologicalIndex": 194,
+          "problemId": 2492,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2492_minimum_score_of_a_path_between_two_cities.rs",
+          "sourceFilename": "2492_minimum_score_of_a_path_between_two_cities.rs",
+          "code": "impl Solution {\n    pub fn min_score(n: i32, roads: Vec<Vec<i32>>) -> i32 {\n        let mut dsu = (0..n as usize+1).map(|x| (x, i32::MAX)).collect::<Vec<(usize, i32)>>();\n\n        fn find(dsu:&mut Vec<(usize, i32)>, idx: usize)-> usize {\n            if dsu[idx].0 == idx {\n                return idx;\n            }\n            dsu[idx].0 = find(dsu, dsu[idx].0);\n            dsu[idx].0\n        }\n\n        for r in roads {\n            let (a, b, d) = (r[0] as usize, r[1] as usize, r[2]);\n            let (root_a, root_b) = (find(&mut dsu, a), find(&mut dsu, b));\n            let (parent, child) = (root_a.min(root_b), root_a.max(root_b));\n            let min_dist = d.min(dsu[parent].1).min(dsu[child].1);\n            dsu[child] = (parent, min_dist);\n            dsu[parent].1 = min_dist;\n        }\n        dsu[1].1\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        Solution::min_score(4, vec![vec![1, 2, 2], vec![1, 3, 4], vec![3, 4, 7]]),\n        2\n    );\n\n    assert_eq!(\n        Solution::min_score(\n            13,\n            vec![\n                vec![2, 12, 1891],\n                vec![10, 9, 4138],\n                vec![11, 3, 2007],\n                vec![1, 10, 9390],\n                vec![12, 8, 1915],\n                vec![6, 2, 1098],\n                vec![5, 4, 2795],\n                vec![3, 13, 4562],\n                vec![9, 7, 9202],\n                vec![4, 6, 6752],\n                vec![8, 11, 1480],\n                vec![7, 5, 9827]\n            ]\n        ),\n        1098\n    );\n\n    assert_eq!(\n        Solution::min_score(\n            7,\n            vec![\n                vec![1, 3, 1484],\n                vec![3, 2, 3876],\n                vec![2, 4, 6823],\n                vec![6, 7, 579],\n                vec![5, 6, 4436],\n                vec![4, 5, 8830]\n            ]\n        ),\n        579\n    );\n}\n",
+          "codeHash": "a2df9d579afb29bc54a832571271b36bdb36ad0a19daaf74b0bd93e3d57d9cd9",
+          "markedWrong": false,
+          "commitComment": "inlined dsu",
+          "rawCommitSubject": "rust 2492: inlined dsu",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2492_minimum_score_of_a_path_between_two_cities.rs b/rust/src/bin/2492_minimum_score_of_a_path_between_two_cities.rs\nindex 81d3661..e4803c9 100644\n--- a/rust/src/bin/2492_minimum_score_of_a_path_between_two_cities.rs\n+++ b/rust/src/bin/2492_minimum_score_of_a_path_between_two_cities.rs\n@@ -1,40 +1,24 @@\n impl Solution {\n     pub fn min_score(n: i32, roads: Vec<Vec<i32>>) -> i32 {\n-        let mut dsu = DSU::new(n as usize + 1);\n-        for r in roads {\n-            let (a, b, d) = (r[0], r[1], r[2]);\n-            dsu.merge(a as usize, b as usize, d);\n-        }\n-        dsu.dsu[1].1\n-    }\n-}\n-\n-struct DSU {\n-    dsu: Vec<(usize, i32)>,\n-}\n+        let mut dsu = (0..n as usize+1).map(|x| (x, i32::MAX)).collect::<Vec<(usize, i32)>>();\n \n-impl DSU {\n-    fn new(dsu: usize) -> Self {\n-        Self {\n-            dsu: (0..dsu).map(|x| (x, i32::MAX)).collect(),\n+        fn find(dsu:&mut Vec<(usize, i32)>, idx: usize)-> usize {\n+            if dsu[idx].0 == idx {\n+                return idx;\n+            }\n+            dsu[idx].0 = find(dsu, dsu[idx].0);\n+            dsu[idx].0\n         }\n-    }\n \n-    fn find(&mut self, idx: usize) -> usize {\n-        let (i, _d) = self.dsu[idx];\n-        if i == idx {\n-            return idx;\n+        for r in roads {\n+            let (a, b, d) = (r[0] as usize, r[1] as usize, r[2]);\n+            let (root_a, root_b) = (find(&mut dsu, a), find(&mut dsu, b));\n+            let (parent, child) = (root_a.min(root_b), root_a.max(root_b));\n+            let min_dist = d.min(dsu[parent].1).min(dsu[child].1);\n+            dsu[child] = (parent, min_dist);\n+            dsu[parent].1 = min_dist;\n         }\n-        self.dsu[idx].0 = self.find(i);\n-        self.dsu[idx].0\n-    }\n-\n-    fn merge(&mut self, a: usize, b: usize, d: i32) {\n-        let (root_a, root_b) = (self.find(a), self.find(b));\n-        let (parent, child) = (root_a.min(root_b), root_a.max(root_b));\n-        let min_dist = d.min(self.dsu[parent].1).min(self.dsu[child].1);\n-        self.dsu[child] = (parent, min_dist);\n-        self.dsu[parent].1 = min_dist;\n+        dsu[1].1\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 15,
+            "deletions": 31
+          },
+          "approachId": "dsu-union-find-min-score",
+          "narrativeIndex": 2,
+          "shortChangeSummary": "Inlined DSU logic directly into the Solution implementation, reducing code complexity and improving readability.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "8c4e955a159d24f7d84c7b2e661a85a55f4c3d3d",
+    "8864bcba2efeebc400109bb5e225d39ef1e1f573",
+    "092a8ed6fb17d6813bf28cc2e7bb2c2de049de22"
+  ],
+  "warnings": []
+}

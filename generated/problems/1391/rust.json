@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1391,
+    "title": "Check If There Is A Valid Path in A Grid",
+    "slug": "check-if-there-is-a-valid-path-in-a-grid"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/1391_check_if_there_is_a_valid_path_in_a_grid.rs",
+    "latestSha": "57ae00ec6b709d392651e9019e25b59b64220f68",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-04-27T22:09:23+08:00",
+    "lastCommittedAt": "2026-04-28T00:10:24+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "ace58c1849929741b33c87819ddc0f843d7dccfd68eb52740f713bade2de9bad"
+  },
+  "approaches": [
+    {
+      "id": "dsu-grid-traversal",
+      "title": "Disjoint Set Union (DSU) Grid Traversal",
+      "summary": "Uses DSU to connect adjacent cells based on street directions, checking if start and end are connected.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "c3ca0e175f2b7a35dbf2a1bc4b8bd28e7e71a8b7",
+          "shortSha": "c3ca0e1",
+          "parentSha": "fe78bf3dcc84ff8bf4defe98dcd1bcce704492f1",
+          "authoredAt": "2026-04-27T22:09:12+08:00",
+          "committedAt": "2026-04-27T22:09:23+08:00",
+          "chronologicalIndex": 114,
+          "problemId": 1391,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1391_check_if_there_is_a_valid_path_in_a_grid.rs",
+          "sourceFilename": "1391_check_if_there_is_a_valid_path_in_a_grid.rs",
+          "code": "struct Solution {}\n\nimpl Solution {\n    pub fn has_valid_path(grid: Vec<Vec<i32>>) -> bool {\n        let row_size = grid[0].len();\n        let flat_size = grid.len() * row_size;\n        let mut dsu = DSU::new(flat_size);\n        for (row_idx, row) in grid.iter().enumerate() {\n            for (col_idx, cell) in row.iter().enumerate() {\n                let flatted_curr = row_idx * row_size + col_idx;\n                if Solution::has_top(*cell)\n                    && let Some(x) = row_idx\n                        .checked_sub(1)\n                        .and_then(|i| grid.get(i))\n                        .and_then(|r| r.get(col_idx))\n                    && Solution::has_bot(*x)\n                {\n                    let flattened_top = (row_idx - 1) * row_size + col_idx;\n                    dsu.merge(flattened_top, flatted_curr);\n                }\n                if Solution::has_left(*cell)\n                    && let Some(x) = col_idx.checked_sub(1).and_then(|i| grid[row_idx].get(i))\n                    && Solution::has_right(*x)\n                {\n                    let flattened_left = row_idx * row_size + col_idx - 1;\n                    dsu.merge(flattened_left, flatted_curr);\n                }\n            }\n        }\n        dsu.find(flat_size - 1) == 0\n    }\n\n    fn has_top(street: i32) -> bool {\n        matches!(street, 2 | 5 | 6)\n    }\n\n    fn has_right(street: i32) -> bool {\n        matches!(street, 1 | 4 | 6)\n    }\n    fn has_bot(street: i32) -> bool {\n        matches!(street, 2 | 3 | 4)\n    }\n    fn has_left(street: i32) -> bool {\n        matches!(street, 1 | 3 | 5)\n    }\n}\n\nstruct DSU {\n    dsu: Vec<usize>,\n}\n\nimpl DSU {\n    fn new(len: usize) -> Self {\n        DSU {\n            dsu: (0..len).collect(),\n        }\n    }\n\n    fn find(&mut self, idx: usize) -> usize {\n        let mut root = self.dsu[idx];\n        while root != self.dsu[root] {\n            root = self.dsu[root];\n        }\n\n        let mut node = idx;\n        while node != root {\n            let next = self.dsu[node];\n            self.dsu[node] = root;\n            node = next;\n        }\n\n        root\n    }\n\n    fn merge(&mut self, a: usize, b: usize) {\n        let a_root = self.find(a);\n        let b_root = self.find(b);\n        if a_root < b_root {\n            self.dsu[b_root] = a_root;\n        } else {\n            self.dsu[a_root] = b_root;\n        }\n    }\n}\n\nfn main() {\n    assert!(Solution::has_valid_path(vec![vec![2, 4, 3], vec![6, 5, 2]]));\n    assert!(!Solution::has_valid_path(vec![\n        vec![1, 2, 1],\n        vec![1, 2, 1]\n    ]));\n    assert!(!Solution::has_valid_path(vec![vec![1, 1, 2],]));\n}\n",
+          "codeHash": "823413ba97701e36a467414b9913db112df667d5f062ebad80324877e3d7c024",
+          "markedWrong": false,
+          "commitComment": "DSU. overkill...",
+          "rawCommitSubject": "rust 1391: DSU. overkill...",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "dsu-grid-traversal",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial DSU implementation with helper functions for street directions.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "bfs-grid-traversal",
+      "title": "Breadth-First Search (BFS) Grid Traversal",
+      "summary": "Explores valid paths using BFS, tracking direction and ensuring street connections between cells.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "57ae00ec6b709d392651e9019e25b59b64220f68",
+          "shortSha": "57ae00e",
+          "parentSha": "c3ca0e175f2b7a35dbf2a1bc4b8bd28e7e71a8b7",
+          "authoredAt": "2026-04-28T00:10:24+08:00",
+          "committedAt": "2026-04-28T00:10:24+08:00",
+          "chronologicalIndex": 115,
+          "problemId": 1391,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1391_check_if_there_is_a_valid_path_in_a_grid.rs",
+          "sourceFilename": "1391_check_if_there_is_a_valid_path_in_a_grid.rs",
+          "code": "use core::panic;\nuse std::collections::VecDeque;\n\nstruct Solution {}\n\nimpl Solution {\n    pub fn has_valid_path(mut grid: Vec<Vec<i32>>) -> bool {\n        let mut queue: VecDeque<(usize, usize, (isize, isize))> = VecDeque::new();\n\n        const UP: (isize, isize) = (-1, 0);\n        const RIGHT: (isize, isize) = (0, 1);\n        const DOWN: (isize, isize) = (1, 0);\n        const LEFT: (isize, isize) = (0, -1);\n\n        let get_valid_dirs = |x| match x {\n            1 => [LEFT, RIGHT],\n            2 => [UP, DOWN],\n            3 => [LEFT, DOWN],\n            4 => [RIGHT, DOWN],\n            5 => [UP, LEFT],\n            6 => [UP, RIGHT],\n            _ => panic!(),\n        };\n\n        match grid[0][0] {\n            1 | 6 => queue.push_back((0, 0, RIGHT)),\n            2 | 3 => queue.push_back((0, 0, DOWN)),\n            4 => queue.extend([(0, 0, RIGHT), (0, 0, DOWN)]),\n            _ => queue.push_back((0, 0, UP)),\n        };\n\n        while let Some((r, c, (dr, dc))) = queue.pop_front() {\n            grid[r][c] = -1;\n            if r == grid.len() - 1 && c == grid[0].len() - 1 {\n                return true;\n            }\n            let Some((nr, nc)) = r.checked_add_signed(dr).zip(c.checked_add_signed(dc)) else {\n                continue;\n            };\n            let Some(&next_node) = grid.get(nr).and_then(|row| row.get(nc)) else {\n                continue;\n            };\n            if next_node == -1 {\n                continue;\n            }\n            let receiving_dir = (-dr, -dc);\n            let mut connected = false;\n            let mut next_dir = (0, 0);\n            for n_dir in get_valid_dirs(next_node) {\n                if n_dir == receiving_dir {\n                    connected = true;\n                } else {\n                    next_dir = n_dir;\n                }\n            }\n            if connected {\n                queue.push_back((nr, nc, next_dir));\n            }\n        }\n        false\n    }\n}\n\nfn main() {\n    assert!(Solution::has_valid_path(vec![vec![2, 4, 3], vec![6, 5, 2]]));\n    assert!(!Solution::has_valid_path(vec![\n        vec![1, 2, 1],\n        vec![1, 2, 1]\n    ]));\n    assert!(!Solution::has_valid_path(vec![vec![1, 1, 2],]));\n}\n",
+          "codeHash": "6a063751a7ce61010a8dc54dc4fd9a10208366c2c8d13ea4348addd9e5f98e53",
+          "markedWrong": false,
+          "commitComment": "BFS",
+          "rawCommitSubject": "rust 1391: BFS",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/1391_check_if_there_is_a_valid_path_in_a_grid.rs b/rust/src/bin/1391_check_if_there_is_a_valid_path_in_a_grid.rs\nindex 6d149b0..82c1d95 100644\n--- a/rust/src/bin/1391_check_if_there_is_a_valid_path_in_a_grid.rs\n+++ b/rust/src/bin/1391_check_if_there_is_a_valid_path_in_a_grid.rs\n@@ -1,85 +1,63 @@\n+use core::panic;\n+use std::collections::VecDeque;\n+\n struct Solution {}\n \n impl Solution {\n-    pub fn has_valid_path(grid: Vec<Vec<i32>>) -> bool {\n-        let row_size = grid[0].len();\n-        let flat_size = grid.len() * row_size;\n-        let mut dsu = DSU::new(flat_size);\n-        for (row_idx, row) in grid.iter().enumerate() {\n-            for (col_idx, cell) in row.iter().enumerate() {\n-                let flatted_curr = row_idx * row_size + col_idx;\n-                if Solution::has_top(*cell)\n-                    && let Some(x) = row_idx\n-                        .checked_sub(1)\n-                        .and_then(|i| grid.get(i))\n-                        .and_then(|r| r.get(col_idx))\n-                    && Solution::has_bot(*x)\n-                {\n-                    let flattened_top = (row_idx - 1) * row_size + col_idx;\n-                    dsu.merge(flattened_top, flatted_curr);\n-                }\n-                if Solution::has_left(*cell)\n-                    && let Some(x) = col_idx.checked_sub(1).and_then(|i| grid[row_idx].get(i))\n-                    && Solution::has_right(*x)\n-                {\n-                    let flattened_left = row_idx * row_size + col_idx - 1;\n-                    dsu.merge(flattened_left, flatted_curr);\n-                }\n-            }\n-        }\n-        dsu.find(flat_size - 1) == 0\n-    }\n-\n-    fn has_top(street: i32) -> bool {\n-        matches!(street, 2 | 5 | 6)\n-    }\n-\n-    fn has_right(street: i32) -> bool {\n-        matches!(street, 1 | 4 | 6)\n-    }\n-    fn has_bot(street: i32) -> bool {\n-        matches!(street, 2 | 3 | 4)\n-    }\n-    fn has_left(street: i32) -> bool {\n-        matches!(street, 1 | 3 | 5)\n-    }\n-}\n+    pub fn has_valid_path(mut grid: Vec<Vec<i32>>) -> bool {\n+        let mut queue: VecDeque<(usize, usize, (isize, isize))> = VecDeque::new();\n \n-struct DSU {\n-    dsu: Vec<usize>,\n-}\n+        const UP: (isize, isize) = (-1, 0);\n+        const RIGHT: (isize, isize) = (0, 1);\n+        const DOWN: (isize, isize) = (1, 0);\n+        const LEFT: (isize, isize) = (0, -1);\n \n-impl DSU {\n-    fn new(len: usize) -> Self {\n-        DSU {\n-            dsu: (0..len).collect(),\n-        }\n-    }\n+        let get_valid_dirs = |x| match x {\n+            1 => [LEFT, RIGHT],\n+            2 => [UP, DOWN],\n+            3 => [LEFT, DOWN],\n+            4 => [RIGHT, DOWN],\n+            5 => [UP, LEFT],\n+            6 => [UP, RIGHT],\n+            _ => panic!(),\n+        };\n \n-    fn find(&mut self, idx: usize) -> usize {\n-        let mut root = self.dsu[idx];\n-        while root != self.dsu[root] {\n-            root = self.dsu[root];\n-        }\n+        match grid[0][0] {\n+            1 | 6 => queue.push_back((0, 0, RIGHT)),\n+            2 | 3 => queue.push_back((0, 0, DOWN)),\n+            4 => queue.extend([(0, 0, RIGHT), (0, 0, DOWN)]),\n+            _ => queue.push_back((0, 0, UP)),\n+        };\n \n-        let mut node = idx;\n-        while node != root {\n-            let next = self.dsu[node];\n-            self.dsu[node] = root;\n-            node = next;\n-        }\n-\n-        root\n-    }\n-\n-    fn merge(&mut self, a: usize, b: usize) {\n-        let a_root = self.find(a);\n-        let b_root = self.find(b);\n-        if a_root < b_root {\n-            self.dsu[b_root] = a_root;\n-        } else {\n-            self.dsu[a_root] = b_root;\n+        while let Some((r, c, (dr, dc))) = queue.pop_front() {\n+            grid[r][c] = -1;\n+            if r == grid.len() - 1 && c == grid[0].len() - 1 {\n+                return true;\n+            }\n+            let Some((nr, nc)) = r.checked_add_signed(dr).zip(c.checked_add_signed(dc)) else {\n+                continue;\n+            };\n+            let Some(&next_node) = grid.get(nr).and_then(|row| row.get(nc)) else {\n+                continue;\n+            };\n+            if next_node == -1 {\n+                continue;\n+            }\n+            let receiving_dir = (-dr, -dc);\n+            let mut connected = false;\n+            let mut next_dir = (0, 0);\n+            for n_dir in get_valid_dirs(next_node) {\n+                if n_dir == receiving_dir {\n+                    connected = true;\n+                } else {\n+                    next_dir = n_dir;\n+                }\n+            }\n+            if connected {\n+                queue.push_back((nr, nc, next_dir));\n+            }\n         }\n+        false\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 52,
+            "deletions": 74
+          },
+          "approachId": "bfs-grid-traversal",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaced DSU with BFS, using direction checks and queue for path exploration.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "c3ca0e175f2b7a35dbf2a1bc4b8bd28e7e71a8b7",
+    "57ae00ec6b709d392651e9019e25b59b64220f68"
+  ],
+  "warnings": []
+}

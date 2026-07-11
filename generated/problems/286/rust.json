@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 286,
+    "title": "Game of Life",
+    "slug": "game-of-life"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/286_game_of_life.rs",
+    "latestSha": "1ad701cf4438fccf844edcaab5d94f98ee48189f",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-03-28T00:40:17+08:00",
+    "lastCommittedAt": "2026-03-28T01:01:04+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "b30a925bf447d92650fff212dc0b08ecbaf5f891581526d8d381857dc54c845a"
+  },
+  "approaches": [
+    {
+      "id": "2ddc510ff7488297c4977302c8d3aa83558c9a2d",
+      "title": "Two-pass with auxiliary lists",
+      "summary": "Store dead and spawn cells in separate lists before applying changes in a second pass.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "2ddc510ff7488297c4977302c8d3aa83558c9a2d",
+          "shortSha": "2ddc510",
+          "parentSha": "15c00673456f1f35904417c3b4ed1f0ffb0d8110",
+          "authoredAt": "2026-03-28T00:40:17+08:00",
+          "committedAt": "2026-03-28T00:40:17+08:00",
+          "chronologicalIndex": 80,
+          "problemId": 286,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/286_game_of_life.rs",
+          "sourceFilename": "286_game_of_life.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn game_of_life(board: &mut Vec<Vec<i32>>) {\n        let mut dead_list: Vec<(usize, usize)> = Vec::new();\n        let mut spawn_list: Vec<(usize, usize)> = Vec::new();\n\n        for (row_idx, row) in board.iter().enumerate() {\n            for (col_idx, &cell) in row.iter().enumerate() {\n                let neighbours = Solution::count_surroundings(board, row_idx, col_idx);\n                if cell == 1 {\n                    if !(2..=3).contains(&neighbours) {\n                        dead_list.push((row_idx, col_idx));\n                    }\n                } else if neighbours == 3 {\n                    spawn_list.push((row_idx, col_idx));\n                }\n            }\n        }\n        for (row_idx, col_idx) in dead_list {\n            board[row_idx][col_idx] = 0;\n        }\n        for (row_idx, col_idx) in spawn_list {\n            board[row_idx][col_idx] = 1;\n        }\n    }\n\n    fn count_surroundings(board: &[Vec<i32>], row_idx: usize, col_idx: usize) -> i32 {\n        let mut sum = 0;\n        let row_idx = row_idx as isize;\n        let col_idx = col_idx as isize;\n\n        for row_offset in -1..=1 {\n            for col_offset in -1..=1 {\n                if row_offset == 0 && col_offset == 0 {\n                    continue;\n                }\n\n                let ri = row_idx + row_offset;\n                let ci = col_idx + col_offset;\n\n                if ri >= 0 && ci >= 0 {\n                    sum += board\n                        .get(ri as usize)\n                        .and_then(|r| r.get(ci as usize))\n                        .copied()\n                        .unwrap_or(0);\n                }\n            }\n        }\n        sum\n    }\n}\n\nfn what(ans: Vec<Vec<i32>>, mut board: Vec<Vec<i32>>) {\n    println!(\"before: {:?}\\n\", board);\n    Solution::game_of_life(&mut board);\n    println!(\"after: {:?}\\n\", board);\n    assert_eq!(ans, board);\n}\n\nfn main() {\n    what(\n        vec![vec![0, 0, 0], vec![1, 0, 1], vec![0, 1, 1], vec![0, 1, 0]],\n        vec![vec![0, 1, 0], vec![0, 0, 1], vec![1, 1, 1], vec![0, 0, 0]],\n    );\n}\n",
+          "codeHash": "4d683659d34d1fccda8b180f90895a5b911eea65fc64365a9a422dd587a46e21",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "286",
+          "commitBody": "time: O(n*m)\nspace: O(n*m)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "2ddc510ff7488297c4977302c8d3aa83558c9a2d",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Introduce dead_list and spawn_list to track cells to update, then apply changes in two loops.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "1ad701cf4438fccf844edcaab5d94f98ee48189f",
+      "title": "In-place marking with bit manipulation",
+      "summary": "Encode next state in the second bit of each cell, then right-shift to finalize the board.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "1ad701cf4438fccf844edcaab5d94f98ee48189f",
+          "shortSha": "1ad701c",
+          "parentSha": "2ddc510ff7488297c4977302c8d3aa83558c9a2d",
+          "authoredAt": "2026-03-28T01:01:04+08:00",
+          "committedAt": "2026-03-28T01:01:04+08:00",
+          "chronologicalIndex": 81,
+          "problemId": 286,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/286_game_of_life.rs",
+          "sourceFilename": "286_game_of_life.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn game_of_life(board: &mut Vec<Vec<i32>>) {\n        for row_idx in 0..board.len() {\n            for col_idx in 0..board[0].len() {\n                let neighbours = Solution::count_surroundings(board, row_idx, col_idx);\n                if neighbours == 3 || (board[row_idx][col_idx] == 1 && neighbours == 2) {\n                    board[row_idx][col_idx] |= 2;\n                }\n            }\n        }\n        for row in board.iter_mut() {\n            for cell in row.iter_mut() {\n                *cell >>= 1;\n            }\n        }\n    }\n\n    fn count_surroundings(board: &[Vec<i32>], row_idx: usize, col_idx: usize) -> i32 {\n        let mut sum = 0;\n        let row_idx = row_idx as isize;\n        let col_idx = col_idx as isize;\n\n        for row_offset in -1..=1 {\n            for col_offset in -1..=1 {\n                if row_offset == 0 && col_offset == 0 {\n                    continue;\n                }\n\n                let ri = row_idx + row_offset;\n                let ci = col_idx + col_offset;\n\n                if ri >= 0 && ci >= 0 {\n                    sum += board\n                        .get(ri as usize)\n                        .and_then(|r| r.get(ci as usize))\n                        .copied()\n                        .unwrap_or(0)\n                        & 1;\n                }\n            }\n        }\n        sum\n    }\n}\n\nfn what(ans: Vec<Vec<i32>>, mut board: Vec<Vec<i32>>) {\n    println!(\"before: {:?}\\n\", board);\n    Solution::game_of_life(&mut board);\n    println!(\"after: {:?}\\n\", board);\n    assert_eq!(ans, board);\n}\n\nfn main() {\n    what(\n        vec![vec![0, 0, 0], vec![1, 0, 1], vec![0, 1, 1], vec![0, 1, 0]],\n        vec![vec![0, 1, 0], vec![0, 0, 1], vec![1, 1, 1], vec![0, 0, 0]],\n    );\n}\n",
+          "codeHash": "4dcdd77430175913c20f64b7432b09dee1b10b2e3efa9b2beb20cd47ec91cb5a",
+          "markedWrong": false,
+          "commitComment": "in-place marking with bit manipulation",
+          "rawCommitSubject": "286: in-place marking with bit manipulation",
+          "commitBody": "time: O(n*m)\nspace: O(1)",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/286_game_of_life.rs b/rust/src/bin/286_game_of_life.rs\nindex c58dce1..577c557 100644\n--- a/rust/src/bin/286_game_of_life.rs\n+++ b/rust/src/bin/286_game_of_life.rs\n@@ -1,26 +1,18 @@\n struct Solution {}\n impl Solution {\n     pub fn game_of_life(board: &mut Vec<Vec<i32>>) {\n-        let mut dead_list: Vec<(usize, usize)> = Vec::new();\n-        let mut spawn_list: Vec<(usize, usize)> = Vec::new();\n-\n-        for (row_idx, row) in board.iter().enumerate() {\n-            for (col_idx, &cell) in row.iter().enumerate() {\n+        for row_idx in 0..board.len() {\n+            for col_idx in 0..board[0].len() {\n                 let neighbours = Solution::count_surroundings(board, row_idx, col_idx);\n-                if cell == 1 {\n-                    if !(2..=3).contains(&neighbours) {\n-                        dead_list.push((row_idx, col_idx));\n-                    }\n-                } else if neighbours == 3 {\n-                    spawn_list.push((row_idx, col_idx));\n+                if neighbours == 3 || (board[row_idx][col_idx] == 1 && neighbours == 2) {\n+                    board[row_idx][col_idx] |= 2;\n                 }\n             }\n         }\n-        for (row_idx, col_idx) in dead_list {\n-            board[row_idx][col_idx] = 0;\n-        }\n-        for (row_idx, col_idx) in spawn_list {\n-            board[row_idx][col_idx] = 1;\n+        for row in board.iter_mut() {\n+            for cell in row.iter_mut() {\n+                *cell >>= 1;\n+            }\n         }\n     }\n \n@@ -43,7 +35,8 @@ impl Solution {\n                         .get(ri as usize)\n                         .and_then(|r| r.get(ci as usize))\n                         .copied()\n-                        .unwrap_or(0);\n+                        .unwrap_or(0)\n+                        & 1;\n                 }\n             }\n         }\n",
+          "changedLineCounts": {
+            "additions": 10,
+            "deletions": 17
+          },
+          "approachId": "1ad701cf4438fccf844edcaab5d94f98ee48189f",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replace auxiliary lists with bitwise OR to mark next state, then right-shift to apply changes in-place.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "2ddc510ff7488297c4977302c8d3aa83558c9a2d",
+    "1ad701cf4438fccf844edcaab5d94f98ee48189f"
+  ],
+  "warnings": []
+}

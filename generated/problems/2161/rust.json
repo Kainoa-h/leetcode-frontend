@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2161,
+    "title": "Partition Array According to Given Pivot",
+    "slug": "partition-array-according-to-given-pivot"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/2161_partition_array_according_to_given_pivot.rs",
+    "latestSha": "1788b2a660df16980956cd8d187d3c06d800e402",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-06-08T10:03:57+08:00",
+    "lastCommittedAt": "2026-06-08T10:29:58+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "75e310476c78c8194616985e36be5e996d57067cb336c5ee8c37524169d1a901"
+  },
+  "approaches": [
+    {
+      "id": "pythonic-approach",
+      "title": "Pythonic approach with pre-allocation",
+      "summary": "Pre-allocates output array and uses three pointers to partition elements in-place.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "1af50569333b2ac2d88521f747b0e6eeeb38a228",
+          "shortSha": "1af5056",
+          "parentSha": "ec7994963223268713fc263380c9ff530bb3f1c8",
+          "authoredAt": "2026-06-08T10:03:57+08:00",
+          "committedAt": "2026-06-08T10:03:57+08:00",
+          "chronologicalIndex": 143,
+          "problemId": 2161,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2161_partition_array_according_to_given_pivot.rs",
+          "sourceFilename": "2161_partition_array_according_to_given_pivot.rs",
+          "code": "impl Solution {\n    pub fn pivot_array(nums: Vec<i32>, pivot: i32) -> Vec<i32> {\n        let mut output = vec![0; nums.len()];\n        let mut pivot_index = nums.iter().filter(|x| **x < pivot).count();\n        let mut less_index = 0;\n        let mut more_index = nums.iter().filter(|x| **x == pivot).count() + pivot_index;\n        for n in nums {\n            if n < pivot {\n                output[less_index] = n;\n                less_index += 1;\n            } else if n > pivot {\n                output[more_index] = n;\n                more_index += 1;\n            } else {\n                output[pivot_index] = n;\n                pivot_index += 1;\n            }\n        }\n\n        output\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        Solution::pivot_array(vec![9, 12, 5, 10, 14, 3, 10], 10),\n        vec![9, 5, 3, 10, 10, 12, 14]\n    );\n}\n",
+          "codeHash": "056ab3551d18d018b839115e3b141682add826be4c3c57dc28d38f9ee35355bf",
+          "markedWrong": false,
+          "commitComment": "pythonic approach",
+          "rawCommitSubject": "rust 2161: pythonic approach",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "pythonic-approach",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation using pre-allocated array and three pointers for partitioning.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "cleaner-approach",
+      "title": "Cleaner approach with separate vectors",
+      "summary": "Uses three separate collections (less, equal, more) and concatenates them at the end.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "1788b2a660df16980956cd8d187d3c06d800e402",
+          "shortSha": "1788b2a",
+          "parentSha": "1af50569333b2ac2d88521f747b0e6eeeb38a228",
+          "authoredAt": "2026-06-08T10:29:58+08:00",
+          "committedAt": "2026-06-08T10:29:58+08:00",
+          "chronologicalIndex": 144,
+          "problemId": 2161,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2161_partition_array_according_to_given_pivot.rs",
+          "sourceFilename": "2161_partition_array_according_to_given_pivot.rs",
+          "code": "impl Solution {\n    pub fn pivot_array(nums: Vec<i32>, pivot: i32) -> Vec<i32> {\n        let mut less = Vec::new();\n        let mut more = Vec::new();\n        let mut count = 0;\n        for n in nums {\n            if n < pivot {\n                less.push(n);\n            } else if n > pivot {\n                more.push(n);\n            } else {\n                count += 1;\n            }\n        }\n\n        less.extend(vec![pivot; count]);\n        less.extend(more);\n        less\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        Solution::pivot_array(vec![9, 12, 5, 10, 14, 3, 10], 10),\n        vec![9, 5, 3, 10, 10, 12, 14]\n    );\n}\n",
+          "codeHash": "30c5563dcd474bc1e6e435133fb100eb94f4b17d6603fc9731c2cd31d1a5f145",
+          "markedWrong": false,
+          "commitComment": "cleaner",
+          "rawCommitSubject": "rust 2161: cleaner",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2161_partition_array_according_to_given_pivot.rs b/rust/src/bin/2161_partition_array_according_to_given_pivot.rs\nindex ca2ab1f..03a5190 100644\n--- a/rust/src/bin/2161_partition_array_according_to_given_pivot.rs\n+++ b/rust/src/bin/2161_partition_array_according_to_given_pivot.rs\n@@ -1,23 +1,21 @@\n impl Solution {\n     pub fn pivot_array(nums: Vec<i32>, pivot: i32) -> Vec<i32> {\n-        let mut output = vec![0; nums.len()];\n-        let mut pivot_index = nums.iter().filter(|x| **x < pivot).count();\n-        let mut less_index = 0;\n-        let mut more_index = nums.iter().filter(|x| **x == pivot).count() + pivot_index;\n+        let mut less = Vec::new();\n+        let mut more = Vec::new();\n+        let mut count = 0;\n         for n in nums {\n             if n < pivot {\n-                output[less_index] = n;\n-                less_index += 1;\n+                less.push(n);\n             } else if n > pivot {\n-                output[more_index] = n;\n-                more_index += 1;\n+                more.push(n);\n             } else {\n-                output[pivot_index] = n;\n-                pivot_index += 1;\n+                count += 1;\n             }\n         }\n \n-        output\n+        less.extend(vec![pivot; count]);\n+        less.extend(more);\n+        less\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 9,
+            "deletions": 11
+          },
+          "approachId": "cleaner-approach",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Refactored to use separate vectors for less, equal, and more elements, improving readability.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "1af50569333b2ac2d88521f747b0e6eeeb38a228",
+    "1788b2a660df16980956cd8d187d3c06d800e402"
+  ],
+  "warnings": []
+}

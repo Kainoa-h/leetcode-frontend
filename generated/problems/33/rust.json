@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 33,
+    "title": "Search in Rotated Sorted Array",
+    "slug": "search-in-rotated-sorted-array"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/33_search_in_rotated_sorted_array.rs",
+    "latestSha": "5fa2b0affa51194430c81d8c33e685152da67c9d",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-05-23T16:18:38+08:00",
+    "lastCommittedAt": "2026-05-23T16:18:38+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "26e6bf9c7ce7c1cedb03eb1fc264096aed109ad91559eccf0cf7d95013f367de"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "5fa2b0affa51194430c81d8c33e685152da67c9d",
+          "shortSha": "5fa2b0a",
+          "parentSha": "b21ab7cb9533a6068f9815e2ae8a37663315c828",
+          "authoredAt": "2026-05-23T16:18:38+08:00",
+          "committedAt": "2026-05-23T16:18:38+08:00",
+          "chronologicalIndex": 122,
+          "problemId": 33,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/33_search_in_rotated_sorted_array.rs",
+          "sourceFilename": "33_search_in_rotated_sorted_array.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn search(nums: Vec<i32>, target: i32) -> i32 {\n        let mut left = 0;\n        let mut right = nums.len() - 1;\n        while left <= right {\n            let mid = left + (right - left) / 2;\n            if nums[mid] == target {\n                return mid as i32;\n            }\n\n            if nums[left] <= nums[mid] {\n                if nums[left] <= target && target < nums[mid] {\n                    right = mid - 1;\n                } else {\n                    left = mid + 1;\n                }\n            } else {\n                if nums[mid] <= target && target < nums[right] {\n                    left = mid + 1;\n                } else {\n                    right = mid - 1;\n                }\n            }\n        }\n        -1\n    }\n}\n\nfn main() {\n    assert_eq!(Solution::search(vec![4, 5, 6, 7, 0, 1, 2], 0), 4);\n    assert_eq!(Solution::search(vec![4, 5, 6, 7, 0, 1, 2], 3), -1);\n    assert_eq!(Solution::search(vec![4, 5, 6, 7, 1, 2], 0), -1);\n    assert_eq!(Solution::search(vec![4], 3), -1);\n    assert_eq!(Solution::search(vec![0], 0), 0);\n}\n",
+          "codeHash": "4965d284074cdcb5268d4b6b571cceee13590ff2d280b096481e1d42b1fa62e9",
+          "markedWrong": false,
+          "commitComment": "i cheated :(",
+          "rawCommitSubject": "rust 33: i cheated :(",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "i cheated :(",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "5fa2b0affa51194430c81d8c33e685152da67c9d"
+  ],
+  "warnings": []
+}

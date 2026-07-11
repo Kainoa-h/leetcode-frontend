@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3546,
+    "title": "Equal Sum Grid Partition",
+    "slug": "equal-sum-grid-partition"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3546_equal_sum_grid_partition.rs",
+    "latestSha": "378ce2c3d4001932a2cbcf1e4001912b8a5cd840",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-03-25T23:11:16+08:00",
+    "lastCommittedAt": "2026-03-26T00:13:35+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "62ea70d26904fc60828a3dec70e385f4262705c4185f091b35a1ffea2e25ff65"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "98f74e89c35c6d98a19d0b83ba0b6ffc3797fa6d",
+          "shortSha": "98f74e8",
+          "parentSha": "416dd686d53bc1c8a542355e717cae6e92dd1f42",
+          "authoredAt": "2026-03-25T23:11:16+08:00",
+          "committedAt": "2026-03-25T23:11:16+08:00",
+          "chronologicalIndex": 72,
+          "problemId": 3546,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3546_equal_sum_grid_partition.rs",
+          "sourceFilename": "3546_equal_sum_grid_partition.rs",
+          "code": "struct Solution {}\n\nimpl Solution {\n    pub fn can_partition_grid(grid: Vec<Vec<i32>>) -> bool {\n        let rows = grid.len();\n        println!(\"grid {:?}\", grid);\n        if rows > 1 {\n            let flattened_rows: Vec<u64> = grid\n                .iter()\n                .map(|row| row.iter().map(|&x| x as u64).sum())\n                .collect();\n            let prefix_list = flattened_rows.iter().scan(0, |acc, x| {\n                *acc += *x;\n                Some(*acc)\n            });\n            let mut postfix_list: Vec<u64> = flattened_rows\n                .iter()\n                .rev()\n                .scan(0_u64, |acc, &x| {\n                    *acc = (*acc).checked_add(x).expect(\"overflow!\");\n                    Some(*acc)\n                })\n                .collect();\n            postfix_list.pop();\n            postfix_list.reverse();\n            postfix_list.push(0);\n            let postfix_list = postfix_list;\n\n            for (a, &b) in prefix_list.zip(postfix_list.iter()) {\n                if a == b {\n                    return true;\n                }\n            }\n        }\n\n        let cols = grid[0].len();\n        if cols > 1 {\n            let flattned_cols: Vec<u64> = (0..cols)\n                .map(|col_idx| grid.iter().map(|row| row[col_idx] as u64).sum())\n                .collect();\n            let prefix_list = flattned_cols.iter().scan(0_u64, |acc, &x| {\n                *acc = (*acc).checked_add(x).expect(\"overflow!\");\n                Some(*acc)\n            });\n            let mut postfix_list: Vec<u64> = flattned_cols\n                .iter()\n                .rev()\n                .scan(0_u64, |acc, x| {\n                    *acc += *x;\n                    Some(*acc)\n                })\n                .collect();\n            postfix_list.pop();\n            postfix_list.reverse();\n            postfix_list.push(0);\n            let postfix_list = postfix_list;\n\n            for (a, &b) in prefix_list.zip(postfix_list.iter()) {\n                if a == b {\n                    return true;\n                }\n            }\n        }\n\n        false\n    }\n}\n\nfn main() {\n    // assert!(Solution::can_partition_grid(vec![vec![1, 4], vec![2, 3]]));\n    assert!(!Solution::can_partition_grid(vec![vec![1, 3], vec![2, 4]]));\n}\n",
+          "codeHash": "031918dc6516e985c72eb89eaa07fabb1d4bde4d458d171b77a70b2d5dee89b5",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "3546",
+          "commitBody": "time: O(n*m)\nspace: O(n*m)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        },
+        {
+          "sha": "ea8d6766aab28595957e23706d6027390db48db4",
+          "shortSha": "ea8d676",
+          "parentSha": "98f74e89c35c6d98a19d0b83ba0b6ffc3797fa6d",
+          "authoredAt": "2026-03-26T00:03:55+08:00",
+          "committedAt": "2026-03-26T00:05:29+08:00",
+          "chronologicalIndex": 73,
+          "problemId": 3546,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3546_equal_sum_grid_partition.rs",
+          "sourceFilename": "3546_equal_sum_grid_partition.rs",
+          "code": "use std::ops::ControlFlow;\n\nstruct Solution {}\n\nimpl Solution {\n    pub fn can_partition_grid(grid: Vec<Vec<i32>>) -> bool {\n        let prefix_list: Vec<u64> = grid\n            .iter()\n            .map(|row| row.iter().map(|&x| x as u64).sum::<u64>())\n            .scan(0_u64, |acc, x| {\n                *acc += x;\n                Some(*acc)\n            })\n            .collect();\n        let total: u64 = *prefix_list.last().unwrap();\n\n        if total % 2 == 1 {\n            return false;\n        }\n\n        let half = total / 2;\n\n        if prefix_list.binary_search(&half).is_ok() {\n            return true;\n        }\n\n        matches!(\n            (0..grid[0].len())\n                .map(|c| grid.iter().map(|rows| rows[c] as u64).sum::<u64>())\n                .try_fold(0_u64, |acc, x| {\n                    let sum = acc + x;\n                    if sum == half {\n                        ControlFlow::Break(true)\n                    } else if sum > half {\n                        ControlFlow::Break(false)\n                    } else {\n                        ControlFlow::Continue(sum)\n                    }\n                }),\n            ControlFlow::Break(true)\n        )\n    }\n}\n\nfn main() {\n    assert!(Solution::can_partition_grid(vec![vec![1, 4], vec![2, 3]]));\n    assert!(!Solution::can_partition_grid(vec![vec![1, 3], vec![2, 4]]));\n}\n",
+          "codeHash": "d54b84dd2ca32b0a51af1c0d724c25bee11164d95a96e78e3bd94e55a43bab7a",
+          "markedWrong": false,
+          "commitComment": "very funky. Mix of strategies. not the best but is hella funk",
+          "rawCommitSubject": "3546: very funky. Mix of strategies. not the best but is hella funk",
+          "commitBody": "time: O(n*m)\nspace: O(n*m)",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3546_equal_sum_grid_partition.rs b/rust/src/bin/3546_equal_sum_grid_partition.rs\nindex a302635..53a5d83 100644\n--- a/rust/src/bin/3546_equal_sum_grid_partition.rs\n+++ b/rust/src/bin/3546_equal_sum_grid_partition.rs\n@@ -1,72 +1,48 @@\n+use std::ops::ControlFlow;\n+\n struct Solution {}\n \n impl Solution {\n     pub fn can_partition_grid(grid: Vec<Vec<i32>>) -> bool {\n-        let rows = grid.len();\n-        println!(\"grid {:?}\", grid);\n-        if rows > 1 {\n-            let flattened_rows: Vec<u64> = grid\n-                .iter()\n-                .map(|row| row.iter().map(|&x| x as u64).sum())\n-                .collect();\n-            let prefix_list = flattened_rows.iter().scan(0, |acc, x| {\n-                *acc += *x;\n+        let prefix_list: Vec<u64> = grid\n+            .iter()\n+            .map(|row| row.iter().map(|&x| x as u64).sum::<u64>())\n+            .scan(0_u64, |acc, x| {\n+                *acc += x;\n                 Some(*acc)\n-            });\n-            let mut postfix_list: Vec<u64> = flattened_rows\n-                .iter()\n-                .rev()\n-                .scan(0_u64, |acc, &x| {\n-                    *acc = (*acc).checked_add(x).expect(\"overflow!\");\n-                    Some(*acc)\n-                })\n-                .collect();\n-            postfix_list.pop();\n-            postfix_list.reverse();\n-            postfix_list.push(0);\n-            let postfix_list = postfix_list;\n+            })\n+            .collect();\n+        let total: u64 = *prefix_list.last().unwrap();\n \n-            for (a, &b) in prefix_list.zip(postfix_list.iter()) {\n-                if a == b {\n-                    return true;\n-                }\n-            }\n+        if total % 2 == 1 {\n+            return false;\n         }\n \n-        let cols = grid[0].len();\n-        if cols > 1 {\n-            let flattned_cols: Vec<u64> = (0..cols)\n-                .map(|col_idx| grid.iter().map(|row| row[col_idx] as u64).sum())\n-                .collect();\n-            let prefix_list = flattned_cols.iter().scan(0_u64, |acc, &x| {\n-                *acc = (*acc).checked_add(x).expect(\"overflow!\");\n-                Some(*acc)\n-            });\n-            let mut postfix_list: Vec<u64> = flattned_cols\n-                .iter()\n-                .rev()\n-                .scan(0_u64, |acc, x| {\n-                    *acc += *x;\n-                    Some(*acc)\n-                })\n-                .collect();\n-            postfix_list.pop();\n-            postfix_list.reverse();\n-            postfix_list.push(0);\n-            let postfix_list = postfix_list;\n+        let half = total / 2;\n \n-            for (a, &b) in prefix_list.zip(postfix_list.iter()) {\n-                if a == b {\n-                    return true;\n-                }\n-            }\n+        if prefix_list.binary_search(&half).is_ok() {\n+            return true;\n         }\n \n-        false\n+        matches!(\n+            (0..grid[0].len())\n+                .map(|c| grid.iter().map(|rows| rows[c] as u64).sum::<u64>())\n+                .try_fold(0_u64, |acc, x| {\n+                    let sum = acc + x;\n+                    if sum == half {\n+                        ControlFlow::Break(true)\n+                    } else if sum > half {\n+                        ControlFlow::Break(false)\n+                    } else {\n+                        ControlFlow::Continue(sum)\n+                    }\n+                }),\n+            ControlFlow::Break(true)\n+        )\n     }\n }\n \n fn main() {\n-    // assert!(Solution::can_partition_grid(vec![vec![1, 4], vec![2, 3]]));\n+    assert!(Solution::can_partition_grid(vec![vec![1, 4], vec![2, 3]]));\n     assert!(!Solution::can_partition_grid(vec![vec![1, 3], vec![2, 4]]));\n }\n",
+          "changedLineCounts": {
+            "additions": 31,
+            "deletions": 55
+          },
+          "approachId": "chronological",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "very funky. Mix of strategies. not the best but is hella funk",
+          "warnings": []
+        },
+        {
+          "sha": "378ce2c3d4001932a2cbcf1e4001912b8a5cd840",
+          "shortSha": "378ce2c",
+          "parentSha": "ea8d6766aab28595957e23706d6027390db48db4",
+          "authoredAt": "2026-03-26T00:13:35+08:00",
+          "committedAt": "2026-03-26T00:13:35+08:00",
+          "chronologicalIndex": 74,
+          "problemId": 3546,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3546_equal_sum_grid_partition.rs",
+          "sourceFilename": "3546_equal_sum_grid_partition.rs",
+          "code": "struct Solution {}\n\nimpl Solution {\n    pub fn can_partition_grid(grid: Vec<Vec<i32>>) -> bool {\n        let total: u64 = grid.iter().flatten().map(|&x| x as u64).sum();\n\n        if total % 2 == 1 {\n            return false;\n        }\n\n        let half = total / 2;\n\n        let mut sum = 0;\n        for row in &grid {\n            sum += row.iter().map(|x| *x as u64).sum::<u64>();\n            if sum == half {\n                return true;\n            } else if sum > half {\n                break;\n            }\n        }\n\n        sum = 0;\n        for c in 0..grid[0].len() {\n            sum += &grid.iter().map(|row| row[c] as u64).sum::<u64>();\n            if sum == half {\n                return true;\n            } else if sum > half {\n                break;\n            }\n        }\n\n        false\n    }\n}\n\nfn main() {\n    assert!(Solution::can_partition_grid(vec![vec![1, 4], vec![2, 3]]));\n    assert!(!Solution::can_partition_grid(vec![vec![1, 3], vec![2, 4]]));\n}\n",
+          "codeHash": "7cdecfd94312297159d09dfef4582e3a50ec8bef232b5c0afbcf758dbc61cec7",
+          "markedWrong": false,
+          "commitComment": "straight forward approach",
+          "rawCommitSubject": "3546: straight forward approach",
+          "commitBody": "time: O(n*m)\nspace: O(1)",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3546_equal_sum_grid_partition.rs b/rust/src/bin/3546_equal_sum_grid_partition.rs\nindex 53a5d83..ab52d2c 100644\n--- a/rust/src/bin/3546_equal_sum_grid_partition.rs\n+++ b/rust/src/bin/3546_equal_sum_grid_partition.rs\n@@ -1,18 +1,8 @@\n-use std::ops::ControlFlow;\n-\n struct Solution {}\n \n impl Solution {\n     pub fn can_partition_grid(grid: Vec<Vec<i32>>) -> bool {\n-        let prefix_list: Vec<u64> = grid\n-            .iter()\n-            .map(|row| row.iter().map(|&x| x as u64).sum::<u64>())\n-            .scan(0_u64, |acc, x| {\n-                *acc += x;\n-                Some(*acc)\n-            })\n-            .collect();\n-        let total: u64 = *prefix_list.last().unwrap();\n+        let total: u64 = grid.iter().flatten().map(|&x| x as u64).sum();\n \n         if total % 2 == 1 {\n             return false;\n@@ -20,25 +10,27 @@ impl Solution {\n \n         let half = total / 2;\n \n-        if prefix_list.binary_search(&half).is_ok() {\n-            return true;\n+        let mut sum = 0;\n+        for row in &grid {\n+            sum += row.iter().map(|x| *x as u64).sum::<u64>();\n+            if sum == half {\n+                return true;\n+            } else if sum > half {\n+                break;\n+            }\n+        }\n+\n+        sum = 0;\n+        for c in 0..grid[0].len() {\n+            sum += &grid.iter().map(|row| row[c] as u64).sum::<u64>();\n+            if sum == half {\n+                return true;\n+            } else if sum > half {\n+                break;\n+            }\n         }\n \n-        matches!(\n-            (0..grid[0].len())\n-                .map(|c| grid.iter().map(|rows| rows[c] as u64).sum::<u64>())\n-                .try_fold(0_u64, |acc, x| {\n-                    let sum = acc + x;\n-                    if sum == half {\n-                        ControlFlow::Break(true)\n-                    } else if sum > half {\n-                        ControlFlow::Break(false)\n-                    } else {\n-                        ControlFlow::Continue(sum)\n-                    }\n-                }),\n-            ControlFlow::Break(true)\n-        )\n+        false\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 20,
+            "deletions": 28
+          },
+          "approachId": "chronological",
+          "narrativeIndex": 2,
+          "shortChangeSummary": "straight forward approach",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "98f74e89c35c6d98a19d0b83ba0b6ffc3797fa6d",
+    "ea8d6766aab28595957e23706d6027390db48db4",
+    "378ce2c3d4001932a2cbcf1e4001912b8a5cd840"
+  ],
+  "warnings": []
+}

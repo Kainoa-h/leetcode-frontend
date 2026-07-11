@@ -9,6 +9,7 @@ import { hash } from './lib/hashing.js';
 import {
   fallbackNarrative,
   narrativePrompt,
+  shouldRequestLlm,
   validateNarrative,
 } from './lib/narrative.js';
 import { OpenRouterClient } from './lib/openrouter.js';
@@ -132,6 +133,7 @@ async function main() {
     } catch {}
     if (
       !narrative &&
+      shouldRequestLlm(revisions.length) &&
       !flags.noLlm &&
       process.env.OPENROUTER_API_KEY &&
       process.env.OPENROUTER_MODEL

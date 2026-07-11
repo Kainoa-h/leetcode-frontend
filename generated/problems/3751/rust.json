@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3751,
+    "title": "Total Waviness of Numbers in Range",
+    "slug": "total-waviness-of-numbers-in-range"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3751_total_waviness_of_numbers_in_range.rs",
+    "latestSha": "b05f4eccc771cb3740f929a12dfc5ec81c458ad0",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-06-06T23:21:32+08:00",
+    "lastCommittedAt": "2026-06-06T23:21:32+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "73dbaeacac20536906d2a92b14afbd8545d312b5d96253a48658345119729c1f"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "b05f4eccc771cb3740f929a12dfc5ec81c458ad0",
+          "shortSha": "b05f4ec",
+          "parentSha": "7af8c65b19970f7a01b07e3594bd6672d60ebc2f",
+          "authoredAt": "2026-06-06T23:21:32+08:00",
+          "committedAt": "2026-06-06T23:21:32+08:00",
+          "chronologicalIndex": 138,
+          "problemId": 3751,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3751_total_waviness_of_numbers_in_range.rs",
+          "sourceFilename": "3751_total_waviness_of_numbers_in_range.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn total_waviness(num1: i32, num2: i32) -> i32 {\n        let mut wavi = 0;\n        for num in num1..=num2 {\n            let v = Self::to_vec(num);\n            if v.len() < 3 {\n                continue;\n            }\n\n            for i in 1..v.len() - 1 {\n                if (v[i - 1] > v[i] && v[i + 1] > v[i]) || (v[i - 1] < v[i] && v[i + 1] < v[i]) {\n                    wavi += 1;\n                }\n            }\n        }\n        wavi\n    }\n\n    fn to_vec(mut n: i32) -> Vec<u8> {\n        let mut v = Vec::<u8>::new();\n        while n != 0 {\n            v.push((n % 10) as u8);\n            n = n / 10;\n        }\n        v\n    }\n}\n",
+          "codeHash": "8986246ea526bf09706094de91f6caf132533ce922add08f60408afcbd38723e",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 3751",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "b05f4eccc771cb3740f929a12dfc5ec81c458ad0"
+  ],
+  "warnings": []
+}

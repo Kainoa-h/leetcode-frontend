@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3300,
+    "title": "Minimum Element After Replacement With Digit Sum",
+    "slug": "minimum-element-after-replacement-with-digit-sum"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3300_minimum_element_after_replacement_with_digit_sum.rs",
+    "latestSha": "87167aadda29ad4a16fd94eedf96e3a811f02d5d",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-05-29T11:20:14+08:00",
+    "lastCommittedAt": "2026-05-29T11:20:14+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "97c671132ee9cb830b88549c8d9f58fa3006fd31b6b47357604c48afa279219f"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "87167aadda29ad4a16fd94eedf96e3a811f02d5d",
+          "shortSha": "87167aa",
+          "parentSha": "349e7edbe414280712f6ab60bfe731e4a2f1ce92",
+          "authoredAt": "2026-05-29T11:20:14+08:00",
+          "committedAt": "2026-05-29T11:20:14+08:00",
+          "chronologicalIndex": 130,
+          "problemId": 3300,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3300_minimum_element_after_replacement_with_digit_sum.rs",
+          "sourceFilename": "3300_minimum_element_after_replacement_with_digit_sum.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn min_element(nums: Vec<i32>) -> i32 {\n        let mut min = i32::MAX;\n        for n in nums {\n            let mut sum = 0;\n            let mut n = n;\n            while n != 0 {\n                sum += n % 10;\n                n /= 10;\n            }\n            min = min.min(sum);\n        }\n        min\n    }\n}\n\nfn main() {\n    assert_eq!(1, Solution::min_element(vec![10, 12, 13, 14]));\n}\n",
+          "codeHash": "a971431b57b4f6dc65bf6ad5481e11af2633ed12d0044d38362d791e215be051",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 3300",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "87167aadda29ad4a16fd94eedf96e3a811f02d5d"
+  ],
+  "warnings": []
+}

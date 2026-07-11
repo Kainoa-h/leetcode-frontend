@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 122,
+    "title": "Best Time to Buy and Sell Stock Ii",
+    "slug": "best-time-to-buy-and-sell-stock-ii"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/122_best_time_to_buy_and_sell_stock_II.rs",
+    "latestSha": "e707ebb67a6811701622a3d76edfb18e15c164c6",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-01-25T14:03:51+08:00",
+    "lastCommittedAt": "2026-01-25T14:09:16+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "439ed212845808d63d39112351fa55f98e077c5d2c11ebe133a80208d3e348d0"
+  },
+  "approaches": [
+    {
+      "id": "greedy-iterative",
+      "title": "Greedy Iterative Profit Accumulation",
+      "summary": "Iterate through price windows, summing positive daily differences to compute total profit.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "fe906b7b9fd90c039ee162650044728998bf08ef",
+          "shortSha": "fe906b7",
+          "parentSha": "6c7ed6a42435d29b416066f4cd8bd146dc407c27",
+          "authoredAt": "2026-01-25T14:03:51+08:00",
+          "committedAt": "2026-01-25T14:03:51+08:00",
+          "chronologicalIndex": 15,
+          "problemId": 122,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/122_best_time_to_buy_and_sell_stock_II.rs",
+          "sourceFilename": "122_best_time_to_buy_and_sell_stock_II.rs",
+          "code": "struct Solution {}\n\nimpl Solution {\n    pub fn max_profit(prices: Vec<i32>) -> i32 {\n        let mut total_profit = 0;\n        for w in &mut prices.windows(2) {\n            total_profit += 0.max(w[1] - w[0]);\n        }\n        total_profit\n    }\n}\n\nfn main() {\n    assert_eq!(Solution::max_profit(vec![7, 1, 5, 3, 6, 4]), 7);\n    assert_eq!(Solution::max_profit(vec![1, 2, 3, 4, 5]), 4);\n    assert_eq!(Solution::max_profit(vec![7, 6, 4, 3, 1]), 0);\n}\n",
+          "codeHash": "65550d5da7bcb3be0293d8d0f9b64c91ca9c75d8dcee8c3470e12932c78a0c27",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "122",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "greedy-iterative",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation using explicit loop and mutable accumulator.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "greedy-functional",
+      "title": "Greedy Functional One-Liner",
+      "summary": "Use Rust iterators to map price windows to positive differences and sum them in a single expression.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "e707ebb67a6811701622a3d76edfb18e15c164c6",
+          "shortSha": "e707ebb",
+          "parentSha": "fe906b7b9fd90c039ee162650044728998bf08ef",
+          "authoredAt": "2026-01-25T14:09:16+08:00",
+          "committedAt": "2026-01-25T14:09:16+08:00",
+          "chronologicalIndex": 16,
+          "problemId": 122,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/122_best_time_to_buy_and_sell_stock_II.rs",
+          "sourceFilename": "122_best_time_to_buy_and_sell_stock_II.rs",
+          "code": "struct Solution {}\n\nimpl Solution {\n    pub fn max_profit(prices: Vec<i32>) -> i32 {\n        prices.windows(2).map(|w| 0.max(w[1] - w[0])).sum()\n    }\n}\n\nfn main() {\n    assert_eq!(Solution::max_profit(vec![7, 1, 5, 3, 6, 4]), 7);\n    assert_eq!(Solution::max_profit(vec![1, 2, 3, 4, 5]), 4);\n    assert_eq!(Solution::max_profit(vec![7, 6, 4, 3, 1]), 0);\n}\n",
+          "codeHash": "b1da0c0b7eeed2dc791b7df42a498b724edbc3b96b17961d9c7877774cf733b2",
+          "markedWrong": false,
+          "commitComment": "oneliner with rust iterators",
+          "rawCommitSubject": "122: oneliner with rust iterators",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/122_best_time_to_buy_and_sell_stock_II.rs b/rust/src/bin/122_best_time_to_buy_and_sell_stock_II.rs\nindex 6d62992..f769d95 100644\n--- a/rust/src/bin/122_best_time_to_buy_and_sell_stock_II.rs\n+++ b/rust/src/bin/122_best_time_to_buy_and_sell_stock_II.rs\n@@ -2,11 +2,7 @@ struct Solution {}\n \n impl Solution {\n     pub fn max_profit(prices: Vec<i32>) -> i32 {\n-        let mut total_profit = 0;\n-        for w in &mut prices.windows(2) {\n-            total_profit += 0.max(w[1] - w[0]);\n-        }\n-        total_profit\n+        prices.windows(2).map(|w| 0.max(w[1] - w[0])).sum()\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 1,
+            "deletions": 5
+          },
+          "approachId": "greedy-functional",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Refactored to a concise iterator-based solution replacing explicit loop.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "fe906b7b9fd90c039ee162650044728998bf08ef",
+    "e707ebb67a6811701622a3d76edfb18e15c164c6"
+  ],
+  "warnings": []
+}

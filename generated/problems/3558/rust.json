@@ -1,0 +1,242 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3558,
+    "title": "Number of Ways to Assign Edge Weights I",
+    "slug": "number-of-ways-to-assign-edge-weights-i"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3558_number_of_ways_to_assign_edge_weights_I.rs",
+    "latestSha": "df6483d54f5a237b2628057023d054a2e153b889",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 6,
+    "approachCount": 5,
+    "incorrectRevisionCount": 4,
+    "firstCommittedAt": "2026-06-11T18:26:28+08:00",
+    "lastCommittedAt": "2026-06-11T20:03:19+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "fcc3b13a579a340cdaddcd56f6fe34cdb78019c99614a72ea00316b8ed0e5632"
+  },
+  "approaches": [
+    {
+      "id": "hashmap_depth_tracking",
+      "title": "HashMap Depth Tracking with Binary Exponentiation",
+      "summary": "Track node depths using a HashMap and compute the result with modular binary exponentiation.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "0a0a44c3e83d1202c56462df2d9486b4fa3d1280",
+          "shortSha": "0a0a44c",
+          "parentSha": "3ee233b447476b9f3ebde934cef92fcc455fc8bc",
+          "authoredAt": "2026-06-11T18:26:28+08:00",
+          "committedAt": "2026-06-11T18:26:28+08:00",
+          "chronologicalIndex": 156,
+          "problemId": 3558,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3558_number_of_ways_to_assign_edge_weights_I.rs",
+          "sourceFilename": "3558_number_of_ways_to_assign_edge_weights_I.rs",
+          "code": "use std::collections::HashMap;\n\nimpl Solution {\n    pub fn assign_edge_weights(mut edges: Vec<Vec<i32>>) -> i32 {\n        if edges.len() == 1 {\n            return 1;\n        }\n        let mut max_depth = 0;\n        let mut map = HashMap::new();\n        edges.sort_unstable_by_key(|x| (x[0], x[1]));\n        for edge_pair in edges {\n            let (parent, child) = (edge_pair[0], edge_pair[1]);\n            let depth = *map.entry(parent).or_insert(0) + 1;\n            map.insert(child, depth);\n            max_depth = max_depth.max(depth);\n        }\n\n        2_i32.pow(max_depth - 1)\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(Solution::assign_edge_weights(vec![vec![1, 2]]), 1);\n    assert_eq!(\n        Solution::assign_edge_weights(vec![vec![1, 2], vec![1, 3], vec![3, 4], vec![3, 5]]),\n        2\n    );\n    assert_eq!(\n        Solution::assign_edge_weights(vec![vec![2, 3], vec![1, 2]]),\n        2\n    );\n}\n",
+          "codeHash": "8a24994629cc7d53af69af80ae6980d3045450ac1870d06960de239117ce2c19",
+          "markedWrong": true,
+          "commitComment": "forgot abt the modulo",
+          "rawCommitSubject": "rust 3558!: forgot abt the modulo",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "hashmap_depth_tracking",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial attempt using HashMap to track depths but forgot modulo operation.",
+          "warnings": []
+        },
+        {
+          "sha": "bd2e7612d849c86d721ad64529698c19be341824",
+          "shortSha": "bd2e761",
+          "parentSha": "0a0a44c3e83d1202c56462df2d9486b4fa3d1280",
+          "authoredAt": "2026-06-11T18:31:45+08:00",
+          "committedAt": "2026-06-11T18:31:45+08:00",
+          "chronologicalIndex": 157,
+          "problemId": 3558,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3558_number_of_ways_to_assign_edge_weights_I.rs",
+          "sourceFilename": "3558_number_of_ways_to_assign_edge_weights_I.rs",
+          "code": "use std::collections::HashMap;\n\nimpl Solution {\n    pub fn assign_edge_weights(mut edges: Vec<Vec<i32>>) -> i32 {\n        if edges.len() == 1 {\n            return 1;\n        }\n        let mut max_depth = 0;\n        let mut map = HashMap::new();\n        edges.sort_unstable_by_key(|x| (x[0], x[1]));\n        for edge_pair in edges {\n            let (parent, child) = (edge_pair[0], edge_pair[1]);\n            let depth = *map.entry(parent).or_insert(0) + 1;\n            map.insert(child, depth);\n            max_depth = max_depth.max(depth);\n        }\n\n        let mut ans: i64 = 1;\n        let mut base: i64 = 2;\n        let mut exp = max_depth - 1;\n        let modulo: i64 = 1_000_000_007;\n\n        while exp > 0 {\n            if exp % 2 == 1 {\n                ans = (ans * base) % modulo;\n            }\n            base = (base * base) % modulo;\n            exp /= 2;\n        }\n\n        ans as i32\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(Solution::assign_edge_weights(vec![vec![1, 2]]), 1);\n    assert_eq!(\n        Solution::assign_edge_weights(vec![vec![1, 2], vec![1, 3], vec![3, 4], vec![3, 5]]),\n        2\n    );\n    assert_eq!(\n        Solution::assign_edge_weights(vec![vec![2, 3], vec![1, 2]]),\n        2\n    );\n}\n",
+          "codeHash": "eb2c4456dd2a4c075eb3975ae026effd870e66b04ef0496e8b6ef81ec5611a3f",
+          "markedWrong": true,
+          "commitComment": "binary expo! current approach doesn't work",
+          "rawCommitSubject": "rust 3558!: binary expo! current approach doesn't work",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3558_number_of_ways_to_assign_edge_weights_I.rs b/rust/src/bin/3558_number_of_ways_to_assign_edge_weights_I.rs\nindex 600d470..0b1b49d 100644\n--- a/rust/src/bin/3558_number_of_ways_to_assign_edge_weights_I.rs\n+++ b/rust/src/bin/3558_number_of_ways_to_assign_edge_weights_I.rs\n@@ -15,7 +15,20 @@ impl Solution {\n             max_depth = max_depth.max(depth);\n         }\n \n-        2_i32.pow(max_depth - 1)\n+        let mut ans: i64 = 1;\n+        let mut base: i64 = 2;\n+        let mut exp = max_depth - 1;\n+        let modulo: i64 = 1_000_000_007;\n+\n+        while exp > 0 {\n+            if exp % 2 == 1 {\n+                ans = (ans * base) % modulo;\n+            }\n+            base = (base * base) % modulo;\n+            exp /= 2;\n+        }\n+\n+        ans as i32\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 14,
+            "deletions": 1
+          },
+          "approachId": "hashmap_depth_tracking",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Added modular binary exponentiation to handle large numbers.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "hashmap_depth_tracking_sorted",
+      "title": "HashMap Depth Tracking with Sorting and Modulo",
+      "summary": "Sort edges by parent node and track depths using HashMap with modulo exponentiation.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "0076d7e35613b666efcdc3ae7d59b072d1774cc7",
+          "shortSha": "0076d7e",
+          "parentSha": "bd2e7612d849c86d721ad64529698c19be341824",
+          "authoredAt": "2026-06-11T18:37:57+08:00",
+          "committedAt": "2026-06-11T18:38:27+08:00",
+          "chronologicalIndex": 158,
+          "problemId": 3558,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3558_number_of_ways_to_assign_edge_weights_I.rs",
+          "sourceFilename": "3558_number_of_ways_to_assign_edge_weights_I.rs",
+          "code": "use std::collections::HashMap;\n\nimpl Solution {\n    pub fn assign_edge_weights(mut edges: Vec<Vec<i32>>) -> i32 {\n        if edges.len() == 1 {\n            return 1;\n        }\n        let mut max_depth = 0;\n        let mut map = HashMap::new();\n        edges.sort_unstable_by_key(|x| x[0]);\n        for edge_pair in edges {\n            let (u, v) = (edge_pair[0], edge_pair[1]);\n            let (parent, child) = (u.min(v), u.max(v));\n            let depth = *map.entry(parent).or_insert(0) + 1;\n            map.insert(child, depth);\n            max_depth = max_depth.max(depth);\n        }\n\n        let mut ans: i64 = 1;\n        let mut base: i64 = 2;\n        let mut exp = max_depth - 1;\n        let modulo: i64 = 1_000_000_007;\n\n        while exp > 0 {\n            if exp % 2 == 1 {\n                ans = (ans * base) % modulo;\n            }\n            base = (base * base) % modulo;\n            exp /= 2;\n        }\n\n        ans as i32\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(Solution::assign_edge_weights(vec![vec![1, 2]]), 1);\n    assert_eq!(\n        Solution::assign_edge_weights(vec![vec![1, 2], vec![1, 3], vec![3, 4], vec![3, 5]]),\n        2\n    );\n    assert_eq!(\n        Solution::assign_edge_weights(vec![vec![2, 3], vec![1, 2]]),\n        2\n    );\n}\n",
+          "codeHash": "e28743e226d155d0423bc1a222b5b68c289e155d32c255fe52df44e4d7789772",
+          "markedWrong": false,
+          "commitComment": "sort sort sort!",
+          "rawCommitSubject": "rust 3558: sort sort sort!",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3558_number_of_ways_to_assign_edge_weights_I.rs b/rust/src/bin/3558_number_of_ways_to_assign_edge_weights_I.rs\nindex 0b1b49d..3071895 100644\n--- a/rust/src/bin/3558_number_of_ways_to_assign_edge_weights_I.rs\n+++ b/rust/src/bin/3558_number_of_ways_to_assign_edge_weights_I.rs\n@@ -7,9 +7,10 @@ impl Solution {\n         }\n         let mut max_depth = 0;\n         let mut map = HashMap::new();\n-        edges.sort_unstable_by_key(|x| (x[0], x[1]));\n+        edges.sort_unstable_by_key(|x| x[0]);\n         for edge_pair in edges {\n-            let (parent, child) = (edge_pair[0], edge_pair[1]);\n+            let (u, v) = (edge_pair[0], edge_pair[1]);\n+            let (parent, child) = (u.min(v), u.max(v));\n             let depth = *map.entry(parent).or_insert(0) + 1;\n             map.insert(child, depth);\n             max_depth = max_depth.max(depth);\n",
+          "changedLineCounts": {
+            "additions": 3,
+            "deletions": 2
+          },
+          "approachId": "hashmap_depth_tracking_sorted",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Simplified sorting and added min/max to handle edge direction.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "dfs_stack_depth_tracking",
+      "title": "DFS Stack-Based Depth Tracking",
+      "summary": "Use DFS with a stack to traverse the tree and track maximum depth for result calculation.",
+      "order": 2,
+      "revisions": [
+        {
+          "sha": "ddd1b61f02583ecaa8139f757e1ba261b325a780",
+          "shortSha": "ddd1b61",
+          "parentSha": "82df3d296517703b146f52d2e0cd7705f3f98602",
+          "authoredAt": "2026-06-11T19:36:19+08:00",
+          "committedAt": "2026-06-11T19:36:19+08:00",
+          "chronologicalIndex": 160,
+          "problemId": 3558,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3558_number_of_ways_to_assign_edge_weights_I.rs",
+          "sourceFilename": "3558_number_of_ways_to_assign_edge_weights_I.rs",
+          "code": "impl Solution {\n    pub fn assign_edge_weights(edges: Vec<Vec<i32>>) -> i32 {\n        if edges.len() == 1 {\n            return 1;\n        }\n        let n = edges.len() + 2;\n\n        let mut adjacency_list = vec![vec![]; n];\n        for edge in edges {\n            let (u, v) = (edge[0] as usize, edge[1] as usize);\n            adjacency_list[u].push(v);\n            adjacency_list[v].push(u);\n        }\n\n        let mut max_depth = 0;\n        let mut stack = Vec::new();\n        let mut visted_list = vec![false; n];\n        stack.push((1_usize, 0_usize, 0)); // node, visted_index, depth\n        visted_list[1] = true;\n\n        while let Some(&(node, edges_index, depth)) = stack.last() {\n            max_depth = max_depth.max(depth);\n            if edges_index < adjacency_list[node].len() {\n                if let Some((_, ei, _)) = stack.last_mut() {\n                    *ei += 1;\n                }\n                let neighbour = adjacency_list[node][edges_index];\n                if !visted_list[neighbour] {\n                    visted_list[neighbour] = true;\n                    stack.push((neighbour, 0, depth + 1));\n                }\n            } else {\n                stack.pop();\n            }\n        }\n\n        let mut ans: i64 = 1;\n        let mut base: i64 = 2;\n        let mut exp = max_depth - 1;\n        let modulo: i64 = 1_000_000_007;\n\n        while exp > 0 {\n            if exp % 2 == 1 {\n                ans = (ans * base) % modulo;\n            }\n            base = (base * base) % modulo;\n            exp /= 2;\n        }\n\n        ans as i32\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(Solution::assign_edge_weights(vec![vec![1, 2]]), 1);\n    assert_eq!(\n        Solution::assign_edge_weights(vec![vec![1, 2], vec![1, 3], vec![3, 4], vec![3, 5]]),\n        2\n    );\n    assert_eq!(\n        Solution::assign_edge_weights(vec![vec![2, 3], vec![1, 2]]),\n        2\n    );\n    assert_eq!(\n        Solution::assign_edge_weights(vec![vec![1, 5], vec![5, 2], vec![5, 3], vec![5, 4]]),\n        2\n    );\n}\n",
+          "codeHash": "e3ff53bdb5cc34155b6366f28d3f6d7e86631b8a62ee914bf537c292f313f47b",
+          "markedWrong": false,
+          "commitComment": "one path stack dfs",
+          "rawCommitSubject": "rust 3558: one path stack dfs",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3558_number_of_ways_to_assign_edge_weights_I.rs b/rust/src/bin/3558_number_of_ways_to_assign_edge_weights_I.rs\nindex c76106b..12d24f5 100644\n--- a/rust/src/bin/3558_number_of_ways_to_assign_edge_weights_I.rs\n+++ b/rust/src/bin/3558_number_of_ways_to_assign_edge_weights_I.rs\n@@ -1,19 +1,37 @@\n-use std::collections::HashMap;\n-\n impl Solution {\n-    pub fn assign_edge_weights(mut edges: Vec<Vec<i32>>) -> i32 {\n+    pub fn assign_edge_weights(edges: Vec<Vec<i32>>) -> i32 {\n         if edges.len() == 1 {\n             return 1;\n         }\n+        let n = edges.len() + 2;\n+\n+        let mut adjacency_list = vec![vec![]; n];\n+        for edge in edges {\n+            let (u, v) = (edge[0] as usize, edge[1] as usize);\n+            adjacency_list[u].push(v);\n+            adjacency_list[v].push(u);\n+        }\n+\n         let mut max_depth = 0;\n-        let mut map = HashMap::new();\n-        edges.sort_unstable_by_key(|x| x[0]);\n-        for edge_pair in edges {\n-            let (u, v) = (edge_pair[0], edge_pair[1]);\n-            let (parent, child) = (u.min(v), u.max(v));\n-            let depth = *map.entry(parent).or_insert(0) + 1;\n-            map.insert(child, depth);\n+        let mut stack = Vec::new();\n+        let mut visted_list = vec![false; n];\n+        stack.push((1_usize, 0_usize, 0)); // node, visted_index, depth\n+        visted_list[1] = true;\n+\n+        while let Some(&(node, edges_index, depth)) = stack.last() {\n             max_depth = max_depth.max(depth);\n+            if edges_index < adjacency_list[node].len() {\n+                if let Some((_, ei, _)) = stack.last_mut() {\n+                    *ei += 1;\n+                }\n+                let neighbour = adjacency_list[node][edges_index];\n+                if !visted_list[neighbour] {\n+                    visted_list[neighbour] = true;\n+                    stack.push((neighbour, 0, depth + 1));\n+                }\n+            } else {\n+                stack.pop();\n+            }\n         }\n \n         let mut ans: i64 = 1;\n",
+          "changedLineCounts": {
+            "additions": 28,
+            "deletions": 10
+          },
+          "approachId": "dfs_stack_depth_tracking",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Implemented DFS stack to find max depth, replacing HashMap approach.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "array_depth_tracking",
+      "title": "Array-Based Depth Tracking with Binary Exponentiation",
+      "summary": "Track node depths using an array and compute the result with modular binary exponentiation.",
+      "order": 3,
+      "revisions": [
+        {
+          "sha": "df6483d54f5a237b2628057023d054a2e153b889",
+          "shortSha": "df6483d",
+          "parentSha": "ddd1b61f02583ecaa8139f757e1ba261b325a780",
+          "authoredAt": "2026-06-11T20:03:19+08:00",
+          "committedAt": "2026-06-11T20:03:19+08:00",
+          "chronologicalIndex": 161,
+          "problemId": 3558,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3558_number_of_ways_to_assign_edge_weights_I.rs",
+          "sourceFilename": "3558_number_of_ways_to_assign_edge_weights_I.rs",
+          "code": "impl Solution {\n    pub fn assign_edge_weights(mut edges: Vec<Vec<i32>>) -> i32 {\n        if edges.len() == 1 {\n            return 1;\n        }\n        let mut max_depth = 0;\n        let mut map = vec![0; edges.len() + 2];\n        edges.sort_unstable_by_key(|x| x[0]);\n        for edge_pair in edges {\n            let (u, v) = (edge_pair[0], edge_pair[1]);\n            let (parent, child) = (u.min(v), u.max(v));\n            let depth = map[parent as usize] + 1;\n            map[child as usize] = depth;\n            max_depth = max_depth.max(depth);\n        }\n\n        let mut ans: i64 = 1;\n        let mut base: i64 = 2;\n        let mut exp = max_depth - 1;\n        let modulo: i64 = 1_000_000_007;\n\n        while exp > 0 {\n            if exp % 2 == 1 {\n                ans = (ans * base) % modulo;\n            }\n            base = (base * base) % modulo;\n            exp /= 2;\n        }\n\n        ans as i32\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(Solution::assign_edge_weights(vec![vec![1, 2]]), 1);\n    assert_eq!(\n        Solution::assign_edge_weights(vec![vec![1, 2], vec![1, 3], vec![3, 4], vec![3, 5]]),\n        2\n    );\n    assert_eq!(\n        Solution::assign_edge_weights(vec![vec![2, 3], vec![1, 2]]),\n        2\n    );\n    // assert_eq!(\n    //     Solution::assign_edge_weights(vec![vec![1, 5], vec![5, 2], vec![5, 3], vec![5, 4]]),\n    //     2\n    // );\n}\n",
+          "codeHash": "2b68fbe0dc1019c7364351ff959c4f640aef02a8cba372da1abc468a8164cfed",
+          "markedWrong": true,
+          "commitComment": "wrong, but works and is fast",
+          "rawCommitSubject": "rust 3558!: wrong, but works and is fast",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3558_number_of_ways_to_assign_edge_weights_I.rs b/rust/src/bin/3558_number_of_ways_to_assign_edge_weights_I.rs\nindex 12d24f5..fbb0915 100644\n--- a/rust/src/bin/3558_number_of_ways_to_assign_edge_weights_I.rs\n+++ b/rust/src/bin/3558_number_of_ways_to_assign_edge_weights_I.rs\n@@ -1,37 +1,17 @@\n impl Solution {\n-    pub fn assign_edge_weights(edges: Vec<Vec<i32>>) -> i32 {\n+    pub fn assign_edge_weights(mut edges: Vec<Vec<i32>>) -> i32 {\n         if edges.len() == 1 {\n             return 1;\n         }\n-        let n = edges.len() + 2;\n-\n-        let mut adjacency_list = vec![vec![]; n];\n-        for edge in edges {\n-            let (u, v) = (edge[0] as usize, edge[1] as usize);\n-            adjacency_list[u].push(v);\n-            adjacency_list[v].push(u);\n-        }\n-\n         let mut max_depth = 0;\n-        let mut stack = Vec::new();\n-        let mut visted_list = vec![false; n];\n-        stack.push((1_usize, 0_usize, 0)); // node, visted_index, depth\n-        visted_list[1] = true;\n-\n-        while let Some(&(node, edges_index, depth)) = stack.last() {\n+        let mut map = vec![0; edges.len() + 2];\n+        edges.sort_unstable_by_key(|x| x[0]);\n+        for edge_pair in edges {\n+            let (u, v) = (edge_pair[0], edge_pair[1]);\n+            let (parent, child) = (u.min(v), u.max(v));\n+            let depth = map[parent as usize] + 1;\n+            map[child as usize] = depth;\n             max_depth = max_depth.max(depth);\n-            if edges_index < adjacency_list[node].len() {\n-                if let Some((_, ei, _)) = stack.last_mut() {\n-                    *ei += 1;\n-                }\n-                let neighbour = adjacency_list[node][edges_index];\n-                if !visted_list[neighbour] {\n-                    visted_list[neighbour] = true;\n-                    stack.push((neighbour, 0, depth + 1));\n-                }\n-            } else {\n-                stack.pop();\n-            }\n         }\n \n         let mut ans: i64 = 1;\n@@ -63,8 +43,8 @@ fn main() {\n         Solution::assign_edge_weights(vec![vec![2, 3], vec![1, 2]]),\n         2\n     );\n-    assert_eq!(\n-        Solution::assign_edge_weights(vec![vec![1, 5], vec![5, 2], vec![5, 3], vec![5, 4]]),\n-        2\n-    );\n+    // assert_eq!(\n+    //     Solution::assign_edge_weights(vec![vec![1, 5], vec![5, 2], vec![5, 3], vec![5, 4]]),\n+    //     2\n+    // );\n }\n",
+          "changedLineCounts": {
+            "additions": 12,
+            "deletions": 32
+          },
+          "approachId": "array_depth_tracking",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Switched to array for depth tracking, removed DFS, but still incorrect for non-sequential graphs.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "hashmap_non_sequential_fix",
+      "title": "HashMap with Non-Sequential Graph Handling",
+      "summary": "Attempt to fix non-sequential graph handling by adding test cases and adjusting depth tracking.",
+      "order": 4,
+      "revisions": [
+        {
+          "sha": "82df3d296517703b146f52d2e0cd7705f3f98602",
+          "shortSha": "82df3d2",
+          "parentSha": "0076d7e35613b666efcdc3ae7d59b072d1774cc7",
+          "authoredAt": "2026-06-11T18:52:58+08:00",
+          "committedAt": "2026-06-11T18:53:05+08:00",
+          "chronologicalIndex": 159,
+          "problemId": 3558,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3558_number_of_ways_to_assign_edge_weights_I.rs",
+          "sourceFilename": "3558_number_of_ways_to_assign_edge_weights_I.rs",
+          "code": "use std::collections::HashMap;\n\nimpl Solution {\n    pub fn assign_edge_weights(mut edges: Vec<Vec<i32>>) -> i32 {\n        if edges.len() == 1 {\n            return 1;\n        }\n        let mut max_depth = 0;\n        let mut map = HashMap::new();\n        edges.sort_unstable_by_key(|x| x[0]);\n        for edge_pair in edges {\n            let (u, v) = (edge_pair[0], edge_pair[1]);\n            let (parent, child) = (u.min(v), u.max(v));\n            let depth = *map.entry(parent).or_insert(0) + 1;\n            map.insert(child, depth);\n            max_depth = max_depth.max(depth);\n        }\n\n        let mut ans: i64 = 1;\n        let mut base: i64 = 2;\n        let mut exp = max_depth - 1;\n        let modulo: i64 = 1_000_000_007;\n\n        while exp > 0 {\n            if exp % 2 == 1 {\n                ans = (ans * base) % modulo;\n            }\n            base = (base * base) % modulo;\n            exp /= 2;\n        }\n\n        ans as i32\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(Solution::assign_edge_weights(vec![vec![1, 2]]), 1);\n    assert_eq!(\n        Solution::assign_edge_weights(vec![vec![1, 2], vec![1, 3], vec![3, 4], vec![3, 5]]),\n        2\n    );\n    assert_eq!(\n        Solution::assign_edge_weights(vec![vec![2, 3], vec![1, 2]]),\n        2\n    );\n    assert_eq!(\n        Solution::assign_edge_weights(vec![vec![1, 5], vec![5, 2], vec![5, 3], vec![5, 4]]),\n        2\n    );\n}\n",
+          "codeHash": "28f737695c51cd2f66c89850d12bdb52d9a11a1a396e76d8e82980baaf3eeed7",
+          "markedWrong": true,
+          "commitComment": "fails for non sequential graphs (not in test cases)",
+          "rawCommitSubject": "rust 3558!: fails for non sequential graphs (not in test cases)",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3558_number_of_ways_to_assign_edge_weights_I.rs b/rust/src/bin/3558_number_of_ways_to_assign_edge_weights_I.rs\nindex 3071895..c76106b 100644\n--- a/rust/src/bin/3558_number_of_ways_to_assign_edge_weights_I.rs\n+++ b/rust/src/bin/3558_number_of_ways_to_assign_edge_weights_I.rs\n@@ -45,4 +45,8 @@ fn main() {\n         Solution::assign_edge_weights(vec![vec![2, 3], vec![1, 2]]),\n         2\n     );\n+    assert_eq!(\n+        Solution::assign_edge_weights(vec![vec![1, 5], vec![5, 2], vec![5, 3], vec![5, 4]]),\n+        2\n+    );\n }\n",
+          "changedLineCounts": {
+            "additions": 4,
+            "deletions": 0
+          },
+          "approachId": "hashmap_non_sequential_fix",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Added test case for non-sequential graphs but approach still fails for such cases.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "0a0a44c3e83d1202c56462df2d9486b4fa3d1280",
+    "bd2e7612d849c86d721ad64529698c19be341824",
+    "0076d7e35613b666efcdc3ae7d59b072d1774cc7",
+    "82df3d296517703b146f52d2e0cd7705f3f98602",
+    "ddd1b61f02583ecaa8139f757e1ba261b325a780",
+    "df6483d54f5a237b2628057023d054a2e153b889"
+  ],
+  "warnings": []
+}

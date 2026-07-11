@@ -1,1 +1,50 @@
-{"schemaVersion":1,"warnings":[],"errors":[]}
+{
+  "schemaVersion": 1,
+  "warnings": [
+    {
+      "code": "problem-conflict",
+      "message": "Subject problem 22 conflicts with filename problem 36; using 36.",
+      "sha": "28951821d5f4a7688a75869a4823f96019ecec13",
+      "path": "rust/src/bin/36_valid_sudoku.rs"
+    },
+    {
+      "code": "malformed-subject",
+      "message": "Could not parse commit subject: doc(readme): burger king foot lettuce",
+      "sha": "aacd09f5a5b81db717fd38ccd9a5b30e00bbce65"
+    },
+    {
+      "code": "malformed-subject",
+      "message": "Could not parse commit subject: license(heyyyy ayyy  ayyyy ayyyy I SAID   HEY           WHAT)",
+      "sha": "0f4a5e45aeb7107b2fb9545e5858e45a1475fab3"
+    },
+    {
+      "code": "malformed-subject",
+      "message": "Could not parse commit subject: feat(zed-debugger): add zed debugging config",
+      "sha": "2613c43d8565a9322f9031433700781ee68c83ca"
+    },
+    {
+      "code": "unknown-problem",
+      "message": "Could not determine problem for rust/.zed/debug.json",
+      "sha": "2613c43d8565a9322f9031433700781ee68c83ca",
+      "path": "rust/.zed/debug.json"
+    },
+    {
+      "code": "unknown-problem",
+      "message": "Could not determine problem for rust/.zed/tasks.json",
+      "sha": "2613c43d8565a9322f9031433700781ee68c83ca",
+      "path": "rust/.zed/tasks.json"
+    },
+    {
+      "code": "malformed-subject",
+      "message": "Could not parse commit subject: nix update",
+      "sha": "f005f1f1aa6c9d61fd60608b4e3b6e95f56a0a15"
+    },
+    {
+      "code": "unknown-problem",
+      "message": "Could not determine problem for rust/flake.lock",
+      "sha": "f005f1f1aa6c9d61fd60608b4e3b6e95f56a0a15",
+      "path": "rust/flake.lock"
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 15,
+    "title": "3sum",
+    "slug": "3sum"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/15_3sum.rs",
+    "latestSha": "e0bc404ebea730c6dd3f3754094883fd4c21ece0",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 2,
+    "incorrectRevisionCount": 1,
+    "firstCommittedAt": "2026-02-11T20:54:40+08:00",
+    "lastCommittedAt": "2026-02-11T21:53:05+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "6a025674345f977df116e8bee8cb2d3eec37d3159e9fb698dfc8401fdc991055"
+  },
+  "approaches": [
+    {
+      "id": "hashset_duplicates",
+      "title": "HashSet with duplicate filtering",
+      "summary": "Uses a HashSet to avoid duplicates but fails due to incorrect loop bounds and duplicate handling.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "c6f95bd0d5a8a904c005cab00f2df0152f3998b7",
+          "shortSha": "c6f95bd",
+          "parentSha": "9ebead5cd2cdf1afa4305946d865f4e397403303",
+          "authoredAt": "2026-02-11T20:54:40+08:00",
+          "committedAt": "2026-02-11T20:54:40+08:00",
+          "chronologicalIndex": 52,
+          "problemId": 15,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/15_3sum.rs",
+          "sourceFilename": "15_3sum.rs",
+          "code": "use std::collections::HashSet;\n\nstruct Solution {}\nimpl Solution {\n    pub fn three_sum(mut nums: Vec<i32>) -> Vec<Vec<i32>> {\n        let mut ans: Vec<Vec<i32>> = Vec::new();\n        let mut set: HashSet<Vec<i32>> = HashSet::new();\n        nums.sort_unstable();\n        for f in 1..nums.len() - 1 {\n            let mut l = 0;\n            let mut r = nums.len() - 1;\n            while l < r {\n                let sum = nums[l] + nums[f] + nums[r];\n                if sum == 0 {\n                    let x = vec![nums[l], nums[f], nums[r]];\n                    if set.insert(&x) {\n                        ans.push(x);\n                    }\n                    break;\n                }\n                if sum < 0 {\n                    l += 1;\n                } else {\n                    r -= 1;\n                }\n                if l == f || r == f {\n                    break;\n                }\n            }\n        }\n        ans\n    }\n}\n\nfn what(nums: Vec<i32>, ans: Vec<Vec<i32>>) {\n    println!(\"{:?}\", nums);\n    assert_eq!(Solution::three_sum(nums), ans);\n}\n\nfn main() {\n    what(\n        vec![-1, 0, 1, 2, -1, -4],\n        vec![vec![-1, -1, 2], vec![-1, 0, 1]],\n    );\n    what(vec![0, 1, 1], vec![]);\n    what(vec![0, 0, 0], vec![vec![0, 0, 0]]);\n    what(vec![0, 0, 0, 0], vec![vec![0, 0, 0]]);\n}\n",
+          "codeHash": "ce55f94e319dd294c479d5a3fc721bbb130dcca079106d80100098cb7be3b2e9",
+          "markedWrong": true,
+          "commitComment": "",
+          "rawCommitSubject": "15!",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "hashset_duplicates",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial attempt with HashSet to deduplicate triplets, but loop bounds and duplicate handling are incorrect.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "two_pointers_sorted",
+      "title": "Two-pointers on sorted array",
+      "summary": "Sorts the array and uses two pointers to find triplets summing to zero, with duplicate skipping.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "e0bc404ebea730c6dd3f3754094883fd4c21ece0",
+          "shortSha": "e0bc404",
+          "parentSha": "c6f95bd0d5a8a904c005cab00f2df0152f3998b7",
+          "authoredAt": "2026-02-11T21:53:05+08:00",
+          "committedAt": "2026-02-11T21:53:05+08:00",
+          "chronologicalIndex": 53,
+          "problemId": 15,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/15_3sum.rs",
+          "sourceFilename": "15_3sum.rs",
+          "code": "struct Solution {}\n\nimpl Solution {\n    pub fn three_sum(mut nums: Vec<i32>) -> Vec<Vec<i32>> {\n        let mut ans: Vec<Vec<i32>> = Vec::new();\n        nums.sort_unstable();\n        for f in 0..nums.len() - 2 {\n            let mut l = f + 1;\n            let mut r = nums.len() - 1;\n            if f > 0 && nums[f] == nums[f - 1] {\n                continue;\n            }\n            while l < r {\n                let sum = nums[f] + nums[l] + nums[r];\n                if sum == 0 {\n                    let x = vec![nums[f], nums[l], nums[r]];\n                    ans.push(x);\n                    l += 1;\n                    while l < r && nums[l] == nums[l - 1] {\n                        l += 1;\n                    }\n                    continue;\n                }\n\n                if sum < 0 {\n                    l += 1;\n                } else {\n                    r -= 1;\n                }\n            }\n        }\n        ans\n    }\n}\n\nfn what(nums: Vec<i32>, ans: Vec<Vec<i32>>) {\n    println!(\"{:?}\", nums);\n    assert_eq!(Solution::three_sum(nums), ans);\n}\n\nfn main() {\n    what(\n        vec![-1, 0, 1, 2, -1, -4],\n        vec![vec![-1, -1, 2], vec![-1, 0, 1]],\n    );\n    what(vec![0, 1, 1], vec![]);\n    what(vec![0, 0, 0], vec![vec![0, 0, 0]]);\n    what(vec![0, 0, 0, 0], vec![vec![0, 0, 0]]);\n}\n",
+          "codeHash": "acb732be213c54fabc1cb4b190eb26bf1ffb291d9af7091f68f88d64aefefbcd",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "15",
+          "commitBody": "time: O(n^2)\nspace: O(1)",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/15_3sum.rs b/rust/src/bin/15_3sum.rs\nindex 0f91570..f9be035 100644\n--- a/rust/src/bin/15_3sum.rs\n+++ b/rust/src/bin/15_3sum.rs\n@@ -1,31 +1,32 @@\n-use std::collections::HashSet;\n-\n struct Solution {}\n+\n impl Solution {\n     pub fn three_sum(mut nums: Vec<i32>) -> Vec<Vec<i32>> {\n         let mut ans: Vec<Vec<i32>> = Vec::new();\n-        let mut set: HashSet<Vec<i32>> = HashSet::new();\n         nums.sort_unstable();\n-        for f in 1..nums.len() - 1 {\n-            let mut l = 0;\n+        for f in 0..nums.len() - 2 {\n+            let mut l = f + 1;\n             let mut r = nums.len() - 1;\n+            if f > 0 && nums[f] == nums[f - 1] {\n+                continue;\n+            }\n             while l < r {\n-                let sum = nums[l] + nums[f] + nums[r];\n+                let sum = nums[f] + nums[l] + nums[r];\n                 if sum == 0 {\n-                    let x = vec![nums[l], nums[f], nums[r]];\n-                    if set.insert(&x) {\n-                        ans.push(x);\n+                    let x = vec![nums[f], nums[l], nums[r]];\n+                    ans.push(x);\n+                    l += 1;\n+                    while l < r && nums[l] == nums[l - 1] {\n+                        l += 1;\n                     }\n-                    break;\n+                    continue;\n                 }\n+\n                 if sum < 0 {\n                     l += 1;\n                 } else {\n                     r -= 1;\n                 }\n-                if l == f || r == f {\n-                    break;\n-                }\n             }\n         }\n         ans\n",
+          "changedLineCounts": {
+            "additions": 14,
+            "deletions": 13
+          },
+          "approachId": "two_pointers_sorted",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Optimized solution using two pointers on a sorted array with duplicate skipping for O(n^2) time and O(1) space.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "c6f95bd0d5a8a904c005cab00f2df0152f3998b7",
+    "e0bc404ebea730c6dd3f3754094883fd4c21ece0"
+  ],
+  "warnings": []
+}

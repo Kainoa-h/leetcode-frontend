@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1840,
+    "title": "Maximum Building Height",
+    "slug": "maximum-building-height"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/1840_maximum_building_height.rs",
+    "latestSha": "e6583c06ac6793c0baaf1b65c1466c19310eab45",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-06-21T10:21:05+08:00",
+    "lastCommittedAt": "2026-06-21T10:26:44+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "d4739c231b4f8339f09bfd90a9ac08e87facdd0198d3dbeb3a2b0db7d11028e2"
+  },
+  "approaches": [
+    {
+      "id": "two-pass-constraint-propagation",
+      "title": "Two-Pass Constraint Propagation",
+      "summary": "Propagate height constraints forward and backward to determine feasible heights at each position, then compute the maximum height between adjacent constraints.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "7118a7ee9daff68ef6c87f8b0fc1bb30e33d310c",
+          "shortSha": "7118a7e",
+          "parentSha": "7224b1d45403a3b9d1ed4b9a9bed2970e5692a03",
+          "authoredAt": "2026-06-21T10:18:37+08:00",
+          "committedAt": "2026-06-21T10:21:05+08:00",
+          "chronologicalIndex": 181,
+          "problemId": 1840,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1840_maximum_building_height.rs",
+          "sourceFilename": "1840_maximum_building_height.rs",
+          "code": "impl Solution {\n    pub fn max_building(n: i32, mut restrictions: Vec<Vec<i32>>) -> i32 {\n        restrictions.push(vec![1, 0]);\n        restrictions.push(vec![n, n - 1]);\n        restrictions.sort_unstable_by_key(|x| x[0]);\n\n        for idx in 0..restrictions.len() - 1 {\n            let (p_idx, p_max) = (restrictions[idx][0], restrictions[idx][1]);\n            let (n_idx, n_max) = (restrictions[idx + 1][0], &mut restrictions[idx + 1][1]);\n            let dist = n_idx - p_idx;\n            *n_max = (p_max + dist).min(*n_max);\n        }\n\n        for idx in (1..restrictions.len()).rev() {\n            let (p_idx, p_max) = (restrictions[idx][0], restrictions[idx][1]);\n            let (n_idx, n_max) = (restrictions[idx - 1][0], &mut restrictions[idx - 1][1]);\n            let dist = p_idx - n_idx;\n            *n_max = (p_max + dist).min(*n_max);\n        }\n\n        let mut max = 0;\n\n        for win in restrictions.windows(2) {\n            let (p_idx, p_max) = (win[0][0], win[0][1]);\n            let (n_idx, n_max) = (win[1][0], win[1][1]);\n            let dist = n_idx - p_idx;\n            max = max.max((p_max + n_max + dist) / 2);\n        }\n\n        max\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        Solution::max_building(\n            10,\n            vec![\n                vec![6, 0],\n                vec![5, 2],\n                vec![7, 0],\n                vec![9, 1],\n                vec![2, 4],\n                vec![3, 4],\n                vec![4, 0],\n                vec![8, 2],\n                vec![10, 0]\n            ]\n        ),\n        1\n    );\n}\n",
+          "codeHash": "3dbfe5fd309b8aa99ee9fa1a4471330ceaf228b9a1059d6f41290bab611f4113",
+          "markedWrong": false,
+          "commitComment": "had a peek at hints",
+          "rawCommitSubject": "rust 1840: had a peek at hints",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "two-pass-constraint-propagation",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation with separate forward and backward passes, then computing max between adjacent constraints.",
+          "warnings": []
+        },
+        {
+          "sha": "e6583c06ac6793c0baaf1b65c1466c19310eab45",
+          "shortSha": "e6583c0",
+          "parentSha": "7118a7ee9daff68ef6c87f8b0fc1bb30e33d310c",
+          "authoredAt": "2026-06-21T10:20:58+08:00",
+          "committedAt": "2026-06-21T10:26:44+08:00",
+          "chronologicalIndex": 182,
+          "problemId": 1840,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1840_maximum_building_height.rs",
+          "sourceFilename": "1840_maximum_building_height.rs",
+          "code": "impl Solution {\n    pub fn max_building(n: i32, mut restrictions: Vec<Vec<i32>>) -> i32 {\n        restrictions.push(vec![1, 0]);\n        restrictions.sort_unstable_by_key(|x| x[0]);\n        restrictions.push(vec![n, n - 1]);\n\n        for idx in (1..restrictions.len()).rev() {\n            let (p_idx, p_max) = (restrictions[idx][0], restrictions[idx][1]);\n            let (n_idx, n_max) = (restrictions[idx - 1][0], &mut restrictions[idx - 1][1]);\n            let dist = p_idx - n_idx;\n            *n_max = (p_max + dist).min(*n_max);\n        }\n\n        let mut max = 0;\n\n        for idx in 0..restrictions.len() - 1 {\n            let (p_idx, p_max) = (restrictions[idx][0], restrictions[idx][1]);\n            let (n_idx, n_max) = (restrictions[idx + 1][0], &mut restrictions[idx + 1][1]);\n            let dist = n_idx - p_idx;\n            *n_max = (p_max + dist).min(*n_max);\n            max = max.max((p_max + *n_max + dist) / 2);\n        }\n\n        max\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        Solution::max_building(\n            10,\n            vec![\n                vec![6, 0],\n                vec![5, 2],\n                vec![7, 0],\n                vec![9, 1],\n                vec![2, 4],\n                vec![3, 4],\n                vec![4, 0],\n                vec![8, 2],\n                vec![10, 0]\n            ]\n        ),\n        1\n    );\n}\n",
+          "codeHash": "4cd653c185cbecf0da249d4a9279b0ad663941556dcfb80f79e4dba74a6f6651",
+          "markedWrong": false,
+          "commitComment": "one less interation",
+          "rawCommitSubject": "rust 1840: one less interation",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/1840_maximum_building_height.rs b/rust/src/bin/1840_maximum_building_height.rs\nindex 6aab75d..bda49e3 100644\n--- a/rust/src/bin/1840_maximum_building_height.rs\n+++ b/rust/src/bin/1840_maximum_building_height.rs\n@@ -1,15 +1,8 @@\n impl Solution {\n     pub fn max_building(n: i32, mut restrictions: Vec<Vec<i32>>) -> i32 {\n         restrictions.push(vec![1, 0]);\n-        restrictions.push(vec![n, n - 1]);\n         restrictions.sort_unstable_by_key(|x| x[0]);\n-\n-        for idx in 0..restrictions.len() - 1 {\n-            let (p_idx, p_max) = (restrictions[idx][0], restrictions[idx][1]);\n-            let (n_idx, n_max) = (restrictions[idx + 1][0], &mut restrictions[idx + 1][1]);\n-            let dist = n_idx - p_idx;\n-            *n_max = (p_max + dist).min(*n_max);\n-        }\n+        restrictions.push(vec![n, n - 1]);\n \n         for idx in (1..restrictions.len()).rev() {\n             let (p_idx, p_max) = (restrictions[idx][0], restrictions[idx][1]);\n@@ -20,11 +13,12 @@ impl Solution {\n \n         let mut max = 0;\n \n-        for win in restrictions.windows(2) {\n-            let (p_idx, p_max) = (win[0][0], win[0][1]);\n-            let (n_idx, n_max) = (win[1][0], win[1][1]);\n+        for idx in 0..restrictions.len() - 1 {\n+            let (p_idx, p_max) = (restrictions[idx][0], restrictions[idx][1]);\n+            let (n_idx, n_max) = (restrictions[idx + 1][0], &mut restrictions[idx + 1][1]);\n             let dist = n_idx - p_idx;\n-            max = max.max((p_max + n_max + dist) / 2);\n+            *n_max = (p_max + dist).min(*n_max);\n+            max = max.max((p_max + *n_max + dist) / 2);\n         }\n \n         max\n",
+          "changedLineCounts": {
+            "additions": 6,
+            "deletions": 12
+          },
+          "approachId": "two-pass-constraint-propagation",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Optimized by merging the backward pass into the forward pass and computing max during the same iteration.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "7118a7ee9daff68ef6c87f8b0fc1bb30e33d310c",
+    "e6583c06ac6793c0baaf1b65c1466c19310eab45"
+  ],
+  "warnings": []
+}

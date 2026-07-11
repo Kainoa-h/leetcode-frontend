@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2452,
+    "title": "Words Within Two Edits of Dictionary",
+    "slug": "words-within-two-edits-of-dictionary"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/2452_words_within_two_edits_of_dictionary.java",
+    "latestSha": "7d2deaaa5e2f584c2388361a744fd46cd974cd5f",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-04-23T22:21:24+08:00",
+    "lastCommittedAt": "2026-04-23T22:21:24+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "f5450cfe6191708306b3785f972f4dc0dc2c268b838555bbdda2a9943a367797"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "7d2deaaa5e2f584c2388361a744fd46cd974cd5f",
+          "shortSha": "7d2deaa",
+          "parentSha": "77a7ffd2dc8c0293ffa76254b6b4e5e0a0697dce",
+          "authoredAt": "2026-04-23T22:21:24+08:00",
+          "committedAt": "2026-04-23T22:21:24+08:00",
+          "chronologicalIndex": 111,
+          "problemId": 2452,
+          "language": "java",
+          "sourcePath": "java/src/solutions/2452_words_within_two_edits_of_dictionary.java",
+          "sourceFilename": "2452_words_within_two_edits_of_dictionary.java",
+          "code": "import java.util.ArrayList;\nimport java.util.List;\n\nclass Solution {\n  public List<String> twoEditWords(String[] queries, String[] dictionary) {\n    List<String> result = new ArrayList<>();\n    for (var query : queries) {\n      for (var word : dictionary) {\n        if (matchWord(query, word)) {\n          result.add(query);\n          break;\n        }\n      }\n    }\n    return result;\n  }\n\n  boolean matchWord(String query, String word) {\n    int errors = 0;\n    for (int i = 0; i < query.length(); i++) {\n      if (query.charAt(i) != word.charAt(i)) {\n        errors++;\n        if (errors > 2) {\n          return false;\n        }\n      }\n    }\n    return true;\n  }\n}\n",
+          "codeHash": "60f3aa6c49b226b25bfd03842aa6f046ae4ef52f2f6c5cb876097e12d13e30f4",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "java 2452",
+          "commitBody": "time: O(q*d*l)\nspace: O(n)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "7d2deaaa5e2f584c2388361a744fd46cd974cd5f"
+  ],
+  "warnings": []
+}

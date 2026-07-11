@@ -1,5 +1,8 @@
 import type { NarrativeResult, SolutionRevision } from './schemas.js';
 import { validateNarrative, PROMPT_VERSION } from './schemas.js';
+export function shouldRequestLlm(revisionCount: number): boolean {
+  return revisionCount > 1;
+}
 export function fallbackNarrative(
   revisions: Pick<SolutionRevision, 'sha' | 'commitComment'>[],
 ): NarrativeResult {

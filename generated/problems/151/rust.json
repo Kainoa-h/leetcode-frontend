@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 151,
+    "title": "Reverse Words in String",
+    "slug": "reverse-words-in-string"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/151_reverse_words_in_string.rs",
+    "latestSha": "74a3de0475a2c5753d2b42a663fd763140f05775",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-01-31T14:27:54+08:00",
+    "lastCommittedAt": "2026-01-31T14:27:54+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "8965bdee60857db181db629b1bafc49c700792cf5e55a52b678253b86abf10cc"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "74a3de0475a2c5753d2b42a663fd763140f05775",
+          "shortSha": "74a3de0",
+          "parentSha": "0f4a5e45aeb7107b2fb9545e5858e45a1475fab3",
+          "authoredAt": "2026-01-31T14:27:54+08:00",
+          "committedAt": "2026-01-31T14:27:54+08:00",
+          "chronologicalIndex": 42,
+          "problemId": 151,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/151_reverse_words_in_string.rs",
+          "sourceFilename": "151_reverse_words_in_string.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn reverse_words(s: String) -> String {\n        s.split_whitespace().rev().collect::<Vec<&str>>().join(\" \")\n    }\n}\n\nfn main() {\n    println!(\n        \"'{}'\",\n        Solution::reverse_words(\"  a good   example  \".to_owned())\n    );\n}\n",
+          "codeHash": "a864f496e3c8475ab75b9194b14e0b2765eb9fd460ad2f10007a79ba46973dca",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "151",
+          "commitBody": "time: O(n)\nspace: O(n)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "74a3de0475a2c5753d2b42a663fd763140f05775"
+  ],
+  "warnings": []
+}

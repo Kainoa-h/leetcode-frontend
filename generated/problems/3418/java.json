@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3418,
+    "title": "Maximum Amount of Money Robot Can Earn",
+    "slug": "maximum-amount-of-money-robot-can-earn"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/3418_maximum_amount_of_money_robot_can_earn.java",
+    "latestSha": "887d64cac8222f3a9391ba812e13969ed3d106e2",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-04-02T19:51:07+08:00",
+    "lastCommittedAt": "2026-04-02T21:20:16+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "1a6a6a935fa7bbbf18479225fff4ef53a4abe461c282be0532fddbf0924a7717"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "7326b338b1f800ea6a4326f4543508239388055d",
+          "shortSha": "7326b33",
+          "parentSha": "fd0416d8c4fc63752ec8086ae5a9afeb39943679",
+          "authoredAt": "2026-04-02T18:03:24+08:00",
+          "committedAt": "2026-04-02T19:51:07+08:00",
+          "chronologicalIndex": 95,
+          "problemId": 3418,
+          "language": "java",
+          "sourcePath": "java/src/solutions/3418_maximum_amount_of_money_robot_can_earn.java",
+          "sourceFilename": "3418_maximum_amount_of_money_robot_can_earn.java",
+          "code": "class Solution {\n  public int maximumAmount(int[][] coins) {\n    final int NEUTRALISES = 2;\n    Integer[][] rollingRow = new Integer[coins[0].length][NEUTRALISES + 1];\n    rollingRow[0][0] = 0;\n\n    for (int rowIdx = 0; rowIdx < coins.length; rowIdx++) {\n      for (int colIdx = 0; colIdx < coins[0].length; colIdx++) {\n        int coin = coins[rowIdx][colIdx];\n        Integer[] rollingCol = rollingRow[colIdx];\n\n        for (int i = 0; i < NEUTRALISES + 1; i++) {\n          Integer left = null;\n          if (colIdx != 0) {\n            left = rollingRow[colIdx - 1][i];\n          }\n          Integer top = rollingCol[i];\n          if (left == null && top == null) {\n            continue;\n          } else if (left == null) {\n            rollingCol[i] = top + coin;\n          } else if (top == null) {\n            rollingCol[i] = left + coin;\n          } else {\n            rollingCol[i] = Integer.max(top, left) + coin;\n          }\n        }\n\n        if (coin < 0) {\n          var snapshot = rollingCol.clone();\n          for (int i = 0; i < NEUTRALISES; i++) {\n            if (snapshot[i] == null)\n              break;\n            int neuralisedVal = snapshot[i] - coin;\n            if (rollingCol[i + 1] == null || neuralisedVal > rollingCol[i + 1])\n              rollingCol[i + 1] = neuralisedVal;\n          }\n        }\n      }\n    }\n\n    var last = rollingRow[rollingRow.length - 1];\n    int result = last[0];\n    for (Integer i : last) {\n      if (i == null) {\n        continue;\n      }\n      if (i > result) {\n        result = i;\n      }\n    }\n    return result;\n\n  }\n\n  void main() {\n    int x = 0;\n\n    x = maximumAmount(new int[][] { { 0, 1, -1 }, { 1, -2, 3 }, { 2, -3, 4 } });\n    System.out.println(x);\n    assert x == 8;\n\n    x = maximumAmount(new int[][] { { 10, 10, 10 }, { 10, 10, 10 } });\n    System.out.println(x);\n    assert x == 40;\n\n    x = maximumAmount(new int[][] { { -7, 12, 12, 13 }, { -6, 19, 19, -6 }, { 9, -2, -10, 16 }, { -4, 14, -10, -9 } });\n    System.out.println(x);\n    assert x == 60;\n  }\n}\n",
+          "codeHash": "a95f0de36951a92765b43da2b72d2b9825e185b473f913dcb63dd863c5af4609",
+          "markedWrong": false,
+          "commitComment": "works for any neutralises count",
+          "rawCommitSubject": "java 3418: works for any neutralises count",
+          "commitBody": "time: O(m*n)\nspace: O(n)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "works for any neutralises count",
+          "warnings": []
+        },
+        {
+          "sha": "887d64cac8222f3a9391ba812e13969ed3d106e2",
+          "shortSha": "887d64c",
+          "parentSha": "7326b338b1f800ea6a4326f4543508239388055d",
+          "authoredAt": "2026-04-02T21:20:16+08:00",
+          "committedAt": "2026-04-02T21:20:16+08:00",
+          "chronologicalIndex": 96,
+          "problemId": 3418,
+          "language": "java",
+          "sourcePath": "java/src/solutions/3418_maximum_amount_of_money_robot_can_earn.java",
+          "sourceFilename": "3418_maximum_amount_of_money_robot_can_earn.java",
+          "code": "import java.util.Arrays;\n\nclass Solution {\n  public int maximumAmount(int[][] coins) {\n    int[][] dp = new int[coins[0].length + 1][3];\n    for (var col : dp) {\n      Arrays.fill(col, Integer.MIN_VALUE / 2);\n    }\n    dp[1][0] = 0;\n    dp[1][1] = 0;\n    dp[1][2] = 0;\n\n    for (var row : coins) {\n      for (int colIdx = 1; colIdx < dp.length; colIdx++) {\n        final int coin = row[colIdx - 1];\n        dp[colIdx][2] = Math.max(\n            Math.max(dp[colIdx][2], dp[colIdx - 1][2]) + coin,\n            Math.max(dp[colIdx][1], dp[colIdx - 1][1]));\n        dp[colIdx][1] = Math.max(\n            Math.max(dp[colIdx][1], dp[colIdx - 1][1]) + coin,\n            Math.max(dp[colIdx][0], dp[colIdx - 1][0]));\n        dp[colIdx][0] = Math.max(dp[colIdx][0], dp[colIdx - 1][0]) + coin;\n      }\n    }\n\n    return dp[dp.length - 1][2];\n  }\n\n  void main() {\n    int x = 0;\n\n    x = maximumAmount(new int[][] { { 0, 1, -1 }, { 1, -2, 3 }, { 2, -3, 4 } });\n    System.out.println(x);\n    assert x == 8;\n\n    x = maximumAmount(new int[][] { { 10, 10, 10 }, { 10, 10, 10 } });\n    System.out.println(x);\n    assert x == 40;\n\n    x = maximumAmount(new int[][] { { -7, 12, 12, 13 }, { -6, 19, 19, -6 }, { 9, -2, -10, 16 }, { -4, 14, -10, -9 } });\n    System.out.println(x);\n    assert x == 60;\n  }\n}\n",
+          "codeHash": "91517293d6a3047a77db73addf179569b8d6799264dc1682dc3d7f6bef7a2d0d",
+          "markedWrong": false,
+          "commitComment": "proper solution with dummy col",
+          "rawCommitSubject": "java 3418: proper solution with dummy col",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/java/src/solutions/3418_maximum_amount_of_money_robot_can_earn.java b/java/src/solutions/3418_maximum_amount_of_money_robot_can_earn.java\nindex 05f1032..72fa516 100644\n--- a/java/src/solutions/3418_maximum_amount_of_money_robot_can_earn.java\n+++ b/java/src/solutions/3418_maximum_amount_of_money_robot_can_earn.java\n@@ -1,56 +1,29 @@\n+import java.util.Arrays;\n+\n class Solution {\n   public int maximumAmount(int[][] coins) {\n-    final int NEUTRALISES = 2;\n-    Integer[][] rollingRow = new Integer[coins[0].length][NEUTRALISES + 1];\n-    rollingRow[0][0] = 0;\n-\n-    for (int rowIdx = 0; rowIdx < coins.length; rowIdx++) {\n-      for (int colIdx = 0; colIdx < coins[0].length; colIdx++) {\n-        int coin = coins[rowIdx][colIdx];\n-        Integer[] rollingCol = rollingRow[colIdx];\n-\n-        for (int i = 0; i < NEUTRALISES + 1; i++) {\n-          Integer left = null;\n-          if (colIdx != 0) {\n-            left = rollingRow[colIdx - 1][i];\n-          }\n-          Integer top = rollingCol[i];\n-          if (left == null && top == null) {\n-            continue;\n-          } else if (left == null) {\n-            rollingCol[i] = top + coin;\n-          } else if (top == null) {\n-            rollingCol[i] = left + coin;\n-          } else {\n-            rollingCol[i] = Integer.max(top, left) + coin;\n-          }\n-        }\n-\n-        if (coin < 0) {\n-          var snapshot = rollingCol.clone();\n-          for (int i = 0; i < NEUTRALISES; i++) {\n-            if (snapshot[i] == null)\n-              break;\n-            int neuralisedVal = snapshot[i] - coin;\n-            if (rollingCol[i + 1] == null || neuralisedVal > rollingCol[i + 1])\n-              rollingCol[i + 1] = neuralisedVal;\n-          }\n-        }\n-      }\n+    int[][] dp = new int[coins[0].length + 1][3];\n+    for (var col : dp) {\n+      Arrays.fill(col, Integer.MIN_VALUE / 2);\n     }\n-\n-    var last = rollingRow[rollingRow.length - 1];\n-    int result = last[0];\n-    for (Integer i : last) {\n-      if (i == null) {\n-        continue;\n-      }\n-      if (i > result) {\n-        result = i;\n+    dp[1][0] = 0;\n+    dp[1][1] = 0;\n+    dp[1][2] = 0;\n+\n+    for (var row : coins) {\n+      for (int colIdx = 1; colIdx < dp.length; colIdx++) {\n+        final int coin = row[colIdx - 1];\n+        dp[colIdx][2] = Math.max(\n+            Math.max(dp[colIdx][2], dp[colIdx - 1][2]) + coin,\n+            Math.max(dp[colIdx][1], dp[colIdx - 1][1]));\n+        dp[colIdx][1] = Math.max(\n+            Math.max(dp[colIdx][1], dp[colIdx - 1][1]) + coin,\n+            Math.max(dp[colIdx][0], dp[colIdx - 1][0]));\n+        dp[colIdx][0] = Math.max(dp[colIdx][0], dp[colIdx - 1][0]) + coin;\n       }\n     }\n-    return result;\n \n+    return dp[dp.length - 1][2];\n   }\n \n   void main() {\n",
+          "changedLineCounts": {
+            "additions": 20,
+            "deletions": 47
+          },
+          "approachId": "chronological",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "proper solution with dummy col",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "7326b338b1f800ea6a4326f4543508239388055d",
+    "887d64cac8222f3a9391ba812e13969ed3d106e2"
+  ],
+  "warnings": []
+}

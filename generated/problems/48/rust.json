@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 48,
+    "title": "Rotate Image",
+    "slug": "rotate-image"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/48_rotate_image.rs",
+    "latestSha": "68a1c3d2bffe82f9982ef5ad1f4f17b69c91d180",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-03-27T22:46:58+08:00",
+    "lastCommittedAt": "2026-03-27T22:46:58+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "797c62295a35dcca9b1a2fd1defa7d312129b9d250de05a4d52ceb311d39edf3"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "68a1c3d2bffe82f9982ef5ad1f4f17b69c91d180",
+          "shortSha": "68a1c3d",
+          "parentSha": "6acaefdb79008808ee2cbdabcfda6eac6bce15fa",
+          "authoredAt": "2026-03-27T22:46:58+08:00",
+          "committedAt": "2026-03-27T22:46:58+08:00",
+          "chronologicalIndex": 78,
+          "problemId": 48,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/48_rotate_image.rs",
+          "sourceFilename": "48_rotate_image.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn rotate(matrix: &mut Vec<Vec<i32>>) {\n        for i in 0..matrix.len() {\n            for j in i..matrix.len() {\n                (matrix[i][j], matrix[j][i]) = (matrix[j][i], matrix[i][j]);\n            }\n            matrix[i].reverse();\n        }\n    }\n}\n\nfn main() {\n    println!(\"i ain't writing a test for this\");\n}\n",
+          "codeHash": "facf5431adc5c52f33a6944f3a6ba9e67dadd65efd9cb4e6d55ec0aadfc2660c",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "48",
+          "commitBody": "time: O(n*n)\nspace: O(1)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "68a1c3d2bffe82f9982ef5ad1f4f17b69c91d180"
+  ],
+  "warnings": []
+}

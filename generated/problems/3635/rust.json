@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3635,
+    "title": "Earliest Finish Time For Land and Water Rides",
+    "slug": "earliest-finish-time-for-land-and-water-rides"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3635_earliest_finish_time_for_land_and_water_rides.rs",
+    "latestSha": "7af8c65b19970f7a01b07e3594bd6672d60ebc2f",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-06-03T21:56:30+08:00",
+    "lastCommittedAt": "2026-06-03T21:56:30+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "6b96c96a0bb67f95989f55e057f38a8665fc919240a873ea951cbe1eb5702c70"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "7af8c65b19970f7a01b07e3594bd6672d60ebc2f",
+          "shortSha": "7af8c65",
+          "parentSha": "866d2132509c8a4d5ea09d9e3f3c8701afcafc91",
+          "authoredAt": "2026-06-03T21:56:30+08:00",
+          "committedAt": "2026-06-03T21:56:30+08:00",
+          "chronologicalIndex": 137,
+          "problemId": 3635,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3635_earliest_finish_time_for_land_and_water_rides.rs",
+          "sourceFilename": "3635_earliest_finish_time_for_land_and_water_rides.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn earliest_finish_time(\n        land_start_time: Vec<i32>,\n        land_duration: Vec<i32>,\n        water_start_time: Vec<i32>,\n        water_duration: Vec<i32>,\n    ) -> i32 {\n        let earliest_land_finish = land_start_time\n            .iter()\n            .zip(land_duration.iter().by_ref())\n            .map(|(s, d)| s + d)\n            .min()\n            .unwrap();\n        let earliest_land_then_water_finish = water_start_time\n            .iter()\n            .zip(water_duration.iter().by_ref())\n            .map(|(s, d)| earliest_land_finish.max(*s) + d)\n            .min()\n            .unwrap();\n\n        let earliest_water_finish = water_start_time\n            .iter()\n            .zip(water_duration.iter().by_ref())\n            .map(|(s, d)| s + d)\n            .min()\n            .unwrap();\n\n        let earliest_water_then_land_finish = land_start_time\n            .iter()\n            .zip(land_duration.iter().by_ref())\n            .map(|(s, d)| earliest_water_finish.max(*s) + d)\n            .min()\n            .unwrap();\n        earliest_water_then_land_finish.min(earliest_land_then_water_finish)\n    }\n}\n",
+          "codeHash": "3ed0dcfd6a3e6a73b0c2675fa3057e2bd85e6b2f838371d388bef389d3671272",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 3635",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "7af8c65b19970f7a01b07e3594bd6672d60ebc2f"
+  ],
+  "warnings": []
+}

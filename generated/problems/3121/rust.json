@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3121,
+    "title": "Count the Number of Special Characters Ii",
+    "slug": "count-the-number-of-special-characters-ii"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3121_count_the_number_of_special_characters_II.rs",
+    "latestSha": "349e7edbe414280712f6ab60bfe731e4a2f1ce92",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-05-27T16:49:49+08:00",
+    "lastCommittedAt": "2026-05-27T17:06:51+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "90969bf7eea09ad5f6048b8a5544c228a0e30045416cdaa470b8ac29cd2b27b3"
+  },
+  "approaches": [
+    {
+      "id": "state-machine-array",
+      "title": "State Machine with Array Tracking",
+      "summary": "Track character states (Unseen, LowerOnly, UpperAfterLower, UpperBeforeLower) using an array of enums to count special characters efficiently.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "58ecf2455e812efe481033ffc9b40c4132943160",
+          "shortSha": "58ecf24",
+          "parentSha": "d299acc5c9143da116c88811abd99810b93b1acb",
+          "authoredAt": "2026-05-27T16:49:49+08:00",
+          "committedAt": "2026-05-27T16:49:49+08:00",
+          "chronologicalIndex": 128,
+          "problemId": 3121,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3121_count_the_number_of_special_characters_II.rs",
+          "sourceFilename": "3121_count_the_number_of_special_characters_II.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn number_of_special_chars(word: String) -> i32 {\n        // 0: none\n        // 1: lower_only\n        // 2: upper_after_lower\n        // 3: lower_after_upper\n        let mut count = 0;\n        let mut count_arr = [0_u8; 26];\n\n        for &c in word.as_bytes() {\n            if (c as char).is_lowercase() {\n                let idx = (c - b'a') as usize;\n                if count_arr[idx] == 0 {\n                    count_arr[idx] = 1;\n                } else if count_arr[idx] == 2 {\n                    count_arr[idx] = 3;\n                    count -= 1;\n                }\n            } else {\n                let idx = (c - b'A') as usize;\n                if count_arr[idx] == 0 {\n                    count_arr[idx] = 3;\n                } else if count_arr[idx] == 1 {\n                    count_arr[idx] = 2;\n                    count += 1;\n                }\n            }\n        }\n\n        count\n    }\n}\n\nfn main() {\n    assert_eq!(3, Solution::number_of_special_chars(\"aaAbcBC\".to_owned()));\n    assert_eq!(1, Solution::number_of_special_chars(\"AbcbDBdD\".to_owned()));\n}\n",
+          "codeHash": "3a4b5784f2f3a6630ad4d6acbe0873b94c2bffb1ece535bc60c3dce0112f7b11",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 3121",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "state-machine-array",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation using u8 array with manual state transitions and counter adjustments.",
+          "warnings": []
+        },
+        {
+          "sha": "349e7edbe414280712f6ab60bfe731e4a2f1ce92",
+          "shortSha": "349e7ed",
+          "parentSha": "58ecf2455e812efe481033ffc9b40c4132943160",
+          "authoredAt": "2026-05-27T17:06:51+08:00",
+          "committedAt": "2026-05-27T17:06:51+08:00",
+          "chronologicalIndex": 129,
+          "problemId": 3121,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3121_count_the_number_of_special_characters_II.rs",
+          "sourceFilename": "3121_count_the_number_of_special_characters_II.rs",
+          "code": "struct Solution {}\n\n#[derive(Clone, Copy, PartialEq)]\nenum State {\n    Unseen,\n    LowerOnly,\n    UpperAfterLower,\n    UpperBeforeLower,\n}\n\nimpl Solution {\n    pub fn number_of_special_chars(word: String) -> i32 {\n        let mut count_arr = [State::Unseen; 26];\n\n        for &c in word.as_bytes() {\n            if c.is_ascii_lowercase() {\n                let idx = (c - b'a') as usize;\n                match count_arr[idx] {\n                    State::Unseen => count_arr[idx] = State::LowerOnly,\n                    State::UpperAfterLower => count_arr[idx] = State::UpperBeforeLower,\n                    _ => {}\n                }\n            } else {\n                let idx = (c - b'A') as usize;\n                match count_arr[idx] {\n                    State::LowerOnly => count_arr[idx] = State::UpperAfterLower,\n                    State::Unseen => count_arr[idx] = State::UpperBeforeLower,\n                    _ => {}\n                }\n            }\n        }\n\n        count_arr\n            .iter()\n            .filter(|&&x| x == State::UpperAfterLower)\n            .count() as i32\n    }\n}\n\nfn main() {\n    assert_eq!(3, Solution::number_of_special_chars(\"aaAbcBC\".to_owned()));\n    assert_eq!(1, Solution::number_of_special_chars(\"AbcbDBdD\".to_owned()));\n}\n",
+          "codeHash": "3bc9206ec2c365e6b5b895572d98dc46c93a6d58f3e61361328d99b53e03af17",
+          "markedWrong": false,
+          "commitComment": "more idomatic",
+          "rawCommitSubject": "rust 3121: more idomatic",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3121_count_the_number_of_special_characters_II.rs b/rust/src/bin/3121_count_the_number_of_special_characters_II.rs\nindex 6a40222..9dbf52c 100644\n--- a/rust/src/bin/3121_count_the_number_of_special_characters_II.rs\n+++ b/rust/src/bin/3121_count_the_number_of_special_characters_II.rs\n@@ -1,34 +1,39 @@\n struct Solution {}\n+\n+#[derive(Clone, Copy, PartialEq)]\n+enum State {\n+    Unseen,\n+    LowerOnly,\n+    UpperAfterLower,\n+    UpperBeforeLower,\n+}\n+\n impl Solution {\n     pub fn number_of_special_chars(word: String) -> i32 {\n-        // 0: none\n-        // 1: lower_only\n-        // 2: upper_after_lower\n-        // 3: lower_after_upper\n-        let mut count = 0;\n-        let mut count_arr = [0_u8; 26];\n+        let mut count_arr = [State::Unseen; 26];\n \n         for &c in word.as_bytes() {\n-            if (c as char).is_lowercase() {\n+            if c.is_ascii_lowercase() {\n                 let idx = (c - b'a') as usize;\n-                if count_arr[idx] == 0 {\n-                    count_arr[idx] = 1;\n-                } else if count_arr[idx] == 2 {\n-                    count_arr[idx] = 3;\n-                    count -= 1;\n+                match count_arr[idx] {\n+                    State::Unseen => count_arr[idx] = State::LowerOnly,\n+                    State::UpperAfterLower => count_arr[idx] = State::UpperBeforeLower,\n+                    _ => {}\n                 }\n             } else {\n                 let idx = (c - b'A') as usize;\n-                if count_arr[idx] == 0 {\n-                    count_arr[idx] = 3;\n-                } else if count_arr[idx] == 1 {\n-                    count_arr[idx] = 2;\n-                    count += 1;\n+                match count_arr[idx] {\n+                    State::LowerOnly => count_arr[idx] = State::UpperAfterLower,\n+                    State::Unseen => count_arr[idx] = State::UpperBeforeLower,\n+                    _ => {}\n                 }\n             }\n         }\n \n-        count\n+        count_arr\n+            .iter()\n+            .filter(|&&x| x == State::UpperAfterLower)\n+            .count() as i32\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 23,
+            "deletions": 18
+          },
+          "approachId": "state-machine-array",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Refactored to use a State enum for clarity, replacing manual state transitions with pattern matching and filtering the '",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "58ecf2455e812efe481033ffc9b40c4132943160",
+    "349e7edbe414280712f6ab60bfe731e4a2f1ce92"
+  ],
+  "warnings": []
+}

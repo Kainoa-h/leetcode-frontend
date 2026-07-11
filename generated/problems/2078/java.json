@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2078,
+    "title": "Two Furthest Houses With Different Colors",
+    "slug": "two-furthest-houses-with-different-colors"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/2078_two_furthest_houses_with_different_colors.java",
+    "latestSha": "c92abdd68962778935aa16eda87f6b94a069a210",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-04-20T20:58:49+08:00",
+    "lastCommittedAt": "2026-04-20T20:58:49+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "b5e4a62fb5fd650c10ea29709eb4d34aafd013c3846c351c3b40744217ede4fe"
+  },
+  "approaches": [
+    {
+      "id": "two-pointers-linear-scan",
+      "title": "Two-pointer linear scan from both ends",
+      "summary": "Iterate from both ends of the array simultaneously to find the maximum distance between houses of different colors in O(n) time and O(1) space.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "240d57ef1d2d369cdd566ad539cbb1413ea6ece7",
+          "shortSha": "240d57e",
+          "parentSha": "6f35d17dcd4e50119b63c8f1ddf43cac511bd899",
+          "authoredAt": "2026-04-20T20:43:01+08:00",
+          "committedAt": "2026-04-20T20:58:49+08:00",
+          "chronologicalIndex": 107,
+          "problemId": 2078,
+          "language": "java",
+          "sourcePath": "java/src/solutions/2078_two_furthest_houses_with_different_colors.java",
+          "sourceFilename": "2078_two_furthest_houses_with_different_colors.java",
+          "code": "class Solution {\n  public int maxDistance(int[] colors) {\n    int left = colors[0], right = colors[colors.length - 1];\n\n    for (int i = 0; i < colors.length; i++) {\n      if (left != colors[colors.length - 1 - i]) {\n        return colors.length - 1 - i;\n      }\n\n      if (right != colors[i]) {\n        return colors.length - 1 - i;\n      }\n    }\n    return -1;\n  }\n\n  void main() {\n    assert maxDistance(new int[] { 1, 1, 1, 6, 1, 1, 1 }) == 3;\n    assert maxDistance(new int[] { 1, 8, 3, 8, 3 }) == 4;\n    assert maxDistance(new int[] { 0, 1 }) == 1;\n  }\n}\n",
+          "codeHash": "57f5786d6bc68a05452d19e629d6b4ea923774840257604db959b82879d2b509",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "java 2078",
+          "commitBody": "time: O(n)\nspace: O(1)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "two-pointers-linear-scan",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation scanning from both ends with early termination.",
+          "warnings": []
+        },
+        {
+          "sha": "c92abdd68962778935aa16eda87f6b94a069a210",
+          "shortSha": "c92abdd",
+          "parentSha": "240d57ef1d2d369cdd566ad539cbb1413ea6ece7",
+          "authoredAt": "2026-04-20T20:48:33+08:00",
+          "committedAt": "2026-04-20T20:58:49+08:00",
+          "chronologicalIndex": 108,
+          "problemId": 2078,
+          "language": "java",
+          "sourcePath": "java/src/solutions/2078_two_furthest_houses_with_different_colors.java",
+          "sourceFilename": "2078_two_furthest_houses_with_different_colors.java",
+          "code": "class Solution {\n  public int maxDistance(int[] colors) {\n    int left = colors[0], right = colors[colors.length - 1];\n    int lastIdx = colors.length - 1;\n\n    for (int dist = lastIdx; dist > 0; dist--) {\n      if (left != colors[dist] || right != colors[lastIdx - dist]) {\n        return dist;\n      }\n    }\n\n    return 0;\n  }\n\n  void main() {\n    assert maxDistance(new int[] { 1, 1, 1, 6, 1, 1, 1 }) == 3;\n    assert maxDistance(new int[] { 1, 8, 3, 8, 3 }) == 4;\n    assert maxDistance(new int[] { 0, 1 }) == 1;\n  }\n}\n",
+          "codeHash": "492e2435b0096e1104def745decd7ed7752c7aac6b3d88a0323fffe492056808",
+          "markedWrong": false,
+          "commitComment": "more idomatic",
+          "rawCommitSubject": "java 2078: more idomatic",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/java/src/solutions/2078_two_furthest_houses_with_different_colors.java b/java/src/solutions/2078_two_furthest_houses_with_different_colors.java\nindex 9a17a7b..0c25954 100644\n--- a/java/src/solutions/2078_two_furthest_houses_with_different_colors.java\n+++ b/java/src/solutions/2078_two_furthest_houses_with_different_colors.java\n@@ -1,17 +1,15 @@\n class Solution {\n   public int maxDistance(int[] colors) {\n     int left = colors[0], right = colors[colors.length - 1];\n+    int lastIdx = colors.length - 1;\n \n-    for (int i = 0; i < colors.length; i++) {\n-      if (left != colors[colors.length - 1 - i]) {\n-        return colors.length - 1 - i;\n-      }\n-\n-      if (right != colors[i]) {\n-        return colors.length - 1 - i;\n+    for (int dist = lastIdx; dist > 0; dist--) {\n+      if (left != colors[dist] || right != colors[lastIdx - dist]) {\n+        return dist;\n       }\n     }\n-    return -1;\n+\n+    return 0;\n   }\n \n   void main() {\n",
+          "changedLineCounts": {
+            "additions": 6,
+            "deletions": 8
+          },
+          "approachId": "two-pointers-linear-scan",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Refactored to use a single loop with distance variable for improved clarity and idiomatic style.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "240d57ef1d2d369cdd566ad539cbb1413ea6ece7",
+    "c92abdd68962778935aa16eda87f6b94a069a210"
+  ],
+  "warnings": []
+}

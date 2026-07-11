@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2906,
+    "title": "Construct Product Matrix",
+    "slug": "construct-product-matrix"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/2906_construct_product_matrix.rs",
+    "latestSha": "416dd686d53bc1c8a542355e717cae6e92dd1f42",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-03-24T22:01:08+08:00",
+    "lastCommittedAt": "2026-03-24T22:44:17+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "011aa9fa411ee63467c80aeb0fc02175a7fb46d651efd51e3b6e16aa329446db"
+  },
+  "approaches": [
+    {
+      "id": "prefix-postfix-product",
+      "title": "Prefix and Postfix Product Arrays",
+      "summary": "Compute prefix and postfix products modulo 12345 to construct the result matrix efficiently.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "c346dd7119b9c9ec639c1810616e454201d3509d",
+          "shortSha": "c346dd7",
+          "parentSha": "77f5961f91e4d817deb47ef0b7492d51001142cb",
+          "authoredAt": "2026-03-24T22:00:54+08:00",
+          "committedAt": "2026-03-24T22:01:08+08:00",
+          "chronologicalIndex": 69,
+          "problemId": 2906,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2906_construct_product_matrix.rs",
+          "sourceFilename": "2906_construct_product_matrix.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn construct_product_matrix(grid: Vec<Vec<i32>>) -> Vec<Vec<i32>> {\n        let row_count = grid.len();\n        let col_count = grid[0].len();\n        let mut prefix_list: Vec<u64> = Vec::new();\n        let mut postfix_list: Vec<u64> = Vec::new();\n        let mut result_grid: Vec<Vec<i32>> = vec![vec![0; col_count]; row_count];\n        let mut accumulator = 1_u64;\n        for row in grid.iter() {\n            for cell in row.iter() {\n                prefix_list.push(accumulator);\n                accumulator *= *cell as u64;\n                accumulator %= 12345;\n            }\n        }\n        accumulator = 1;\n        for row in grid.iter().rev() {\n            for cell in row.iter().rev() {\n                postfix_list.push(accumulator);\n                accumulator *= *cell as u64;\n                accumulator %= 12345;\n            }\n        }\n        postfix_list.reverse();\n\n        for (i, row) in result_grid.iter_mut().enumerate() {\n            let x = i * col_count;\n            for (j, cell) in row.iter_mut().enumerate() {\n                let prod = prefix_list[x + j] * postfix_list[x + j];\n                *cell = (prod % 12345) as i32;\n            }\n        }\n\n        result_grid\n    }\n}\n\nfn main() {\n    assert_eq!(\n        vec![vec![24, 12], vec![8, 6]],\n        Solution::construct_product_matrix(vec![vec![1, 2], vec![3, 4]])\n    );\n    assert_eq!(\n        vec![vec![2], vec![0], vec![0]],\n        Solution::construct_product_matrix(vec![vec![12345], vec![2], vec![1]])\n    );\n}\n\n",
+          "codeHash": "ed5370072ef37a311f80e3b0f4254408e7302b99afdaac2571ad59550c63bb30",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "2906",
+          "commitBody": "time: O(n*m)\nspace: O(n*m)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "prefix-postfix-product",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation using explicit loops for prefix and postfix products.",
+          "warnings": []
+        },
+        {
+          "sha": "afbaea26c53cc71828d52fe81af0237a1785677c",
+          "shortSha": "afbaea2",
+          "parentSha": "c346dd7119b9c9ec639c1810616e454201d3509d",
+          "authoredAt": "2026-03-24T22:39:58+08:00",
+          "committedAt": "2026-03-24T22:39:58+08:00",
+          "chronologicalIndex": 70,
+          "problemId": 2906,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2906_construct_product_matrix.rs",
+          "sourceFilename": "2906_construct_product_matrix.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn construct_product_matrix(grid: Vec<Vec<i32>>) -> Vec<Vec<i32>> {\n        let row_count = grid.len();\n        let col_count = grid[0].len();\n        let mut result_grid: Vec<Vec<i32>> = vec![vec![0; col_count]; row_count];\n\n        let prefix_list: Vec<u64> = grid\n            .iter()\n            .flatten()\n            .scan(1_u64, |acc, cell| {\n                let current = *acc;\n                *acc = (*acc * *cell as u64) % 12345;\n                Some(current)\n            })\n            .collect();\n\n        let mut postfix_list: Vec<u64> = grid\n            .iter()\n            .flatten()\n            .rev()\n            .scan(1_u64, |acc, cell| {\n                let current = *acc;\n                *acc = (*acc * *cell as u64) % 12345;\n                Some(current)\n            })\n            .collect();\n        postfix_list.reverse();\n        let postfix_list = postfix_list;\n\n        for (idx, cell) in result_grid.iter_mut().flatten().enumerate() {\n            let prod = prefix_list[idx] * postfix_list[idx];\n            *cell = (prod % 12345) as i32;\n        }\n\n        result_grid\n    }\n}\n\nfn main() {\n    assert_eq!(\n        vec![vec![24, 12], vec![8, 6]],\n        Solution::construct_product_matrix(vec![vec![1, 2], vec![3, 4]])\n    );\n    assert_eq!(\n        vec![vec![2], vec![0], vec![0]],\n        Solution::construct_product_matrix(vec![vec![12345], vec![2], vec![1]])\n    );\n}\n\n",
+          "codeHash": "49a94bebf16d817b9c3695291e92c5924409751ec15ff52edaf028a2deb2ff9b",
+          "markedWrong": false,
+          "commitComment": "a little more functional",
+          "rawCommitSubject": "2906: a little more functional",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2906_construct_product_matrix.rs b/rust/src/bin/2906_construct_product_matrix.rs\nindex f27c036..f7b28f9 100644\n--- a/rust/src/bin/2906_construct_product_matrix.rs\n+++ b/rust/src/bin/2906_construct_product_matrix.rs\n@@ -3,33 +3,34 @@ impl Solution {\n     pub fn construct_product_matrix(grid: Vec<Vec<i32>>) -> Vec<Vec<i32>> {\n         let row_count = grid.len();\n         let col_count = grid[0].len();\n-        let mut prefix_list: Vec<u64> = Vec::new();\n-        let mut postfix_list: Vec<u64> = Vec::new();\n         let mut result_grid: Vec<Vec<i32>> = vec![vec![0; col_count]; row_count];\n-        let mut accumulator = 1_u64;\n-        for row in grid.iter() {\n-            for cell in row.iter() {\n-                prefix_list.push(accumulator);\n-                accumulator *= *cell as u64;\n-                accumulator %= 12345;\n-            }\n-        }\n-        accumulator = 1;\n-        for row in grid.iter().rev() {\n-            for cell in row.iter().rev() {\n-                postfix_list.push(accumulator);\n-                accumulator *= *cell as u64;\n-                accumulator %= 12345;\n-            }\n-        }\n+\n+        let prefix_list: Vec<u64> = grid\n+            .iter()\n+            .flatten()\n+            .scan(1_u64, |acc, cell| {\n+                let current = *acc;\n+                *acc = (*acc * *cell as u64) % 12345;\n+                Some(current)\n+            })\n+            .collect();\n+\n+        let mut postfix_list: Vec<u64> = grid\n+            .iter()\n+            .flatten()\n+            .rev()\n+            .scan(1_u64, |acc, cell| {\n+                let current = *acc;\n+                *acc = (*acc * *cell as u64) % 12345;\n+                Some(current)\n+            })\n+            .collect();\n         postfix_list.reverse();\n+        let postfix_list = postfix_list;\n \n-        for (i, row) in result_grid.iter_mut().enumerate() {\n-            let x = i * col_count;\n-            for (j, cell) in row.iter_mut().enumerate() {\n-                let prod = prefix_list[x + j] * postfix_list[x + j];\n-                *cell = (prod % 12345) as i32;\n-            }\n+        for (idx, cell) in result_grid.iter_mut().flatten().enumerate() {\n+            let prod = prefix_list[idx] * postfix_list[idx];\n+            *cell = (prod % 12345) as i32;\n         }\n \n         result_grid\n",
+          "changedLineCounts": {
+            "additions": 25,
+            "deletions": 24
+          },
+          "approachId": "prefix-postfix-product",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Refactored to use iterator chains with scan for prefix and postfix products.",
+          "warnings": []
+        },
+        {
+          "sha": "416dd686d53bc1c8a542355e717cae6e92dd1f42",
+          "shortSha": "416dd68",
+          "parentSha": "afbaea26c53cc71828d52fe81af0237a1785677c",
+          "authoredAt": "2026-03-24T22:44:17+08:00",
+          "committedAt": "2026-03-24T22:44:17+08:00",
+          "chronologicalIndex": 71,
+          "problemId": 2906,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2906_construct_product_matrix.rs",
+          "sourceFilename": "2906_construct_product_matrix.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn construct_product_matrix(grid: Vec<Vec<i32>>) -> Vec<Vec<i32>> {\n        let col_count = grid[0].len();\n\n        let prefix_list: Vec<u64> = grid\n            .iter()\n            .flatten()\n            .scan(1_u64, |acc, cell| {\n                let current = *acc;\n                *acc = (*acc * *cell as u64) % 12345;\n                Some(current)\n            })\n            .collect();\n\n        let mut postfix_list: Vec<u64> = grid\n            .iter()\n            .flatten()\n            .rev()\n            .scan(1_u64, |acc, cell| {\n                let current = *acc;\n                *acc = (*acc * *cell as u64) % 12345;\n                Some(current)\n            })\n            .collect();\n        postfix_list.reverse();\n        let postfix_list = postfix_list;\n\n        let flat_result: Vec<i32> = prefix_list\n            .iter()\n            .zip(postfix_list.iter())\n            .map(|(&pre, &post)| ((pre * post) % 12345) as i32)\n            .collect();\n\n        flat_result\n            .chunks(col_count)\n            .map(|chunk| chunk.to_vec())\n            .collect()\n    }\n}\n\nfn main() {\n    assert_eq!(\n        vec![vec![24, 12], vec![8, 6]],\n        Solution::construct_product_matrix(vec![vec![1, 2], vec![3, 4]])\n    );\n    assert_eq!(\n        vec![vec![2], vec![0], vec![0]],\n        Solution::construct_product_matrix(vec![vec![12345], vec![2], vec![1]])\n    );\n}\n\n",
+          "codeHash": "9256313ab18688a43f1bc70285eb694a020b5040bdee8bd30e9d83059913e998",
+          "markedWrong": false,
+          "commitComment": "pure functional but slower",
+          "rawCommitSubject": "2906: pure functional but slower",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2906_construct_product_matrix.rs b/rust/src/bin/2906_construct_product_matrix.rs\nindex f7b28f9..8b81d82 100644\n--- a/rust/src/bin/2906_construct_product_matrix.rs\n+++ b/rust/src/bin/2906_construct_product_matrix.rs\n@@ -1,9 +1,7 @@\n struct Solution {}\n impl Solution {\n     pub fn construct_product_matrix(grid: Vec<Vec<i32>>) -> Vec<Vec<i32>> {\n-        let row_count = grid.len();\n         let col_count = grid[0].len();\n-        let mut result_grid: Vec<Vec<i32>> = vec![vec![0; col_count]; row_count];\n \n         let prefix_list: Vec<u64> = grid\n             .iter()\n@@ -28,12 +26,16 @@ impl Solution {\n         postfix_list.reverse();\n         let postfix_list = postfix_list;\n \n-        for (idx, cell) in result_grid.iter_mut().flatten().enumerate() {\n-            let prod = prefix_list[idx] * postfix_list[idx];\n-            *cell = (prod % 12345) as i32;\n-        }\n+        let flat_result: Vec<i32> = prefix_list\n+            .iter()\n+            .zip(postfix_list.iter())\n+            .map(|(&pre, &post)| ((pre * post) % 12345) as i32)\n+            .collect();\n \n-        result_grid\n+        flat_result\n+            .chunks(col_count)\n+            .map(|chunk| chunk.to_vec())\n+            .collect()\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 9,
+            "deletions": 7
+          },
+          "approachId": "prefix-postfix-product",
+          "narrativeIndex": 2,
+          "shortChangeSummary": "Further refactored to use pure functional style with zip and map for result construction.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "c346dd7119b9c9ec639c1810616e454201d3509d",
+    "afbaea26c53cc71828d52fe81af0237a1785677c",
+    "416dd686d53bc1c8a542355e717cae6e92dd1f42"
+  ],
+  "warnings": []
+}

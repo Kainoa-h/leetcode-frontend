@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 88,
+    "title": "Merge Sorted Array",
+    "slug": "merge-sorted-array"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/88_merge_sorted_array.java",
+    "latestSha": "dc8d20eb0c7e9e3799828e653ee519ac94cfeb18",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 4,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-03-29T18:39:08+08:00",
+    "lastCommittedAt": "2026-03-29T18:39:08+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "7ebbad4e76d00cbe414b801230c976df12757e7da94c4450c481c4b3c44e629d"
+  },
+  "approaches": [
+    {
+      "id": "two-pointers-from-end",
+      "title": "Two Pointers from End",
+      "summary": "Merge nums2 into nums1 starting from the end to avoid overwriting elements. Uses O(1) space and O(n) time.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "dc8d20eb0c7e9e3799828e653ee519ac94cfeb18",
+          "shortSha": "dc8d20e",
+          "parentSha": "1ad701cf4438fccf844edcaab5d94f98ee48189f",
+          "authoredAt": "2026-03-29T18:12:43+08:00",
+          "committedAt": "2026-03-29T18:39:08+08:00",
+          "chronologicalIndex": 82,
+          "problemId": 88,
+          "language": "java",
+          "sourcePath": "java/src/solutions/88_merge_sorted_array.java",
+          "sourceFilename": "88_merge_sorted_array.java",
+          "code": "import java.util.Arrays;\n\nclass Solution {\n  public void merge(int[] nums1, int m, int[] nums2, int n) {\n    int n1Idx = m - 1;\n    int n2Idx = n - 1;\n    int mergeIdx = m + n - 1;\n    while (n2Idx >= 0) {\n      if (n1Idx > -1 && nums1[n1Idx] > nums2[n2Idx]) {\n        nums1[mergeIdx] = nums1[n1Idx];\n        mergeIdx--;\n        n1Idx--;\n      } else {\n        nums1[mergeIdx] = nums2[n2Idx];\n        mergeIdx--;\n        n2Idx--;\n      }\n    }\n  }\n\n  void main() {\n    int[] n1 = new int[] { 1, 2, 3, 0, 0, 0 };\n    int[] n2 = new int[] { 2, 5, 6 };\n    merge(n1, 3, n2, 3);\n    assert Arrays.equals(n1, new int[] { 1, 2, 2, 3, 5, 6 });\n\n    n1 = new int[] { 0 };\n    n2 = new int[] { 1 };\n    merge(n1, 0, n2, 1);\n    assert Arrays.equals(n1, new int[] { 1 });\n  }\n}\n",
+          "codeHash": "3a04717257f39b2690e1c5021b18072713df08fe7e02c64a30b927daf019ea5c",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "java 88",
+          "commitBody": "time: O(n)\nspace: O(1)\n\n.",
+          "diffFromPreviousRelevantRevision": "",
+          "changedLineCounts": {
+            "additions": 0,
+            "deletions": 0
+          },
+          "approachId": "two-pointers-from-end",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Correct algorithmic approach.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "dc8d20eb0c7e9e3799828e653ee519ac94cfeb18",
+    "dc8d20eb0c7e9e3799828e653ee519ac94cfeb18",
+    "dc8d20eb0c7e9e3799828e653ee519ac94cfeb18",
+    "dc8d20eb0c7e9e3799828e653ee519ac94cfeb18"
+  ],
+  "warnings": []
+}

@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1358,
+    "title": "Number of Substrings Containing All Three Characters",
+    "slug": "number-of-substrings-containing-all-three-characters"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/1358_number_of_substrings_containing_all_three_characters.rs",
+    "latestSha": "f84952d94d344ee1b5eb6afefc38b8fb54db18f9",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-06-30T15:03:54+08:00",
+    "lastCommittedAt": "2026-06-30T15:03:54+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "d82769bb3619d14e1f8bf7dad0d29fd9945c8097a11003ab4acc1a4929fe311c"
+  },
+  "approaches": [
+    {
+      "id": "linked_list_tracking",
+      "title": "Track character positions with linked lists",
+      "summary": "Maintain three linked lists to record positions of 'a', 'b', and 'c', then compute valid substrings by analyzing front elements.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "02dfe50690b04cc97acd5432afaad6dc857ce58f",
+          "shortSha": "02dfe50",
+          "parentSha": "63cbeeffdf296409db18fe7b14c22ee5a2c17ee8",
+          "authoredAt": "2026-06-30T14:47:33+08:00",
+          "committedAt": "2026-06-30T15:03:54+08:00",
+          "chronologicalIndex": 190,
+          "problemId": 1358,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1358_number_of_substrings_containing_all_three_characters.rs",
+          "sourceFilename": "1358_number_of_substrings_containing_all_three_characters.rs",
+          "code": "use std::collections::LinkedList;\nimpl Solution {\n    pub fn number_of_substrings(s: String) -> i32 {\n        let mut a_ll = LinkedList::<usize>::new();\n        let mut b_ll = LinkedList::<usize>::new();\n        let mut c_ll = LinkedList::<usize>::new();\n        for (i, b) in s.bytes().enumerate() {\n            match b {\n                b'a' => a_ll.push_back(i),\n                b'b' => b_ll.push_back(i),\n                b'c' => c_ll.push_back(i),\n                _ => {}\n            }\n        }\n\n        let mut count = 0;\n\n        for (i, b) in s.bytes().enumerate() {\n            if a_ll.is_empty() || b_ll.is_empty() || c_ll.is_empty() {\n                break;\n            }\n            let (a, b, c) = match b {\n                b'a' => (\n                    a_ll.pop_front().unwrap(),\n                    *b_ll.front().unwrap(),\n                    *c_ll.front().unwrap(),\n                ),\n                b'b' => (\n                    *a_ll.front().unwrap(),\n                    b_ll.pop_front().unwrap(),\n                    *c_ll.front().unwrap(),\n                ),\n                b'c' => (\n                    *a_ll.front().unwrap(),\n                    *b_ll.front().unwrap(),\n                    c_ll.pop_front().unwrap(),\n                ),\n                _ => panic!(),\n            };\n\n            let max = a.max(b).max(c);\n            let slices = s.len() - max;\n            count += slices as i32;\n        }\n\n        count\n    }\n}\n\nstruct Solution {}\n\nfn main() {}\n",
+          "codeHash": "3e312982512d9dd311a22c62fb754db9d0b32bb7f7994d1288ada962e4fd23a2",
+          "markedWrong": false,
+          "commitComment": "from hints",
+          "rawCommitSubject": "rust 1358: from hints",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "linked_list_tracking",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation using LinkedList to track character positions and compute valid substrings.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "sliding_window_with_minimum_indices",
+      "title": "Sliding window with minimum indices",
+      "summary": "Use a vector to track the most recent positions of 'a', 'b', and 'c', updating the count whenever all three characters are seen.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "f84952d94d344ee1b5eb6afefc38b8fb54db18f9",
+          "shortSha": "f84952d",
+          "parentSha": "02dfe50690b04cc97acd5432afaad6dc857ce58f",
+          "authoredAt": "2026-06-30T15:03:45+08:00",
+          "committedAt": "2026-06-30T15:03:54+08:00",
+          "chronologicalIndex": 191,
+          "problemId": 1358,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1358_number_of_substrings_containing_all_three_characters.rs",
+          "sourceFilename": "1358_number_of_substrings_containing_all_three_characters.rs",
+          "code": "impl Solution {\n    pub fn number_of_substrings(s: String) -> i32 {\n        let mut count = 0;\n        let mut seen = vec![-1; 3];\n        for (i, b) in s.bytes().enumerate() {\n            seen[(b - b'a') as usize] = i as i32;\n            if seen[0] != -1 && seen[1] != -1 && seen[2] != -1 {\n                count += 1 + seen[0].min(seen[1]).min(seen[2]);\n            }\n        }\n\n        count\n    }\n}\n\nstruct Solution {}\n\nfn main() {}\n",
+          "codeHash": "59813ae3cb85bf3b8a711318835874d7b26e1d3a9a55d5e36c2961d1301364e4",
+          "markedWrong": false,
+          "commitComment": "editorial",
+          "rawCommitSubject": "rust 1358: editorial",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/1358_number_of_substrings_containing_all_three_characters.rs b/rust/src/bin/1358_number_of_substrings_containing_all_three_characters.rs\nindex 7ad3361..42b59ea 100644\n--- a/rust/src/bin/1358_number_of_substrings_containing_all_three_characters.rs\n+++ b/rust/src/bin/1358_number_of_substrings_containing_all_three_characters.rs\n@@ -1,46 +1,12 @@\n-use std::collections::LinkedList;\n impl Solution {\n     pub fn number_of_substrings(s: String) -> i32 {\n-        let mut a_ll = LinkedList::<usize>::new();\n-        let mut b_ll = LinkedList::<usize>::new();\n-        let mut c_ll = LinkedList::<usize>::new();\n-        for (i, b) in s.bytes().enumerate() {\n-            match b {\n-                b'a' => a_ll.push_back(i),\n-                b'b' => b_ll.push_back(i),\n-                b'c' => c_ll.push_back(i),\n-                _ => {}\n-            }\n-        }\n-\n         let mut count = 0;\n-\n+        let mut seen = vec![-1; 3];\n         for (i, b) in s.bytes().enumerate() {\n-            if a_ll.is_empty() || b_ll.is_empty() || c_ll.is_empty() {\n-                break;\n+            seen[(b - b'a') as usize] = i as i32;\n+            if seen[0] != -1 && seen[1] != -1 && seen[2] != -1 {\n+                count += 1 + seen[0].min(seen[1]).min(seen[2]);\n             }\n-            let (a, b, c) = match b {\n-                b'a' => (\n-                    a_ll.pop_front().unwrap(),\n-                    *b_ll.front().unwrap(),\n-                    *c_ll.front().unwrap(),\n-                ),\n-                b'b' => (\n-                    *a_ll.front().unwrap(),\n-                    b_ll.pop_front().unwrap(),\n-                    *c_ll.front().unwrap(),\n-                ),\n-                b'c' => (\n-                    *a_ll.front().unwrap(),\n-                    *b_ll.front().unwrap(),\n-                    c_ll.pop_front().unwrap(),\n-                ),\n-                _ => panic!(),\n-            };\n-\n-            let max = a.max(b).max(c);\n-            let slices = s.len() - max;\n-            count += slices as i32;\n         }\n \n         count\n",
+          "changedLineCounts": {
+            "additions": 4,
+            "deletions": 38
+          },
+          "approachId": "sliding_window_with_minimum_indices",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Optimized solution using a sliding window approach with minimum indices to count valid substrings efficiently.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "02dfe50690b04cc97acd5432afaad6dc857ce58f",
+    "f84952d94d344ee1b5eb6afefc38b8fb54db18f9"
+  ],
+  "warnings": []
+}

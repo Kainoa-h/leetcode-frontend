@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 56,
+    "title": "Merge Intervals",
+    "slug": "merge-intervals"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/56_merge_intervals.rs",
+    "latestSha": "7224b1d45403a3b9d1ed4b9a9bed2970e5692a03",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-06-19T20:51:31+08:00",
+    "lastCommittedAt": "2026-06-19T21:01:39+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "996caf9aab1900243d971ec9ad3623d501b15549b3a0edc4e4149533153a0b9d"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "2982fbeb7867ab68ec0daee70b1463be6938f7ae",
+          "shortSha": "2982fbe",
+          "parentSha": "2a2555b2de70550743eaa166cfb3d1e408d1b638",
+          "authoredAt": "2026-06-19T20:51:31+08:00",
+          "committedAt": "2026-06-19T20:51:31+08:00",
+          "chronologicalIndex": 179,
+          "problemId": 56,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/56_merge_intervals.rs",
+          "sourceFilename": "56_merge_intervals.rs",
+          "code": "struct DSU {\n    dsu: Vec<usize>,\n}\n\nimpl DSU {\n    fn new(size: usize) -> Self {\n        DSU {\n            dsu: (0..size).collect(),\n        }\n    }\n\n    fn find(&mut self, index: usize) -> usize {\n        if self.dsu[index] != index {\n            self.dsu[index] = self.find(self.dsu[index]);\n        }\n        self.dsu[index]\n    }\n\n    fn union(&mut self, x: usize, y: usize) {\n        let x_root = self.find(x);\n        let y_root = self.find(y);\n\n        self.dsu[y_root] = x_root;\n    }\n}\n\nimpl Solution {\n    pub fn merge(intervals: Vec<Vec<i32>>) -> Vec<Vec<i32>> {\n        let mut dsu = DSU::new(intervals.len());\n\n        for i in 0..intervals.len() {\n            let (x1, x2) = (intervals[i][0], intervals[i][1]);\n            for j in i..intervals.len() {\n                let (y1, y2) = (intervals[j][0], intervals[j][1]);\n                if (x1 >= y1 && x1 <= y2)\n                    || (x2 >= y1 && x2 <= y2)\n                    || (y1 >= x1 && y1 <= x2)\n                    || (y2 >= x1 && y2 <= x2)\n                {\n                    dsu.union(i, j);\n                }\n            }\n        }\n\n        let mut map = vec![None::<Vec<i32>>; intervals.len()];\n        for (i, inter) in intervals.iter().enumerate() {\n            let root = dsu.find(i);\n            let combi_interval = map[root].get_or_insert(vec![inter[0], inter[1]]);\n            combi_interval[0] = combi_interval[0].min(inter[0]);\n            combi_interval[1] = combi_interval[1].max(inter[1]);\n        }\n\n        let mut result: Vec<Vec<i32>> = map.into_iter().flatten().collect();\n        result.sort_unstable_by_key(|x| x[0]);\n        result\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        Solution::merge(vec![vec![1, 3], vec![2, 6], vec![8, 10], vec![15, 18]]),\n        vec![vec![1, 6], vec![8, 10], vec![15, 18]]\n    )\n}\n/*\nExample 1:\n\nInput: intervals = [[1,3],[2,6],[8,10],[15,18]]\nOutput: [[1,6],[8,10],[15,18]]\nExplanation: Since intervals [1,3] and [2,6] overlap, merge them into [1,6].\nExample 2:\n\nInput: intervals = [[1,4],[4,5]]\nOutput: [[1,5]]\nExplanation: Intervals [1,4] and [4,5] are considered overlapping.\nExample 3:\n\nInput: intervals = [[4,7],[1,4]]\nOutput: [[1,7]]\nExplanation: Intervals [1,4] and [4,7] are considered overlapping.\n*/\n",
+          "codeHash": "598006c31ba272e09d09f96bf0c62cdc8d404641269059b82e627d48d7b7aade",
+          "markedWrong": false,
+          "commitComment": "over complicated DSU LOL",
+          "rawCommitSubject": "rust 56: over complicated DSU LOL",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "over complicated DSU LOL",
+          "warnings": []
+        },
+        {
+          "sha": "7224b1d45403a3b9d1ed4b9a9bed2970e5692a03",
+          "shortSha": "7224b1d",
+          "parentSha": "2982fbeb7867ab68ec0daee70b1463be6938f7ae",
+          "authoredAt": "2026-06-19T21:01:39+08:00",
+          "committedAt": "2026-06-19T21:01:39+08:00",
+          "chronologicalIndex": 180,
+          "problemId": 56,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/56_merge_intervals.rs",
+          "sourceFilename": "56_merge_intervals.rs",
+          "code": "impl Solution {\n    pub fn merge(mut intervals: Vec<Vec<i32>>) -> Vec<Vec<i32>> {\n        intervals.sort();\n        let mut result: Vec<Vec<i32>> = Vec::new();\n\n        for inter in intervals {\n            if let Some(prev_last) = result.last_mut()\n                && prev_last[1] >= inter[0]\n            {\n                prev_last[1] = prev_last[1].max(inter[1]);\n            } else {\n                result.push(inter);\n            }\n        }\n\n        result\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        Solution::merge(vec![vec![1, 3], vec![2, 6], vec![8, 10], vec![15, 18]]),\n        vec![vec![1, 6], vec![8, 10], vec![15, 18]]\n    )\n}\n/*\nExample 1:\n\nInput: intervals = [[1,3],[2,6],[8,10],[15,18]]\nOutput: [[1,6],[8,10],[15,18]]\nExplanation: Since intervals [1,3] and [2,6] overlap, merge them into [1,6].\nExample 2:\n\nInput: intervals = [[1,4],[4,5]]\nOutput: [[1,5]]\nExplanation: Intervals [1,4] and [4,5] are considered overlapping.\nExample 3:\n\nInput: intervals = [[4,7],[1,4]]\nOutput: [[1,7]]\nExplanation: Intervals [1,4] and [4,7] are considered overlapping.\n*/\n",
+          "codeHash": "ecdfa353758257965e9a5d6be1912b7c7ff81a94ae15dc70093c7b9f28dffcdf",
+          "markedWrong": false,
+          "commitComment": "what a normal person would do",
+          "rawCommitSubject": "rust 56: what a normal person would do",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/56_merge_intervals.rs b/rust/src/bin/56_merge_intervals.rs\nindex 0e91b43..2ac7e6e 100644\n--- a/rust/src/bin/56_merge_intervals.rs\n+++ b/rust/src/bin/56_merge_intervals.rs\n@@ -1,57 +1,18 @@\n-struct DSU {\n-    dsu: Vec<usize>,\n-}\n-\n-impl DSU {\n-    fn new(size: usize) -> Self {\n-        DSU {\n-            dsu: (0..size).collect(),\n-        }\n-    }\n-\n-    fn find(&mut self, index: usize) -> usize {\n-        if self.dsu[index] != index {\n-            self.dsu[index] = self.find(self.dsu[index]);\n-        }\n-        self.dsu[index]\n-    }\n-\n-    fn union(&mut self, x: usize, y: usize) {\n-        let x_root = self.find(x);\n-        let y_root = self.find(y);\n-\n-        self.dsu[y_root] = x_root;\n-    }\n-}\n-\n impl Solution {\n-    pub fn merge(intervals: Vec<Vec<i32>>) -> Vec<Vec<i32>> {\n-        let mut dsu = DSU::new(intervals.len());\n-\n-        for i in 0..intervals.len() {\n-            let (x1, x2) = (intervals[i][0], intervals[i][1]);\n-            for j in i..intervals.len() {\n-                let (y1, y2) = (intervals[j][0], intervals[j][1]);\n-                if (x1 >= y1 && x1 <= y2)\n-                    || (x2 >= y1 && x2 <= y2)\n-                    || (y1 >= x1 && y1 <= x2)\n-                    || (y2 >= x1 && y2 <= x2)\n-                {\n-                    dsu.union(i, j);\n-                }\n+    pub fn merge(mut intervals: Vec<Vec<i32>>) -> Vec<Vec<i32>> {\n+        intervals.sort();\n+        let mut result: Vec<Vec<i32>> = Vec::new();\n+\n+        for inter in intervals {\n+            if let Some(prev_last) = result.last_mut()\n+                && prev_last[1] >= inter[0]\n+            {\n+                prev_last[1] = prev_last[1].max(inter[1]);\n+            } else {\n+                result.push(inter);\n             }\n         }\n \n-        let mut map = vec![None::<Vec<i32>>; intervals.len()];\n-        for (i, inter) in intervals.iter().enumerate() {\n-            let root = dsu.find(i);\n-            let combi_interval = map[root].get_or_insert(vec![inter[0], inter[1]]);\n-            combi_interval[0] = combi_interval[0].min(inter[0]);\n-            combi_interval[1] = combi_interval[1].max(inter[1]);\n-        }\n-\n-        let mut result: Vec<Vec<i32>> = map.into_iter().flatten().collect();\n-        result.sort_unstable_by_key(|x| x[0]);\n         result\n     }\n }\n",
+          "changedLineCounts": {
+            "additions": 11,
+            "deletions": 50
+          },
+          "approachId": "chronological",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "what a normal person would do",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "2982fbeb7867ab68ec0daee70b1463be6938f7ae",
+    "7224b1d45403a3b9d1ed4b9a9bed2970e5692a03"
+  ],
+  "warnings": []
+}

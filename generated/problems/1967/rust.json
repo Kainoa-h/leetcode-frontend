@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1967,
+    "title": "Number of Strings That Appear As Substrings in Word",
+    "slug": "number-of-strings-that-appear-as-substrings-in-word"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/1967_number_of_strings_that_appear_as_substrings_in_word.rs",
+    "latestSha": "63cbeeffdf296409db18fe7b14c22ee5a2c17ee8",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-06-29T21:35:06+08:00",
+    "lastCommittedAt": "2026-06-29T21:35:06+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "049e90b3d30d08ca98cf9a244095f37c7284c75b8f21666f6ea28c90857cda4e"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "63cbeeffdf296409db18fe7b14c22ee5a2c17ee8",
+          "shortSha": "63cbeef",
+          "parentSha": "2dae8b4b965beea936ac967c9a738ba98d5953b6",
+          "authoredAt": "2026-06-29T21:35:06+08:00",
+          "committedAt": "2026-06-29T21:35:06+08:00",
+          "chronologicalIndex": 189,
+          "problemId": 1967,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1967_number_of_strings_that_appear_as_substrings_in_word.rs",
+          "sourceFilename": "1967_number_of_strings_that_appear_as_substrings_in_word.rs",
+          "code": "impl Solution {\n    pub fn num_of_strings(patterns: Vec<String>, word: String) -> i32 {\n        patterns\n            .iter()\n            .fold(0, |acc, x| acc + word.contains(x) as i32)\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "bc71e41b9ded1535f3b00bbda1b1b160fb4b4e0e22631d75ebbb7b957c2e4915",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 1967",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "63cbeeffdf296409db18fe7b14c22ee5a2c17ee8"
+  ],
+  "warnings": []
+}

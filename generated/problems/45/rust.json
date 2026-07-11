@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 45,
+    "title": "Jump Game",
+    "slug": "jump-game"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/45_jump_game.rs",
+    "latestSha": "7fa5adbf7600ee0629356779019dff2080bc7762",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-01-25T16:10:01+08:00",
+    "lastCommittedAt": "2026-01-25T16:21:58+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "831009e7aca5b141cbca0be1a44ce0beb613fd0ea25205d6dd60b2e41124cba9"
+  },
+  "approaches": [
+    {
+      "id": "greedy-linear-scan",
+      "title": "Greedy Linear Scan with Early Termination",
+      "summary": "A greedy algorithm that tracks the farthest reachable index and current range to minimize jumps, with early termination when the end is reached.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "569dd222c3d0f5d4885012089291ce43f5873782",
+          "shortSha": "569dd22",
+          "parentSha": "a859ae1d513e55fb6b5e22f133e06863a65d1f43",
+          "authoredAt": "2026-01-25T16:10:01+08:00",
+          "committedAt": "2026-01-25T16:10:01+08:00",
+          "chronologicalIndex": 18,
+          "problemId": 45,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/45_jump_game.rs",
+          "sourceFilename": "45_jump_game.rs",
+          "code": "struct Solution {}\n\nimpl Solution {\n    pub fn jump(nums: Vec<i32>) -> i32 {\n        if nums.len() == 1 {\n            return 0;\n        }\n\n        let mut max_reachable = 0;\n        let mut current_range = 0;\n        let mut jumps = 0;\n        for (i, &n) in nums.iter().enumerate() {\n            max_reachable = max_reachable.max(i + n as usize);\n            if i == current_range {\n                jumps += 1;\n                current_range = max_reachable;\n            }\n            if current_range + 1 >= nums.len() {\n                return jumps;\n            }\n        }\n        jumps\n    }\n}\n\nfn main() {\n    assert_eq!(Solution::jump(vec![2, 3, 1, 1, 4]), 2);\n    assert_eq!(Solution::jump(vec![3, 2, 1, 0, 4]), 2);\n    assert_eq!(Solution::jump(vec![0]), 0);\n    assert_eq!(Solution::jump(vec![1, 0]), 1);\n}\n",
+          "codeHash": "78edba522def4bf9004c36a0e3139fe5ddd8f8f89bc542abc40f4cf4238159cb",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "45",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "greedy-linear-scan",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial greedy implementation with boundary checks and early exit.",
+          "warnings": []
+        },
+        {
+          "sha": "7fa5adbf7600ee0629356779019dff2080bc7762",
+          "shortSha": "7fa5adb",
+          "parentSha": "569dd222c3d0f5d4885012089291ce43f5873782",
+          "authoredAt": "2026-01-25T16:21:36+08:00",
+          "committedAt": "2026-01-25T16:21:58+08:00",
+          "chronologicalIndex": 19,
+          "problemId": 45,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/45_jump_game.rs",
+          "sourceFilename": "45_jump_game.rs",
+          "code": "struct Solution {}\n\nimpl Solution {\n    pub fn jump(nums: Vec<i32>) -> i32 {\n        let mut max_reachable = 0;\n        let mut current_range = 0;\n        let mut jumps = 0;\n        for (i, &n) in nums.iter().take(nums.len().saturating_sub(1)).enumerate() {\n            max_reachable = max_reachable.max(i + n as usize);\n            if i == current_range {\n                jumps += 1;\n                current_range = max_reachable;\n                if current_range + 1 >= nums.len() {\n                    return jumps;\n                }\n            }\n        }\n        jumps\n    }\n}\n\nfn main() {\n    assert_eq!(Solution::jump(vec![2, 3, 1, 1, 4]), 2);\n    assert_eq!(Solution::jump(vec![3, 2, 1, 0, 4]), 2);\n    assert_eq!(Solution::jump(vec![0]), 0);\n    assert_eq!(Solution::jump(vec![1, 0]), 1);\n}\n",
+          "codeHash": "7a63e8d002e2f9b19bc82b011273a4b1097b4ebdb441211ee8a2c9006da0cdb5",
+          "markedWrong": false,
+          "commitComment": "this is actually jump game II, wrong name. anyw, more idomatic!",
+          "rawCommitSubject": "45: this is actually jump game II, wrong name. anyw, more idomatic!",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/45_jump_game.rs b/rust/src/bin/45_jump_game.rs\nindex 53694ed..8bd2cbf 100644\n--- a/rust/src/bin/45_jump_game.rs\n+++ b/rust/src/bin/45_jump_game.rs\n@@ -2,21 +2,17 @@ struct Solution {}\n \n impl Solution {\n     pub fn jump(nums: Vec<i32>) -> i32 {\n-        if nums.len() == 1 {\n-            return 0;\n-        }\n-\n         let mut max_reachable = 0;\n         let mut current_range = 0;\n         let mut jumps = 0;\n-        for (i, &n) in nums.iter().enumerate() {\n+        for (i, &n) in nums.iter().take(nums.len().saturating_sub(1)).enumerate() {\n             max_reachable = max_reachable.max(i + n as usize);\n             if i == current_range {\n                 jumps += 1;\n                 current_range = max_reachable;\n-            }\n-            if current_range + 1 >= nums.len() {\n-                return jumps;\n+                if current_range + 1 >= nums.len() {\n+                    return jumps;\n+                }\n             }\n         }\n         jumps\n",
+          "changedLineCounts": {
+            "additions": 4,
+            "deletions": 8
+          },
+          "approachId": "greedy-linear-scan",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Optimized by removing redundant length check and refining loop bounds with saturating arithmetic.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "569dd222c3d0f5d4885012089291ce43f5873782",
+    "7fa5adbf7600ee0629356779019dff2080bc7762"
+  ],
+  "warnings": []
+}

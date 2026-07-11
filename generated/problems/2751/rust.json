@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2751,
+    "title": "Robot Collisions",
+    "slug": "robot-collisions"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/2751_robot_collisions.rs",
+    "latestSha": "fd0416d8c4fc63752ec8086ae5a9afeb39943679",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-04-01T22:27:54+08:00",
+    "lastCommittedAt": "2026-04-01T22:27:54+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "1192b188ef004f8e9a0dcb216002d4fee3b93918a982f2d5169c8910e9714d11"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "fd0416d8c4fc63752ec8086ae5a9afeb39943679",
+          "shortSha": "fd0416d",
+          "parentSha": "225c5a6c509360b9ef627750d363cde6123c1494",
+          "authoredAt": "2026-04-01T22:27:40+08:00",
+          "committedAt": "2026-04-01T22:27:54+08:00",
+          "chronologicalIndex": 94,
+          "problemId": 2751,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2751_robot_collisions.rs",
+          "sourceFilename": "2751_robot_collisions.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn survived_robots_healths(\n        positions: Vec<i32>,\n        mut healths: Vec<i32>,\n        directions: String,\n    ) -> Vec<i32> {\n        let n = positions.len();\n        let mut indicies: Vec<usize> = (0..n).collect();\n        indicies.sort_unstable_by_key(|&a| positions[a]);\n        let indicies = indicies;\n\n        let mut stack: Vec<usize> = Vec::new();\n        for i in indicies {\n            if directions.as_bytes()[i] == b'R' {\n                stack.push(i);\n                continue;\n            }\n\n            while !stack.is_empty() && healths[i] > 0 {\n                let left_idx = stack.pop().unwrap();\n                if healths[left_idx] > healths[i] {\n                    healths[left_idx] -= 1;\n                    healths[i] = 0;\n                    stack.push(left_idx);\n                } else if healths[left_idx] < healths[i] {\n                    healths[left_idx] = 0;\n                    healths[i] -= 1;\n                } else {\n                    healths[left_idx] = 0;\n                    healths[i] = 0;\n                }\n            }\n        }\n\n        healths.retain(|&x| x > 0);\n        healths\n    }\n}\n\nfn main() {\n    println!(\"-\");\n    assert_eq!(\n        vec![2, 17, 9, 15, 10],\n        Solution::survived_robots_healths(\n            vec![5, 4, 3, 2, 1],\n            vec![2, 17, 9, 15, 10],\n            \"RRRRR\".to_string()\n        )\n    );\n\n    println!(\"-\");\n    assert_eq!(\n        vec![14],\n        Solution::survived_robots_healths(\n            vec![3, 5, 2, 6],\n            vec![10, 10, 15, 12],\n            \"RLRL\".to_string()\n        )\n    );\n\n    println!(\"-\");\n    assert!(\n        Solution::survived_robots_healths(\n            vec![1, 2, 5, 6],\n            vec![10, 10, 11, 11],\n            \"RLRL\".to_string()\n        )\n        .is_empty()\n    );\n\n    println!(\"-\");\n    assert_eq!(\n        vec![47],\n        Solution::survived_robots_healths(vec![12, 33, 37], vec![49, 5, 38], \"RLL\".to_string())\n    );\n}\n",
+          "codeHash": "a9d0050760b5eae5e46dd02f2fef07e686257c8e8269345340312777b525f599",
+          "markedWrong": false,
+          "commitComment": "copied solulu",
+          "rawCommitSubject": "rust 2751: copied solulu",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "copied solulu",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "fd0416d8c4fc63752ec8086ae5a9afeb39943679"
+  ],
+  "warnings": []
+}

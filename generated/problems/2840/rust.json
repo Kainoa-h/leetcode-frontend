@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2840,
+    "title": "Check If Strings Can Be Made Equal With Operations Ii",
+    "slug": "check-if-strings-can-be-made-equal-with-operations-ii"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/2840_check_if_strings_can_be_made_equal_with_operations_II.rs",
+    "latestSha": "df2c9cfedd36374412d0597428773cf052b8ed47",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-03-31T00:27:47+08:00",
+    "lastCommittedAt": "2026-03-31T00:27:47+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "d7e9939402d663174bcb248069c51c97b28a750a9d874cac67a949f8edd67554"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "df2c9cfedd36374412d0597428773cf052b8ed47",
+          "shortSha": "df2c9cf",
+          "parentSha": "ff6a73d797c13c22af75e341f175d24a9f2bb0c8",
+          "authoredAt": "2026-03-31T00:27:35+08:00",
+          "committedAt": "2026-03-31T00:27:47+08:00",
+          "chronologicalIndex": 92,
+          "problemId": 2840,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2840_check_if_strings_can_be_made_equal_with_operations_II.rs",
+          "sourceFilename": "2840_check_if_strings_can_be_made_equal_with_operations_II.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn check_strings(s1: String, s2: String) -> bool {\n        if s1.len() != s2.len() {\n            return false;\n        }\n\n        let mut count = [0; 26];\n        for i in (0..s1.len()).step_by(2) {\n            count[(s1.as_bytes()[i] - b'a') as usize] += 1;\n            count[(s2.as_bytes()[i] - b'a') as usize] -= 1;\n        }\n        if count.iter().any(|&n| n != 0) {\n            return false;\n        }\n\n        for i in (1..s1.len()).step_by(2) {\n            count[(s1.as_bytes()[i] - b'a') as usize] += 1;\n            count[(s2.as_bytes()[i] - b'a') as usize] -= 1;\n        }\n\n        count.iter().all(|&n| n == 0)\n    }\n}\n\nfn main() {\n    assert!(Solution::check_strings(\n        \"abcd\".to_string(),\n        \"cdab\".to_string()\n    ));\n    assert!(Solution::check_strings(\n        \"abcdba\".to_string(),\n        \"cabdab\".to_string()\n    ));\n    assert!(!Solution::check_strings(\n        \"abcd\".to_string(),\n        \"dacb\".to_string()\n    ));\n    assert!(!Solution::check_strings(\n        \"abe\".to_string(),\n        \"bea\".to_string()\n    ));\n}\n",
+          "codeHash": "3bc8dddaa0e8b2a449f1613cad233a1ea6c8be8843a8771d13907debee824e1a",
+          "markedWrong": false,
+          "commitComment": "cleaner pre-sized array approach",
+          "rawCommitSubject": "rust 2840: cleaner pre-sized array approach",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "cleaner pre-sized array approach",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "df2c9cfedd36374412d0597428773cf052b8ed47"
+  ],
+  "warnings": []
+}

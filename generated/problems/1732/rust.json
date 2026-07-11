@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1732,
+    "title": "Find the Highest Altitude",
+    "slug": "find-the-highest-altitude"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/1732_find_the_highest_altitude.rs",
+    "latestSha": "5a2a3059847707dff898f48963a4319ac5d73d52",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-06-19T08:51:03+08:00",
+    "lastCommittedAt": "2026-06-19T09:02:56+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "61fc241f78cbef514f7e608548cb4977e59435b539f83e5925708b6ac2b50e3a"
+  },
+  "approaches": [
+    {
+      "id": "iterative_accumulation",
+      "title": "Iterative Accumulation with Tracking",
+      "summary": "Track current and maximum altitude by iterating through gains and updating values.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "58320f055dd2932b47b79276888faeb00f7dd4f0",
+          "shortSha": "58320f0",
+          "parentSha": "540d877a8905c04b7a0a94e614e75f1069d7e5da",
+          "authoredAt": "2026-06-19T08:51:03+08:00",
+          "committedAt": "2026-06-19T08:51:03+08:00",
+          "chronologicalIndex": 175,
+          "problemId": 1732,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1732_find_the_highest_altitude.rs",
+          "sourceFilename": "1732_find_the_highest_altitude.rs",
+          "code": "impl Solution {\n    pub fn largest_altitude(gain: Vec<i32>) -> i32 {\n        let mut alt = 0;\n        let mut max_alt = 0;\n        for g in gain {\n            alt += g;\n            max_alt = max_alt.max(alt);\n        }\n\n        max_alt\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "4d66bdb9fc4e5e3ad038a703337f4d06ec256204432af38eb5cda8d7f5fca4a0",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 1732",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "iterative_accumulation",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation using iterative accumulation with explicit tracking of current and maximum altitude.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "functional_scan",
+      "title": "Functional-Style Scan with Maximum",
+      "summary": "Use Rust's scan iterator to compute running altitudes and find the maximum.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "5a2a3059847707dff898f48963a4319ac5d73d52",
+          "shortSha": "5a2a305",
+          "parentSha": "58320f055dd2932b47b79276888faeb00f7dd4f0",
+          "authoredAt": "2026-06-19T08:57:38+08:00",
+          "committedAt": "2026-06-19T09:02:56+08:00",
+          "chronologicalIndex": 176,
+          "problemId": 1732,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1732_find_the_highest_altitude.rs",
+          "sourceFilename": "1732_find_the_highest_altitude.rs",
+          "code": "impl Solution {\n    pub fn largest_altitude(gain: Vec<i32>) -> i32 {\n        gain.iter()\n            .scan(0, |acc, &x| {\n                *acc += x;\n                Some(*acc)\n            })\n            .max()\n            .unwrap()\n            .max(0)\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "06ba933c39d80a9daf3f38f33b3e2941bf5b86ed24df00f1a75fb527d9726238",
+          "markedWrong": false,
+          "commitComment": "functional-ish",
+          "rawCommitSubject": "rust 1732: functional-ish",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/1732_find_the_highest_altitude.rs b/rust/src/bin/1732_find_the_highest_altitude.rs\nindex 18651f6..c775748 100644\n--- a/rust/src/bin/1732_find_the_highest_altitude.rs\n+++ b/rust/src/bin/1732_find_the_highest_altitude.rs\n@@ -1,13 +1,13 @@\n impl Solution {\n     pub fn largest_altitude(gain: Vec<i32>) -> i32 {\n-        let mut alt = 0;\n-        let mut max_alt = 0;\n-        for g in gain {\n-            alt += g;\n-            max_alt = max_alt.max(alt);\n-        }\n-\n-        max_alt\n+        gain.iter()\n+            .scan(0, |acc, &x| {\n+                *acc += x;\n+                Some(*acc)\n+            })\n+            .max()\n+            .unwrap()\n+            .max(0)\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 8,
+            "deletions": 8
+          },
+          "approachId": "functional_scan",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Refactored to use functional-style scan iterator, computing running altitudes and extracting the maximum value.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "58320f055dd2932b47b79276888faeb00f7dd4f0",
+    "5a2a3059847707dff898f48963a4319ac5d73d52"
+  ],
+  "warnings": []
+}

@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 42,
+    "title": "Trapping Rain Water",
+    "slug": "trapping-rain-water"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/42_trapping_rain_water.rs",
+    "latestSha": "1f447456982af4bdcc4f705f2c0cd15228b1c257",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-01-28T20:09:04+08:00",
+    "lastCommittedAt": "2026-01-28T20:54:43+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "a460510f953839849a5869052f5f1b233d4f1c1c82e0a3c2c7cb90255bc2890b"
+  },
+  "approaches": [
+    {
+      "id": "brute-force-prefix-sum",
+      "title": "Brute-force with Prefix Sums",
+      "summary": "Iterate through the array to compute trapped water by tracking left and right maxima with fallback logic, using prefix sums for volume calculations.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "2c3a8fc83dd27cef3dede4ace220de8777cdbfbf",
+          "shortSha": "2c3a8fc",
+          "parentSha": "43447e12e0702eef939e39a8588b4a89495ec51b",
+          "authoredAt": "2026-01-28T20:09:04+08:00",
+          "committedAt": "2026-01-28T20:09:04+08:00",
+          "chronologicalIndex": 30,
+          "problemId": 42,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/42_trapping_rain_water.rs",
+          "sourceFilename": "42_trapping_rain_water.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn trap(height: Vec<i32>) -> i32 {\n        let mut left_idx = match height.iter().position(|x| *x > 0) {\n            Some(idx) => idx,\n            None => return 0,\n        };\n\n        let prefix_vol: Vec<i32> = height\n            .iter()\n            .scan(0, |acc, &h| {\n                *acc += h;\n                Some(*acc)\n            })\n            .collect();\n\n        let mut total_volume = 0;\n        let mut left_height = height[left_idx];\n        let mut i = left_idx + 1;\n        while i < height.len() - 1 {\n            let mut vol = 0;\n            let mut fallback_height = 0;\n            let mut fallback_idx = 0;\n            for idx in i.clone()..height.len() {\n                let h = height[idx];\n                if left_height <= h {\n                    i = idx; //will be incremented later\n                    vol = ((idx - left_idx - 1) as i32 * left_height)\n                        - (prefix_vol[idx - 1] - prefix_vol[left_idx]);\n                    left_height = h;\n                    left_idx = idx;\n                    break;\n                }\n                if h > fallback_height {\n                    fallback_height = h;\n                    fallback_idx = idx;\n                }\n            }\n            if vol == 0 && fallback_height != 0 {\n                i = fallback_idx;\n                vol = ((fallback_idx - left_idx - 1) as i32 * fallback_height)\n                    - (prefix_vol[fallback_idx - 1] - prefix_vol[left_idx]);\n                left_height = fallback_height;\n                left_idx = fallback_idx;\n            }\n            total_volume += vol;\n            i += 1;\n        }\n        total_volume\n    }\n}\n\nfn what(height: Vec<i32>, ans: i32) {\n    println!(\"{:?}\", height);\n    assert_eq!(Solution::trap(height), ans);\n}\nfn main() {\n    // what(vec![0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1], 6);\n    // what(vec![4, 2, 0, 3, 2, 5], 9);\n    // what(vec![4, 2, 3], 1);\n    what(vec![5, 4, 1, 2], 1);\n}\n",
+          "codeHash": "998fdd1fc3f0b20308925fd6bf15a1337641e93474c7bb23de95ccf722baddce",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "42",
+          "commitBody": "time: O(n^2)\nspace: O(n)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "brute-force-prefix-sum",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial brute-force approach with O(n^2) time complexity using prefix sums and fallback logic for water trapping.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "two-pointers",
+      "title": "Two Pointers Approach",
+      "summary": "Use two pointers moving towards each other while tracking left and right maxima to compute trapped water in O(n) time and O(1) space.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "1f447456982af4bdcc4f705f2c0cd15228b1c257",
+          "shortSha": "1f44745",
+          "parentSha": "2c3a8fc83dd27cef3dede4ace220de8777cdbfbf",
+          "authoredAt": "2026-01-28T20:54:43+08:00",
+          "committedAt": "2026-01-28T20:54:43+08:00",
+          "chronologicalIndex": 31,
+          "problemId": 42,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/42_trapping_rain_water.rs",
+          "sourceFilename": "42_trapping_rain_water.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn trap(height: Vec<i32>) -> i32 {\n        let mut left_idx = 0;\n        let mut left_max = 0;\n        let mut right_idx = height.len() - 1;\n        let mut right_max = 0;\n        let mut total_vol = 0;\n        while left_idx < right_idx {\n            let left_height = height[left_idx];\n            let right_height = height[right_idx];\n            if left_height < right_height {\n                if left_height >= left_max {\n                    left_max = left_height;\n                } else {\n                    total_vol += left_max - left_height;\n                }\n                left_idx += 1;\n            } else {\n                if right_height >= right_max {\n                    right_max = right_height;\n                } else {\n                    total_vol += right_max - right_height;\n                }\n                right_idx -= 1;\n            }\n        }\n        total_vol\n    }\n}\n\nfn what(height: Vec<i32>, ans: i32) {\n    println!(\"{:?}\", height);\n    assert_eq!(Solution::trap(height), ans);\n}\nfn main() {\n    what(vec![0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1], 6);\n    what(vec![4, 2, 0, 3, 2, 5], 9);\n    what(vec![4, 2, 3], 1);\n    what(vec![5, 4, 1, 2], 1);\n}\n",
+          "codeHash": "9667952070fd3c1cac5bba05cf016aaa6322848173b057f5fc2e3569f9e4a0be",
+          "markedWrong": false,
+          "commitComment": "two poiners",
+          "rawCommitSubject": "42: two poiners",
+          "commitBody": "time: O(n)\nspace: O(1)",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/42_trapping_rain_water.rs b/rust/src/bin/42_trapping_rain_water.rs\nindex 176fb6a..043d52d 100644\n--- a/rust/src/bin/42_trapping_rain_water.rs\n+++ b/rust/src/bin/42_trapping_rain_water.rs\n@@ -1,52 +1,31 @@\n struct Solution {}\n impl Solution {\n     pub fn trap(height: Vec<i32>) -> i32 {\n-        let mut left_idx = match height.iter().position(|x| *x > 0) {\n-            Some(idx) => idx,\n-            None => return 0,\n-        };\n-\n-        let prefix_vol: Vec<i32> = height\n-            .iter()\n-            .scan(0, |acc, &h| {\n-                *acc += h;\n-                Some(*acc)\n-            })\n-            .collect();\n-\n-        let mut total_volume = 0;\n-        let mut left_height = height[left_idx];\n-        let mut i = left_idx + 1;\n-        while i < height.len() - 1 {\n-            let mut vol = 0;\n-            let mut fallback_height = 0;\n-            let mut fallback_idx = 0;\n-            for idx in i.clone()..height.len() {\n-                let h = height[idx];\n-                if left_height <= h {\n-                    i = idx; //will be incremented later\n-                    vol = ((idx - left_idx - 1) as i32 * left_height)\n-                        - (prefix_vol[idx - 1] - prefix_vol[left_idx]);\n-                    left_height = h;\n-                    left_idx = idx;\n-                    break;\n+        let mut left_idx = 0;\n+        let mut left_max = 0;\n+        let mut right_idx = height.len() - 1;\n+        let mut right_max = 0;\n+        let mut total_vol = 0;\n+        while left_idx < right_idx {\n+            let left_height = height[left_idx];\n+            let right_height = height[right_idx];\n+            if left_height < right_height {\n+                if left_height >= left_max {\n+                    left_max = left_height;\n+                } else {\n+                    total_vol += left_max - left_height;\n                 }\n-                if h > fallback_height {\n-                    fallback_height = h;\n-                    fallback_idx = idx;\n+                left_idx += 1;\n+            } else {\n+                if right_height >= right_max {\n+                    right_max = right_height;\n+                } else {\n+                    total_vol += right_max - right_height;\n                 }\n+                right_idx -= 1;\n             }\n-            if vol == 0 && fallback_height != 0 {\n-                i = fallback_idx;\n-                vol = ((fallback_idx - left_idx - 1) as i32 * fallback_height)\n-                    - (prefix_vol[fallback_idx - 1] - prefix_vol[left_idx]);\n-                left_height = fallback_height;\n-                left_idx = fallback_idx;\n-            }\n-            total_volume += vol;\n-            i += 1;\n         }\n-        total_volume\n+        total_vol\n     }\n }\n \n@@ -55,8 +34,8 @@ fn what(height: Vec<i32>, ans: i32) {\n     assert_eq!(Solution::trap(height), ans);\n }\n fn main() {\n-    // what(vec![0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1], 6);\n-    // what(vec![4, 2, 0, 3, 2, 5], 9);\n-    // what(vec![4, 2, 3], 1);\n+    what(vec![0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1], 6);\n+    what(vec![4, 2, 0, 3, 2, 5], 9);\n+    what(vec![4, 2, 3], 1);\n     what(vec![5, 4, 1, 2], 1);\n }\n",
+          "changedLineCounts": {
+            "additions": 24,
+            "deletions": 45
+          },
+          "approachId": "two-pointers",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Optimized solution using two pointers, reducing time complexity to O(n) and space to O(1).",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "2c3a8fc83dd27cef3dede4ace220de8777cdbfbf",
+    "1f447456982af4bdcc4f705f2c0cd15228b1c257"
+  ],
+  "warnings": []
+}

@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1344,
+    "title": "Angle Between Hands of A Clock",
+    "slug": "angle-between-hands-of-a-clock"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/1344_angle_between_hands_of_a_clock.rs",
+    "latestSha": "540d877a8905c04b7a0a94e614e75f1069d7e5da",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-06-18T15:08:11+08:00",
+    "lastCommittedAt": "2026-06-18T15:08:11+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "9296c6f8ecc20bfbbcc0e08de790fa7430bbecc772bebfaf70c1c7cecb3a2abd"
+  },
+  "approaches": [
+    {
+      "id": "direct_calculation",
+      "title": "Direct Calculation of Angles",
+      "summary": "Compute hour and minute angles directly using constant increments and return the smallest angle between them.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "a8c48ef88bade0a30316bab24f6ba0701bec8c38",
+          "shortSha": "a8c48ef",
+          "parentSha": "86b3d4a631d9231d10f82668947dc27f475f60c4",
+          "authoredAt": "2026-06-18T15:06:23+08:00",
+          "committedAt": "2026-06-18T15:08:11+08:00",
+          "chronologicalIndex": 173,
+          "problemId": 1344,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1344_angle_between_hands_of_a_clock.rs",
+          "sourceFilename": "1344_angle_between_hands_of_a_clock.rs",
+          "code": "static HOUR_ANGLE_INCR: f64 = 30.0;\nstatic SUB_HOUR_ANGLE_INCR: f64 = 0.5;\nstatic MIN_ANGLE_INCR: f64 = 6.0;\n\nimpl Solution {\n    pub fn angle_clock(hour: i32, minutes: i32) -> f64 {\n        let hour = if hour == 12 { 0.0 } else { hour as f64 };\n        let minutes = if minutes == 60 { 0.0 } else { minutes as f64 };\n        let hour_angle = (hour * HOUR_ANGLE_INCR) + (minutes * SUB_HOUR_ANGLE_INCR);\n        let min_angle = minutes * MIN_ANGLE_INCR;\n        let diff = (hour_angle - min_angle).abs();\n        diff.min(360.0 - diff)\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "63bfd68fcf15e6296cfba2114d54b6bc9e45340c2e54621d1107038d5930aa01",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 1344",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "direct_calculation",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation with explicit 12/60 handling and separate variable assignments.",
+          "warnings": []
+        },
+        {
+          "sha": "540d877a8905c04b7a0a94e614e75f1069d7e5da",
+          "shortSha": "540d877",
+          "parentSha": "a8c48ef88bade0a30316bab24f6ba0701bec8c38",
+          "authoredAt": "2026-06-18T15:08:04+08:00",
+          "committedAt": "2026-06-18T15:08:11+08:00",
+          "chronologicalIndex": 174,
+          "problemId": 1344,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1344_angle_between_hands_of_a_clock.rs",
+          "sourceFilename": "1344_angle_between_hands_of_a_clock.rs",
+          "code": "static HOUR_ANGLE_INCR: f64 = 30.0;\nstatic SUB_HOUR_ANGLE_INCR: f64 = 0.5;\nstatic MIN_ANGLE_INCR: f64 = 6.0;\n\nimpl Solution {\n    pub fn angle_clock(hour: i32, minutes: i32) -> f64 {\n        let hour_angle = (hour as f64 * HOUR_ANGLE_INCR) + (minutes as f64 * SUB_HOUR_ANGLE_INCR);\n        let min_angle = minutes as f64 * MIN_ANGLE_INCR;\n        let diff = (hour_angle - min_angle).abs();\n        diff.min(360.0 - diff)\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "d7529209f9b3ab3a8ab305ad41f878cd8c60afa0c43c07ba4aadf4e8d49e736e",
+          "markedWrong": false,
+          "commitComment": "simplified",
+          "rawCommitSubject": "rust 1344: simplified",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/1344_angle_between_hands_of_a_clock.rs b/rust/src/bin/1344_angle_between_hands_of_a_clock.rs\nindex d46c61e..801211b 100644\n--- a/rust/src/bin/1344_angle_between_hands_of_a_clock.rs\n+++ b/rust/src/bin/1344_angle_between_hands_of_a_clock.rs\n@@ -4,10 +4,8 @@ static MIN_ANGLE_INCR: f64 = 6.0;\n \n impl Solution {\n     pub fn angle_clock(hour: i32, minutes: i32) -> f64 {\n-        let hour = if hour == 12 { 0.0 } else { hour as f64 };\n-        let minutes = if minutes == 60 { 0.0 } else { minutes as f64 };\n-        let hour_angle = (hour * HOUR_ANGLE_INCR) + (minutes * SUB_HOUR_ANGLE_INCR);\n-        let min_angle = minutes * MIN_ANGLE_INCR;\n+        let hour_angle = (hour as f64 * HOUR_ANGLE_INCR) + (minutes as f64 * SUB_HOUR_ANGLE_INCR);\n+        let min_angle = minutes as f64 * MIN_ANGLE_INCR;\n         let diff = (hour_angle - min_angle).abs();\n         diff.min(360.0 - diff)\n     }\n",
+          "changedLineCounts": {
+            "additions": 2,
+            "deletions": 4
+          },
+          "approachId": "direct_calculation",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Simplified by removing redundant 12/60 checks and consolidating type conversions.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "a8c48ef88bade0a30316bab24f6ba0701bec8c38",
+    "540d877a8905c04b7a0a94e614e75f1069d7e5da"
+  ],
+  "warnings": []
+}

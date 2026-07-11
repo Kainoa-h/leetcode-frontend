@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 202,
+    "title": "Happy Number",
+    "slug": "happy-number"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/202_happy_number.rs",
+    "latestSha": "728574948ed4a8df99e4b8b127b0370179198e12",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-06-09T20:43:28+08:00",
+    "lastCommittedAt": "2026-06-09T20:43:28+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "6de4a5ed536d6597268e7b44f95cfc249a93b7a040fdce248badb959d3c21859"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "728574948ed4a8df99e4b8b127b0370179198e12",
+          "shortSha": "7285749",
+          "parentSha": "150aa26a509f8d2fe2cda15cba4340d51d3cabde",
+          "authoredAt": "2026-06-09T20:43:28+08:00",
+          "committedAt": "2026-06-09T20:43:28+08:00",
+          "chronologicalIndex": 153,
+          "problemId": 202,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/202_happy_number.rs",
+          "sourceFilename": "202_happy_number.rs",
+          "code": "// all unhappy loops in base 10 end up at 4\nimpl Solution {\n    pub fn is_happy(mut n: i32) -> bool {\n        while n != 1 && n != 4 {\n            let mut acc = 0;\n            while n > 0 {\n                acc += (n % 10).pow(2);\n                n /= 10;\n            }\n            n = acc;\n        }\n        n == 1\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "b14f4518c6d95d9772c244d6e6a4481876260503c573806d3e2ef11cd902003e",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 202",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "728574948ed4a8df99e4b8b127b0370179198e12"
+  ],
+  "warnings": []
+}

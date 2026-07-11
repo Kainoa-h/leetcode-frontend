@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3418,
+    "title": "Maximum Amount of Money Robot Can Earn",
+    "slug": "maximum-amount-of-money-robot-can-earn"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3418_maximum_amount_of_money_robot_can_earn.rs",
+    "latestSha": "9a0112d986951fa9c530031e12eb257dcb3325d7",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-04-02T21:50:40+08:00",
+    "lastCommittedAt": "2026-04-02T21:50:40+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "8bde2f29df563dfbd56fd427d38877c45c563477cf234a672a04da0071483c05"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "9a0112d986951fa9c530031e12eb257dcb3325d7",
+          "shortSha": "9a0112d",
+          "parentSha": "887d64cac8222f3a9391ba812e13969ed3d106e2",
+          "authoredAt": "2026-04-02T21:50:40+08:00",
+          "committedAt": "2026-04-02T21:50:40+08:00",
+          "chronologicalIndex": 97,
+          "problemId": 3418,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3418_maximum_amount_of_money_robot_can_earn.rs",
+          "sourceFilename": "3418_maximum_amount_of_money_robot_can_earn.rs",
+          "code": "struct Solution {}\n\nimpl Solution {\n    pub fn maximum_amount(coins: Vec<Vec<i32>>) -> i32 {\n        let mut dp = vec![[i32::MIN / 2; 3]; coins[0].len() + 1];\n        dp[1] = [0, 0, 0];\n\n        for row in coins {\n            for (col_idx, coin) in row.iter().enumerate() {\n                dp[col_idx + 1][2] = i32::max(\n                    i32::max(dp[col_idx + 1][2], dp[col_idx][2]) + coin,\n                    i32::max(dp[col_idx + 1][1], dp[col_idx][1]),\n                );\n                dp[col_idx + 1][1] = i32::max(\n                    i32::max(dp[col_idx + 1][1], dp[col_idx][1]) + coin,\n                    i32::max(dp[col_idx + 1][0], dp[col_idx][0]),\n                );\n                dp[col_idx + 1][0] = dp[col_idx + 1][0].max(dp[col_idx][0]) + coin;\n            }\n        }\n        dp.last().unwrap()[2]\n    }\n}\n\nfn main() {\n    let mut x;\n\n    x = Solution::maximum_amount(vec![vec![0, 1, -1], vec![1, -2, 3], vec![2, -3, 4]]);\n    println!(\"{}\", x);\n    assert_eq!(x, 8);\n\n    x = Solution::maximum_amount(vec![vec![10, 10, 10], vec![10, 10, 10]]);\n    println!(\"{}\", x);\n    assert_eq!(x, 40);\n\n    x = Solution::maximum_amount(vec![\n        vec![-7, 12, 12, 13],\n        vec![-6, 19, 19, -6],\n        vec![9, -2, -10, 16],\n        vec![-4, 14, -10, -9],\n    ]);\n    println!(\"{}\", x);\n    assert_eq!(x, 60);\n}\n",
+          "codeHash": "c673e74db771e5872598220129e04725ef6f60bba62f2522e4968c82bf1bba5b",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 3418",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "9a0112d986951fa9c530031e12eb257dcb3325d7"
+  ],
+  "warnings": []
+}

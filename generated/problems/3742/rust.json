@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3742,
+    "title": "Maximum Path Score in A Grid",
+    "slug": "maximum-path-score-in-a-grid"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3742_maximum_path_score_in_a_grid.rs",
+    "latestSha": "41e73e913279c569959a31e122e8bdbdc4e0f82b",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-05-01T14:57:37+08:00",
+    "lastCommittedAt": "2026-05-01T14:57:37+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "e1fedeebd169bc6bc1d45f6f798eee758a0bef49d5aa047494b7da3cb1ebf3bd"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "41e73e913279c569959a31e122e8bdbdc4e0f82b",
+          "shortSha": "41e73e9",
+          "parentSha": "286969f0d8c57736071e765fb6fecc06e805b112",
+          "authoredAt": "2026-05-01T14:57:37+08:00",
+          "committedAt": "2026-05-01T14:57:37+08:00",
+          "chronologicalIndex": 117,
+          "problemId": 3742,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3742_maximum_path_score_in_a_grid.rs",
+          "sourceFilename": "3742_maximum_path_score_in_a_grid.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn max_path_score(grid: Vec<Vec<i32>>, k: i32) -> i32 {\n        let rows = grid.len();\n        let cols = grid[0].len();\n        let k = k as usize;\n        let mut dp: Vec<Vec<Vec<i32>>> = vec![vec![vec![-1; k + 1]; cols + 1]; rows + 1];\n\n        dp[0][1][0] = 0;\n        for row_idx in 1..dp.len() {\n            for col_idx in 1..dp[0].len() {\n                let score = grid[row_idx - 1][col_idx - 1];\n                let cost;\n                let till;\n                if score != 0 {\n                    cost = 1;\n                    till = k;\n                } else {\n                    cost = 0;\n                    till = k + 1;\n                }\n                for i in 0..till {\n                    let l = dp[row_idx][col_idx - 1][i];\n                    let u = dp[row_idx - 1][col_idx][i];\n                    if l != -1 || u != -1 {\n                        dp[row_idx][col_idx][i + cost] = l.max(u) + score;\n                    }\n                }\n            }\n        }\n\n        dp[grid.len()][grid[0].len()].iter().max().copied().unwrap()\n    }\n}\n\nfn main() {\n    assert_eq!(Solution::max_path_score(vec![vec![0, 1], vec![2, 0]], 1), 2);\n    assert_eq!(\n        Solution::max_path_score(vec![vec![0, 1], vec![1, 2]], 1),\n        -1\n    );\n}\n",
+          "codeHash": "d9a79600b7eeb5ca5efd9afc475443c6233349d41bf6209b4a3ee3820b9b0bee",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 3742",
+          "commitBody": "holy",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "41e73e913279c569959a31e122e8bdbdc4e0f82b"
+  ],
+  "warnings": []
+}

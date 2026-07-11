@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1009,
+    "title": "Complement of Base 10 Integer",
+    "slug": "complement-of-base-10-integer"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/1009_complement_of_base_10_integer.rs",
+    "latestSha": "1ce63bcb75b48fea858cf4ae5d46cd0873aa87c5",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-03-11T23:35:17+08:00",
+    "lastCommittedAt": "2026-03-11T23:39:39+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "2780541dfd36d00e78fe4d87275dc3f38a19ede7d05c1aed6adc2f79699dd001"
+  },
+  "approaches": [
+    {
+      "id": "leading_zeros_approach",
+      "title": "Leading Zeros Masking",
+      "summary": "Uses leading_zeros() to generate a bitmask for XOR operation in O(1) time and space.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "23d534aefdf68c0362e5057578074ec5287be17b",
+          "shortSha": "23d534a",
+          "parentSha": "c18ec7e0964a52847a900436c85ebc995412762b",
+          "authoredAt": "2026-03-11T23:35:17+08:00",
+          "committedAt": "2026-03-11T23:35:17+08:00",
+          "chronologicalIndex": 58,
+          "problemId": 1009,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1009_complement_of_base_10_integer.rs",
+          "sourceFilename": "1009_complement_of_base_10_integer.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn bitwise_complement(n: i32) -> i32 {\n        if n == 0 {\n            return 1;\n        }\n\n        n ^ ((u32::MAX) >> n.leading_zeros()) as i32\n    }\n}\n\nfn main() {\n    assert_eq!(1, Solution::bitwise_complement(0));\n    assert_eq!(1, Solution::bitwise_complement(2));\n    assert_eq!(0, Solution::bitwise_complement(7));\n}\n",
+          "codeHash": "b2c54e8ef71111b7cea8729fb643691a31fba74e9f54bea8338f55a59155cce2",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "1009",
+          "commitBody": "time: O(1)\nspace: O(1)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "leading_zeros_approach",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation using leading_zeros() to create a bitmask for XOR.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "bit_smearing_approach",
+      "title": "Bit Smearing Masking",
+      "summary": "Generates a bitmask by propagating set bits across all positions in O(1) time and space.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "1ce63bcb75b48fea858cf4ae5d46cd0873aa87c5",
+          "shortSha": "1ce63bc",
+          "parentSha": "23d534aefdf68c0362e5057578074ec5287be17b",
+          "authoredAt": "2026-03-11T23:38:51+08:00",
+          "committedAt": "2026-03-11T23:39:39+08:00",
+          "chronologicalIndex": 59,
+          "problemId": 1009,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1009_complement_of_base_10_integer.rs",
+          "sourceFilename": "1009_complement_of_base_10_integer.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn bitwise_complement(n: i32) -> i32 {\n        if n == 0 {\n            return 1;\n        }\n        let mut mask = n;\n        mask |= mask >> 1;\n        mask |= mask >> 2;\n        mask |= mask >> 4;\n        mask |= mask >> 8;\n        mask |= mask >> 16;\n\n        n ^ mask\n    }\n}\n\nfn main() {\n    assert_eq!(1, Solution::bitwise_complement(0));\n    assert_eq!(1, Solution::bitwise_complement(2));\n    assert_eq!(0, Solution::bitwise_complement(7));\n}\n",
+          "codeHash": "014eb20ddbba3fc60c207c5e48b165611d6e9a6490c5f99aace2b954ee6f0824",
+          "markedWrong": false,
+          "commitComment": "cool bit smearing trick",
+          "rawCommitSubject": "1009: cool bit smearing trick",
+          "commitBody": "marginally slower than leading_zeros() on cpu architectures that support\nit, but still O(1)\n\ntime: O(1)\nspace: O(1)",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/1009_complement_of_base_10_integer.rs b/rust/src/bin/1009_complement_of_base_10_integer.rs\nindex ae1d254..15767b2 100644\n--- a/rust/src/bin/1009_complement_of_base_10_integer.rs\n+++ b/rust/src/bin/1009_complement_of_base_10_integer.rs\n@@ -4,8 +4,14 @@ impl Solution {\n         if n == 0 {\n             return 1;\n         }\n+        let mut mask = n;\n+        mask |= mask >> 1;\n+        mask |= mask >> 2;\n+        mask |= mask >> 4;\n+        mask |= mask >> 8;\n+        mask |= mask >> 16;\n \n-        n ^ ((u32::MAX) >> n.leading_zeros()) as i32\n+        n ^ mask\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 7,
+            "deletions": 1
+          },
+          "approachId": "bit_smearing_approach",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaced leading_zeros() with bit-smearing technique for mask generation.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "23d534aefdf68c0362e5057578074ec5287be17b",
+    "1ce63bcb75b48fea858cf4ae5d46cd0873aa87c5"
+  ],
+  "warnings": []
+}

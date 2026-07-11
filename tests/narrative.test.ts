@@ -1,1 +1,57 @@
-import{describe,it,expect}from'vitest';import{validateNarrative}from'../scripts/lib/schemas';const rev=(sha:string,order=0)=>({sha,order,shortChange:'Changed.'});const result=(revisions:ReturnType<typeof rev>[])=>({approaches:[{id:'a',title:'Approach',summary:'Summary',order:0,revisions}]});describe('narrative validation',()=>{it('accepts complete output',()=>expect(validateNarrative(result([rev('a'),rev('b',1)]),['a','b']).approaches).toHaveLength(1));it('rejects missing SHA',()=>expect(()=>validateNarrative(result([rev('a')]),['a','b'])).toThrow('Missing'));it('rejects duplicate SHA',()=>expect(()=>validateNarrative(result([rev('a'),rev('a',1)]),['a'])).toThrow('Duplicate SHA'));it('rejects unknown SHA',()=>expect(()=>validateNarrative(result([rev('x')]),['a'])).toThrow('Unknown'));it('rejects duplicate IDs',()=>expect(()=>validateNarrative({approaches:[...result([rev('a')]).approaches,{...result([rev('b')]).approaches[0]}]},['a','b'])).toThrow('Duplicate approach'));it('rejects duplicate ordering',()=>expect(()=>validateNarrative(result([rev('a'),rev('b')]),['a','b'])).toThrow('Duplicate revision order'))});
+import { describe, it, expect } from 'vitest';
+import { validateNarrative } from '../scripts/lib/schemas';
+import { shouldRequestLlm } from '../scripts/lib/narrative';
+const rev = (sha: string, order = 0) => ({
+  sha,
+  order,
+  shortChange: 'Changed.',
+});
+const result = (revisions: ReturnType<typeof rev>[]) => ({
+  approaches: [
+    { id: 'a', title: 'Approach', summary: 'Summary', order: 0, revisions },
+  ],
+});
+describe('narrative validation', () => {
+  it('accepts complete output', () =>
+    expect(
+      validateNarrative(result([rev('a'), rev('b', 1)]), ['a', 'b']).approaches,
+    ).toHaveLength(1));
+  it('rejects missing SHA', () =>
+    expect(() => validateNarrative(result([rev('a')]), ['a', 'b'])).toThrow(
+      'Missing',
+    ));
+  it('rejects duplicate SHA', () =>
+    expect(() =>
+      validateNarrative(result([rev('a'), rev('a', 1)]), ['a']),
+    ).toThrow('Duplicate SHA'));
+  it('rejects unknown SHA', () =>
+    expect(() => validateNarrative(result([rev('x')]), ['a'])).toThrow(
+      'Unknown',
+    ));
+  it('rejects duplicate IDs', () =>
+    expect(() =>
+      validateNarrative(
+        {
+          approaches: [
+            ...result([rev('a')]).approaches,
+            { ...result([rev('b')]).approaches[0] },
+          ],
+        },
+        ['a', 'b'],
+      ),
+    ).toThrow('Duplicate approach'));
+  it('rejects duplicate ordering', () =>
+    expect(() =>
+      validateNarrative(result([rev('a'), rev('b')]), ['a', 'b']),
+    ).toThrow('Duplicate revision order'));
+});
+
+describe('LLM request policy', () => {
+  it('skips single-revision groups', () => {
+    expect(shouldRequestLlm(1)).toBe(false);
+  });
+
+  it('analyzes groups with multiple revisions', () => {
+    expect(shouldRequestLlm(2)).toBe(true);
+  });
+});

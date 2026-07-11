@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 739,
+    "title": "Daily Temperatures",
+    "slug": "daily-temperatures"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/739_daily_temperatures.java",
+    "latestSha": "86b3d4a631d9231d10f82668947dc27f475f60c4",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-06-18T15:08:11+08:00",
+    "lastCommittedAt": "2026-06-18T15:08:11+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "9b22086c6f9eda48f4bc9e19cb46f366f5b93528ab5109d44cb62f6737cbce18"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "86b3d4a631d9231d10f82668947dc27f475f60c4",
+          "shortSha": "86b3d4a",
+          "parentSha": "48658a5ab30001fd6f3edb25e4fa9fb25b43a46c",
+          "authoredAt": "2026-06-18T15:06:15+08:00",
+          "committedAt": "2026-06-18T15:08:11+08:00",
+          "chronologicalIndex": 172,
+          "problemId": 739,
+          "language": "java",
+          "sourcePath": "java/src/solutions/739_daily_temperatures.java",
+          "sourceFilename": "739_daily_temperatures.java",
+          "code": "import java.util.ArrayList;\nimport java.util.Arrays;\nimport java.util.List;\n\nclass Solution {\n  public int[] dailyTemperatures(int[] temperatures) {\n    List<Integer> monotonicStack = new ArrayList<>(temperatures.length);\n    int[] result = new int[temperatures.length];\n\n    int curr_idx = 0;\n    for (var curr_temp : temperatures) {\n      while (!monotonicStack.isEmpty() && temperatures[monotonicStack.getLast()] < curr_temp) {\n        var top_idx = monotonicStack.removeLast();\n        result[top_idx] = curr_idx - top_idx;\n      }\n      monotonicStack.add(curr_idx);\n      curr_idx++;\n    }\n\n    return result;\n  }\n\n  void main() {\n    System.out.println(Arrays.toString(new Solution().dailyTemperatures(new int[] { 30, 40, 50, 60 })));\n    System.out.println(Arrays.toString(new int[] { 1, 1, 1, 0 }));\n  }\n}\n\n/*\n * Example 1:\n * \n * Input: temperatures = [73,74,75,71,69,72,76,73]\n * Output: [1,1,4,2,1,1,0,0]\n * Example 2:\n * \n * Input: temperatures = [30,40,50,60]\n * Output: [1,1,1,0]\n * Example 3:\n * \n * Input: temperatures = [30,60,90]\n * Output: [1,1,0]\n * \n */\n",
+          "codeHash": "419e4c8e88a923c5470e914b48513184381252e85faa59db5c085727d2fd34e7",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "java 739",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "86b3d4a631d9231d10f82668947dc27f475f60c4"
+  ],
+  "warnings": []
+}

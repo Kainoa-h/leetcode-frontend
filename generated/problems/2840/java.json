@@ -1,0 +1,178 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2840,
+    "title": "Check If Strings Can Be Made Equal With Operations Ii",
+    "slug": "check-if-strings-can-be-made-equal-with-operations-ii"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/2840_check_if_strings_can_be_made_equal_with_operations_II.java",
+    "latestSha": "6f35d17dcd4e50119b63c8f1ddf43cac511bd899",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 4,
+    "approachCount": 4,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-03-30T23:33:24+08:00",
+    "lastCommittedAt": "2026-04-16T18:09:38+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "bc81315ccd28ee99e1df4dae2cbf43e2730512fa4025d9d73e0a4ed4c2607daf"
+  },
+  "approaches": [
+    {
+      "id": "hashmap-frequency-count",
+      "title": "HashMap Frequency Count",
+      "summary": "Use HashMaps to count character frequencies at even and odd indices separately and compare.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "a65fd569b2e605be02593c6777b72eebeee3ab8f",
+          "shortSha": "a65fd56",
+          "parentSha": "29fc9cf152ccff236ee40d6e1bb8fadb182ae925",
+          "authoredAt": "2026-03-30T23:06:25+08:00",
+          "committedAt": "2026-03-30T23:33:24+08:00",
+          "chronologicalIndex": 89,
+          "problemId": 2840,
+          "language": "java",
+          "sourcePath": "java/src/solutions/2840_check_if_strings_can_be_made_equal_with_operations_II.java",
+          "sourceFilename": "2840_check_if_strings_can_be_made_equal_with_operations_II.java",
+          "code": "import java.util.HashMap;\n\nclass Solution {\n  public boolean checkStrings(String s1, String s2) {\n    HashMap<Character, Long> map1Even = new HashMap<>();\n    HashMap<Character, Long> map2Even = new HashMap<>();\n    for (int i = 0; i < s1.length(); i += 2) {\n      map1Even.merge(s1.charAt(i), 1L, Long::sum);\n      map2Even.merge(s2.charAt(i), 1L, Long::sum);\n    }\n    HashMap<Character, Long> map1Odd = new HashMap<>();\n    HashMap<Character, Long> map2Odd = new HashMap<>();\n    for (int i = 1; i < s1.length(); i += 2) {\n      map1Odd.merge(s1.charAt(i), 1L, Long::sum);\n      map2Odd.merge(s2.charAt(i), 1L, Long::sum);\n    }\n    if (map1Even.size() != map2Even.size() || map1Odd.size() != map2Odd.size()) {\n      return false;\n    }\n    return map1Even.equals(map2Even) && map1Odd.equals(map2Odd);\n  }\n\n  void main() {\n    assert checkStrings(\"abcd\", \"cdab\");\n    assert checkStrings(\"abcdba\", \"cabdab\");\n    assert !checkStrings(\"abcd\", \"dacb\");\n    assert !checkStrings(\"abe\", \"bea\");\n  }\n}\n",
+          "codeHash": "2e12dd30f6ef91bdb4dc931df0a41fbc6196c8be90700a2e055334c991c99554",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "java 2840",
+          "commitBody": "time: O(n)\nspace: O(1)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "hashmap-frequency-count",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation using HashMaps for even and odd index character counts.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "array-frequency-count",
+      "title": "Array Frequency Count",
+      "summary": "Replace HashMaps with fixed-size arrays for counting character frequencies at even and odd indices.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "d0a4db84221460501b79d71680549d97c5fdd2a2",
+          "shortSha": "d0a4db8",
+          "parentSha": "a65fd569b2e605be02593c6777b72eebeee3ab8f",
+          "authoredAt": "2026-03-30T23:33:56+08:00",
+          "committedAt": "2026-03-30T23:33:56+08:00",
+          "chronologicalIndex": 90,
+          "problemId": 2840,
+          "language": "java",
+          "sourcePath": "java/src/solutions/2840_check_if_strings_can_be_made_equal_with_operations_II.java",
+          "sourceFilename": "2840_check_if_strings_can_be_made_equal_with_operations_II.java",
+          "code": "import java.util.Arrays;\n\nclass Solution {\n  public boolean checkStrings(String s1, String s2) {\n    if (s1.length() != s2.length())\n      return false;\n\n    int[] even1 = new int[26];\n    int[] even2 = new int[26];\n    int[] odd1 = new int[26];\n    int[] odd2 = new int[26];\n    for (int i = 0; i < s1.length(); i++) {\n      if (i % 2 == 0) {\n        even1[s1.charAt(i) - 'a'] += 1;\n        even2[s2.charAt(i) - 'a'] += 1;\n      } else {\n\n        odd1[s1.charAt(i) - 'a'] += 1;\n        odd2[s2.charAt(i) - 'a'] += 1;\n      }\n    }\n    return Arrays.equals(even1, even2) && Arrays.equals(odd1, odd2);\n  }\n\n  void main() {\n    assert checkStrings(\"abcd\", \"cdab\");\n    assert checkStrings(\"abcdba\", \"cabdab\");\n    assert !checkStrings(\"abcd\", \"dacb\");\n    assert !checkStrings(\"abe\", \"bea\");\n  }\n}\n",
+          "codeHash": "ab17698f7d902504db8f5c65325d5c65da3cef9f860298442baa567d6d27c5df",
+          "markedWrong": false,
+          "commitComment": "pre-sized array intead of hashmap",
+          "rawCommitSubject": "java 2840: pre-sized array intead of hashmap",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/java/src/solutions/2840_check_if_strings_can_be_made_equal_with_operations_II.java b/java/src/solutions/2840_check_if_strings_can_be_made_equal_with_operations_II.java\nindex 1cc41bb..802b624 100644\n--- a/java/src/solutions/2840_check_if_strings_can_be_made_equal_with_operations_II.java\n+++ b/java/src/solutions/2840_check_if_strings_can_be_made_equal_with_operations_II.java\n@@ -1,23 +1,25 @@\n-import java.util.HashMap;\n+import java.util.Arrays;\n \n class Solution {\n   public boolean checkStrings(String s1, String s2) {\n-    HashMap<Character, Long> map1Even = new HashMap<>();\n-    HashMap<Character, Long> map2Even = new HashMap<>();\n-    for (int i = 0; i < s1.length(); i += 2) {\n-      map1Even.merge(s1.charAt(i), 1L, Long::sum);\n-      map2Even.merge(s2.charAt(i), 1L, Long::sum);\n-    }\n-    HashMap<Character, Long> map1Odd = new HashMap<>();\n-    HashMap<Character, Long> map2Odd = new HashMap<>();\n-    for (int i = 1; i < s1.length(); i += 2) {\n-      map1Odd.merge(s1.charAt(i), 1L, Long::sum);\n-      map2Odd.merge(s2.charAt(i), 1L, Long::sum);\n-    }\n-    if (map1Even.size() != map2Even.size() || map1Odd.size() != map2Odd.size()) {\n+    if (s1.length() != s2.length())\n       return false;\n+\n+    int[] even1 = new int[26];\n+    int[] even2 = new int[26];\n+    int[] odd1 = new int[26];\n+    int[] odd2 = new int[26];\n+    for (int i = 0; i < s1.length(); i++) {\n+      if (i % 2 == 0) {\n+        even1[s1.charAt(i) - 'a'] += 1;\n+        even2[s2.charAt(i) - 'a'] += 1;\n+      } else {\n+\n+        odd1[s1.charAt(i) - 'a'] += 1;\n+        odd2[s2.charAt(i) - 'a'] += 1;\n+      }\n     }\n-    return map1Even.equals(map2Even) && map1Odd.equals(map2Odd);\n+    return Arrays.equals(even1, even2) && Arrays.equals(odd1, odd2);\n   }\n \n   void main() {\n",
+          "changedLineCounts": {
+            "additions": 17,
+            "deletions": 15
+          },
+          "approachId": "array-frequency-count",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Optimized to use pre-sized arrays instead of HashMaps for better performance.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "xor-and-diff-trick",
+      "title": "XOR and Difference Trick",
+      "summary": "Use XOR and squared difference to track mismatches at even and odd indices.",
+      "order": 2,
+      "revisions": [
+        {
+          "sha": "ff6a73d797c13c22af75e341f175d24a9f2bb0c8",
+          "shortSha": "ff6a73d",
+          "parentSha": "d0a4db84221460501b79d71680549d97c5fdd2a2",
+          "authoredAt": "2026-03-30T23:48:35+08:00",
+          "committedAt": "2026-03-30T23:48:35+08:00",
+          "chronologicalIndex": 91,
+          "problemId": 2840,
+          "language": "java",
+          "sourcePath": "java/src/solutions/2840_check_if_strings_can_be_made_equal_with_operations_II.java",
+          "sourceFilename": "2840_check_if_strings_can_be_made_equal_with_operations_II.java",
+          "code": "import java.util.Arrays;\n\nclass Solution {\n  public boolean checkStrings(String s1, String s2) {\n    if (s1.length() != s2.length())\n      return false;\n\n    int evenX = 0, evenD = 0, oddX = 0, oddD = 0;\n    for (int i = 0; i < s1.length(); i++) {\n      int c1 = s1.charAt(i);\n      int c2 = s2.charAt(i);\n      int diffX = c1 ^ c2;\n      int diffD = (c1 * c1) - (c2 * c2);\n      if (i % 2 == 0) {\n        evenX ^= diffX;\n        evenD += diffD;\n      } else {\n        oddX ^= diffX;\n        oddD += diffD;\n      }\n    }\n    return (evenX | oddX | evenD | oddD) == 0;\n  }\n\n  void main() {\n    assert checkStrings(\"abcd\", \"cdab\");\n    assert checkStrings(\"abcdba\", \"cabdab\");\n    assert !checkStrings(\"abcd\", \"dacb\");\n    assert !checkStrings(\"abe\", \"bea\");\n  }\n}\n",
+          "codeHash": "b2a66530b8d6fdd0fd263bebf0a5d6ec6273f79846043408e23ef05aa8db998b",
+          "markedWrong": false,
+          "commitComment": "crazy xor n square diff trick",
+          "rawCommitSubject": "java 2840: crazy xor n square diff trick",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/java/src/solutions/2840_check_if_strings_can_be_made_equal_with_operations_II.java b/java/src/solutions/2840_check_if_strings_can_be_made_equal_with_operations_II.java\nindex 802b624..33d60f5 100644\n--- a/java/src/solutions/2840_check_if_strings_can_be_made_equal_with_operations_II.java\n+++ b/java/src/solutions/2840_check_if_strings_can_be_made_equal_with_operations_II.java\n@@ -5,21 +5,21 @@ class Solution {\n     if (s1.length() != s2.length())\n       return false;\n \n-    int[] even1 = new int[26];\n-    int[] even2 = new int[26];\n-    int[] odd1 = new int[26];\n-    int[] odd2 = new int[26];\n+    int evenX = 0, evenD = 0, oddX = 0, oddD = 0;\n     for (int i = 0; i < s1.length(); i++) {\n+      int c1 = s1.charAt(i);\n+      int c2 = s2.charAt(i);\n+      int diffX = c1 ^ c2;\n+      int diffD = (c1 * c1) - (c2 * c2);\n       if (i % 2 == 0) {\n-        even1[s1.charAt(i) - 'a'] += 1;\n-        even2[s2.charAt(i) - 'a'] += 1;\n+        evenX ^= diffX;\n+        evenD += diffD;\n       } else {\n-\n-        odd1[s1.charAt(i) - 'a'] += 1;\n-        odd2[s2.charAt(i) - 'a'] += 1;\n+        oddX ^= diffX;\n+        oddD += diffD;\n       }\n     }\n-    return Arrays.equals(even1, even2) && Arrays.equals(odd1, odd2);\n+    return (evenX | oddX | evenD | oddD) == 0;\n   }\n \n   void main() {\n",
+          "changedLineCounts": {
+            "additions": 10,
+            "deletions": 10
+          },
+          "approachId": "xor-and-diff-trick",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Introduced XOR and squared difference to detect mismatches in a single pass.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "single-array-difference",
+      "title": "Single Array Difference",
+      "summary": "Use a single array to track differences in character counts for even and odd indices separately.",
+      "order": 3,
+      "revisions": [
+        {
+          "sha": "6f35d17dcd4e50119b63c8f1ddf43cac511bd899",
+          "shortSha": "6f35d17",
+          "parentSha": "316c5f40dd9228ec19dbcbf7720624ee2f074984",
+          "authoredAt": "2026-04-16T18:09:31+08:00",
+          "committedAt": "2026-04-16T18:09:38+08:00",
+          "chronologicalIndex": 106,
+          "problemId": 2840,
+          "language": "java",
+          "sourcePath": "java/src/solutions/2840_check_if_strings_can_be_made_equal_with_operations_II.java",
+          "sourceFilename": "2840_check_if_strings_can_be_made_equal_with_operations_II.java",
+          "code": "class Solution {\n  public boolean checkStrings(String s1, String s2) {\n    if (s1.length() != s2.length())\n      return false;\n\n    int[] map = new int[26];\n    for (int i = 0; i < s1.length(); i += 2) {\n      map[s1.charAt(i) - 'a']++;\n      map[s2.charAt(i) - 'a']--;\n    }\n    for (int x : map) {\n      if (x != 0)\n        return false;\n    }\n\n    for (int i = 1; i < s1.length(); i += 2) {\n      map[s1.charAt(i) - 'a']++;\n      map[s2.charAt(i) - 'a']--;\n    }\n    for (int x : map) {\n      if (x != 0)\n        return false;\n    }\n    return true;\n  }\n\n  void main() {\n    assert checkStrings(\"abcd\", \"cdab\");\n    assert checkStrings(\"abcdba\", \"cabdab\");\n    assert !checkStrings(\"abcd\", \"dacb\");\n    assert !checkStrings(\"abe\", \"bea\");\n  }\n}\n",
+          "codeHash": "ce10622c2ce24ea033c474edb730e61dc477793145f9d39eece71fe98054421d",
+          "markedWrong": false,
+          "commitComment": "i forgot what i changed",
+          "rawCommitSubject": "java 2840: i forgot what i changed",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/java/src/solutions/2840_check_if_strings_can_be_made_equal_with_operations_II.java b/java/src/solutions/2840_check_if_strings_can_be_made_equal_with_operations_II.java\nindex 33d60f5..3c605f4 100644\n--- a/java/src/solutions/2840_check_if_strings_can_be_made_equal_with_operations_II.java\n+++ b/java/src/solutions/2840_check_if_strings_can_be_made_equal_with_operations_II.java\n@@ -1,25 +1,27 @@\n-import java.util.Arrays;\n-\n class Solution {\n   public boolean checkStrings(String s1, String s2) {\n     if (s1.length() != s2.length())\n       return false;\n \n-    int evenX = 0, evenD = 0, oddX = 0, oddD = 0;\n-    for (int i = 0; i < s1.length(); i++) {\n-      int c1 = s1.charAt(i);\n-      int c2 = s2.charAt(i);\n-      int diffX = c1 ^ c2;\n-      int diffD = (c1 * c1) - (c2 * c2);\n-      if (i % 2 == 0) {\n-        evenX ^= diffX;\n-        evenD += diffD;\n-      } else {\n-        oddX ^= diffX;\n-        oddD += diffD;\n-      }\n+    int[] map = new int[26];\n+    for (int i = 0; i < s1.length(); i += 2) {\n+      map[s1.charAt(i) - 'a']++;\n+      map[s2.charAt(i) - 'a']--;\n+    }\n+    for (int x : map) {\n+      if (x != 0)\n+        return false;\n+    }\n+\n+    for (int i = 1; i < s1.length(); i += 2) {\n+      map[s1.charAt(i) - 'a']++;\n+      map[s2.charAt(i) - 'a']--;\n+    }\n+    for (int x : map) {\n+      if (x != 0)\n+        return false;\n     }\n-    return (evenX | oddX | evenD | oddD) == 0;\n+    return true;\n   }\n \n   void main() {\n",
+          "changedLineCounts": {
+            "additions": 18,
+            "deletions": 16
+          },
+          "approachId": "single-array-difference",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Simplified to a single array for tracking differences, reducing space complexity.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "a65fd569b2e605be02593c6777b72eebeee3ab8f",
+    "d0a4db84221460501b79d71680549d97c5fdd2a2",
+    "ff6a73d797c13c22af75e341f175d24a9f2bb0c8",
+    "6f35d17dcd4e50119b63c8f1ddf43cac511bd899"
+  ],
+  "warnings": []
+}

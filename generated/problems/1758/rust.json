@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1758,
+    "title": "Minimum Changes to Make Alternating Binary String",
+    "slug": "minimum-changes-to-make-alternating-binary-string"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/1758_minimum_changes_to_make_alternating_binary_string.rs",
+    "latestSha": "8bddd19dbc6978a4614de8135a6441222ced4dd3",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-03-05T10:14:06+08:00",
+    "lastCommittedAt": "2026-03-05T10:14:06+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "1c69cd1fb7dda0ec99173c265c9a3f534991872ddb3f7c4760f82bf2479c9945"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "8bddd19dbc6978a4614de8135a6441222ced4dd3",
+          "shortSha": "8bddd19",
+          "parentSha": "e0bc404ebea730c6dd3f3754094883fd4c21ece0",
+          "authoredAt": "2026-03-05T10:12:55+08:00",
+          "committedAt": "2026-03-05T10:14:06+08:00",
+          "chronologicalIndex": 54,
+          "problemId": 1758,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1758_minimum_changes_to_make_alternating_binary_string.rs",
+          "sourceFilename": "1758_minimum_changes_to_make_alternating_binary_string.rs",
+          "code": "struct Solution {}\n\nimpl Solution {\n    pub fn min_operations(s: String) -> i32 {\n        let mut sum = 0_i32;\n        let mut flip_state = s.as_bytes()[0] == b'1';\n        for c in s.bytes().skip(1) {\n            if (flip_state && c == b'1') || (!flip_state && c == b'0') {\n                sum += 1;\n            }\n            flip_state = !flip_state;\n        }\n        sum.min(s.len() as i32 - sum)\n    }\n}\n\nfn main() {\n    assert_eq!(1, Solution::min_operations(\"0100\".to_string()));\n    assert_eq!(0, Solution::min_operations(\"01\".to_string()));\n    assert_eq!(2, Solution::min_operations(\"1111\".to_string()));\n    assert_eq!(2, Solution::min_operations(\"11100\".to_string()));\n    assert_eq!(2, Solution::min_operations(\"111000\".to_string()));\n}\n",
+          "codeHash": "77b4b9e3d8bb7c9c1ea7411f4a105f4f631e646f85333b37fccc8af624e02685",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "1758",
+          "commitBody": "time: O(n)\nspade: O(1)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "8bddd19dbc6978a4614de8135a6441222ced4dd3"
+  ],
+  "warnings": []
+}

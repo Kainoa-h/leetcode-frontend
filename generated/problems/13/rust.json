@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 13,
+    "title": "Roman to Integer",
+    "slug": "roman-to-integer"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/13_roman_to_integer.rs",
+    "latestSha": "8bb34a31912b70f0046bdab2f8bb1e6bd28370bc",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-01-29T21:30:03+08:00",
+    "lastCommittedAt": "2026-01-29T23:00:03+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "fe0d8bd6e1108d760754e42668ada4505abbc480897c41a4230ca6cce28662ff"
+  },
+  "approaches": [
+    {
+      "id": "hash_map_lookup",
+      "title": "HashMap Lookup",
+      "summary": "Uses a HashMap to store Roman numeral values and iterates through the string to compute the total.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "67545daf7aefd062042b89cb06ced0dd779289c9",
+          "shortSha": "67545da",
+          "parentSha": "1f447456982af4bdcc4f705f2c0cd15228b1c257",
+          "authoredAt": "2026-01-29T21:27:59+08:00",
+          "committedAt": "2026-01-29T21:30:03+08:00",
+          "chronologicalIndex": 32,
+          "problemId": 13,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/13_roman_to_integer.rs",
+          "sourceFilename": "13_roman_to_integer.rs",
+          "code": "use std::collections::HashMap;\n\nstruct Solution {}\nimpl Solution {\n    pub fn roman_to_int(s: String) -> i32 {\n        let map = [\n            ('I', 1),\n            ('V', 5),\n            ('X', 10),\n            ('L', 50),\n            ('C', 100),\n            ('D', 500),\n            ('M', 1000),\n        ]\n        .iter()\n        .cloned()\n        .collect::<HashMap<char, i32>>();\n\n        let mut total = 0;\n        let mut prev = 0;\n        for (_, c) in s.char_indices() {\n            let x = *map.get(&c).unwrap();\n            total += x;\n            if prev < x {\n                total -= 2 * prev;\n            }\n            prev = x;\n        }\n        total\n    }\n}\n\nfn what(s: String, ans: i32) {\n    println!(\"{}\", s);\n    assert_eq!(Solution::roman_to_int(s), ans);\n}\n\nfn main() {\n    what(\"III\".to_owned(), 3);\n    what(\"IV\".to_owned(), 4);\n    what(\"LVIII\".to_owned(), 58);\n    what(\"MMMCMXCIX\".to_owned(), 3999);\n}\n",
+          "codeHash": "14f2c0ce1b80bcedd819569490bdb6ef6f016bfb8faeed4e292668aa0075c02e",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "13",
+          "commitBody": "time: O(n)\nspace: O(1)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "hash_map_lookup",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation with HashMap.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "closure_match",
+      "title": "Closure with Match",
+      "summary": "Replaces HashMap with a closure using pattern matching for a more idiomatic Rust approach.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "6d1ea7d6566ddfa2ad4354bd36a1223d724a52c6",
+          "shortSha": "6d1ea7d",
+          "parentSha": "67545daf7aefd062042b89cb06ced0dd779289c9",
+          "authoredAt": "2026-01-29T21:34:12+08:00",
+          "committedAt": "2026-01-29T21:34:12+08:00",
+          "chronologicalIndex": 33,
+          "problemId": 13,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/13_roman_to_integer.rs",
+          "sourceFilename": "13_roman_to_integer.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn roman_to_int(s: String) -> i32 {\n        let map = |c: char| match c {\n            'I' => 1,\n            'V' => 5,\n            'X' => 10,\n            'L' => 50,\n            'C' => 100,\n            'D' => 500,\n            'M' => 1000,\n            _ => 0,\n        };\n\n        let mut total = 0;\n        let mut prev = 0;\n        for (_, c) in s.char_indices() {\n            let x = map(c);\n            total += x;\n            if prev < x {\n                total -= 2 * prev;\n            }\n            prev = x;\n        }\n        total\n    }\n}\n\nfn what(s: String, ans: i32) {\n    println!(\"{}\", s);\n    assert_eq!(Solution::roman_to_int(s), ans);\n}\n\nfn main() {\n    what(\"III\".to_owned(), 3);\n    what(\"IV\".to_owned(), 4);\n    what(\"LVIII\".to_owned(), 58);\n    what(\"MMMCMXCIX\".to_owned(), 3999);\n}\n",
+          "codeHash": "692ca1017a9997b9fec7f77ea7759d348e6485aa33626673407f9ec304b679ce",
+          "markedWrong": false,
+          "commitComment": "more idomatic rust",
+          "rawCommitSubject": "13: more idomatic rust",
+          "commitBody": "time: O(n)\nspace: O(1)",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/13_roman_to_integer.rs b/rust/src/bin/13_roman_to_integer.rs\nindex 538876e..8c181d7 100644\n--- a/rust/src/bin/13_roman_to_integer.rs\n+++ b/rust/src/bin/13_roman_to_integer.rs\n@@ -1,25 +1,21 @@\n-use std::collections::HashMap;\n-\n struct Solution {}\n impl Solution {\n     pub fn roman_to_int(s: String) -> i32 {\n-        let map = [\n-            ('I', 1),\n-            ('V', 5),\n-            ('X', 10),\n-            ('L', 50),\n-            ('C', 100),\n-            ('D', 500),\n-            ('M', 1000),\n-        ]\n-        .iter()\n-        .cloned()\n-        .collect::<HashMap<char, i32>>();\n+        let map = |c: char| match c {\n+            'I' => 1,\n+            'V' => 5,\n+            'X' => 10,\n+            'L' => 50,\n+            'C' => 100,\n+            'D' => 500,\n+            'M' => 1000,\n+            _ => 0,\n+        };\n \n         let mut total = 0;\n         let mut prev = 0;\n         for (_, c) in s.char_indices() {\n-            let x = *map.get(&c).unwrap();\n+            let x = map(c);\n             total += x;\n             if prev < x {\n                 total -= 2 * prev;\n",
+          "changedLineCounts": {
+            "additions": 11,
+            "deletions": 15
+          },
+          "approachId": "closure_match",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Switches to a closure-based lookup for better idiomatic Rust.",
+          "warnings": []
+        },
+        {
+          "sha": "8bb34a31912b70f0046bdab2f8bb1e6bd28370bc",
+          "shortSha": "8bb34a3",
+          "parentSha": "d8d641914a8475b2d47753a38ce6c9d75d8bdf2b",
+          "authoredAt": "2026-01-29T23:00:03+08:00",
+          "committedAt": "2026-01-29T23:00:03+08:00",
+          "chronologicalIndex": 36,
+          "problemId": 13,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/13_roman_to_integer.rs",
+          "sourceFilename": "13_roman_to_integer.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn roman_to_int(s: String) -> i32 {\n        let map = |c: char| match c {\n            'I' => 1,\n            'V' => 5,\n            'X' => 10,\n            'L' => 50,\n            'C' => 100,\n            'D' => 500,\n            'M' => 1000,\n            _ => 0,\n        };\n\n        let mut total = 0;\n        let mut prev = 0;\n        for c in s.chars() {\n            let x = map(c);\n            total += x;\n            if prev < x {\n                total -= 2 * prev;\n            }\n            prev = x;\n        }\n        total\n    }\n}\n\nfn what(s: String, ans: i32) {\n    println!(\"{}\", s);\n    assert_eq!(Solution::roman_to_int(s), ans);\n}\n\nfn main() {\n    what(\"III\".to_owned(), 3);\n    what(\"IV\".to_owned(), 4);\n    what(\"LVIII\".to_owned(), 58);\n    what(\"MMMCMXCIX\".to_owned(), 3999);\n}\n",
+          "codeHash": "cc2342b38cc83b7ad4243c36e36d49b6eacf68e1801b17c04657ff9c9a882aaf",
+          "markedWrong": false,
+          "commitComment": "more idomatic",
+          "rawCommitSubject": "13: more idomatic",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/13_roman_to_integer.rs b/rust/src/bin/13_roman_to_integer.rs\nindex 8c181d7..ecc7441 100644\n--- a/rust/src/bin/13_roman_to_integer.rs\n+++ b/rust/src/bin/13_roman_to_integer.rs\n@@ -14,7 +14,7 @@ impl Solution {\n \n         let mut total = 0;\n         let mut prev = 0;\n-        for (_, c) in s.char_indices() {\n+        for c in s.chars() {\n             let x = map(c);\n             total += x;\n             if prev < x {\n",
+          "changedLineCounts": {
+            "additions": 1,
+            "deletions": 1
+          },
+          "approachId": "closure_match",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Simplifies iteration by using `s.chars()` instead of `s.char_indices()`.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "67545daf7aefd062042b89cb06ced0dd779289c9",
+    "6d1ea7d6566ddfa2ad4354bd36a1223d724a52c6",
+    "8bb34a31912b70f0046bdab2f8bb1e6bd28370bc"
+  ],
+  "warnings": []
+}

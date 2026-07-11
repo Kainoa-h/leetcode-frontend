@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 27,
+    "title": "Remove Element",
+    "slug": "remove-element"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/27_remove_element.rs",
+    "latestSha": "e14d6583a81edd877c16d38a347a60f6c3ce7a5d",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 3,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-01-24T18:36:50+08:00",
+    "lastCommittedAt": "2026-03-29T19:04:21+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "f0e01eef2f0556c99a3e7b14978fc6f50875710765a16bbbea743c7a5299eade"
+  },
+  "approaches": [
+    {
+      "id": "stack-based-replacement",
+      "title": "Stack-based replacement with backfill",
+      "summary": "Uses a stack to track indices of elements to remove, then backfills with non-matching elements from the end.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "a34eb6b62db2009b09e1159dc4fe40e65e9a82e2",
+          "shortSha": "a34eb6b",
+          "parentSha": "f75bdda5b37d150058d4c27d0af85a21ec0f0973",
+          "authoredAt": "2026-01-24T18:36:50+08:00",
+          "committedAt": "2026-01-24T18:36:50+08:00",
+          "chronologicalIndex": 3,
+          "problemId": 27,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/27_remove_element.rs",
+          "sourceFilename": "27_remove_element.rs",
+          "code": "struct Solution {}\n\nimpl Solution {\n    pub fn remove_element(nums: &mut Vec<i32>, val: i32) -> i32 {\n        let mut stack: Vec<usize> = Vec::new();\n        for i in 0..nums.len() {\n            if nums[i] == val {\n                nums[i] = -1;\n                stack.push(i);\n            }\n        }\n        let left = (nums.len() - stack.len()) as i32;\n\n        let mut candidate_idx = nums.len();\n        while let Some(replace_idx) = stack.pop() {\n            let candidate = loop {\n                match candidate_idx.checked_sub(1) {\n                    Some(x) => candidate_idx = x,\n                    None => break 0,\n                };\n                let x = nums[candidate_idx];\n                if x != -1 {\n                    break x;\n                }\n            };\n\n            if candidate_idx <= replace_idx {\n                candidate_idx += 1;\n                continue;\n            }\n\n            nums[replace_idx] = candidate;\n        }\n\n        left\n    }\n}\n\nfn what(mut nums: Vec<i32>, val: i32) {\n    println!(\"{:?}\", Solution::remove_element(&mut nums, val));\n    println!(\"{:?}\", nums);\n}\n\nfn main() {\n    // Input: nums = [3,2,2,3], val = 3\n    // Output: 2, nums = [2,2,_,_]\n    what(vec![3, 2, 2, 3], 3);\n\n    // Input: nums = [0,1,2,2,3,0,4,2], val = 2\n    // Output: 5, nums = [0,1,4,0,3,_,_,_]\n    what(vec![0, 1, 2, 2, 3, 0, 4, 2], 2);\n\n    what(vec![1], 1);\n    what(vec![0, 1, 2, 2, 3, 0, 4, 2], 22);\n}\n",
+          "codeHash": "db9738424a85f580718d536323d7a2589142d81e57dce85c6954f0169e49a8c3",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "27",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "stack-based-replacement",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial stack-based approach with backfill logic.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "two-pointer-overwrite",
+      "title": "Two-pointer overwrite",
+      "summary": "Iterates through the array with a pointer tracking the position to write non-matching elements.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "88ae5b933c487fd85f3e6bd87aaf9c18adaff531",
+          "shortSha": "88ae5b9",
+          "parentSha": "8efbb3fb6a2e32b928bb6dc77f716b549ffc0234",
+          "authoredAt": "2026-03-29T19:01:16+08:00",
+          "committedAt": "2026-03-29T19:01:16+08:00",
+          "chronologicalIndex": 85,
+          "problemId": 27,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/27_remove_element.rs",
+          "sourceFilename": "27_remove_element.rs",
+          "code": "struct Solution {}\n\nimpl Solution {\n    pub fn remove_element(nums: &mut Vec<i32>, val: i32) -> i32 {\n        let mut match_idx = 0;\n        for i in 0..nums.len() {\n            if nums[i] != val {\n                nums[match_idx] = nums[i];\n                match_idx += 1;\n            }\n        }\n\n        match_idx as i32\n    }\n}\n\nfn what(mut nums: Vec<i32>, val: i32) {\n    println!(\"{:?}\", Solution::remove_element(&mut nums, val));\n    println!(\"{:?}\", nums);\n}\n\nfn main() {\n    // Input: nums = [3,2,2,3], val = 3\n    // Output: 2, nums = [2,2,_,_]\n    what(vec![3, 2, 2, 3], 3);\n\n    // Input: nums = [0,1,2,2,3,0,4,2], val = 2\n    // Output: 5, nums = [0,1,4,0,3,_,_,_]\n    what(vec![0, 1, 2, 2, 3, 0, 4, 2], 2);\n\n    what(vec![1], 1);\n    what(vec![0, 1, 2, 2, 3, 0, 4, 2], 22);\n}\n",
+          "codeHash": "f9453a11bfd2f6c36418c00548d0d5df00cf7b2add28267ff0c597789c181722",
+          "markedWrong": false,
+          "commitComment": "simple direct overwrite",
+          "rawCommitSubject": "rust 27: simple direct overwrite",
+          "commitBody": "time: O(n)\nspace: O(1)",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/27_remove_element.rs b/rust/src/bin/27_remove_element.rs\nindex efc10d3..5645710 100644\n--- a/rust/src/bin/27_remove_element.rs\n+++ b/rust/src/bin/27_remove_element.rs\n@@ -2,37 +2,15 @@ struct Solution {}\n \n impl Solution {\n     pub fn remove_element(nums: &mut Vec<i32>, val: i32) -> i32 {\n-        let mut stack: Vec<usize> = Vec::new();\n+        let mut match_idx = 0;\n         for i in 0..nums.len() {\n-            if nums[i] == val {\n-                nums[i] = -1;\n-                stack.push(i);\n+            if nums[i] != val {\n+                nums[match_idx] = nums[i];\n+                match_idx += 1;\n             }\n         }\n-        let left = (nums.len() - stack.len()) as i32;\n \n-        let mut candidate_idx = nums.len();\n-        while let Some(replace_idx) = stack.pop() {\n-            let candidate = loop {\n-                match candidate_idx.checked_sub(1) {\n-                    Some(x) => candidate_idx = x,\n-                    None => break 0,\n-                };\n-                let x = nums[candidate_idx];\n-                if x != -1 {\n-                    break x;\n-                }\n-            };\n-\n-            if candidate_idx <= replace_idx {\n-                candidate_idx += 1;\n-                continue;\n-            }\n-\n-            nums[replace_idx] = candidate;\n-        }\n-\n-        left\n+        match_idx as i32\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 5,
+            "deletions": 27
+          },
+          "approachId": "two-pointer-overwrite",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Simplified to a two-pointer overwrite method with O(n) time and O(1) space.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "retain-method",
+      "title": "Retain method",
+      "summary": "Uses Rust's retain method to filter out elements matching the target value.",
+      "order": 2,
+      "revisions": [
+        {
+          "sha": "e14d6583a81edd877c16d38a347a60f6c3ce7a5d",
+          "shortSha": "e14d658",
+          "parentSha": "88ae5b933c487fd85f3e6bd87aaf9c18adaff531",
+          "authoredAt": "2026-03-29T19:04:21+08:00",
+          "committedAt": "2026-03-29T19:04:21+08:00",
+          "chronologicalIndex": 86,
+          "problemId": 27,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/27_remove_element.rs",
+          "sourceFilename": "27_remove_element.rs",
+          "code": "struct Solution {}\n\nimpl Solution {\n    pub fn remove_element(nums: &mut Vec<i32>, val: i32) -> i32 {\n        nums.retain(|x| *x != val);\n        nums.len() as i32\n    }\n}\n\nfn what(mut nums: Vec<i32>, val: i32) {\n    println!(\"{:?}\", Solution::remove_element(&mut nums, val));\n    println!(\"{:?}\", nums);\n}\n\nfn main() {\n    // Input: nums = [3,2,2,3], val = 3\n    // Output: 2, nums = [2,2,_,_]\n    what(vec![3, 2, 2, 3], 3);\n\n    // Input: nums = [0,1,2,2,3,0,4,2], val = 2\n    // Output: 5, nums = [0,1,4,0,3,_,_,_]\n    what(vec![0, 1, 2, 2, 3, 0, 4, 2], 2);\n\n    what(vec![1], 1);\n    what(vec![0, 1, 2, 2, 3, 0, 4, 2], 22);\n}\n",
+          "codeHash": "3c159b04f5ec817b5135e0dbe6df9aae67012ae6aaa718b6bedefe0ebe0b5ada",
+          "markedWrong": false,
+          "commitComment": "retain method",
+          "rawCommitSubject": "rust 27: retain method",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/27_remove_element.rs b/rust/src/bin/27_remove_element.rs\nindex 5645710..5a53755 100644\n--- a/rust/src/bin/27_remove_element.rs\n+++ b/rust/src/bin/27_remove_element.rs\n@@ -2,15 +2,8 @@ struct Solution {}\n \n impl Solution {\n     pub fn remove_element(nums: &mut Vec<i32>, val: i32) -> i32 {\n-        let mut match_idx = 0;\n-        for i in 0..nums.len() {\n-            if nums[i] != val {\n-                nums[match_idx] = nums[i];\n-                match_idx += 1;\n-            }\n-        }\n-\n-        match_idx as i32\n+        nums.retain(|x| *x != val);\n+        nums.len() as i32\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 2,
+            "deletions": 9
+          },
+          "approachId": "retain-method",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Directly uses retain to remove elements, concise but less explicit.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "a34eb6b62db2009b09e1159dc4fe40e65e9a82e2",
+    "88ae5b933c487fd85f3e6bd87aaf9c18adaff531",
+    "e14d6583a81edd877c16d38a347a60f6c3ce7a5d"
+  ],
+  "warnings": []
+}

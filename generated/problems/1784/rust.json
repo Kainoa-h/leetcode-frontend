@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1784,
+    "title": "Check If Binary String Has At Most One Segment of Ones",
+    "slug": "check-if-binary-string-has-at-most-one-segment-of-ones"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/1784_check_if_binary_string_has_at_most_one_segment_of_ones.rs",
+    "latestSha": "fe70d6cd1cd2e68f6cd2e4cfba34cca1cdadc068",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-03-06T23:00:17+08:00",
+    "lastCommittedAt": "2026-03-06T23:00:17+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "ad37d8a4867f93435de910db9a37cf2ce789ded7f3ebbb28c4fa1e842efbc55f"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "fe70d6cd1cd2e68f6cd2e4cfba34cca1cdadc068",
+          "shortSha": "fe70d6c",
+          "parentSha": "8bddd19dbc6978a4614de8135a6441222ced4dd3",
+          "authoredAt": "2026-03-06T22:59:48+08:00",
+          "committedAt": "2026-03-06T23:00:17+08:00",
+          "chronologicalIndex": 55,
+          "problemId": 1784,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1784_check_if_binary_string_has_at_most_one_segment_of_ones.rs",
+          "sourceFilename": "1784_check_if_binary_string_has_at_most_one_segment_of_ones.rs",
+          "code": "struct Solution {}\n\nimpl Solution {\n    pub fn check_ones_segment(s: String) -> bool {\n        let mut in_sequence = true;\n        for c in s.bytes() {\n            if in_sequence {\n                if c == b'0' {\n                    in_sequence = false;\n                }\n            } else if c == b'1' {\n                return false;\n            }\n        }\n        true\n    }\n}\n\nfn main() {}\n",
+          "codeHash": "9a1aa191ba8c4c138b5773f3615dfbac73d6c557f7f0b7f10a597496408f8d82",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "1784",
+          "commitBody": "time: O(n)\nspace: O(1)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "fe70d6cd1cd2e68f6cd2e4cfba34cca1cdadc068"
+  ],
+  "warnings": []
+}

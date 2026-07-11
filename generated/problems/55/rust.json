@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 55,
+    "title": "Can Jump",
+    "slug": "can-jump"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/55_can_jump.rs",
+    "latestSha": "a859ae1d513e55fb6b5e22f133e06863a65d1f43",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-01-25T14:51:29+08:00",
+    "lastCommittedAt": "2026-01-25T14:51:29+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "159ea2fd6988a6861e6e857c1cd57d91669ef0796ad38a09e6d843f2cbe85585"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "a859ae1d513e55fb6b5e22f133e06863a65d1f43",
+          "shortSha": "a859ae1",
+          "parentSha": "e707ebb67a6811701622a3d76edfb18e15c164c6",
+          "authoredAt": "2026-01-25T14:51:29+08:00",
+          "committedAt": "2026-01-25T14:51:29+08:00",
+          "chronologicalIndex": 17,
+          "problemId": 55,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/55_can_jump.rs",
+          "sourceFilename": "55_can_jump.rs",
+          "code": "struct Solution {}\n\nimpl Solution {\n    pub fn can_jump(nums: Vec<i32>) -> bool {\n        let mut max_reachable = 0;\n        for (i, &n) in nums.iter().enumerate() {\n            if max_reachable < i {\n                return false;\n            }\n            max_reachable = max_reachable.max(i + n as usize);\n\n            if max_reachable + 1 >= nums.len() {\n                return true;\n            }\n        }\n        false\n    }\n}\n\nfn main() {\n    assert!(Solution::can_jump(vec![2, 3, 1, 1, 4]));\n    assert!(!Solution::can_jump(vec![3, 2, 1, 0, 4]));\n}\n",
+          "codeHash": "4b9de6fda01971cf2736e8d0124f9464a32a6450de576aef584f101dc380a7fe",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "55",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "a859ae1d513e55fb6b5e22f133e06863a65d1f43"
+  ],
+  "warnings": []
+}

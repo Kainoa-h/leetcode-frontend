@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1848,
+    "title": "Minimum Distance to the Target Element",
+    "slug": "minimum-distance-to-the-target-element"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/1848_minimum_distance_to_the_target_element.rs",
+    "latestSha": "349304ea95e5d87857c5595fac995278fd7f32e9",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-04-13T20:14:55+08:00",
+    "lastCommittedAt": "2026-04-13T20:14:55+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "944c735f328d91ece5d367ea79a213265207584974c6a3574e2fdba751369718"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "349304ea95e5d87857c5595fac995278fd7f32e9",
+          "shortSha": "349304e",
+          "parentSha": "5ebc39c73c4a5e9c8bc84522617d8598408af119",
+          "authoredAt": "2026-04-13T20:14:36+08:00",
+          "committedAt": "2026-04-13T20:14:55+08:00",
+          "chronologicalIndex": 104,
+          "problemId": 1848,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1848_minimum_distance_to_the_target_element.rs",
+          "sourceFilename": "1848_minimum_distance_to_the_target_element.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn get_min_distance(nums: Vec<i32>, target: i32, start: i32) -> i32 {\n        let start = start as usize;\n        let mut i = 0_usize;\n        loop {\n            let left = start.checked_sub(i).and_then(|idx| nums.get(idx)) == Some(&target);\n            let right = nums.get(start + i) == Some(&target);\n            if left || right {\n                return i as i32;\n            }\n            i += 1;\n        }\n    }\n}\n\nfn main() {}\n",
+          "codeHash": "3ae87c12603af4440983db7aa63b1cfe4189383707684aa12ba365887065bf08",
+          "markedWrong": false,
+          "commitComment": "two pointer",
+          "rawCommitSubject": "rust 1848: two pointer",
+          "commitBody": "time: O(n)\nspace: O(1)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "two pointer",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "349304ea95e5d87857c5595fac995278fd7f32e9"
+  ],
+  "warnings": []
+}

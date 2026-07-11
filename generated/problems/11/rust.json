@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 11,
+    "title": "Container With the Most Water",
+    "slug": "container-with-the-most-water"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/11_container_with_the_most_water.rs",
+    "latestSha": "9ebead5cd2cdf1afa4305946d865f4e397403303",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-02-05T17:52:24+08:00",
+    "lastCommittedAt": "2026-02-11T20:54:32+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "5f0085c41709efc257f6610a0020edbec40d362023c447a38a78fc272514922c"
+  },
+  "approaches": [
+    {
+      "id": "two-pointers",
+      "title": "Two Pointers Approach",
+      "summary": "Optimal solution using two pointers to efficiently compute the maximum area in O(n) time and O(1) space.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "85575fe3cd63f63baa03ed04a0b8c7f3d52c3673",
+          "shortSha": "85575fe",
+          "parentSha": "eb1b18ae71f4bf6e811926454b2991e041a041bf",
+          "authoredAt": "2026-02-05T17:52:24+08:00",
+          "committedAt": "2026-02-05T17:52:24+08:00",
+          "chronologicalIndex": 50,
+          "problemId": 11,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/11_container_with_the_most_water.rs",
+          "sourceFilename": "11_container_with_the_most_water.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn max_area(height: Vec<i32>) -> i32 {\n        let mut l = 0;\n        let mut r = height.len() - 1;\n        let mut largest = 0;\n        while l < r {\n            let left = height[l];\n            let right = height[r];\n            let vol = left.min(right) * (r - l) as i32;\n            if vol > largest {\n                largest = vol;\n            }\n            if left < right {\n                l += 1;\n            } else {\n                r -= 1;\n            }\n        }\n\n        largest\n    }\n}\n\nfn what(height: Vec<i32>, ans: i32) {\n    println!(\"{:?}\", height);\n    assert_eq!(Solution::max_area(height), ans)\n}\n\nfn main() {\n    what(vec![1, 8, 6, 2, 5, 4, 8, 3, 7], 49);\n    what(vec![1, 1], 1);\n}\n",
+          "codeHash": "e02c94c3527be3a03e3878b5d34a656d3db58517dfd2a3241afec70350d3c618",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "11",
+          "commitBody": "time: O(n)\nspace: O(1)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "two-pointers",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation of the two-pointer technique to calculate the maximum area.",
+          "warnings": []
+        },
+        {
+          "sha": "9ebead5cd2cdf1afa4305946d865f4e397403303",
+          "shortSha": "9ebead5",
+          "parentSha": "85575fe3cd63f63baa03ed04a0b8c7f3d52c3673",
+          "authoredAt": "2026-02-11T20:54:32+08:00",
+          "committedAt": "2026-02-11T20:54:32+08:00",
+          "chronologicalIndex": 51,
+          "problemId": 11,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/11_container_with_the_most_water.rs",
+          "sourceFilename": "11_container_with_the_most_water.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn max_area(height: Vec<i32>) -> i32 {\n        let mut l = 0;\n        let mut r = height.len() - 1;\n        let mut largest = 0;\n        while l < r {\n            let left = height[l];\n            let right = height[r];\n            let vol = left.min(right) * (r - l) as i32;\n            largest = largest.max(vol);\n            if left < right {\n                l += 1;\n            } else {\n                r -= 1;\n            }\n        }\n\n        largest\n    }\n}\n\nfn what(height: Vec<i32>, ans: i32) {\n    println!(\"{:?}\", height);\n    assert_eq!(Solution::max_area(height), ans)\n}\n\nfn main() {\n    what(vec![1, 8, 6, 2, 5, 4, 8, 3, 7], 49);\n    what(vec![1, 1], 1);\n}\n",
+          "codeHash": "3e7d9ad073ddf5ee23002a705de5f6644bcf62986702c793e60a2112002cb9b7",
+          "markedWrong": false,
+          "commitComment": "more idomatic",
+          "rawCommitSubject": "11: more idomatic",
+          "commitBody": "time: O(n)\nspace: O(1)",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/11_container_with_the_most_water.rs b/rust/src/bin/11_container_with_the_most_water.rs\nindex 65bb651..ca23315 100644\n--- a/rust/src/bin/11_container_with_the_most_water.rs\n+++ b/rust/src/bin/11_container_with_the_most_water.rs\n@@ -8,9 +8,7 @@ impl Solution {\n             let left = height[l];\n             let right = height[r];\n             let vol = left.min(right) * (r - l) as i32;\n-            if vol > largest {\n-                largest = vol;\n-            }\n+            largest = largest.max(vol);\n             if left < right {\n                 l += 1;\n             } else {\n",
+          "changedLineCounts": {
+            "additions": 1,
+            "deletions": 3
+          },
+          "approachId": "two-pointers",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Refined the max area update using Rust's max method for idiomatic style.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "85575fe3cd63f63baa03ed04a0b8c7f3d52c3673",
+    "9ebead5cd2cdf1afa4305946d865f4e397403303"
+  ],
+  "warnings": []
+}

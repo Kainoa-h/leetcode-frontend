@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1833,
+    "title": "Maximum Icecream Bars",
+    "slug": "maximum-icecream-bars"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/1833_maximum_icecream_bars.rs",
+    "latestSha": "bb3894e9d2b39eefbc55b9d92f14632f3218c134",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-06-22T20:58:47+08:00",
+    "lastCommittedAt": "2026-06-22T21:32:00+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "2fba30585a9617160d50c7525bbb72c0b65af70c9be76fe9719c3673899a1ce9"
+  },
+  "approaches": [
+    {
+      "id": "sorting_greedy",
+      "title": "Sorting with Greedy Selection",
+      "summary": "Sorts the costs and iteratively buys the cheapest available ice cream bars until coins run out.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "9414fbe95d6b94c1e74b29d127290786f3c9037b",
+          "shortSha": "9414fbe",
+          "parentSha": "ff0200ed871bfbc2e78ca14553b7f518ad636e6e",
+          "authoredAt": "2026-06-22T20:58:47+08:00",
+          "committedAt": "2026-06-22T20:58:47+08:00",
+          "chronologicalIndex": 184,
+          "problemId": 1833,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1833_maximum_icecream_bars.rs",
+          "sourceFilename": "1833_maximum_icecream_bars.rs",
+          "code": "impl Solution {\n    pub fn max_ice_cream(mut costs: Vec<i32>, mut coins: i32) -> i32 {\n        costs.sort_unstable();\n        let mut bought = 0;\n        for price in costs {\n            if price > coins {\n                break;\n            }\n            bought += 1;\n            coins -= price;\n        }\n        bought\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "032e2d77c9fe74cb86987bbc9fa44dbc946511ff5c47435649af553a9115931c",
+          "markedWrong": false,
+          "commitComment": "not doing this right",
+          "rawCommitSubject": "rust 1833: not doing this right",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "sorting_greedy",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "None",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "counting_sort",
+      "title": "Counting Sort with Frequency Tracking",
+      "summary": "Uses counting sort to track frequencies of each cost, then iteratively buys from the cheapest available bars.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "bb3894e9d2b39eefbc55b9d92f14632f3218c134",
+          "shortSha": "bb3894e",
+          "parentSha": "9414fbe95d6b94c1e74b29d127290786f3c9037b",
+          "authoredAt": "2026-06-22T21:32:00+08:00",
+          "committedAt": "2026-06-22T21:32:00+08:00",
+          "chronologicalIndex": 185,
+          "problemId": 1833,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1833_maximum_icecream_bars.rs",
+          "sourceFilename": "1833_maximum_icecream_bars.rs",
+          "code": "impl Solution {\n    pub fn max_ice_cream(costs: Vec<i32>, coins: i32) -> i32 {\n        let mut coins = coins as usize;\n        let mut counting = [0; 100_001];\n        for cost in costs {\n            counting[cost as usize] += 1;\n        }\n\n        let mut count = 0;\n        for (cost, stock) in counting.iter_mut().enumerate().skip(1) {\n            while *stock > 0 {\n                if coins < cost {\n                    return count;\n                }\n                *stock -= 1;\n                coins -= cost;\n                count += 1;\n            }\n        }\n        count\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(Solution::max_ice_cream(vec![1, 3, 2, 4, 1], 7), 4);\n}\n",
+          "codeHash": "3f782cfad4feaae0ca5b8f3450e8570593056a52f8f4f28063d6a0ef562d9907",
+          "markedWrong": false,
+          "commitComment": "counting sort!",
+          "rawCommitSubject": "rust 1833: counting sort!",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/1833_maximum_icecream_bars.rs b/rust/src/bin/1833_maximum_icecream_bars.rs\nindex 4743239..3068fad 100644\n--- a/rust/src/bin/1833_maximum_icecream_bars.rs\n+++ b/rust/src/bin/1833_maximum_icecream_bars.rs\n@@ -1,16 +1,28 @@\n impl Solution {\n-    pub fn max_ice_cream(mut costs: Vec<i32>, mut coins: i32) -> i32 {\n-        costs.sort_unstable();\n-        let mut bought = 0;\n-        for price in costs {\n-            if price > coins {\n-                break;\n+    pub fn max_ice_cream(costs: Vec<i32>, coins: i32) -> i32 {\n+        let mut coins = coins as usize;\n+        let mut counting = [0; 100_001];\n+        for cost in costs {\n+            counting[cost as usize] += 1;\n+        }\n+\n+        let mut count = 0;\n+        for (cost, stock) in counting.iter_mut().enumerate().skip(1) {\n+            while *stock > 0 {\n+                if coins < cost {\n+                    return count;\n+                }\n+                *stock -= 1;\n+                coins -= cost;\n+                count += 1;\n             }\n-            bought += 1;\n-            coins -= price;\n         }\n-        bought\n+        count\n     }\n }\n \n struct Solution {}\n+\n+fn main() {\n+    assert_eq!(Solution::max_ice_cream(vec![1, 3, 2, 4, 1], 7), 4);\n+}\n",
+          "changedLineCounts": {
+            "additions": 21,
+            "deletions": 9
+          },
+          "approachId": "counting_sort",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "None",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "9414fbe95d6b94c1e74b29d127290786f3c9037b",
+    "bb3894e9d2b39eefbc55b9d92f14632f3218c134"
+  ],
+  "warnings": []
+}

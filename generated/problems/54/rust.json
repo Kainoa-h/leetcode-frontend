@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 54,
+    "title": "Spiral Matrix",
+    "slug": "spiral-matrix"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/54_spiral_matrix.rs",
+    "latestSha": "77f5961f91e4d817deb47ef0b7492d51001142cb",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 2,
+    "incorrectRevisionCount": 1,
+    "firstCommittedAt": "2026-03-15T21:22:52+08:00",
+    "lastCommittedAt": "2026-03-23T22:36:26+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "2c402b45bb6d1919f63bef7988557bac60e1d68618f5cd3c90219c2143ad0d65"
+  },
+  "approaches": [
+    {
+      "id": "boundary_traversal",
+      "title": "Boundary Traversal with Offset Tracking",
+      "summary": "Traverses the matrix in a spiral by tracking and adjusting boundaries (right, bottom, left, top) after completing each side. Uses offset counters to shrink the ",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "a7d8ff1f7cfb77a45df76da8b51998ae2a965710",
+          "shortSha": "a7d8ff1",
+          "parentSha": "8e05f20bfa5e1c96c2645d5bcd484ad2686f54a0",
+          "authoredAt": "2026-03-15T21:22:36+08:00",
+          "committedAt": "2026-03-15T21:22:52+08:00",
+          "chronologicalIndex": 63,
+          "problemId": 54,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/54_spiral_matrix.rs",
+          "sourceFilename": "54_spiral_matrix.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn spiral_order(matrix: Vec<Vec<i32>>) -> Vec<i32> {\n        let right_bound = matrix[0].len();\n        let down_bound = matrix.len();\n\n        let mut vertical_bounds_offset = 0;\n        let mut horizontal_bounds_offset = 0;\n        let mut result: Vec<i32> = Vec::new();\n        let mut row_idx = 0_usize;\n        let mut col_idx = 0_usize;\n        result.push(matrix[0][0]);\n        loop {\n            // add to end of right\n            for c_i in (col_idx + 1)..(right_bound - horizontal_bounds_offset) {\n                result.push(matrix[row_idx][c_i]);\n            }\n            col_idx = right_bound - horizontal_bounds_offset - 1;\n\n            // add to end of down\n            let mut went_down = false;\n            for r_i in (row_idx + 1)..(down_bound - vertical_bounds_offset) {\n                went_down = true;\n                result.push(matrix[r_i][col_idx]);\n            }\n            row_idx = down_bound - vertical_bounds_offset - 1;\n            vertical_bounds_offset += 1;\n\n            if !went_down {\n                break;\n            }\n\n            // add to end of left\n            let mut went_left = false;\n            for c_i in ((horizontal_bounds_offset)..col_idx).rev() {\n                went_left = true;\n                result.push(matrix[row_idx][c_i]);\n            }\n            col_idx = horizontal_bounds_offset;\n            horizontal_bounds_offset += 1;\n\n            // add to end of up\n            if went_left {\n                for r_i in ((vertical_bounds_offset)..row_idx).rev() {\n                    result.push(matrix[r_i][col_idx]);\n                }\n                row_idx = vertical_bounds_offset;\n            }\n        }\n        result\n    }\n}\n\nfn main() {\n    assert_eq!(\n        vec![1, 2, 3, 6, 9, 8, 7, 4, 5],\n        Solution::spiral_order(vec![vec![1, 2, 3], vec![4, 5, 6], vec![7, 8, 9]])\n    );\n    assert_eq!(\n        vec![1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7],\n        Solution::spiral_order(vec![\n            vec![1, 2, 3, 4],\n            vec![5, 6, 7, 8],\n            vec![9, 10, 11, 12],\n        ])\n    );\n    assert_eq!(\n        vec![7, 9, 6],\n        Solution::spiral_order(vec![vec![7], vec![9], vec![6]])\n    );\n}\n",
+          "codeHash": "94318506b95567da1732bffb8649016423726bbc6e8c4fe5b84cacc3cbb37eaa",
+          "markedWrong": true,
+          "commitComment": "",
+          "rawCommitSubject": "54!",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "boundary_traversal",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial attempt with boundary tracking but incorrect handling of edge cases (e.g., single-column matrices).",
+          "warnings": []
+        },
+        {
+          "sha": "caf1f183d71376a6dab117d07e5ad31e50c024bd",
+          "shortSha": "caf1f18",
+          "parentSha": "04453ac90ee34873f3f04c6a2c21c7d1149db88e",
+          "authoredAt": "2026-03-23T21:47:21+08:00",
+          "committedAt": "2026-03-23T22:36:21+08:00",
+          "chronologicalIndex": 67,
+          "problemId": 54,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/54_spiral_matrix.rs",
+          "sourceFilename": "54_spiral_matrix.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn spiral_order(matrix: Vec<Vec<i32>>) -> Vec<i32> {\n        let rows = matrix.len();\n        let cols = matrix[0].len();\n\n        let mut cells = rows * cols;\n        let mut result: Vec<i32> = Vec::new();\n        let mut row_idx = 0_usize;\n        let mut col_idx = 0_usize;\n        let (mut buffer_right, mut buffer_bot, mut buffer_left, mut buffer_top) =\n            (0_usize, 0_usize, 0_usize, 1_usize);\n        while cells > 0 {\n            // right\n            for i in (col_idx)..(cols - buffer_right) {\n                result.push(matrix[row_idx][i]);\n                cells -= 1;\n            }\n            if cells == 0 {\n                break;\n            }\n            col_idx = cols - buffer_right - 1;\n            buffer_right += 1;\n\n            // down\n            for i in (row_idx + 1)..(rows - buffer_bot) {\n                result.push(matrix[i][col_idx]);\n                cells -= 1;\n            }\n            if cells == 0 {\n                break;\n            }\n            row_idx = rows - buffer_bot - 1;\n            buffer_bot += 1;\n\n            // left\n            for i in (buffer_left..col_idx).rev() {\n                result.push(matrix[row_idx][i]);\n                cells -= 1;\n            }\n            if cells == 0 {\n                break;\n            }\n            col_idx = buffer_left;\n            buffer_left += 1;\n\n            // up\n            for i in (buffer_top..row_idx).rev() {\n                result.push(matrix[i][col_idx]);\n                cells -= 1;\n            }\n            if cells == 0 {\n                break;\n            }\n            row_idx = buffer_top;\n            buffer_top += 1;\n            col_idx += 1;\n        }\n\n        result\n    }\n}\n\nfn main() {\n    println!(\"3x3\");\n    assert_eq!(\n        vec![1, 2, 3, 6, 9, 8, 7, 4, 5],\n        Solution::spiral_order(vec![vec![1, 2, 3], vec![4, 5, 6], vec![7, 8, 9]])\n    );\n    println!(\"3x4\");\n    assert_eq!(\n        vec![1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7],\n        Solution::spiral_order(vec![\n            vec![1, 2, 3, 4],\n            vec![5, 6, 7, 8],\n            vec![9, 10, 11, 12],\n        ])\n    );\n    println!(\"1x0\");\n    assert_eq!(\n        vec![7, 9, 6],\n        Solution::spiral_order(vec![vec![7], vec![9], vec![6]])\n    );\n}\n",
+          "codeHash": "22238d3a2e1a81a0518b767b52c032a55f61e5d2049b6d632cc9ec98ad1acab0",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "54",
+          "commitBody": "time: O(n*m)\nspace: O(1)",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/54_spiral_matrix.rs b/rust/src/bin/54_spiral_matrix.rs\nindex 59f4f83..23d03a4 100644\n--- a/rust/src/bin/54_spiral_matrix.rs\n+++ b/rust/src/bin/54_spiral_matrix.rs\n@@ -1,61 +1,73 @@\n struct Solution {}\n impl Solution {\n     pub fn spiral_order(matrix: Vec<Vec<i32>>) -> Vec<i32> {\n-        let right_bound = matrix[0].len();\n-        let down_bound = matrix.len();\n+        let rows = matrix.len();\n+        let cols = matrix[0].len();\n \n-        let mut vertical_bounds_offset = 0;\n-        let mut horizontal_bounds_offset = 0;\n+        let mut cells = rows * cols;\n         let mut result: Vec<i32> = Vec::new();\n         let mut row_idx = 0_usize;\n         let mut col_idx = 0_usize;\n-        result.push(matrix[0][0]);\n-        loop {\n-            // add to end of right\n-            for c_i in (col_idx + 1)..(right_bound - horizontal_bounds_offset) {\n-                result.push(matrix[row_idx][c_i]);\n+        let (mut buffer_right, mut buffer_bot, mut buffer_left, mut buffer_top) =\n+            (0_usize, 0_usize, 0_usize, 1_usize);\n+        while cells > 0 {\n+            // right\n+            for i in (col_idx)..(cols - buffer_right) {\n+                result.push(matrix[row_idx][i]);\n+                cells -= 1;\n             }\n-            col_idx = right_bound - horizontal_bounds_offset - 1;\n-\n-            // add to end of down\n-            let mut went_down = false;\n-            for r_i in (row_idx + 1)..(down_bound - vertical_bounds_offset) {\n-                went_down = true;\n-                result.push(matrix[r_i][col_idx]);\n+            if cells == 0 {\n+                break;\n             }\n-            row_idx = down_bound - vertical_bounds_offset - 1;\n-            vertical_bounds_offset += 1;\n+            col_idx = cols - buffer_right - 1;\n+            buffer_right += 1;\n \n-            if !went_down {\n+            // down\n+            for i in (row_idx + 1)..(rows - buffer_bot) {\n+                result.push(matrix[i][col_idx]);\n+                cells -= 1;\n+            }\n+            if cells == 0 {\n                 break;\n             }\n+            row_idx = rows - buffer_bot - 1;\n+            buffer_bot += 1;\n \n-            // add to end of left\n-            let mut went_left = false;\n-            for c_i in ((horizontal_bounds_offset)..col_idx).rev() {\n-                went_left = true;\n-                result.push(matrix[row_idx][c_i]);\n+            // left\n+            for i in (buffer_left..col_idx).rev() {\n+                result.push(matrix[row_idx][i]);\n+                cells -= 1;\n+            }\n+            if cells == 0 {\n+                break;\n             }\n-            col_idx = horizontal_bounds_offset;\n-            horizontal_bounds_offset += 1;\n+            col_idx = buffer_left;\n+            buffer_left += 1;\n \n-            // add to end of up\n-            if went_left {\n-                for r_i in ((vertical_bounds_offset)..row_idx).rev() {\n-                    result.push(matrix[r_i][col_idx]);\n-                }\n-                row_idx = vertical_bounds_offset;\n+            // up\n+            for i in (buffer_top..row_idx).rev() {\n+                result.push(matrix[i][col_idx]);\n+                cells -= 1;\n+            }\n+            if cells == 0 {\n+                break;\n             }\n+            row_idx = buffer_top;\n+            buffer_top += 1;\n+            col_idx += 1;\n         }\n+\n         result\n     }\n }\n \n fn main() {\n+    println!(\"3x3\");\n     assert_eq!(\n         vec![1, 2, 3, 6, 9, 8, 7, 4, 5],\n         Solution::spiral_order(vec![vec![1, 2, 3], vec![4, 5, 6], vec![7, 8, 9]])\n     );\n+    println!(\"3x4\");\n     assert_eq!(\n         vec![1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7],\n         Solution::spiral_order(vec![\n@@ -64,6 +76,7 @@ fn main() {\n             vec![9, 10, 11, 12],\n         ])\n     );\n+    println!(\"1x0\");\n     assert_eq!(\n         vec![7, 9, 6],\n         Solution::spiral_order(vec![vec![7], vec![9], vec![6]])\n",
+          "changedLineCounts": {
+            "additions": 45,
+            "deletions": 32
+          },
+          "approachId": "boundary_traversal",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Refined boundary traversal with improved loop structure and early termination. Correctly handles edge cases and reduces ",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "directional_movement",
+      "title": "Directional Movement with Boundary Checks",
+      "summary": "Uses velocity vectors (direction) to move through the matrix, changing direction when hitting boundaries or already visited cells. Marks visited cells to avoid ",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "77f5961f91e4d817deb47ef0b7492d51001142cb",
+          "shortSha": "77f5961",
+          "parentSha": "caf1f183d71376a6dab117d07e5ad31e50c024bd",
+          "authoredAt": "2026-03-23T22:31:00+08:00",
+          "committedAt": "2026-03-23T22:36:26+08:00",
+          "chronologicalIndex": 68,
+          "problemId": 54,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/54_spiral_matrix.rs",
+          "sourceFilename": "54_spiral_matrix.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn spiral_order(mut matrix: Vec<Vec<i32>>) -> Vec<i32> {\n        let mut result: Vec<i32> = Vec::new();\n        let rows = matrix.len();\n        let cols = matrix[0].len();\n        let (mut row_idx, mut col_idx) = (0_usize, 0_usize);\n        let (mut vel_r, mut vel_c) = (0_isize, 1_isize);\n        result.push(matrix[0][0]);\n        matrix[0][0] = 101;\n        for _ in 1..(rows * cols) {\n            let (maybe_row_idx, maybe_col_idx) =\n                (row_idx as isize + vel_r, col_idx as isize + vel_c);\n            if 0 > maybe_row_idx\n                || (rows as isize) <= maybe_row_idx\n                || 0 > maybe_col_idx\n                || (cols as isize) <= maybe_col_idx\n                || matrix[maybe_row_idx as usize][maybe_col_idx as usize] == 101\n            {\n                (vel_r, vel_c) = (vel_c, -vel_r);\n            }\n            (row_idx, col_idx) = (\n                row_idx.checked_add_signed(vel_r).unwrap(),\n                col_idx.checked_add_signed(vel_c).unwrap(),\n            );\n            result.push(matrix[row_idx][col_idx]);\n            matrix[row_idx][col_idx] = 101;\n        }\n\n        result\n    }\n}\n\nfn main() {\n    println!(\"3x3\");\n    assert_eq!(\n        vec![1, 2, 3, 6, 9, 8, 7, 4, 5],\n        Solution::spiral_order(vec![vec![1, 2, 3], vec![4, 5, 6], vec![7, 8, 9]])\n    );\n    println!(\"3x4\");\n    assert_eq!(\n        vec![1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7],\n        Solution::spiral_order(vec![\n            vec![1, 2, 3, 4],\n            vec![5, 6, 7, 8],\n            vec![9, 10, 11, 12],\n        ])\n    );\n    println!(\"1x0\");\n    assert_eq!(\n        vec![7, 9, 6],\n        Solution::spiral_order(vec![vec![7], vec![9], vec![6]])\n    );\n}\n",
+          "codeHash": "130f0cf06961bf562c42063fb41fb2b3a6752cfb4ca6237f2a3ad749413b085e",
+          "markedWrong": false,
+          "commitComment": "read the qn more clearly",
+          "rawCommitSubject": "54: read the qn more clearly",
+          "commitBody": "time: O(n*m)\nspace: O(1)",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/54_spiral_matrix.rs b/rust/src/bin/54_spiral_matrix.rs\nindex 23d03a4..1e1a6ab 100644\n--- a/rust/src/bin/54_spiral_matrix.rs\n+++ b/rust/src/bin/54_spiral_matrix.rs\n@@ -1,60 +1,30 @@\n struct Solution {}\n impl Solution {\n-    pub fn spiral_order(matrix: Vec<Vec<i32>>) -> Vec<i32> {\n+    pub fn spiral_order(mut matrix: Vec<Vec<i32>>) -> Vec<i32> {\n+        let mut result: Vec<i32> = Vec::new();\n         let rows = matrix.len();\n         let cols = matrix[0].len();\n-\n-        let mut cells = rows * cols;\n-        let mut result: Vec<i32> = Vec::new();\n-        let mut row_idx = 0_usize;\n-        let mut col_idx = 0_usize;\n-        let (mut buffer_right, mut buffer_bot, mut buffer_left, mut buffer_top) =\n-            (0_usize, 0_usize, 0_usize, 1_usize);\n-        while cells > 0 {\n-            // right\n-            for i in (col_idx)..(cols - buffer_right) {\n-                result.push(matrix[row_idx][i]);\n-                cells -= 1;\n-            }\n-            if cells == 0 {\n-                break;\n-            }\n-            col_idx = cols - buffer_right - 1;\n-            buffer_right += 1;\n-\n-            // down\n-            for i in (row_idx + 1)..(rows - buffer_bot) {\n-                result.push(matrix[i][col_idx]);\n-                cells -= 1;\n-            }\n-            if cells == 0 {\n-                break;\n-            }\n-            row_idx = rows - buffer_bot - 1;\n-            buffer_bot += 1;\n-\n-            // left\n-            for i in (buffer_left..col_idx).rev() {\n-                result.push(matrix[row_idx][i]);\n-                cells -= 1;\n-            }\n-            if cells == 0 {\n-                break;\n-            }\n-            col_idx = buffer_left;\n-            buffer_left += 1;\n-\n-            // up\n-            for i in (buffer_top..row_idx).rev() {\n-                result.push(matrix[i][col_idx]);\n-                cells -= 1;\n-            }\n-            if cells == 0 {\n-                break;\n-            }\n-            row_idx = buffer_top;\n-            buffer_top += 1;\n-            col_idx += 1;\n+        let (mut row_idx, mut col_idx) = (0_usize, 0_usize);\n+        let (mut vel_r, mut vel_c) = (0_isize, 1_isize);\n+        result.push(matrix[0][0]);\n+        matrix[0][0] = 101;\n+        for _ in 1..(rows * cols) {\n+            let (maybe_row_idx, maybe_col_idx) =\n+                (row_idx as isize + vel_r, col_idx as isize + vel_c);\n+            if 0 > maybe_row_idx\n+                || (rows as isize) <= maybe_row_idx\n+                || 0 > maybe_col_idx\n+                || (cols as isize) <= maybe_col_idx\n+                || matrix[maybe_row_idx as usize][maybe_col_idx as usize] == 101\n+            {\n+                (vel_r, vel_c) = (vel_c, -vel_r);\n+            }\n+            (row_idx, col_idx) = (\n+                row_idx.checked_add_signed(vel_r).unwrap(),\n+                col_idx.checked_add_signed(vel_c).unwrap(),\n+            );\n+            result.push(matrix[row_idx][col_idx]);\n+            matrix[row_idx][col_idx] = 101;\n         }\n \n         result\n",
+          "changedLineCounts": {
+            "additions": 23,
+            "deletions": 53
+          },
+          "approachId": "directional_movement",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Simplified approach using directional vectors and boundary checks. Correctly implements spiral order but modifies the  ",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "a7d8ff1f7cfb77a45df76da8b51998ae2a965710",
+    "caf1f183d71376a6dab117d07e5ad31e50c024bd",
+    "77f5961f91e4d817deb47ef0b7492d51001142cb"
+  ],
+  "warnings": []
+}

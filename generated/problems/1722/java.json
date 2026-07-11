@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1722,
+    "title": "Minimize Hamming Distance After Swap",
+    "slug": "minimize-hamming-distance-after-swap"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/1722_minimize_hamming_distance_after_swap.java",
+    "latestSha": "77a7ffd2dc8c0293ffa76254b6b4e5e0a0697dce",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-04-23T21:22:19+08:00",
+    "lastCommittedAt": "2026-04-23T21:22:19+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "6aba54b769e5f566347f41fa6aa036fb0633f2588fb91de739e81314580779a3"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "77a7ffd2dc8c0293ffa76254b6b4e5e0a0697dce",
+          "shortSha": "77a7ffd",
+          "parentSha": "dcc78048a8c0194709f8931d21b5a6e68bb75117",
+          "authoredAt": "2026-04-23T21:22:19+08:00",
+          "committedAt": "2026-04-23T21:22:19+08:00",
+          "chronologicalIndex": 110,
+          "problemId": 1722,
+          "language": "java",
+          "sourcePath": "java/src/solutions/1722_minimize_hamming_distance_after_swap.java",
+          "sourceFilename": "1722_minimize_hamming_distance_after_swap.java",
+          "code": "import java.util.HashMap;\n\nclass Solution {\n  public int minimumHammingDistance(int[] source, int[] target, int[][] allowedSwaps) {\n\n    var allowedSwapsDSU = new DSU(source.length);\n    HashMap<Integer, HashMap<Integer, Integer>> availableValuesMap = new HashMap<>();\n    int hammingDistance = 0;\n\n    for (var swap : allowedSwaps) {\n      allowedSwapsDSU.union(swap[0], swap[1]);\n    }\n\n    for (int i = 0; i < source.length; i++) {\n      var val = source[i];\n      var root = allowedSwapsDSU.find(i);\n      availableValuesMap\n          .computeIfAbsent(root, (k) -> new HashMap<>())\n          .merge(val, 1, Integer::sum);\n    }\n\n    for (int i = 0; i < target.length; i++) {\n      var val = target[i];\n      var root = allowedSwapsDSU.find(i);\n      var availableValues = availableValuesMap.get(root);\n      if (availableValues.containsKey(val) && availableValues.get(val) > 0)\n        availableValues.merge(val, 1, Math::subtractExact);\n      else\n        hammingDistance++;\n    }\n\n    return hammingDistance;\n  }\n\n  static class DSU {\n    private int[] dsu;\n\n    public DSU(int len) {\n      dsu = new int[len];\n      for (int i = 0; i < len; i++) {\n        dsu[i] = i;\n      }\n    }\n\n    public int find(int idx) {\n      if (dsu[idx] == idx)\n        return idx;\n      return dsu[idx] = find(dsu[idx]);\n    }\n\n    public void union(int x, int y) {\n      dsu[find(y)] = find(x);\n    }\n  }\n\n  void main() {\n    int x;\n    x = minimumHammingDistance(new int[] { 1, 2, 3, 4 }, new int[] { 2, 1, 4, 5 }, new int[][] { { 0, 1 }, { 2, 3 } });\n    System.out.println(\"out: \" + x);\n    assert x == 1;\n\n    x = minimumHammingDistance(new int[] { 1, 2, 3, 4 }, new int[] { 1, 3, 2, 4 }, new int[][] {});\n    System.out.println(\"out: \" + x);\n    assert x == 2;\n\n    x = minimumHammingDistance(new int[] { 5, 1, 2, 4, 3 }, new int[] { 1, 5, 4, 2, 3 },\n        new int[][] { { 0, 4 }, { 4, 2 }, { 1, 3 }, { 1, 4 } });\n    System.out.println(\"out: \" + x);\n    assert x == 0;\n  }\n}\n",
+          "codeHash": "04e6f540e37b7c88794d243ce07c0ac74ac3a9bdbefb6bb119aa087fea7c9780",
+          "markedWrong": false,
+          "commitComment": "Disjoint Set Union!",
+          "rawCommitSubject": "java 1722: Disjoint Set Union!",
+          "commitBody": "time: O(n)\nspace: O(n)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Disjoint Set Union!",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "77a7ffd2dc8c0293ffa76254b6b4e5e0a0697dce"
+  ],
+  "warnings": []
+}

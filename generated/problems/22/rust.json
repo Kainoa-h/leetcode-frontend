@@ -1,0 +1,269 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 22,
+    "title": "Main",
+    "slug": "main"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/main.rs",
+    "latestSha": "28951821d5f4a7688a75869a4823f96019ecec13",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 8,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-01-24T00:39:07+08:00",
+    "lastCommittedAt": "2026-01-24T00:39:07+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "3260152d970bf011e6d8415f25424ab879d40d7e1a8af140bd41cd264161d6e5"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "28951821d5f4a7688a75869a4823f96019ecec13",
+          "shortSha": "2895182",
+          "parentSha": null,
+          "authoredAt": "2026-01-24T00:39:07+08:00",
+          "committedAt": "2026-01-24T00:39:07+08:00",
+          "chronologicalIndex": 0,
+          "problemId": 22,
+          "language": "rust",
+          "sourcePath": "rust/src/main.rs",
+          "sourceFilename": "main.rs",
+          "code": "fn main() {\n    println!(\"Hello, world!\");\n}\n",
+          "codeHash": "c8e0583694bb1e0188dbe28fe0d65ac1130723c55f968b6262b906c147f72549",
+          "markedWrong": false,
+          "commitComment": ", 36",
+          "rawCommitSubject": "22, 36",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "",
+          "changedLineCounts": {
+            "additions": 0,
+            "deletions": 0
+          },
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": ", 36",
+          "warnings": []
+        },
+        {
+          "sha": "28951821d5f4a7688a75869a4823f96019ecec13",
+          "shortSha": "2895182",
+          "parentSha": null,
+          "authoredAt": "2026-01-24T00:39:07+08:00",
+          "committedAt": "2026-01-24T00:39:07+08:00",
+          "chronologicalIndex": 0,
+          "problemId": 22,
+          "language": "rust",
+          "sourcePath": "rust/src/main.rs",
+          "sourceFilename": "main.rs",
+          "code": "fn main() {\n    println!(\"Hello, world!\");\n}\n",
+          "codeHash": "c8e0583694bb1e0188dbe28fe0d65ac1130723c55f968b6262b906c147f72549",
+          "markedWrong": false,
+          "commitComment": ", 36",
+          "rawCommitSubject": "22, 36",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "",
+          "changedLineCounts": {
+            "additions": 0,
+            "deletions": 0
+          },
+          "approachId": "chronological",
+          "narrativeIndex": 1,
+          "shortChangeSummary": ", 36",
+          "warnings": []
+        },
+        {
+          "sha": "28951821d5f4a7688a75869a4823f96019ecec13",
+          "shortSha": "2895182",
+          "parentSha": null,
+          "authoredAt": "2026-01-24T00:39:07+08:00",
+          "committedAt": "2026-01-24T00:39:07+08:00",
+          "chronologicalIndex": 0,
+          "problemId": 22,
+          "language": "rust",
+          "sourcePath": "rust/src/main.rs",
+          "sourceFilename": "main.rs",
+          "code": "fn main() {\n    println!(\"Hello, world!\");\n}\n",
+          "codeHash": "c8e0583694bb1e0188dbe28fe0d65ac1130723c55f968b6262b906c147f72549",
+          "markedWrong": false,
+          "commitComment": ", 36",
+          "rawCommitSubject": "22, 36",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "",
+          "changedLineCounts": {
+            "additions": 0,
+            "deletions": 0
+          },
+          "approachId": "chronological",
+          "narrativeIndex": 2,
+          "shortChangeSummary": ", 36",
+          "warnings": []
+        },
+        {
+          "sha": "28951821d5f4a7688a75869a4823f96019ecec13",
+          "shortSha": "2895182",
+          "parentSha": null,
+          "authoredAt": "2026-01-24T00:39:07+08:00",
+          "committedAt": "2026-01-24T00:39:07+08:00",
+          "chronologicalIndex": 0,
+          "problemId": 22,
+          "language": "rust",
+          "sourcePath": "rust/src/main.rs",
+          "sourceFilename": "main.rs",
+          "code": "fn main() {\n    println!(\"Hello, world!\");\n}\n",
+          "codeHash": "c8e0583694bb1e0188dbe28fe0d65ac1130723c55f968b6262b906c147f72549",
+          "markedWrong": false,
+          "commitComment": ", 36",
+          "rawCommitSubject": "22, 36",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "",
+          "changedLineCounts": {
+            "additions": 0,
+            "deletions": 0
+          },
+          "approachId": "chronological",
+          "narrativeIndex": 3,
+          "shortChangeSummary": ", 36",
+          "warnings": []
+        },
+        {
+          "sha": "28951821d5f4a7688a75869a4823f96019ecec13",
+          "shortSha": "2895182",
+          "parentSha": null,
+          "authoredAt": "2026-01-24T00:39:07+08:00",
+          "committedAt": "2026-01-24T00:39:07+08:00",
+          "chronologicalIndex": 0,
+          "problemId": 22,
+          "language": "rust",
+          "sourcePath": "rust/src/main.rs",
+          "sourceFilename": "main.rs",
+          "code": "fn main() {\n    println!(\"Hello, world!\");\n}\n",
+          "codeHash": "c8e0583694bb1e0188dbe28fe0d65ac1130723c55f968b6262b906c147f72549",
+          "markedWrong": false,
+          "commitComment": ", 36",
+          "rawCommitSubject": "22, 36",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "",
+          "changedLineCounts": {
+            "additions": 0,
+            "deletions": 0
+          },
+          "approachId": "chronological",
+          "narrativeIndex": 4,
+          "shortChangeSummary": ", 36",
+          "warnings": []
+        },
+        {
+          "sha": "28951821d5f4a7688a75869a4823f96019ecec13",
+          "shortSha": "2895182",
+          "parentSha": null,
+          "authoredAt": "2026-01-24T00:39:07+08:00",
+          "committedAt": "2026-01-24T00:39:07+08:00",
+          "chronologicalIndex": 0,
+          "problemId": 22,
+          "language": "rust",
+          "sourcePath": "rust/src/main.rs",
+          "sourceFilename": "main.rs",
+          "code": "fn main() {\n    println!(\"Hello, world!\");\n}\n",
+          "codeHash": "c8e0583694bb1e0188dbe28fe0d65ac1130723c55f968b6262b906c147f72549",
+          "markedWrong": false,
+          "commitComment": ", 36",
+          "rawCommitSubject": "22, 36",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "",
+          "changedLineCounts": {
+            "additions": 0,
+            "deletions": 0
+          },
+          "approachId": "chronological",
+          "narrativeIndex": 5,
+          "shortChangeSummary": ", 36",
+          "warnings": []
+        },
+        {
+          "sha": "28951821d5f4a7688a75869a4823f96019ecec13",
+          "shortSha": "2895182",
+          "parentSha": null,
+          "authoredAt": "2026-01-24T00:39:07+08:00",
+          "committedAt": "2026-01-24T00:39:07+08:00",
+          "chronologicalIndex": 0,
+          "problemId": 22,
+          "language": "rust",
+          "sourcePath": "rust/src/main.rs",
+          "sourceFilename": "main.rs",
+          "code": "fn main() {\n    println!(\"Hello, world!\");\n}\n",
+          "codeHash": "c8e0583694bb1e0188dbe28fe0d65ac1130723c55f968b6262b906c147f72549",
+          "markedWrong": false,
+          "commitComment": ", 36",
+          "rawCommitSubject": "22, 36",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "",
+          "changedLineCounts": {
+            "additions": 0,
+            "deletions": 0
+          },
+          "approachId": "chronological",
+          "narrativeIndex": 6,
+          "shortChangeSummary": ", 36",
+          "warnings": []
+        },
+        {
+          "sha": "28951821d5f4a7688a75869a4823f96019ecec13",
+          "shortSha": "2895182",
+          "parentSha": null,
+          "authoredAt": "2026-01-24T00:39:07+08:00",
+          "committedAt": "2026-01-24T00:39:07+08:00",
+          "chronologicalIndex": 0,
+          "problemId": 22,
+          "language": "rust",
+          "sourcePath": "rust/src/main.rs",
+          "sourceFilename": "main.rs",
+          "code": "fn main() {\n    println!(\"Hello, world!\");\n}\n",
+          "codeHash": "c8e0583694bb1e0188dbe28fe0d65ac1130723c55f968b6262b906c147f72549",
+          "markedWrong": false,
+          "commitComment": ", 36",
+          "rawCommitSubject": "22, 36",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "",
+          "changedLineCounts": {
+            "additions": 0,
+            "deletions": 0
+          },
+          "approachId": "chronological",
+          "narrativeIndex": 7,
+          "shortChangeSummary": ", 36",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "28951821d5f4a7688a75869a4823f96019ecec13",
+    "28951821d5f4a7688a75869a4823f96019ecec13",
+    "28951821d5f4a7688a75869a4823f96019ecec13",
+    "28951821d5f4a7688a75869a4823f96019ecec13",
+    "28951821d5f4a7688a75869a4823f96019ecec13",
+    "28951821d5f4a7688a75869a4823f96019ecec13",
+    "28951821d5f4a7688a75869a4823f96019ecec13",
+    "28951821d5f4a7688a75869a4823f96019ecec13"
+  ],
+  "warnings": []
+}

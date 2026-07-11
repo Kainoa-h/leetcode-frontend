@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2839,
+    "title": "Check If Strings Can Be Made Equal With Operations I",
+    "slug": "check-if-strings-can-be-made-equal-with-operations-i"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/2839_check_if_strings_can_be_made_equal_with_operations_I.java",
+    "latestSha": "29fc9cf152ccff236ee40d6e1bb8fadb182ae925",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-03-29T20:02:23+08:00",
+    "lastCommittedAt": "2026-03-29T20:02:23+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "bb89b56264baedc62cec48c7fb24ee6655e4eba510ae0fe1b766d22aee06a6f9"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "29fc9cf152ccff236ee40d6e1bb8fadb182ae925",
+          "shortSha": "29fc9cf",
+          "parentSha": "cf9bee2e0cb7b0db2e4cc52f7f03b6e5cd43b25d",
+          "authoredAt": "2026-03-29T20:01:57+08:00",
+          "committedAt": "2026-03-29T20:02:23+08:00",
+          "chronologicalIndex": 88,
+          "problemId": 2839,
+          "language": "java",
+          "sourcePath": "java/src/solutions/2839_check_if_strings_can_be_made_equal_with_operations_I.java",
+          "sourceFilename": "2839_check_if_strings_can_be_made_equal_with_operations_I.java",
+          "code": "class Solution {\n  public boolean canBeEqual(String s1, String s2) {\n    var possible1 = ((s1.charAt(0) == s2.charAt(0) && s1.charAt(2) == s2.charAt(2))\n        || s1.charAt(0) == s2.charAt(2) && s1.charAt(2) == s2.charAt(0));\n\n    var possible2 = ((s1.charAt(1) == s2.charAt(1) && s1.charAt(3) == s2.charAt(3))\n        || s1.charAt(1) == s2.charAt(3) && s1.charAt(3) == s2.charAt(1));\n\n    return possible1 && possible2;\n  }\n\n  void main() {\n    assert canBeEqual(\"abcd\", \"cdab\");\n    assert !canBeEqual(\"abcd\", \"dacb\");\n  }\n}\n",
+          "codeHash": "ca38243a6f7690095896ee23c1ffb3ce0a1e9831bb87dc3103ea8759da6a0d21",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "java 2839",
+          "commitBody": "time: O(1)\nspace: O(1)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "29fc9cf152ccff236ee40d6e1bb8fadb182ae925"
+  ],
+  "warnings": []
+}

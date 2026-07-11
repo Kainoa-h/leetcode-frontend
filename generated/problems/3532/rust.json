@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3532,
+    "title": "Path Existence Queries in A Graph I",
+    "slug": "path-existence-queries-in-a-graph-i"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3532_path_existence_queries_in_a_graph_I.rs",
+    "latestSha": "af115c187fff0f3db22e58d14824d87027def7e8",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-07-09T22:20:44+08:00",
+    "lastCommittedAt": "2026-07-09T22:20:44+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "89f9762f0f66832fb116287f1d5ea6eab200802c65706a5272d6923527c1d695"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "af115c187fff0f3db22e58d14824d87027def7e8",
+          "shortSha": "af115c1",
+          "parentSha": "cf38dc1b04b4b3f6b72435cd5a10cd3f7a3b50ad",
+          "authoredAt": "2026-07-09T22:20:44+08:00",
+          "committedAt": "2026-07-09T22:20:44+08:00",
+          "chronologicalIndex": 197,
+          "problemId": 3532,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3532_path_existence_queries_in_a_graph_I.rs",
+          "sourceFilename": "3532_path_existence_queries_in_a_graph_I.rs",
+          "code": "impl Solution {\n    pub fn path_existence_queries(\n        n: i32,\n        mut nums: Vec<i32>,\n        max_diff: i32,\n        queries: Vec<Vec<i32>>,\n    ) -> Vec<bool> {\n        let mut prev = nums[0];\n        let mut set = 0;\n        for x in nums.iter_mut() {\n            set += (*x - prev > max_diff) as i32;\n            prev = *x;\n            *x = set;\n        }\n\n        queries\n            .iter()\n            .map(|x| nums[x[0] as usize] == nums[x[1] as usize])\n            .collect()\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        Solution::path_existence_queries(2, vec![1, 3], 1, vec![vec![0, 0], vec![0, 1]]),\n        vec![true, false]\n    );\n    assert_eq!(\n        Solution::path_existence_queries(\n            4,\n            vec![2, 5, 6, 8],\n            2,\n            vec![vec![0, 1], vec![0, 2], vec![1, 3], vec![2, 3]]\n        ),\n        vec![false, false, true, true]\n    );\n}\n",
+          "codeHash": "546661a369c509b273da011fadab251a4870d155e1e74e0daf787a20c0729f62",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 3532",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "af115c187fff0f3db22e58d14824d87027def7e8"
+  ],
+  "warnings": []
+}

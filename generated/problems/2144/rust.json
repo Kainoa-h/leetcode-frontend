@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2144,
+    "title": "Minimum Cost of Buying Candies With Discount",
+    "slug": "minimum-cost-of-buying-candies-with-discount"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/2144_minimum_cost_of_buying_candies_with_discount.rs",
+    "latestSha": "866d2132509c8a4d5ea09d9e3f3c8701afcafc91",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-06-01T21:48:02+08:00",
+    "lastCommittedAt": "2026-06-01T21:52:08+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "d87fecf1aae472f1457ee4bb7f18b630ab6dd4b2257136c8b09a8e88ffe73ef4"
+  },
+  "approaches": [
+    {
+      "id": "sort_and_discount",
+      "title": "Sort and Apply Discount Iteratively",
+      "summary": "Sort candies in descending order and sum every two candies while skipping the third to minimize cost.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "04fac7b2353a07bec4aa50adae5f7de8c5d2ca92",
+          "shortSha": "04fac7b",
+          "parentSha": "a1a448165c5c18bf23174f06ed85ba3246c9bdea",
+          "authoredAt": "2026-06-01T21:48:02+08:00",
+          "committedAt": "2026-06-01T21:48:02+08:00",
+          "chronologicalIndex": 135,
+          "problemId": 2144,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2144_minimum_cost_of_buying_candies_with_discount.rs",
+          "sourceFilename": "2144_minimum_cost_of_buying_candies_with_discount.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn minimum_cost(mut cost: Vec<i32>) -> i32 {\n        cost.sort_unstable_by(|a, b| b.cmp(a));\n\n        let mut min_cost = 0;\n        let mut state = 0;\n        for c in cost {\n            if state == 2 {\n                state = 0;\n                continue;\n            }\n            min_cost += c;\n            state += 1;\n        }\n        min_cost\n    }\n}\n\nfn main() {\n    assert_eq!(Solution::minimum_cost(vec![1, 2, 3]), 5);\n}\n",
+          "codeHash": "b6532c5e903573b0e960faa2b447aa965c9fe16ecd1946b0149eafbff50d242c",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 2144",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "sort_and_discount",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation using iterative state tracking to apply discount every third candy.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "sort_and_chunk_sum",
+      "title": "Sort and Chunk Sum with Functional Style",
+      "summary": "Sort candies in descending order and sum the first two candies in every group of three using functional operations.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "866d2132509c8a4d5ea09d9e3f3c8701afcafc91",
+          "shortSha": "866d213",
+          "parentSha": "04fac7b2353a07bec4aa50adae5f7de8c5d2ca92",
+          "authoredAt": "2026-06-01T21:52:05+08:00",
+          "committedAt": "2026-06-01T21:52:08+08:00",
+          "chronologicalIndex": 136,
+          "problemId": 2144,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2144_minimum_cost_of_buying_candies_with_discount.rs",
+          "sourceFilename": "2144_minimum_cost_of_buying_candies_with_discount.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn minimum_cost(mut cost: Vec<i32>) -> i32 {\n        cost.sort_unstable_by(|a, b| b.cmp(a));\n        cost.chunks(3).map(|c| c.iter().take(2).sum::<i32>()).sum()\n    }\n}\n\nfn main() {\n    assert_eq!(Solution::minimum_cost(vec![1, 2, 3]), 5);\n}\n",
+          "codeHash": "a63950a1e74b5fd79cf8f4fdf9c8e16b3ae8337f7f9ddc3ac595668598a6c84e",
+          "markedWrong": false,
+          "commitComment": "functional approach",
+          "rawCommitSubject": "rust 2144: functional approach",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2144_minimum_cost_of_buying_candies_with_discount.rs b/rust/src/bin/2144_minimum_cost_of_buying_candies_with_discount.rs\nindex 848dc95..cdebf42 100644\n--- a/rust/src/bin/2144_minimum_cost_of_buying_candies_with_discount.rs\n+++ b/rust/src/bin/2144_minimum_cost_of_buying_candies_with_discount.rs\n@@ -2,18 +2,7 @@ struct Solution {}\n impl Solution {\n     pub fn minimum_cost(mut cost: Vec<i32>) -> i32 {\n         cost.sort_unstable_by(|a, b| b.cmp(a));\n-\n-        let mut min_cost = 0;\n-        let mut state = 0;\n-        for c in cost {\n-            if state == 2 {\n-                state = 0;\n-                continue;\n-            }\n-            min_cost += c;\n-            state += 1;\n-        }\n-        min_cost\n+        cost.chunks(3).map(|c| c.iter().take(2).sum::<i32>()).sum()\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 1,
+            "deletions": 12
+          },
+          "approachId": "sort_and_chunk_sum",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Refactored to use chunks and map for concise functional approach while maintaining correctness.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "04fac7b2353a07bec4aa50adae5f7de8c5d2ca92",
+    "866d2132509c8a4d5ea09d9e3f3c8701afcafc91"
+  ],
+  "warnings": []
+}

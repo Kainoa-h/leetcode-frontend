@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 58,
+    "title": "Length of Last Word",
+    "slug": "length-of-last-word"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/58_length_of_last_word.rs",
+    "latestSha": "83f769fa7742e8b2d674cae1198871055b8ea530",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-01-29T23:12:46+08:00",
+    "lastCommittedAt": "2026-01-29T23:13:29+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "437a06f2a4b3c3f29d07aa59115c3f941c28f9a8e65abd5d0ff387f58616f821"
+  },
+  "approaches": [
+    {
+      "id": "iterative-reverse",
+      "title": "Iterative Reverse Traversal",
+      "summary": "Count characters from the end until a space is encountered after non-space characters.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "89cba54d913a4cfe228c23d542246391ec65bfa1",
+          "shortSha": "89cba54",
+          "parentSha": "8bb34a31912b70f0046bdab2f8bb1e6bd28370bc",
+          "authoredAt": "2026-01-29T23:12:46+08:00",
+          "committedAt": "2026-01-29T23:12:46+08:00",
+          "chronologicalIndex": 37,
+          "problemId": 58,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/58_length_of_last_word.rs",
+          "sourceFilename": "58_length_of_last_word.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn length_of_last_word(s: String) -> i32 {\n        let mut count = 0;\n        for c in s.chars().rev() {\n            if c == ' ' && count > 0 {\n                break;\n            }\n            if c != ' ' {\n                count += 1;\n            }\n        }\n        count\n    }\n}\n\nfn main() {\n    assert_eq!(Solution::length_of_last_word(\"Heeello world\".to_owned()), 5);\n    assert_eq!(\n        Solution::length_of_last_word(\"   fly me   to   the moon  \".to_owned()),\n        4\n    );\n}\n",
+          "codeHash": "3b0fbe4ea9198f5b2513637434dda9559e9b58aa4233da757e4d69cfb2d7c5f3",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "58",
+          "commitBody": "time: O(n)\nspace: O(1)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "iterative-reverse",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial solution using manual reverse traversal and counting.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "iterator-chain",
+      "title": "Iterator Chain with Trim",
+      "summary": "Use Rust's iterator methods to trim trailing spaces and count characters until the first space.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "83f769fa7742e8b2d674cae1198871055b8ea530",
+          "shortSha": "83f769f",
+          "parentSha": "89cba54d913a4cfe228c23d542246391ec65bfa1",
+          "authoredAt": "2026-01-29T23:13:29+08:00",
+          "committedAt": "2026-01-29T23:13:29+08:00",
+          "chronologicalIndex": 38,
+          "problemId": 58,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/58_length_of_last_word.rs",
+          "sourceFilename": "58_length_of_last_word.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn length_of_last_word(s: String) -> i32 {\n        s.trim_end().chars().rev().take_while(|&c| c != ' ').count() as i32\n    }\n}\n\nfn main() {\n    assert_eq!(Solution::length_of_last_word(\"Heeello world\".to_owned()), 5);\n    assert_eq!(\n        Solution::length_of_last_word(\"   fly me   to   the moon  \".to_owned()),\n        4\n    );\n}\n",
+          "codeHash": "4a9195520876c14226031710d4be23d160b0a7b11e47257a30bc9253628bc0b9",
+          "markedWrong": false,
+          "commitComment": "using iterator",
+          "rawCommitSubject": "58: using iterator",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/58_length_of_last_word.rs b/rust/src/bin/58_length_of_last_word.rs\nindex 0c76289..311c3b6 100644\n--- a/rust/src/bin/58_length_of_last_word.rs\n+++ b/rust/src/bin/58_length_of_last_word.rs\n@@ -1,16 +1,7 @@\n struct Solution {}\n impl Solution {\n     pub fn length_of_last_word(s: String) -> i32 {\n-        let mut count = 0;\n-        for c in s.chars().rev() {\n-            if c == ' ' && count > 0 {\n-                break;\n-            }\n-            if c != ' ' {\n-                count += 1;\n-            }\n-        }\n-        count\n+        s.trim_end().chars().rev().take_while(|&c| c != ' ').count() as i32\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 1,
+            "deletions": 10
+          },
+          "approachId": "iterator-chain",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Refactored to use iterator chain with trim_end and take_while.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "89cba54d913a4cfe228c23d542246391ec65bfa1",
+    "83f769fa7742e8b2d674cae1198871055b8ea530"
+  ],
+  "warnings": []
+}

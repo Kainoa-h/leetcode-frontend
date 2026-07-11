@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 28,
+    "title": "Find the Index of the First Occurance in A String",
+    "slug": "find-the-index-of-the-first-occurance-in-a-string"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/28_find_the_index_of_the_first_occurance_in_a_string.rs",
+    "latestSha": "529ba298af556fba563599d3fe590fee0c9cce68",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-01-31T15:03:32+08:00",
+    "lastCommittedAt": "2026-01-31T15:03:32+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "978809fb3f00c54efb8d9da8f5350dd4a4d8da2d94d44b78fb002ca5d7d0f8ca"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "529ba298af556fba563599d3fe590fee0c9cce68",
+          "shortSha": "529ba29",
+          "parentSha": "96f78d46c3d91d2080a6ddfd0155282630466cf5",
+          "authoredAt": "2026-01-31T14:59:17+08:00",
+          "committedAt": "2026-01-31T15:03:32+08:00",
+          "chronologicalIndex": 44,
+          "problemId": 28,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/28_find_the_index_of_the_first_occurance_in_a_string.rs",
+          "sourceFilename": "28_find_the_index_of_the_first_occurance_in_a_string.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn str_str(haystack: String, needle: String) -> i32 {\n        match haystack.find(&needle) {\n            Some(x) => x as i32,\n            None => -1,\n        }\n    }\n}\n\nfn main() {\n    assert_eq!(\n        Solution::str_str(\"sadbutsad\".to_owned(), \"sad\".to_owned()),\n        0\n    );\n    assert_eq!(\n        Solution::str_str(\"sadbutsad\".to_owned(), \"but\".to_owned()),\n        3\n    );\n    assert_eq!(\n        Solution::str_str(\"sadbutsad\".to_owned(), \"ii\".to_owned()),\n        -1\n    );\n    assert_eq!(\n        Solution::str_str(\"heheheheh\".to_owned(), \"ii\".to_owned()),\n        -1\n    );\n}\n",
+          "codeHash": "4b78b102f5b163f6cc21f0c3a5eaaf13f087dd2b7d111aeb0eaa43e0aa0eba7e",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "28",
+          "commitBody": "seems like rust uses the two-way algo",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "529ba298af556fba563599d3fe590fee0c9cce68"
+  ],
+  "warnings": []
+}

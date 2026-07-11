@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 27,
+    "title": "Remove Element",
+    "slug": "remove-element"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/27_remove_element.java",
+    "latestSha": "8efbb3fb6a2e32b928bb6dc77f716b549ffc0234",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-03-29T18:41:37+08:00",
+    "lastCommittedAt": "2026-03-29T18:54:40+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "7d70f3f5851059b26fade3d570e18625dbcb948fbab5c6776ca1050a9d16afd2"
+  },
+  "approaches": [
+    {
+      "id": "two-pointers-swap",
+      "title": "Two-pointer swap from both ends",
+      "summary": "Iterate from both ends of the array, swapping elements equal to val with the last unprocessed element.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "474bbd21fd08cd39a8fe5772c4666439da2414c8",
+          "shortSha": "474bbd2",
+          "parentSha": "dc8d20eb0c7e9e3799828e653ee519ac94cfeb18",
+          "authoredAt": "2026-03-29T18:41:37+08:00",
+          "committedAt": "2026-03-29T18:41:37+08:00",
+          "chronologicalIndex": 83,
+          "problemId": 27,
+          "language": "java",
+          "sourcePath": "java/src/solutions/27_remove_element.java",
+          "sourceFilename": "27_remove_element.java",
+          "code": "import java.util.Arrays;\n\nclass Solution {\n  public int removeElement(int[] nums, int val) {\n    int result = nums.length;\n    int i = 0;\n    int back = nums.length - 1;\n    while (i <= back) {\n      if (nums[i] == val) {\n        nums[i] = nums[back];\n        back--;\n        result--;\n        continue;\n      }\n      i++;\n    }\n    return result;\n  }\n\n  void main() {\n    int[] nums = new int[] { 3, 2, 2, 3 };\n    int[] expectedNums = new int[] { 2, 2 };\n    int res = removeElement(nums, 3);\n    int ansLen = 2;\n    assert ansLen == res;\n    Arrays.sort(nums, 0, ansLen);\n    for (int i = 0; i < ansLen; i++) {\n      assert nums[i] == expectedNums[i];\n    }\n    System.out.println(\"test 1 pass\");\n\n    nums = new int[] { 1 };\n    expectedNums = new int[] {};\n    res = removeElement(nums, 1);\n    ansLen = 0;\n    assert ansLen == res;\n    Arrays.sort(nums, 0, ansLen);\n    for (int i = 0; i < ansLen; i++) {\n      assert nums[i] == expectedNums[i];\n    }\n    System.out.println(\"test 2 pass\");\n  }\n}\n",
+          "codeHash": "809e006d70651bc6a69bbc978231ee0418652fd36fe93e82781ba17f70ac0b4d",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "java 27",
+          "commitBody": "time: O(n)\nspace: O(1)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "two-pointers-swap",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation using two pointers from both ends.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "direct-overwrite",
+      "title": "Direct overwrite with single pointer",
+      "summary": "Iterate through the array once, overwriting elements equal to val and maintaining a write index.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "8efbb3fb6a2e32b928bb6dc77f716b549ffc0234",
+          "shortSha": "8efbb3f",
+          "parentSha": "474bbd21fd08cd39a8fe5772c4666439da2414c8",
+          "authoredAt": "2026-03-29T18:54:40+08:00",
+          "committedAt": "2026-03-29T18:54:40+08:00",
+          "chronologicalIndex": 84,
+          "problemId": 27,
+          "language": "java",
+          "sourcePath": "java/src/solutions/27_remove_element.java",
+          "sourceFilename": "27_remove_element.java",
+          "code": "import java.util.Arrays;\n\nclass Solution {\n  public int removeElement(int[] nums, int val) {\n    int i = 0;\n    for (int n : nums) {\n      if (n != val) {\n        nums[i] = n;\n        i++;\n      }\n    }\n    return i;\n  }\n\n  void main() {\n    int[] nums = new int[] { 3, 2, 2, 3 };\n    int[] expectedNums = new int[] { 2, 2 };\n    int res = removeElement(nums, 3);\n    int ansLen = 2;\n    assert ansLen == res;\n    Arrays.sort(nums, 0, ansLen);\n    for (int i = 0; i < ansLen; i++) {\n      assert nums[i] == expectedNums[i];\n    }\n    System.out.println(\"test 1 pass\");\n\n    nums = new int[] { 1 };\n    expectedNums = new int[] {};\n    res = removeElement(nums, 1);\n    ansLen = 0;\n    assert ansLen == res;\n    Arrays.sort(nums, 0, ansLen);\n    for (int i = 0; i < ansLen; i++) {\n      assert nums[i] == expectedNums[i];\n    }\n    System.out.println(\"test 2 pass\");\n  }\n}\n",
+          "codeHash": "8207deb74157377462a015ffbdb3dc972e8a5a338174308dfb75f6dc56521a89",
+          "markedWrong": false,
+          "commitComment": "simpler direct overwrite",
+          "rawCommitSubject": "java 27: simpler direct overwrite",
+          "commitBody": "time: O(n)\nspace: O(1)",
+          "diffFromPreviousRelevantRevision": "diff --git a/java/src/solutions/27_remove_element.java b/java/src/solutions/27_remove_element.java\nindex abb6ab3..236762e 100644\n--- a/java/src/solutions/27_remove_element.java\n+++ b/java/src/solutions/27_remove_element.java\n@@ -2,19 +2,14 @@ import java.util.Arrays;\n \n class Solution {\n   public int removeElement(int[] nums, int val) {\n-    int result = nums.length;\n     int i = 0;\n-    int back = nums.length - 1;\n-    while (i <= back) {\n-      if (nums[i] == val) {\n-        nums[i] = nums[back];\n-        back--;\n-        result--;\n-        continue;\n+    for (int n : nums) {\n+      if (n != val) {\n+        nums[i] = n;\n+        i++;\n       }\n-      i++;\n     }\n-    return result;\n+    return i;\n   }\n \n   void main() {\n",
+          "changedLineCounts": {
+            "additions": 5,
+            "deletions": 10
+          },
+          "approachId": "direct-overwrite",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Simplified approach using a single pointer to overwrite elements in-place.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "474bbd21fd08cd39a8fe5772c4666439da2414c8",
+    "8efbb3fb6a2e32b928bb6dc77f716b549ffc0234"
+  ],
+  "warnings": []
+}

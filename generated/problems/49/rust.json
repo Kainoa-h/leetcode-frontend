@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 49,
+    "title": "Group Anagrams",
+    "slug": "group-anagrams"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/49_group_anagrams.rs",
+    "latestSha": "adb8c6f87656b92d50d016fe183f6378c0570906",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-06-08T19:00:36+08:00",
+    "lastCommittedAt": "2026-06-08T19:07:45+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "78f55155d96c1be7a4227c32e68a5cf81903ef2acf21d57f5db0325221b05ec0"
+  },
+  "approaches": [
+    {
+      "id": "hashmap-frequency-count",
+      "title": "HashMap with Character Frequency Count",
+      "summary": "Group anagrams by counting character frequencies using a HashMap with fixed-size arrays as keys.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "31d132acd2da74ba14bfa3c920065dc294fd858b",
+          "shortSha": "31d132a",
+          "parentSha": "1788b2a660df16980956cd8d187d3c06d800e402",
+          "authoredAt": "2026-06-08T19:00:36+08:00",
+          "committedAt": "2026-06-08T19:00:36+08:00",
+          "chronologicalIndex": 145,
+          "problemId": 49,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/49_group_anagrams.rs",
+          "sourceFilename": "49_group_anagrams.rs",
+          "code": "use std::collections::HashMap;\n\nimpl Solution {\n    pub fn group_anagrams(strs: Vec<String>) -> Vec<Vec<String>> {\n        let mut map = HashMap::<[u32; 26], Vec<String>>::new();\n        for str in strs {\n            let encoded_str = str.bytes().fold([0_u32; 26], |mut state, x| {\n                state[(x - b'a') as usize] += 1;\n                state\n            });\n\n            map.entry(encoded_str).or_default().push(str);\n        }\n\n        let mut result = Vec::new();\n        for e in map.into_values() {\n            result.push(e);\n        }\n\n        result\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    println!(\n        \"{:?}\",\n        Solution::group_anagrams(vec![\n            \"eat\".to_owned(),\n            \"tea\".to_owned(),\n            \"tan\".to_owned(),\n            \"ate\".to_owned(),\n            \"nat\".to_owned(),\n            \"bat\".to_owned(),\n        ])\n    );\n\n    println!(\n        \"ans: {:?}\",\n        vec![\n            vec![\"bat\".to_owned()],\n            vec![\"nat\".to_owned(), \"tan\".to_owned()],\n            vec![\"ate\".to_owned(), \"eat\".to_owned(), \"tea\".to_owned()],\n        ]\n    );\n}\n",
+          "codeHash": "0519912f039aca6ed797d8fa9167c05c664b4dcc5d9daa4b95d3c9e06ac4824a",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 49",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "hashmap-frequency-count",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation using HashMap with character frequency arrays and explicit result collection.",
+          "warnings": []
+        },
+        {
+          "sha": "d7562423ce81363ccfa63748c514181e7c320695",
+          "shortSha": "d756242",
+          "parentSha": "31d132acd2da74ba14bfa3c920065dc294fd858b",
+          "authoredAt": "2026-06-08T19:03:20+08:00",
+          "committedAt": "2026-06-08T19:03:20+08:00",
+          "chronologicalIndex": 146,
+          "problemId": 49,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/49_group_anagrams.rs",
+          "sourceFilename": "49_group_anagrams.rs",
+          "code": "use std::collections::HashMap;\n\nimpl Solution {\n    pub fn group_anagrams(strs: Vec<String>) -> Vec<Vec<String>> {\n        let mut map = HashMap::<[u32; 26], Vec<String>>::new();\n        for str in strs {\n            let encoded_str = str.bytes().fold([0_u32; 26], |mut state, x| {\n                state[(x - b'a') as usize] += 1;\n                state\n            });\n\n            map.entry(encoded_str).or_default().push(str);\n        }\n\n        map.into_values().collect()\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    println!(\n        \"{:?}\",\n        Solution::group_anagrams(vec![\n            \"eat\".to_owned(),\n            \"tea\".to_owned(),\n            \"tan\".to_owned(),\n            \"ate\".to_owned(),\n            \"nat\".to_owned(),\n            \"bat\".to_owned(),\n        ])\n    );\n\n    println!(\n        \"ans: {:?}\",\n        vec![\n            vec![\"bat\".to_owned()],\n            vec![\"nat\".to_owned(), \"tan\".to_owned()],\n            vec![\"ate\".to_owned(), \"eat\".to_owned(), \"tea\".to_owned()],\n        ]\n    );\n}\n",
+          "codeHash": "49f0cbaa40b585d361c9a20fbb7c0641eb3911ba0bb515e39eb22a1096c5dc8a",
+          "markedWrong": false,
+          "commitComment": "just collect!",
+          "rawCommitSubject": "rust 49: just collect!",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/49_group_anagrams.rs b/rust/src/bin/49_group_anagrams.rs\nindex 1a5a6f7..115f5e1 100644\n--- a/rust/src/bin/49_group_anagrams.rs\n+++ b/rust/src/bin/49_group_anagrams.rs\n@@ -12,12 +12,7 @@ impl Solution {\n             map.entry(encoded_str).or_default().push(str);\n         }\n \n-        let mut result = Vec::new();\n-        for e in map.into_values() {\n-            result.push(e);\n-        }\n-\n-        result\n+        map.into_values().collect()\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 1,
+            "deletions": 6
+          },
+          "approachId": "hashmap-frequency-count",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Simplified result collection by using `collect()` instead of manual Vec construction.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "functional-pipeline",
+      "title": "Functional Pipeline with Fold",
+      "summary": "Refactor the solution into a pure functional style using `fold` to build the HashMap iteratively.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "adb8c6f87656b92d50d016fe183f6378c0570906",
+          "shortSha": "adb8c6f",
+          "parentSha": "d7562423ce81363ccfa63748c514181e7c320695",
+          "authoredAt": "2026-06-08T19:07:40+08:00",
+          "committedAt": "2026-06-08T19:07:45+08:00",
+          "chronologicalIndex": 147,
+          "problemId": 49,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/49_group_anagrams.rs",
+          "sourceFilename": "49_group_anagrams.rs",
+          "code": "use std::collections::HashMap;\n\nimpl Solution {\n    pub fn group_anagrams(strs: Vec<String>) -> Vec<Vec<String>> {\n        strs.into_iter()\n            .fold(HashMap::<[u32; 26], Vec<String>>::new(), |mut map, str| {\n                let encoded_str = str.bytes().fold([0_u32; 26], |mut state, x| {\n                    state[(x - b'a') as usize] += 1;\n                    state\n                });\n\n                map.entry(encoded_str).or_default().push(str);\n                map\n            })\n            .into_values()\n            .collect()\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    println!(\n        \"{:?}\",\n        Solution::group_anagrams(vec![\n            \"eat\".to_owned(),\n            \"tea\".to_owned(),\n            \"tan\".to_owned(),\n            \"ate\".to_owned(),\n            \"nat\".to_owned(),\n            \"bat\".to_owned(),\n        ])\n    );\n\n    println!(\n        \"ans: {:?}\",\n        vec![\n            vec![\"bat\".to_owned()],\n            vec![\"nat\".to_owned(), \"tan\".to_owned()],\n            vec![\"ate\".to_owned(), \"eat\".to_owned(), \"tea\".to_owned()],\n        ]\n    );\n}\n",
+          "codeHash": "897ebb84c28fe2faf09c795e75a01c8b9a8a4bfb09efec1b3cb377384929c9f0",
+          "markedWrong": false,
+          "commitComment": "pure functional 4 fun",
+          "rawCommitSubject": "rust 49: pure functional 4 fun",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/49_group_anagrams.rs b/rust/src/bin/49_group_anagrams.rs\nindex 115f5e1..dd267b4 100644\n--- a/rust/src/bin/49_group_anagrams.rs\n+++ b/rust/src/bin/49_group_anagrams.rs\n@@ -2,17 +2,18 @@ use std::collections::HashMap;\n \n impl Solution {\n     pub fn group_anagrams(strs: Vec<String>) -> Vec<Vec<String>> {\n-        let mut map = HashMap::<[u32; 26], Vec<String>>::new();\n-        for str in strs {\n-            let encoded_str = str.bytes().fold([0_u32; 26], |mut state, x| {\n-                state[(x - b'a') as usize] += 1;\n-                state\n-            });\n+        strs.into_iter()\n+            .fold(HashMap::<[u32; 26], Vec<String>>::new(), |mut map, str| {\n+                let encoded_str = str.bytes().fold([0_u32; 26], |mut state, x| {\n+                    state[(x - b'a') as usize] += 1;\n+                    state\n+                });\n \n-            map.entry(encoded_str).or_default().push(str);\n-        }\n-\n-        map.into_values().collect()\n+                map.entry(encoded_str).or_default().push(str);\n+                map\n+            })\n+            .into_values()\n+            .collect()\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 11,
+            "deletions": 10
+          },
+          "approachId": "functional-pipeline",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Converted imperative loop into a functional pipeline using `fold` for HashMap construction.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "31d132acd2da74ba14bfa3c920065dc294fd858b",
+    "d7562423ce81363ccfa63748c514181e7c320695",
+    "adb8c6f87656b92d50d016fe183f6378c0570906"
+  ],
+  "warnings": []
+}

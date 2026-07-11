@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 739,
+    "title": "Daily Temperatures",
+    "slug": "daily-temperatures"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/739_daily_temperatures.rs",
+    "latestSha": "800b01919ff45eac09ea2aa5e3929e6ffb434b9d",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-06-16T21:20:49+08:00",
+    "lastCommittedAt": "2026-06-16T21:23:46+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "006bdf1ce712f030e06642988417fd5f93bd46fb9a2f86a9dd7f6ad80420400d"
+  },
+  "approaches": [
+    {
+      "id": "monotonic_stack",
+      "title": "Monotonic Stack",
+      "summary": "Uses a stack to keep track of indices of temperatures in decreasing order. For each temperature, pops indices from the stack until a warmer temperature is found",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "7eedf991be63952e3d0451ea8c800d490a2638ab",
+          "shortSha": "7eedf99",
+          "parentSha": "b5703b87bd607906da8df20433798fa6db7a0a60",
+          "authoredAt": "2026-06-16T21:20:49+08:00",
+          "committedAt": "2026-06-16T21:20:49+08:00",
+          "chronologicalIndex": 168,
+          "problemId": 739,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/739_daily_temperatures.rs",
+          "sourceFilename": "739_daily_temperatures.rs",
+          "code": "impl Solution {\n    pub fn daily_temperatures(temperatures: Vec<i32>) -> Vec<i32> {\n        let mut monotonic_stack = Vec::with_capacity(temperatures.len());\n        let mut result = vec![0; temperatures.len()];\n        for i in 0..temperatures.len() {\n            while let Some(&top_idx) = monotonic_stack.last()\n                && temperatures[top_idx] < temperatures[i]\n            {\n                monotonic_stack.pop();\n                let days_diff = i - top_idx;\n                result[top_idx] = days_diff as i32;\n            }\n            monotonic_stack.push(i);\n        }\n        result\n    }\n}\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        Solution::daily_temperatures(vec![73, 74, 75, 71, 69, 72, 76, 73]),\n        vec![1, 1, 4, 2, 1, 1, 0, 0]\n    );\n    assert_eq!(\n        Solution::daily_temperatures(vec![30, 40, 50, 60]),\n        vec![1, 1, 1, 0]\n    );\n    assert_eq!(\n        Solution::daily_temperatures(vec![30, 60, 90]),\n        vec![1, 1, 0]\n    );\n}\n\n/*\nExample 1:\n\nInput: temperatures = [73,74,75,71,69,72,76,73]\nOutput: [1,1,4,2,1,1,0,0]\nExample 2:\n\nInput: temperatures = [30,40,50,60]\nOutput: [1,1,1,0]\nExample 3:\n\nInput: temperatures = [30,60,90]\nOutput: [1,1,0]\n\n*/\n",
+          "codeHash": "32bb5b8dc2ab1f7dccb317d9cdb5213f6881eae857af0e13c5ce540d90a05ce0",
+          "markedWrong": false,
+          "commitComment": "monotonic stack again",
+          "rawCommitSubject": "rust 739: monotonic stack again",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "monotonic_stack",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation with monotonic stack",
+          "warnings": []
+        },
+        {
+          "sha": "800b01919ff45eac09ea2aa5e3929e6ffb434b9d",
+          "shortSha": "800b019",
+          "parentSha": "7eedf991be63952e3d0451ea8c800d490a2638ab",
+          "authoredAt": "2026-06-16T21:23:46+08:00",
+          "committedAt": "2026-06-16T21:23:46+08:00",
+          "chronologicalIndex": 169,
+          "problemId": 739,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/739_daily_temperatures.rs",
+          "sourceFilename": "739_daily_temperatures.rs",
+          "code": "impl Solution {\n    pub fn daily_temperatures(temperatures: Vec<i32>) -> Vec<i32> {\n        let mut monotonic_stack = Vec::with_capacity(temperatures.len());\n        let mut result = vec![0; temperatures.len()];\n        for (curr_idx, &curr_val) in temperatures.iter().enumerate() {\n            while let Some(&top_idx) = monotonic_stack.last()\n                && temperatures[top_idx] < curr_val\n            {\n                monotonic_stack.pop();\n                let days_diff = curr_idx - top_idx;\n                result[top_idx] = days_diff as i32;\n            }\n            monotonic_stack.push(curr_idx);\n        }\n        result\n    }\n}\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        Solution::daily_temperatures(vec![73, 74, 75, 71, 69, 72, 76, 73]),\n        vec![1, 1, 4, 2, 1, 1, 0, 0]\n    );\n    assert_eq!(\n        Solution::daily_temperatures(vec![30, 40, 50, 60]),\n        vec![1, 1, 1, 0]\n    );\n    assert_eq!(\n        Solution::daily_temperatures(vec![30, 60, 90]),\n        vec![1, 1, 0]\n    );\n}\n\n/*\nExample 1:\n\nInput: temperatures = [73,74,75,71,69,72,76,73]\nOutput: [1,1,4,2,1,1,0,0]\nExample 2:\n\nInput: temperatures = [30,40,50,60]\nOutput: [1,1,1,0]\nExample 3:\n\nInput: temperatures = [30,60,90]\nOutput: [1,1,0]\n\n*/\n",
+          "codeHash": "03784d0b20e673d4d0e015008e13f9741ec2737dc9f699a0b0ad590e536fa646",
+          "markedWrong": false,
+          "commitComment": "use iterator to reduce bounds checks",
+          "rawCommitSubject": "rust 739: use iterator to reduce bounds checks",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/739_daily_temperatures.rs b/rust/src/bin/739_daily_temperatures.rs\nindex b729835..de3b386 100644\n--- a/rust/src/bin/739_daily_temperatures.rs\n+++ b/rust/src/bin/739_daily_temperatures.rs\n@@ -2,15 +2,15 @@ impl Solution {\n     pub fn daily_temperatures(temperatures: Vec<i32>) -> Vec<i32> {\n         let mut monotonic_stack = Vec::with_capacity(temperatures.len());\n         let mut result = vec![0; temperatures.len()];\n-        for i in 0..temperatures.len() {\n+        for (curr_idx, &curr_val) in temperatures.iter().enumerate() {\n             while let Some(&top_idx) = monotonic_stack.last()\n-                && temperatures[top_idx] < temperatures[i]\n+                && temperatures[top_idx] < curr_val\n             {\n                 monotonic_stack.pop();\n-                let days_diff = i - top_idx;\n+                let days_diff = curr_idx - top_idx;\n                 result[top_idx] = days_diff as i32;\n             }\n-            monotonic_stack.push(i);\n+            monotonic_stack.push(curr_idx);\n         }\n         result\n     }\n",
+          "changedLineCounts": {
+            "additions": 4,
+            "deletions": 4
+          },
+          "approachId": "monotonic_stack",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Optimized by using iterator to reduce bounds checks",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "7eedf991be63952e3d0451ea8c800d490a2638ab",
+    "800b01919ff45eac09ea2aa5e3929e6ffb434b9d"
+  ],
+  "warnings": []
+}

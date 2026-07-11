@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2033,
+    "title": "Minimum Operations to Make A Univalue Grid",
+    "slug": "minimum-operations-to-make-a-univalue-grid"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/2033_minimum_operations_to_make_a_univalue_grid.rs",
+    "latestSha": "286969f0d8c57736071e765fb6fecc06e805b112",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-04-28T10:40:20+08:00",
+    "lastCommittedAt": "2026-04-28T10:40:20+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "1d8b9ab88daa869eba4866e5bf4b7f0ef613da91142818aba63ee518bf102d19"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "286969f0d8c57736071e765fb6fecc06e805b112",
+          "shortSha": "286969f",
+          "parentSha": "57ae00ec6b709d392651e9019e25b59b64220f68",
+          "authoredAt": "2026-04-28T10:40:20+08:00",
+          "committedAt": "2026-04-28T10:40:20+08:00",
+          "chronologicalIndex": 116,
+          "problemId": 2033,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2033_minimum_operations_to_make_a_univalue_grid.rs",
+          "sourceFilename": "2033_minimum_operations_to_make_a_univalue_grid.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn min_operations(grid: Vec<Vec<i32>>, x: i32) -> i32 {\n        let remainder = grid[0][0] % x;\n        let mut flat: Vec<i32> = Vec::with_capacity(grid.len() * grid[0].len());\n        for &v in grid.iter().flatten() {\n            if v % x != remainder {\n                return -1;\n            }\n            flat.push(v);\n        }\n        flat.sort_unstable();\n        let median = flat[flat.len() / 2];\n        flat.iter().map(|v| (median - v).abs() / x).sum()\n    }\n}\n\nfn main() {\n    assert_eq!(Solution::min_operations(vec![vec![2, 4], vec![6, 8]], 2), 4);\n    assert_eq!(Solution::min_operations(vec![vec![1, 5], vec![2, 3]], 1), 5);\n    assert_eq!(\n        Solution::min_operations(vec![vec![1, 2], vec![3, 4]], 2),\n        -1\n    );\n}\n",
+          "codeHash": "7209e459028d0704c4aa38a604feab1a785631524ee21ebcdc57c65496e12889",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 2033",
+          "commitBody": "time: O(n)\nspace: O(n)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "286969f0d8c57736071e765fb6fecc06e805b112"
+  ],
+  "warnings": []
+}

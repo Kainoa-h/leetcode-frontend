@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 874,
+    "title": "Walking Robot Simulation",
+    "slug": "walking-robot-simulation"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/874_walking_robot_simulation.java",
+    "latestSha": "597d73161a4253ee1d35680e65ad4dbeeb397008",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-04-06T23:10:41+08:00",
+    "lastCommittedAt": "2026-04-06T23:10:41+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "69aa86132ab79e9667e706f177a5660dafe6dc5ef063dfd7dbe678e651bcd3c2"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "597d73161a4253ee1d35680e65ad4dbeeb397008",
+          "shortSha": "597d731",
+          "parentSha": "9a0112d986951fa9c530031e12eb257dcb3325d7",
+          "authoredAt": "2026-04-06T23:10:41+08:00",
+          "committedAt": "2026-04-06T23:10:41+08:00",
+          "chronologicalIndex": 98,
+          "problemId": 874,
+          "language": "java",
+          "sourcePath": "java/src/solutions/874_walking_robot_simulation.java",
+          "sourceFilename": "874_walking_robot_simulation.java",
+          "code": "import java.util.HashSet;\nimport java.util.Set;\n\nclass Solution {\n  public int robotSim(int[] commands, int[][] obstacles) {\n    Set<String> obstaclesSet = new HashSet<>();\n    int max = 0;\n    for (int[] obs : obstacles) {\n      obstaclesSet.add(obs[0] + \",\" + obs[1]);\n    }\n\n    int x = 0, y = 0;\n    int xDir = 0, yDir = 1;\n    for (int cmd : commands) {\n      if (cmd == -2) {\n        int p = xDir;\n        xDir = -yDir;\n        yDir = p;\n        continue;\n      }\n      if (cmd == -1) {\n        int p = -xDir;\n        xDir = yDir;\n        yDir = p;\n        continue;\n      }\n\n      int nextRowIdx = x, nextColIdx = y;\n      for (int i = 0; i < cmd; i++) {\n        nextRowIdx += xDir;\n        nextColIdx += yDir;\n        if (obstaclesSet.contains(nextRowIdx + \",\" + nextColIdx)) {\n          nextRowIdx -= xDir;\n          nextColIdx -= yDir;\n          break;\n        }\n\n      }\n      x = nextRowIdx;\n      y = nextColIdx;\n      max = Math.max(max, (int) (Math.pow(x, 2) + Math.pow(y, 2)));\n    }\n    return max;\n  }\n\n  void main() {\n    assert 25 == robotSim(new int[] { 4, -1, 3 }, new int[][] {});\n    assert 65 == robotSim(new int[] { 4, -1, 4, -2, 4 }, new int[][] { { 2, 4 } });\n    assert 36 == robotSim(new int[] { 6, -1, -1, 6 }, new int[][] { { 0, 0 } });\n  }\n}\n",
+          "codeHash": "bb41ca81348cbbd36390e7733be2f07dc46e79be95bfb4efdc9e8d83450954b9",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "java 874",
+          "commitBody": "time: O(n+m)\nspace: O(n)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "597d73161a4253ee1d35680e65ad4dbeeb397008"
+  ],
+  "warnings": []
+}

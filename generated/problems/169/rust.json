@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 169,
+    "title": "Majority Element",
+    "slug": "majority-element"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/169_majority_element.rs",
+    "latestSha": "7aaa7de82d8e0036cdd346b5108516f8a9c27988",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-01-24T21:48:25+08:00",
+    "lastCommittedAt": "2026-01-24T22:04:43+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "ec815be3e467313dfcfd9aafe6731a6e367bb7fce751b40546721853f6413a19"
+  },
+  "approaches": [
+    {
+      "id": "hashmap-counting",
+      "title": "HashMap Counting",
+      "summary": "Count occurrences of each element using a HashMap and return the first element exceeding half the array length.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "63041866977c4553d9d91c56a8fa5e34e2e63c12",
+          "shortSha": "6304186",
+          "parentSha": "1bc79f635a54cf9038a07880d6235a7fe8aa4553",
+          "authoredAt": "2026-01-24T21:48:25+08:00",
+          "committedAt": "2026-01-24T21:48:25+08:00",
+          "chronologicalIndex": 7,
+          "problemId": 169,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/169_majority_element.rs",
+          "sourceFilename": "169_majority_element.rs",
+          "code": "use std::collections::HashMap;\n\nstruct Solution {}\n\nimpl Solution {\n    pub fn majority_element(nums: Vec<i32>) -> i32 {\n        let mut map: HashMap<i32, i32> = HashMap::new();\n        let limit = (nums.len() / 2) as i32;\n        for n in nums {\n            let r = map.entry(n).or_insert(0);\n            *r += 1;\n            if *r > limit {\n                return n;\n            }\n        }\n        -1\n    }\n}\n\nfn what(nums: Vec<i32>) {\n    println!(\"{:?}\", Solution::majority_element(nums));\n}\n\nfn main() {\n    // Input: nums = [3,2,3]\n    // Output: 3\n    what(vec![3, 2, 3]);\n    // Input: nums = [2,2,1,1,1,2,2]\n    // Output: 2\n    what(vec![2, 2, 1, 1, 1, 2, 2]);\n}\n",
+          "codeHash": "5c24015666516c0dfb8bb12a1a92c3a1669227a0363cb9847984aef7c1f4a502",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "169",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "hashmap-counting",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation using HashMap to count element frequencies and return the majority element.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "boyer-moore-voting",
+      "title": "Boyer-Moore Voting Algorithm",
+      "summary": "Track a candidate and its strength; update candidate when strength drops to zero, increment on match, decrement otherwise.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "90a9ae2ca834db7372f02db19dc5d1ad8d71c54f",
+          "shortSha": "90a9ae2",
+          "parentSha": "63041866977c4553d9d91c56a8fa5e34e2e63c12",
+          "authoredAt": "2026-01-24T21:58:32+08:00",
+          "committedAt": "2026-01-24T21:58:32+08:00",
+          "chronologicalIndex": 8,
+          "problemId": 169,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/169_majority_element.rs",
+          "sourceFilename": "169_majority_element.rs",
+          "code": "struct Solution {}\n\nimpl Solution {\n    pub fn majority_element(nums: Vec<i32>) -> i32 {\n        let mut candidate = nums[0];\n        let mut strength = 1;\n        for n in nums.iter().skip(1) {\n            if strength == 0 {\n                candidate = *n;\n                strength = 1;\n            } else if candidate == *n {\n                strength += 1;\n            } else {\n                strength -= 1;\n            }\n        }\n        candidate\n    }\n}\n\nfn what(nums: Vec<i32>) {\n    println!(\"{:?}\", Solution::majority_element(nums));\n}\n\nfn main() {\n    // Input: nums = [3,2,3]\n    // Output: 3\n    what(vec![3, 2, 3]);\n    // Input: nums = [2,2,1,1,1,2,2]\n    // Output: 2\n    what(vec![2, 2, 1, 1, 1, 2, 2]);\n}\n",
+          "codeHash": "3c55c0284784f8f9b0c770be77eec8879310956a728f3abb48dcd2f9cfba12a5",
+          "markedWrong": false,
+          "commitComment": "Boyer-Moore Voting",
+          "rawCommitSubject": "169: Boyer-Moore Voting",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/169_majority_element.rs b/rust/src/bin/169_majority_element.rs\nindex 6388da0..2df5451 100644\n--- a/rust/src/bin/169_majority_element.rs\n+++ b/rust/src/bin/169_majority_element.rs\n@@ -1,19 +1,20 @@\n-use std::collections::HashMap;\n-\n struct Solution {}\n \n impl Solution {\n     pub fn majority_element(nums: Vec<i32>) -> i32 {\n-        let mut map: HashMap<i32, i32> = HashMap::new();\n-        let limit = (nums.len() / 2) as i32;\n-        for n in nums {\n-            let r = map.entry(n).or_insert(0);\n-            *r += 1;\n-            if *r > limit {\n-                return n;\n+        let mut candidate = nums[0];\n+        let mut strength = 1;\n+        for n in nums.iter().skip(1) {\n+            if strength == 0 {\n+                candidate = *n;\n+                strength = 1;\n+            } else if candidate == *n {\n+                strength += 1;\n+            } else {\n+                strength -= 1;\n             }\n         }\n-        -1\n+        candidate\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 11,
+            "deletions": 10
+          },
+          "approachId": "boyer-moore-voting",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Introduced Boyer-Moore Voting Algorithm to find majority element in O(n) time and O(1) space.",
+          "warnings": []
+        },
+        {
+          "sha": "7aaa7de82d8e0036cdd346b5108516f8a9c27988",
+          "shortSha": "7aaa7de",
+          "parentSha": "90a9ae2ca834db7372f02db19dc5d1ad8d71c54f",
+          "authoredAt": "2026-01-24T22:04:43+08:00",
+          "committedAt": "2026-01-24T22:04:43+08:00",
+          "chronologicalIndex": 9,
+          "problemId": 169,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/169_majority_element.rs",
+          "sourceFilename": "169_majority_element.rs",
+          "code": "struct Solution {}\n\nimpl Solution {\n    pub fn majority_element(nums: Vec<i32>) -> i32 {\n        let mut candidate = 0;\n        let mut strength = 0;\n        for n in nums {\n            if strength == 0 {\n                candidate = n;\n            }\n            if candidate == n {\n                strength += 1;\n            } else {\n                strength -= 1;\n            }\n        }\n        candidate\n    }\n}\n\nfn what(nums: Vec<i32>) {\n    println!(\"{:?}\", Solution::majority_element(nums));\n}\n\nfn main() {\n    // Input: nums = [3,2,3]\n    // Output: 3\n    what(vec![3, 2, 3]);\n    // Input: nums = [2,2,1,1,1,2,2]\n    // Output: 2\n    what(vec![2, 2, 1, 1, 1, 2, 2]);\n}\n",
+          "codeHash": "597fd7121670f91b85127aa1b3d222050eaba5fa95e7f5cf99246c6ca10feeca",
+          "markedWrong": false,
+          "commitComment": "Cleaner Boyer-Moore Voting",
+          "rawCommitSubject": "169: Cleaner Boyer-Moore Voting",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/169_majority_element.rs b/rust/src/bin/169_majority_element.rs\nindex 2df5451..ab2fc13 100644\n--- a/rust/src/bin/169_majority_element.rs\n+++ b/rust/src/bin/169_majority_element.rs\n@@ -2,13 +2,13 @@ struct Solution {}\n \n impl Solution {\n     pub fn majority_element(nums: Vec<i32>) -> i32 {\n-        let mut candidate = nums[0];\n-        let mut strength = 1;\n-        for n in nums.iter().skip(1) {\n+        let mut candidate = 0;\n+        let mut strength = 0;\n+        for n in nums {\n             if strength == 0 {\n-                candidate = *n;\n-                strength = 1;\n-            } else if candidate == *n {\n+                candidate = n;\n+            }\n+            if candidate == n {\n                 strength += 1;\n             } else {\n                 strength -= 1;\n",
+          "changedLineCounts": {
+            "additions": 6,
+            "deletions": 6
+          },
+          "approachId": "boyer-moore-voting",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Simplified Boyer-Moore implementation by removing redundant strength reset and adjusting loop structure.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "63041866977c4553d9d91c56a8fa5e34e2e63c12",
+    "90a9ae2ca834db7372f02db19dc5d1ad8d71c54f",
+    "7aaa7de82d8e0036cdd346b5108516f8a9c27988"
+  ],
+  "warnings": []
+}

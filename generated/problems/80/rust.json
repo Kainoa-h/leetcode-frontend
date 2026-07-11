@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 80,
+    "title": "Remove Duplicates From Sorted Array Ii",
+    "slug": "remove-duplicates-from-sorted-array-ii"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/80_remove_duplicates_from_sorted_array_II.rs",
+    "latestSha": "1bc79f635a54cf9038a07880d6235a7fe8aa4553",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-01-24T20:41:58+08:00",
+    "lastCommittedAt": "2026-01-24T20:51:37+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "239281a9b3664d6ccaa8eb67c7c1e49d0d7024f0f0f9d88b14c7b69360329340"
+  },
+  "approaches": [
+    {
+      "id": "two-pointers-single-pass",
+      "title": "Two-pointers single-pass with seen count",
+      "summary": "Iterate once, track seen count per value, and overwrite duplicates beyond two occurrences in-place.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "129026f3cdf65a152d3557a962911d9e01588b76",
+          "shortSha": "129026f",
+          "parentSha": "3c0a7fe9e4fe8cc5c32dc985e14d109e715a11bf",
+          "authoredAt": "2026-01-24T20:41:58+08:00",
+          "committedAt": "2026-01-24T20:41:58+08:00",
+          "chronologicalIndex": 5,
+          "problemId": 80,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/80_remove_duplicates_from_sorted_array_II.rs",
+          "sourceFilename": "80_remove_duplicates_from_sorted_array_II.rs",
+          "code": "struct Solution {}\n\nimpl Solution {\n    pub fn remove_duplicates(nums: &mut Vec<i32>) -> i32 {\n        let mut real_idx = 1;\n        let mut prev_num = nums[0];\n        let mut seen_count: i8 = 1;\n        for i in 1..nums.len() {\n            let curr_num = nums[i];\n            if curr_num != prev_num {\n                nums[real_idx] = curr_num;\n                real_idx += 1;\n                prev_num = curr_num;\n                seen_count = 0;\n            } else if seen_count == 1 {\n                nums[real_idx] = curr_num;\n                real_idx += 1;\n            }\n            seen_count += 1;\n        }\n        real_idx as i32\n    }\n}\n\nfn what(mut nums: Vec<i32>) {\n    println!(\"{:?}\", Solution::remove_duplicates(&mut nums));\n    println!(\"{:?}\", nums);\n}\n\nfn main() {\n    // Input: nums = [1,1,1,2,2,3]\n    // Output: 5, nums = [1,1,2,2,3,_]\n    what(vec![1, 1, 1, 2, 2, 3]);\n\n    // Input: nums = [0,0,1,1,1,1,2,3,3]\n    // Output: 7, nums = [0,0,1,1,2,3,3,_,_]\n    what(vec![0, 0, 1, 1, 1, 1, 2, 3, 3]);\n\n    what(vec![1, 1, 1]);\n    what(vec![1, 1]);\n    what(vec![1]);\n}\n",
+          "codeHash": "8b64b5376f0a13ea5cd1002a7523f014afb3074c9794bbd083e6b44c00c4ae04",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "80",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "two-pointers-single-pass",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial two-pointer implementation tracking seen count per value.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "two-pointers-optimized",
+      "title": "Two-pointers optimized with early exit",
+      "summary": "Use two pointers and compare with the value two positions back to allow at most two duplicates; early exit for small arrays.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "1bc79f635a54cf9038a07880d6235a7fe8aa4553",
+          "shortSha": "1bc79f6",
+          "parentSha": "129026f3cdf65a152d3557a962911d9e01588b76",
+          "authoredAt": "2026-01-24T20:51:37+08:00",
+          "committedAt": "2026-01-24T20:51:37+08:00",
+          "chronologicalIndex": 6,
+          "problemId": 80,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/80_remove_duplicates_from_sorted_array_II.rs",
+          "sourceFilename": "80_remove_duplicates_from_sorted_array_II.rs",
+          "code": "struct Solution {}\n\nimpl Solution {\n    pub fn remove_duplicates(nums: &mut Vec<i32>) -> i32 {\n        if nums.len() < 3 {\n            return nums.len() as i32;\n        }\n\n        let mut real_idx = 2;\n        for i in 2..nums.len() {\n            let before_real_current_num = nums[real_idx - 2];\n            let curr_num = nums[i];\n            if curr_num != before_real_current_num {\n                nums[real_idx] = curr_num;\n                real_idx += 1;\n            }\n        }\n        real_idx as i32\n    }\n}\n\nfn what(mut nums: Vec<i32>) {\n    println!(\"{:?}\", Solution::remove_duplicates(&mut nums));\n    println!(\"{:?}\", nums);\n}\n\nfn main() {\n    // Input: nums = [1,1,1,2,2,3]\n    // Output: 5, nums = [1,1,2,2,3,_]\n    what(vec![1, 1, 1, 2, 2, 3]);\n\n    // Input: nums = [0,0,1,1,1,1,2,3,3]\n    // Output: 7, nums = [0,0,1,1,2,3,3,_,_]\n    what(vec![0, 0, 1, 1, 1, 1, 2, 3, 3]);\n\n    what(vec![1, 1, 1]);\n    what(vec![1, 1]);\n    what(vec![1]);\n}\n",
+          "codeHash": "3195a27cea02ae1da0a05053d8507ffabbc47dda2a7a96114ff5c3b832d7d034",
+          "markedWrong": false,
+          "commitComment": "copied, better",
+          "rawCommitSubject": "80: copied, better",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/80_remove_duplicates_from_sorted_array_II.rs b/rust/src/bin/80_remove_duplicates_from_sorted_array_II.rs\nindex f87caba..d3dfed1 100644\n--- a/rust/src/bin/80_remove_duplicates_from_sorted_array_II.rs\n+++ b/rust/src/bin/80_remove_duplicates_from_sorted_array_II.rs\n@@ -2,21 +2,18 @@ struct Solution {}\n \n impl Solution {\n     pub fn remove_duplicates(nums: &mut Vec<i32>) -> i32 {\n-        let mut real_idx = 1;\n-        let mut prev_num = nums[0];\n-        let mut seen_count: i8 = 1;\n-        for i in 1..nums.len() {\n+        if nums.len() < 3 {\n+            return nums.len() as i32;\n+        }\n+\n+        let mut real_idx = 2;\n+        for i in 2..nums.len() {\n+            let before_real_current_num = nums[real_idx - 2];\n             let curr_num = nums[i];\n-            if curr_num != prev_num {\n-                nums[real_idx] = curr_num;\n-                real_idx += 1;\n-                prev_num = curr_num;\n-                seen_count = 0;\n-            } else if seen_count == 1 {\n+            if curr_num != before_real_current_num {\n                 nums[real_idx] = curr_num;\n                 real_idx += 1;\n             }\n-            seen_count += 1;\n         }\n         real_idx as i32\n     }\n",
+          "changedLineCounts": {
+            "additions": 8,
+            "deletions": 11
+          },
+          "approachId": "two-pointers-optimized",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Optimized two-pointer approach with early exit for arrays shorter than 3 elements.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "129026f3cdf65a152d3557a962911d9e01588b76",
+    "1bc79f635a54cf9038a07880d6235a7fe8aa4553"
+  ],
+  "warnings": []
+}

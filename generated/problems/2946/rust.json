@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2946,
+    "title": "Matrix Similarity After Cyclic Shifts",
+    "slug": "matrix-similarity-after-cyclic-shifts"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/2946_matrix_similarity_after_cyclic_shifts.rs",
+    "latestSha": "6acaefdb79008808ee2cbdabcfda6eac6bce15fa",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 3,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-03-27T21:00:44+08:00",
+    "lastCommittedAt": "2026-03-27T21:13:41+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "7fe54f3fc2e7bf827949404688e40925e2478455c86ed6713c1f1dc1f9d4fd43"
+  },
+  "approaches": [
+    {
+      "id": "naive_cyclic_check",
+      "title": "Naive Cyclic Shift Check with Alternating Direction",
+      "summary": "Iterate each row and check if shifting elements cyclically by k positions (alternating left/right per row) leaves the row unchanged.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "a7450f942b6b7151502668f6bf07a3db8b6fbd36",
+          "shortSha": "a7450f9",
+          "parentSha": "378ce2c3d4001932a2cbcf1e4001912b8a5cd840",
+          "authoredAt": "2026-03-27T21:00:36+08:00",
+          "committedAt": "2026-03-27T21:00:44+08:00",
+          "chronologicalIndex": 75,
+          "problemId": 2946,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2946_matrix_similarity_after_cyclic_shifts.rs",
+          "sourceFilename": "2946_matrix_similarity_after_cyclic_shifts.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn are_similar(mat: Vec<Vec<i32>>, k: i32) -> bool {\n        let cols = mat[0].len() as i32;\n        let mut shift = k % cols;\n\n        for row in mat {\n            for i in 0..row.len() {\n                let shift_idx = ((i as i32 + shift).rem_euclid(cols)) as usize;\n                if row[i] != row[shift_idx] {\n                    return false;\n                }\n            }\n            shift *= -1;\n        }\n        true\n    }\n}\n\nfn main() {\n    assert!(Solution::are_similar(vec![vec![1, 2, 3]], 6));\n    assert!(Solution::are_similar(vec![vec![2, 2], vec![2, 2]], 3));\n    assert!(!Solution::are_similar(\n        vec![vec![1, 2, 3], vec![4, 5, 6], vec![7, 8, 9],],\n        4\n    ));\n}\n",
+          "codeHash": "d1ad2591599481b0640bf3f22a3cd419a83d2be5b8ad380daf104700802cebf6",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "2946",
+          "commitBody": "time: O(n*m)\nspace: O(1)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "naive_cyclic_check",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation with alternating shift direction per row using rem_euclid for modulo.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "uniform_shift_check",
+      "title": "Uniform Shift Check with Simplified Modulo",
+      "summary": "Check if shifting all rows uniformly by k positions (left or right) leaves the matrix unchanged, using standard modulo.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "c0ab2e6da40d7b7b9d802b3c579cb9ce2e05d48f",
+          "shortSha": "c0ab2e6",
+          "parentSha": "a7450f942b6b7151502668f6bf07a3db8b6fbd36",
+          "authoredAt": "2026-03-27T21:05:37+08:00",
+          "committedAt": "2026-03-27T21:06:24+08:00",
+          "chronologicalIndex": 76,
+          "problemId": 2946,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2946_matrix_similarity_after_cyclic_shifts.rs",
+          "sourceFilename": "2946_matrix_similarity_after_cyclic_shifts.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn are_similar(mat: Vec<Vec<i32>>, k: i32) -> bool {\n        let cols = mat[0].len() as i32;\n        let shift = k % cols;\n\n        for row in mat {\n            for i in 0..row.len() {\n                let shift_idx = ((i as i32 + shift) % cols) as usize;\n                if row[i] != row[shift_idx] {\n                    return false;\n                }\n            }\n        }\n        true\n    }\n}\n\nfn main() {\n    assert!(Solution::are_similar(vec![vec![1, 2, 3]], 6));\n    assert!(Solution::are_similar(vec![vec![2, 2], vec![2, 2]], 3));\n    assert!(!Solution::are_similar(\n        vec![vec![1, 2, 3], vec![4, 5, 6], vec![7, 8, 9],],\n        4\n    ));\n}\n",
+          "codeHash": "7ea818ac65c0520dcb138be81762f1cae8ba92cdc4f2bbb2213f9beddc4ce1dd",
+          "markedWrong": false,
+          "commitComment": "left shift === right shift when invariant",
+          "rawCommitSubject": "2946: left shift === right shift when invariant",
+          "commitBody": ".",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2946_matrix_similarity_after_cyclic_shifts.rs b/rust/src/bin/2946_matrix_similarity_after_cyclic_shifts.rs\nindex 08fee7f..708d7a2 100644\n--- a/rust/src/bin/2946_matrix_similarity_after_cyclic_shifts.rs\n+++ b/rust/src/bin/2946_matrix_similarity_after_cyclic_shifts.rs\n@@ -2,16 +2,15 @@ struct Solution {}\n impl Solution {\n     pub fn are_similar(mat: Vec<Vec<i32>>, k: i32) -> bool {\n         let cols = mat[0].len() as i32;\n-        let mut shift = k % cols;\n+        let shift = k % cols;\n \n         for row in mat {\n             for i in 0..row.len() {\n-                let shift_idx = ((i as i32 + shift).rem_euclid(cols)) as usize;\n+                let shift_idx = ((i as i32 + shift) % cols) as usize;\n                 if row[i] != row[shift_idx] {\n                     return false;\n                 }\n             }\n-            shift *= -1;\n         }\n         true\n     }\n",
+          "changedLineCounts": {
+            "additions": 2,
+            "deletions": 3
+          },
+          "approachId": "uniform_shift_check",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Removed alternating shift direction, simplified modulo to standard % and removed unnecessary mut shift.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "iterator_based_check",
+      "title": "Iterator-Based Uniform Shift Check",
+      "summary": "Use Rust iterators to concisely verify if shifting each row by k positions leaves it unchanged.",
+      "order": 2,
+      "revisions": [
+        {
+          "sha": "6acaefdb79008808ee2cbdabcfda6eac6bce15fa",
+          "shortSha": "6acaefd",
+          "parentSha": "c0ab2e6da40d7b7b9d802b3c579cb9ce2e05d48f",
+          "authoredAt": "2026-03-27T21:13:41+08:00",
+          "committedAt": "2026-03-27T21:13:41+08:00",
+          "chronologicalIndex": 77,
+          "problemId": 2946,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2946_matrix_similarity_after_cyclic_shifts.rs",
+          "sourceFilename": "2946_matrix_similarity_after_cyclic_shifts.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn are_similar(mat: Vec<Vec<i32>>, k: i32) -> bool {\n        let cols = mat[0].len();\n        let shift = k as usize % cols;\n\n        mat.iter().all(|row| {\n            row.iter()\n                .enumerate()\n                .all(|(i, c)| *c == row[(i + shift) % cols])\n        })\n    }\n}\n\nfn main() {\n    assert!(Solution::are_similar(vec![vec![1, 2, 3]], 6));\n    assert!(Solution::are_similar(vec![vec![2, 2], vec![2, 2]], 3));\n    assert!(!Solution::are_similar(\n        vec![vec![1, 2, 3], vec![4, 5, 6], vec![7, 8, 9],],\n        4\n    ));\n}\n",
+          "codeHash": "f5c6cc60f2076fe6768829f7fb4cd0f18b854767df6d7c38014f95b1fd5f3d82",
+          "markedWrong": false,
+          "commitComment": "iterators!",
+          "rawCommitSubject": "2946: iterators!",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2946_matrix_similarity_after_cyclic_shifts.rs b/rust/src/bin/2946_matrix_similarity_after_cyclic_shifts.rs\nindex 708d7a2..0950569 100644\n--- a/rust/src/bin/2946_matrix_similarity_after_cyclic_shifts.rs\n+++ b/rust/src/bin/2946_matrix_similarity_after_cyclic_shifts.rs\n@@ -1,18 +1,14 @@\n struct Solution {}\n impl Solution {\n     pub fn are_similar(mat: Vec<Vec<i32>>, k: i32) -> bool {\n-        let cols = mat[0].len() as i32;\n-        let shift = k % cols;\n+        let cols = mat[0].len();\n+        let shift = k as usize % cols;\n \n-        for row in mat {\n-            for i in 0..row.len() {\n-                let shift_idx = ((i as i32 + shift) % cols) as usize;\n-                if row[i] != row[shift_idx] {\n-                    return false;\n-                }\n-            }\n-        }\n-        true\n+        mat.iter().all(|row| {\n+            row.iter()\n+                .enumerate()\n+                .all(|(i, c)| *c == row[(i + shift) % cols])\n+        })\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 7,
+            "deletions": 11
+          },
+          "approachId": "iterator_based_check",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Refactored to use iterators and all() for cleaner, more idiomatic Rust code.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "a7450f942b6b7151502668f6bf07a3db8b6fbd36",
+    "c0ab2e6da40d7b7b9d802b3c579cb9ce2e05d48f",
+    "6acaefdb79008808ee2cbdabcfda6eac6bce15fa"
+  ],
+  "warnings": []
+}

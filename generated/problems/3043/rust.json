@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3043,
+    "title": "Find the Length of the Longest Common Prefix",
+    "slug": "find-the-length-of-the-longest-common-prefix"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3043_find_the_length_of_the_longest_common_prefix.rs",
+    "latestSha": "b21ab7cb9533a6068f9815e2ae8a37663315c828",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-05-21T23:20:18+08:00",
+    "lastCommittedAt": "2026-05-21T23:32:23+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "c75898be0f98824681c01df1fa5ef8ce1801000f96a02705123c9fe7ee9c2b43"
+  },
+  "approaches": [
+    {
+      "id": "trie-based-prefix-matching",
+      "title": "Trie-based Prefix Matching",
+      "summary": "Uses a trie to store digits of the smaller array and counts matching prefixes in the larger array.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "ea34cd6f8feac2da6f0c4fc44019747f829f427c",
+          "shortSha": "ea34cd6",
+          "parentSha": "5d2cdebb215682a485f84a720b05673f67d78348",
+          "authoredAt": "2026-05-21T23:20:18+08:00",
+          "committedAt": "2026-05-21T23:20:18+08:00",
+          "chronologicalIndex": 120,
+          "problemId": 3043,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3043_find_the_length_of_the_longest_common_prefix.rs",
+          "sourceFilename": "3043_find_the_length_of_the_longest_common_prefix.rs",
+          "code": "struct Solution {}\n\nimpl Solution {\n    pub fn longest_common_prefix(arr1: Vec<i32>, arr2: Vec<i32>) -> i32 {\n        let mut trie = Trie::new();\n        let mut arrs = [arr1, arr2];\n        arrs.sort_unstable_by_key(|a| a.len());\n        for &x in &arrs[0] {\n            trie.insert(x);\n        }\n        let mut largest = 0;\n        for &x in &arrs[1] {\n            largest = largest.max(trie.count(x));\n        }\n\n        largest\n    }\n}\n\n#[derive(Default)]\nstruct TrieNode {\n    children: [Option<Box<TrieNode>>; 10],\n}\n\nimpl TrieNode {\n    fn new() -> Self {\n        TrieNode {\n            children: Default::default(),\n        }\n    }\n}\n\nstruct Trie {\n    root: TrieNode,\n}\n\nimpl Trie {\n    fn new() -> Self {\n        Trie {\n            root: TrieNode::new(),\n        }\n    }\n\n    fn insert(&mut self, num: i32) {\n        let mut node = &mut self.root;\n        let (arr, start_idx) = Self::get_arr(num);\n        for &n in &arr[start_idx..9] {\n            node = node.children[n as usize].get_or_insert_default()\n        }\n    }\n\n    fn count(&self, num: i32) -> i32 {\n        let mut count = 0;\n        let mut node = &self.root;\n        let (arr, start_idx) = Self::get_arr(num);\n        for &n in &arr[start_idx..9] {\n            if let Some(x) = &node.children[n as usize] {\n                node = x;\n                count += 1;\n            } else {\n                break;\n            }\n        }\n        count\n    }\n    fn get_arr(mut num: i32) -> ([i32; 9], usize) {\n        let len = num.ilog10() + 1;\n        let mut arr = [0; 9];\n        let mut idx = 0;\n        while num != 0 {\n            arr[idx] = num % 10;\n            idx += 1;\n            num /= 10;\n        }\n        arr.reverse();\n        (arr, 9 - len as usize)\n    }\n}\n\nfn main() {\n    assert_eq!(\n        Solution::longest_common_prefix(vec![1, 10, 100], vec![1000]),\n        3\n    );\n\n    assert_eq!(\n        Solution::longest_common_prefix(vec![1, 2, 3], vec![4, 4, 4]),\n        0\n    );\n\n    assert_eq!(\n        Solution::longest_common_prefix(vec![1, 1, 1], vec![1, 1, 1]),\n        1\n    );\n}\n",
+          "codeHash": "c98c6423dc38a12553cb1bbd87fe774fd23be7e2183316912e79b8d8448aa8e6",
+          "markedWrong": false,
+          "commitComment": "trie!",
+          "rawCommitSubject": "rust 3043: trie!",
+          "commitBody": "dunno",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "trie-based-prefix-matching",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation using a trie to store digits of the smaller array and count matching prefixes in the larger array",
+          "warnings": []
+        },
+        {
+          "sha": "b21ab7cb9533a6068f9815e2ae8a37663315c828",
+          "shortSha": "b21ab7c",
+          "parentSha": "ea34cd6f8feac2da6f0c4fc44019747f829f427c",
+          "authoredAt": "2026-05-21T23:31:01+08:00",
+          "committedAt": "2026-05-21T23:32:23+08:00",
+          "chronologicalIndex": 121,
+          "problemId": 3043,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3043_find_the_length_of_the_longest_common_prefix.rs",
+          "sourceFilename": "3043_find_the_length_of_the_longest_common_prefix.rs",
+          "code": "struct Solution {}\n\nimpl Solution {\n    pub fn longest_common_prefix(arr1: Vec<i32>, arr2: Vec<i32>) -> i32 {\n        let mut trie = Trie::default();\n        let (to_insert, to_search) = if arr1.len() > arr2.len() {\n            (&arr2, &arr1)\n        } else {\n            (&arr1, &arr2)\n        };\n        for &x in to_insert {\n            trie.insert(x);\n        }\n        let mut largest = 0;\n        for &x in to_search {\n            largest = largest.max(trie.count(x));\n        }\n\n        largest\n    }\n}\n\n#[derive(Default)]\nstruct TrieNode {\n    children: [Option<Box<TrieNode>>; 10],\n}\n\n#[derive(Default)]\nstruct Trie {\n    root: TrieNode,\n}\n\nimpl Trie {\n    fn insert(&mut self, num: i32) {\n        let mut node = &mut self.root;\n        let (arr, start_idx) = Self::get_arr(num);\n        for &n in &arr[start_idx..9] {\n            node = node.children[n].get_or_insert_default()\n        }\n    }\n\n    fn count(&self, num: i32) -> i32 {\n        let mut count = 0;\n        let mut node = &self.root;\n        let (arr, start_idx) = Self::get_arr(num);\n        for &n in &arr[start_idx..9] {\n            let Some(x) = &node.children[n] else {\n                break;\n            };\n            node = x;\n            count += 1;\n        }\n        count\n    }\n    fn get_arr(mut num: i32) -> ([usize; 9], usize) {\n        let mut arr = [0; 9];\n        let mut start = 9;\n        while num != 0 {\n            start -= 1;\n            arr[start] = (num % 10) as usize;\n            num /= 10;\n        }\n        (arr, start)\n    }\n}\n\nfn main() {\n    assert_eq!(\n        Solution::longest_common_prefix(vec![1, 10, 100], vec![1000]),\n        3\n    );\n\n    assert_eq!(\n        Solution::longest_common_prefix(vec![1, 2, 3], vec![4, 4, 4]),\n        0\n    );\n\n    assert_eq!(\n        Solution::longest_common_prefix(vec![1, 1, 1], vec![1, 1, 1]),\n        1\n    );\n}\n",
+          "codeHash": "38beb7910359ca2664b5ebc7c49c5e1a2de5922b5014234e4e4dad402ac6d176",
+          "markedWrong": false,
+          "commitComment": "more idomatic",
+          "rawCommitSubject": "rust 3043: more idomatic",
+          "commitBody": "- removed the need for .reverse() and ilog10 in get_arr()\n- used derive default for the constructors\n- remove the need for change of ownership to find the smallest vec",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3043_find_the_length_of_the_longest_common_prefix.rs b/rust/src/bin/3043_find_the_length_of_the_longest_common_prefix.rs\nindex 2364d63..058e799 100644\n--- a/rust/src/bin/3043_find_the_length_of_the_longest_common_prefix.rs\n+++ b/rust/src/bin/3043_find_the_length_of_the_longest_common_prefix.rs\n@@ -2,14 +2,17 @@ struct Solution {}\n \n impl Solution {\n     pub fn longest_common_prefix(arr1: Vec<i32>, arr2: Vec<i32>) -> i32 {\n-        let mut trie = Trie::new();\n-        let mut arrs = [arr1, arr2];\n-        arrs.sort_unstable_by_key(|a| a.len());\n-        for &x in &arrs[0] {\n+        let mut trie = Trie::default();\n+        let (to_insert, to_search) = if arr1.len() > arr2.len() {\n+            (&arr2, &arr1)\n+        } else {\n+            (&arr1, &arr2)\n+        };\n+        for &x in to_insert {\n             trie.insert(x);\n         }\n         let mut largest = 0;\n-        for &x in &arrs[1] {\n+        for &x in to_search {\n             largest = largest.max(trie.count(x));\n         }\n \n@@ -22,30 +25,17 @@ struct TrieNode {\n     children: [Option<Box<TrieNode>>; 10],\n }\n \n-impl TrieNode {\n-    fn new() -> Self {\n-        TrieNode {\n-            children: Default::default(),\n-        }\n-    }\n-}\n-\n+#[derive(Default)]\n struct Trie {\n     root: TrieNode,\n }\n \n impl Trie {\n-    fn new() -> Self {\n-        Trie {\n-            root: TrieNode::new(),\n-        }\n-    }\n-\n     fn insert(&mut self, num: i32) {\n         let mut node = &mut self.root;\n         let (arr, start_idx) = Self::get_arr(num);\n         for &n in &arr[start_idx..9] {\n-            node = node.children[n as usize].get_or_insert_default()\n+            node = node.children[n].get_or_insert_default()\n         }\n     }\n \n@@ -54,26 +44,23 @@ impl Trie {\n         let mut node = &self.root;\n         let (arr, start_idx) = Self::get_arr(num);\n         for &n in &arr[start_idx..9] {\n-            if let Some(x) = &node.children[n as usize] {\n-                node = x;\n-                count += 1;\n-            } else {\n+            let Some(x) = &node.children[n] else {\n                 break;\n-            }\n+            };\n+            node = x;\n+            count += 1;\n         }\n         count\n     }\n-    fn get_arr(mut num: i32) -> ([i32; 9], usize) {\n-        let len = num.ilog10() + 1;\n+    fn get_arr(mut num: i32) -> ([usize; 9], usize) {\n         let mut arr = [0; 9];\n-        let mut idx = 0;\n+        let mut start = 9;\n         while num != 0 {\n-            arr[idx] = num % 10;\n-            idx += 1;\n+            start -= 1;\n+            arr[start] = (num % 10) as usize;\n             num /= 10;\n         }\n-        arr.reverse();\n-        (arr, 9 - len as usize)\n+        (arr, start)\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 19,
+            "deletions": 32
+          },
+          "approachId": "trie-based-prefix-matching",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Improved idiomatic Rust by removing reverse/ilog10, using Default derive, and optimizing array insertion/search",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "ea34cd6f8feac2da6f0c4fc44019747f829f427c",
+    "b21ab7cb9533a6068f9815e2ae8a37663315c828"
+  ],
+  "warnings": []
+}

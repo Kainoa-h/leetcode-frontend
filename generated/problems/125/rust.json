@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 125,
+    "title": "Valid Palindrome",
+    "slug": "valid-palindrome"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/125_valid_palindrome.rs",
+    "latestSha": "90e195a4a0f3b4c66a6f2ea6aaacda963064b987",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-02-01T16:56:43+08:00",
+    "lastCommittedAt": "2026-02-01T16:56:43+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "ab6b588e75112367156dc6cb606299c0864d464ce9a5620531003363c9f60727"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "90e195a4a0f3b4c66a6f2ea6aaacda963064b987",
+          "shortSha": "90e195a",
+          "parentSha": "915a86366de035c4f2311d167ee3ba18f57af7fb",
+          "authoredAt": "2026-02-01T16:56:43+08:00",
+          "committedAt": "2026-02-01T16:56:43+08:00",
+          "chronologicalIndex": 46,
+          "problemId": 125,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/125_valid_palindrome.rs",
+          "sourceFilename": "125_valid_palindrome.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn is_palindrome(s: String) -> bool {\n        let mut l = 0;\n        let mut r = s.len() - 1;\n        let bytes = s.as_bytes();\n        while l < r {\n            if !(bytes[l] as char).is_alphanumeric() {\n                l += 1;\n                continue;\n            }\n            if !(bytes[r] as char).is_alphanumeric() {\n                r -= 1;\n                continue;\n            }\n            let left: String = (bytes[l] as char).to_lowercase().collect();\n            let right: String = (bytes[r] as char).to_lowercase().collect();\n            if left != right {\n                return false;\n            }\n            l += 1;\n            r -= 1;\n        }\n        true\n    }\n}\n\nfn main() {\n    assert!(Solution::is_palindrome(\"tacocat\".to_owned()));\n    assert!(!Solution::is_palindrome(\"kitten\".to_owned()));\n    assert!(Solution::is_palindrome(\n        \"A man, a plan, a canal: Panama\".to_owned()\n    ));\n}\n",
+          "codeHash": "9e76c21e9e017ba8ec618123defcac7bea2cf684857a58124ed6b44355f385fe",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "125",
+          "commitBody": "time: O(n)\nspace: O(1)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "90e195a4a0f3b4c66a6f2ea6aaacda963064b987"
+  ],
+  "warnings": []
+}

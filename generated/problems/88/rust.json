@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 88,
+    "title": "Merge Sorted Array",
+    "slug": "merge-sorted-array"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/88_merge_sorted_array.rs",
+    "latestSha": "f75bdda5b37d150058d4c27d0af85a21ec0f0973",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-01-24T14:39:10+08:00",
+    "lastCommittedAt": "2026-01-24T14:55:43+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "b18fc8e3de553efa738533a871fb97f5ce745bde73782175a91bfffd93a745f8"
+  },
+  "approaches": [
+    {
+      "id": "14f9e566a6120b824e628764478d88f637e0a776",
+      "title": "Two Pointers with Cloning",
+      "summary": "Clones nums1, uses two iterators to merge elements into nums1 in sorted order. Inefficient due to cloning and iterator overhead.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "14f9e566a6120b824e628764478d88f637e0a776",
+          "shortSha": "14f9e56",
+          "parentSha": "28951821d5f4a7688a75869a4823f96019ecec13",
+          "authoredAt": "2026-01-24T14:39:10+08:00",
+          "committedAt": "2026-01-24T14:39:10+08:00",
+          "chronologicalIndex": 1,
+          "problemId": 88,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/88_merge_sorted_array.rs",
+          "sourceFilename": "88_merge_sorted_array.rs",
+          "code": "struct Solution {}\n\nimpl Solution {\n    pub fn merge(nums1: &mut Vec<i32>, m: i32, nums2: &mut Vec<i32>, n: i32) {\n        let total_len = (m + n) as usize;\n        let mut n1 = nums1.clone();\n        n1.resize(m as usize, 0_i32);\n        let mut n1_iter = n1.iter().peekable();\n        let mut n2_iter = nums2.iter().peekable();\n        for i in 0..total_len {\n            if n1_iter.peek().is_none() {\n                nums1[i] = *n2_iter.next().unwrap();\n                continue;\n            }\n            if n2_iter.peek().is_none() {\n                nums1[i] = *n1_iter.next().unwrap();\n                continue;\n            }\n            nums1[i] = if n1_iter.peek().unwrap() < n2_iter.peek().unwrap() {\n                *n1_iter.next().unwrap()\n            } else {\n                *n2_iter.next().unwrap()\n            };\n        }\n    }\n}\n// Input: nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3\nfn what() {\n    let mut m_a = vec![1, 2, 3, 0, 0, 0];\n    let mut n_a = vec![2, 5, 6];\n    Solution::merge(&mut m_a, 3, &mut n_a, 3);\n    print!(\"{:?}\", m_a);\n}\n\nfn main() {\n    what();\n}\n",
+          "codeHash": "16c2c0e22c7c967fd3b2ff1da10b8ccad1b87c3fde74c1a458620a5aed5f1c3b",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "88",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "14f9e566a6120b824e628764478d88f637e0a776",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Cloning and iterator overhead make this O(m+n) time and space, worse than optimal.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "f75bdda5b37d150058d4c27d0af85a21ec0f0973",
+      "title": "Two Pointers from End",
+      "summary": "Merges in-place from the end of nums1 and nums2 using three pointers. Optimal O(m+n) time and O(1) space.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "f75bdda5b37d150058d4c27d0af85a21ec0f0973",
+          "shortSha": "f75bdda",
+          "parentSha": "14f9e566a6120b824e628764478d88f637e0a776",
+          "authoredAt": "2026-01-24T14:55:43+08:00",
+          "committedAt": "2026-01-24T14:55:43+08:00",
+          "chronologicalIndex": 2,
+          "problemId": 88,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/88_merge_sorted_array.rs",
+          "sourceFilename": "88_merge_sorted_array.rs",
+          "code": "struct Solution {}\n\nimpl Solution {\n    pub fn merge(nums1: &mut Vec<i32>, m: i32, nums2: &mut Vec<i32>, n: i32) {\n        let mut n1_idx = m - 1;\n        let mut n2_idx = n - 1;\n        let mut merge_idx = m + n - 1;\n        while n2_idx >= 0 {\n            if n1_idx >= 0 && nums1[n1_idx as usize] > nums2[n2_idx as usize] {\n                nums1[merge_idx as usize] = nums1[n1_idx as usize];\n                n1_idx -= 1;\n            } else {\n                nums1[merge_idx as usize] = nums2[n2_idx as usize];\n                n2_idx -= 1;\n            }\n            merge_idx -= 1;\n        }\n    }\n}\n// Input: nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3\nfn what() {\n    let mut m_a = vec![1, 2, 3, 0, 0, 0];\n    let mut n_a = vec![2, 5, 6];\n    Solution::merge(&mut m_a, 3, &mut n_a, 3);\n    print!(\"{:?}\", m_a);\n}\n\nfn main() {\n    what();\n}\n",
+          "codeHash": "c1107ad8f01ba7244196c48cae74b0a9d8f6459d9472d6299b7c0722a8e2612c",
+          "markedWrong": false,
+          "commitComment": "better",
+          "rawCommitSubject": "88: better",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/88_merge_sorted_array.rs b/rust/src/bin/88_merge_sorted_array.rs\nindex 6400176..c0d5ce4 100644\n--- a/rust/src/bin/88_merge_sorted_array.rs\n+++ b/rust/src/bin/88_merge_sorted_array.rs\n@@ -2,25 +2,18 @@ struct Solution {}\n \n impl Solution {\n     pub fn merge(nums1: &mut Vec<i32>, m: i32, nums2: &mut Vec<i32>, n: i32) {\n-        let total_len = (m + n) as usize;\n-        let mut n1 = nums1.clone();\n-        n1.resize(m as usize, 0_i32);\n-        let mut n1_iter = n1.iter().peekable();\n-        let mut n2_iter = nums2.iter().peekable();\n-        for i in 0..total_len {\n-            if n1_iter.peek().is_none() {\n-                nums1[i] = *n2_iter.next().unwrap();\n-                continue;\n-            }\n-            if n2_iter.peek().is_none() {\n-                nums1[i] = *n1_iter.next().unwrap();\n-                continue;\n-            }\n-            nums1[i] = if n1_iter.peek().unwrap() < n2_iter.peek().unwrap() {\n-                *n1_iter.next().unwrap()\n+        let mut n1_idx = m - 1;\n+        let mut n2_idx = n - 1;\n+        let mut merge_idx = m + n - 1;\n+        while n2_idx >= 0 {\n+            if n1_idx >= 0 && nums1[n1_idx as usize] > nums2[n2_idx as usize] {\n+                nums1[merge_idx as usize] = nums1[n1_idx as usize];\n+                n1_idx -= 1;\n             } else {\n-                *n2_iter.next().unwrap()\n-            };\n+                nums1[merge_idx as usize] = nums2[n2_idx as usize];\n+                n2_idx -= 1;\n+            }\n+            merge_idx -= 1;\n         }\n     }\n }\n",
+          "changedLineCounts": {
+            "additions": 11,
+            "deletions": 18
+          },
+          "approachId": "f75bdda5b37d150058d4c27d0af85a21ec0f0973",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "No cloning or extra space; directly modifies nums1 in descending order for efficiency.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "14f9e566a6120b824e628764478d88f637e0a776",
+    "f75bdda5b37d150058d4c27d0af85a21ec0f0973"
+  ],
+  "warnings": []
+}

@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3120,
+    "title": "Count the Number of Special Characters I",
+    "slug": "count-the-number-of-special-characters-i"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3120_count_the_number_of_special_characters_I.rs",
+    "latestSha": "d299acc5c9143da116c88811abd99810b93b1acb",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-05-27T00:53:57+08:00",
+    "lastCommittedAt": "2026-05-27T00:53:57+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "ec461a838e2b8749a4abfcf0d3c3f36978561f9d591a54ade40029aafe88464a"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "d299acc5c9143da116c88811abd99810b93b1acb",
+          "shortSha": "d299acc",
+          "parentSha": "b403dfffc867cc84cb650841aa914af4235d01b6",
+          "authoredAt": "2026-05-27T00:53:57+08:00",
+          "committedAt": "2026-05-27T00:53:57+08:00",
+          "chronologicalIndex": 127,
+          "problemId": 3120,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3120_count_the_number_of_special_characters_I.rs",
+          "sourceFilename": "3120_count_the_number_of_special_characters_I.rs",
+          "code": "struct Solution {}\n\nimpl Solution {\n    pub fn number_of_special_chars(word: String) -> i32 {\n        let mut check_arr = [false; 58];\n        for &b in word.as_bytes() {\n            check_arr[(b - b'A') as usize] = true;\n        }\n\n        let mut count = 0;\n        for i in 0..26 {\n            if check_arr[i] && check_arr[i + 32] {\n                count += 1;\n            }\n        }\n\n        count\n    }\n}\n\nfn main() {}\n",
+          "codeHash": "ac36f79a749ef7ad88a9c43dca016523f6a9f43be592a555f2e6439014d8c7cf",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 3120",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "d299acc5c9143da116c88811abd99810b93b1acb"
+  ],
+  "warnings": []
+}

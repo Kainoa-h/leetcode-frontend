@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3754,
+    "title": "Concatenate Non Zero Digits and Multiply By Sum I",
+    "slug": "concatenate-non-zero-digits-and-multiply-by-sum-i"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3754_concatenate_non_zero_digits_and_multiply_by_sum_I.rs",
+    "latestSha": "cf38dc1b04b4b3f6b72435cd5a10cd3f7a3b50ad",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-07-07T03:01:52Z",
+    "lastCommittedAt": "2026-07-07T03:01:52Z"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "68d75ca5a366f1d3ae516ec86a1404f77d3e3cb0ac100da96e517a8d5829136c"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "cf38dc1b04b4b3f6b72435cd5a10cd3f7a3b50ad",
+          "shortSha": "cf38dc1",
+          "parentSha": "2ce38f9245f3908b43e1b127515227235c48e382",
+          "authoredAt": "2026-07-07T03:01:52Z",
+          "committedAt": "2026-07-07T03:01:52Z",
+          "chronologicalIndex": 196,
+          "problemId": 3754,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3754_concatenate_non_zero_digits_and_multiply_by_sum_I.rs",
+          "sourceFilename": "3754_concatenate_non_zero_digits_and_multiply_by_sum_I.rs",
+          "code": "impl Solution {\n    pub fn sum_and_multiply(mut n: i32) -> i64 {\n        let mut arr = Vec::<i32>::new();\n        while n != 0 {\n            let digit = n % 10;\n            if digit != 0 {\n                arr.push(n % 10);\n            }\n            n /= 10;\n        }\n\n        let mut sum = 0;\n        let mut non_zero = 0;\n        let mut mul = 1;\n        for num in arr {\n            sum += num;\n            non_zero += num * mul;\n            mul *= 10;\n        }\n\n        sum as i64 * non_zero as i64\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(Solution::sum_and_multiply(10203004), 12340);\n}\n",
+          "codeHash": "ce614681313a94c356f6dbc7a9a933aef21dacdb9f7f69525d6d2675eb0b7763",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 3754",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "cf38dc1b04b4b3f6b72435cd5a10cd3f7a3b50ad"
+  ],
+  "warnings": []
+}

@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1848,
+    "title": "Minimum Distance to the Target Element",
+    "slug": "minimum-distance-to-the-target-element"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/1848_minimum_distance_to_the_target_element.java",
+    "latestSha": "5ebc39c73c4a5e9c8bc84522617d8598408af119",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-04-13T20:14:55+08:00",
+    "lastCommittedAt": "2026-04-13T20:14:55+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "5f1d02c79dadf33971b27b4a7b836673c08041008379d695206a33d9d911ce45"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "5ebc39c73c4a5e9c8bc84522617d8598408af119",
+          "shortSha": "5ebc39c",
+          "parentSha": "d39ab977c0ae96c580c47b9670ac52b13aaec502",
+          "authoredAt": "2026-04-13T19:54:53+08:00",
+          "committedAt": "2026-04-13T20:14:55+08:00",
+          "chronologicalIndex": 103,
+          "problemId": 1848,
+          "language": "java",
+          "sourcePath": "java/src/solutions/1848_minimum_distance_to_the_target_element.java",
+          "sourceFilename": "1848_minimum_distance_to_the_target_element.java",
+          "code": "class Solution {\n\n  public int getMinDistance(int[] nums, int target, int start) {\n    int min = Integer.MAX_VALUE;\n    for (int i = 0; i < nums.length; i++) {\n      if (target == nums[i]) {\n        int local = Math.abs(i - start);\n        if (local < min) {\n          min = local;\n        } else {\n          break;\n        }\n      }\n    }\n    return min;\n  }\n}\n",
+          "codeHash": "9d0502b605254e458d2e7ba6e8217390be4a634461b5dcafad45958753d25d42",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "java 1848",
+          "commitBody": "time: O(n)\nspace: O(1)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "5ebc39c73c4a5e9c8bc84522617d8598408af119"
+  ],
+  "warnings": []
+}

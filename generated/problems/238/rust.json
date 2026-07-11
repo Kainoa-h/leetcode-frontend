@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 238,
+    "title": "Product of Self",
+    "slug": "product-of-self"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/238_product_of_self.rs",
+    "latestSha": "0deed942fd7ebc8199ac7ffa783c50359e8fd00d",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-01-27T00:10:50+08:00",
+    "lastCommittedAt": "2026-01-27T22:30:07+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "5a1ad8b2f180047e01de1ec8fde88d936d72f5ad26cf99d9f274079acc629813"
+  },
+  "approaches": [
+    {
+      "id": "prefix-postfix-products",
+      "title": "Prefix and Postfix Products",
+      "summary": "Compute prefix and postfix products separately, then combine them for the final result.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "28bf7ebf4485c9a7a1814e76a92f97b4a65f5b93",
+          "shortSha": "28bf7eb",
+          "parentSha": "9a315face2bc7367881f50dc01a228e1e001a629",
+          "authoredAt": "2026-01-27T00:10:50+08:00",
+          "committedAt": "2026-01-27T00:10:50+08:00",
+          "chronologicalIndex": 24,
+          "problemId": 238,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/238_product_of_self.rs",
+          "sourceFilename": "238_product_of_self.rs",
+          "code": "struct Solution {}\n\nimpl Solution {\n    pub fn product_except_self(nums: Vec<i32>) -> Vec<i32> {\n        let mut prefix_list: Vec<i32> = Vec::with_capacity(nums.len());\n        prefix_list.push(*nums.first().unwrap());\n        let mut accumulator = prefix_list[0];\n        for &n in nums.iter().skip(1) {\n            accumulator *= n;\n            prefix_list.push(accumulator);\n        }\n\n        let mut postfix_list: Vec<i32> = vec![0; nums.len()];\n        *postfix_list.last_mut().unwrap() = *nums.last().unwrap();\n        accumulator = *postfix_list.last().unwrap();\n        for (idx, &n) in nums.iter().enumerate().rev().skip(1) {\n            accumulator *= n;\n            postfix_list[idx] = accumulator;\n        }\n\n        let mut output = Vec::with_capacity(nums.len());\n        output.push(postfix_list[1]);\n        for idx in 1..nums.len() - 1 {\n            let pre = prefix_list[idx - 1];\n            let post = postfix_list[idx + 1];\n            output.push(pre * post);\n        }\n        output.push(prefix_list[prefix_list.len() - 2]);\n\n        output\n    }\n}\n\nfn main() {\n    println!(\"{:?}\", Solution::product_except_self(vec![1, 2, 3, 4]));\n    println!(\"Expexted: [24,12,8,6] \");\n    println!(\"{:?}\", Solution::product_except_self(vec![-1, 1, 0, -3, 3]));\n    println!(\"Expexted: [0, 0, 9, 0, 0]\");\n}\n",
+          "codeHash": "93d658ee99bd71afd3468acbd786035a00a469eae5d3d31c86cb53448abe6bc9",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "238",
+          "commitBody": "time: O(n)\nspace: O(n)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "prefix-postfix-products",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation using separate prefix and postfix product lists.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "single-pass-accumulation",
+      "title": "Single-Pass Accumulation",
+      "summary": "Use a single output vector, computing prefix products forward and postfix products backward in one pass.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "0deed942fd7ebc8199ac7ffa783c50359e8fd00d",
+          "shortSha": "0deed94",
+          "parentSha": "28bf7ebf4485c9a7a1814e76a92f97b4a65f5b93",
+          "authoredAt": "2026-01-27T22:29:48+08:00",
+          "committedAt": "2026-01-27T22:30:07+08:00",
+          "chronologicalIndex": 25,
+          "problemId": 238,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/238_product_of_self.rs",
+          "sourceFilename": "238_product_of_self.rs",
+          "code": "struct Solution {}\n\nimpl Solution {\n    pub fn product_except_self(nums: Vec<i32>) -> Vec<i32> {\n        let mut output = vec![1; nums.len()];\n        for i in 0..nums.len() - 1 {\n            output[i + 1] = output[i] * nums[i];\n        }\n        let mut accumulator = 1;\n        for i in (0..nums.len()).rev() {\n            output[i] *= accumulator;\n            accumulator *= nums[i];\n        }\n\n        output\n    }\n}\n\nfn main() {\n    println!(\"{:?}\", Solution::product_except_self(vec![1, 2, 3, 4]));\n    println!(\"Expexted: [24,12,8,6] \");\n    println!(\"{:?}\", Solution::product_except_self(vec![-1, 1, 0, -3, 3]));\n    println!(\"Expexted: [0, 0, 9, 0, 0]\");\n}\n",
+          "codeHash": "4d79ea3b53f08a52808e074f38fb30770bfce49cd99ee5f132d92ddd2b65ac8c",
+          "markedWrong": false,
+          "commitComment": "one less vec",
+          "rawCommitSubject": "238: one less vec",
+          "commitBody": "time: O(n)\nspace: O(n)",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/238_product_of_self.rs b/rust/src/bin/238_product_of_self.rs\nindex 5b573f7..9ad9e0d 100644\n--- a/rust/src/bin/238_product_of_self.rs\n+++ b/rust/src/bin/238_product_of_self.rs\n@@ -2,30 +2,15 @@ struct Solution {}\n \n impl Solution {\n     pub fn product_except_self(nums: Vec<i32>) -> Vec<i32> {\n-        let mut prefix_list: Vec<i32> = Vec::with_capacity(nums.len());\n-        prefix_list.push(*nums.first().unwrap());\n-        let mut accumulator = prefix_list[0];\n-        for &n in nums.iter().skip(1) {\n-            accumulator *= n;\n-            prefix_list.push(accumulator);\n+        let mut output = vec![1; nums.len()];\n+        for i in 0..nums.len() - 1 {\n+            output[i + 1] = output[i] * nums[i];\n         }\n-\n-        let mut postfix_list: Vec<i32> = vec![0; nums.len()];\n-        *postfix_list.last_mut().unwrap() = *nums.last().unwrap();\n-        accumulator = *postfix_list.last().unwrap();\n-        for (idx, &n) in nums.iter().enumerate().rev().skip(1) {\n-            accumulator *= n;\n-            postfix_list[idx] = accumulator;\n-        }\n-\n-        let mut output = Vec::with_capacity(nums.len());\n-        output.push(postfix_list[1]);\n-        for idx in 1..nums.len() - 1 {\n-            let pre = prefix_list[idx - 1];\n-            let post = postfix_list[idx + 1];\n-            output.push(pre * post);\n+        let mut accumulator = 1;\n+        for i in (0..nums.len()).rev() {\n+            output[i] *= accumulator;\n+            accumulator *= nums[i];\n         }\n-        output.push(prefix_list[prefix_list.len() - 2]);\n \n         output\n     }\n",
+          "changedLineCounts": {
+            "additions": 7,
+            "deletions": 22
+          },
+          "approachId": "single-pass-accumulation",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Optimized to use one vector and compute products in a single forward and backward pass.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "28bf7ebf4485c9a7a1814e76a92f97b4a65f5b93",
+    "0deed942fd7ebc8199ac7ffa783c50359e8fd00d"
+  ],
+  "warnings": []
+}

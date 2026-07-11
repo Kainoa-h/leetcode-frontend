@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2196,
+    "title": "Create Binary Tree From Descriptions",
+    "slug": "create-binary-tree-from-descriptions"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/2196_create_binary_tree_from_descriptions.rs",
+    "latestSha": "ec7994963223268713fc263380c9ff530bb3f1c8",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-06-07T21:53:01+08:00",
+    "lastCommittedAt": "2026-06-07T22:01:37+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "mistralai/mistral-small-2603",
+    "promptVersion": "2",
+    "inputHash": "20cac78d56ff8718756962537af13cd965e85c251bef1cec3b83b5c5a2111937"
+  },
+  "approaches": [
+    {
+      "id": "refcounting-approach",
+      "title": "RefCounting Tree Construction",
+      "summary": "Builds tree using Rc<RefCell<TreeNode>> with HashMap for node lookup and strong count to find root",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "02de3dea78a00aeb1396a21913726f85adaa2e37",
+          "shortSha": "02de3de",
+          "parentSha": "0253780184f36047432a0b3ff5b1d6f031e18fe4",
+          "authoredAt": "2026-06-07T21:53:01+08:00",
+          "committedAt": "2026-06-07T21:53:01+08:00",
+          "chronologicalIndex": 141,
+          "problemId": 2196,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2196_create_binary_tree_from_descriptions.rs",
+          "sourceFilename": "2196_create_binary_tree_from_descriptions.rs",
+          "code": "#[derive(Debug, PartialEq, Eq)]\npub struct TreeNode {\n    pub val: i32,\n    pub left: Option<Rc<RefCell<TreeNode>>>,\n    pub right: Option<Rc<RefCell<TreeNode>>>,\n}\n\nimpl TreeNode {\n    #[inline]\n    pub fn new(val: i32) -> Self {\n        TreeNode {\n            val,\n            left: None,\n            right: None,\n        }\n    }\n}\nuse std::cell::RefCell;\nuse std::collections::HashMap;\nuse std::rc::Rc;\n\nimpl Solution {\n    pub fn create_binary_tree(descriptions: Vec<Vec<i32>>) -> Option<Rc<RefCell<TreeNode>>> {\n        let mut map = HashMap::<i32, Rc<RefCell<TreeNode>>>::new();\n        for e_node in descriptions {\n            let node_value = e_node[0];\n            let child_value = e_node[1];\n            let is_left = e_node[2] == 1;\n            let tree_node = map\n                .entry(node_value)\n                .or_insert_with(|| {\n                    Rc::new(RefCell::new(TreeNode {\n                        val: node_value,\n                        left: None,\n                        right: None,\n                    }))\n                })\n                .clone();\n            let child_node = map\n                .entry(child_value)\n                .or_insert_with(|| {\n                    Rc::new(RefCell::new(TreeNode {\n                        val: child_value,\n                        left: None,\n                        right: None,\n                    }))\n                })\n                .clone();\n            if is_left {\n                tree_node.borrow_mut().left = Some(child_node.clone());\n            } else {\n                tree_node.borrow_mut().right = Some(child_node.clone());\n            }\n        }\n\n        for node in map.values() {\n            let c = Rc::strong_count(node);\n            if c == 1 {\n                return Some(node.clone());\n            }\n        }\n\n        None\n    }\n}\nstruct Solution {}\n\nfn main() {\n    let x = Solution::create_binary_tree(vec![\n        vec![20, 15, 1],\n        vec![20, 17, 0],\n        vec![50, 20, 1],\n        vec![50, 80, 0],\n        vec![80, 19, 1],\n    ]);\n    println!(\"{:?}\", x);\n}\n",
+          "codeHash": "63b3c56b189dad311106302675498093fd22a3092edff0518dfa0bacd1682f32",
+          "markedWrong": false,
+          "commitComment": "First time ref counting!",
+          "rawCommitSubject": "rust 2196: First time ref counting!",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "refcounting-approach",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation using Rc<RefCell<TreeNode>> with explicit TreeNode::new calls",
+          "warnings": []
+        },
+        {
+          "sha": "ec7994963223268713fc263380c9ff530bb3f1c8",
+          "shortSha": "ec79949",
+          "parentSha": "02de3dea78a00aeb1396a21913726f85adaa2e37",
+          "authoredAt": "2026-06-07T22:01:37+08:00",
+          "committedAt": "2026-06-07T22:01:37+08:00",
+          "chronologicalIndex": 142,
+          "problemId": 2196,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2196_create_binary_tree_from_descriptions.rs",
+          "sourceFilename": "2196_create_binary_tree_from_descriptions.rs",
+          "code": "#[derive(Debug, PartialEq, Eq)]\npub struct TreeNode {\n    pub val: i32,\n    pub left: Option<Rc<RefCell<TreeNode>>>,\n    pub right: Option<Rc<RefCell<TreeNode>>>,\n}\n\nimpl TreeNode {\n    #[inline]\n    pub fn new(val: i32) -> Self {\n        TreeNode {\n            val,\n            left: None,\n            right: None,\n        }\n    }\n}\nuse std::cell::RefCell;\nuse std::collections::HashMap;\nuse std::rc::Rc;\n\nimpl Solution {\n    pub fn create_binary_tree(descriptions: Vec<Vec<i32>>) -> Option<Rc<RefCell<TreeNode>>> {\n        let mut map = HashMap::<i32, Rc<RefCell<TreeNode>>>::new();\n        for e_node in descriptions {\n            let (node_value, child_value, is_left) = (e_node[0], e_node[1], e_node[2] == 1);\n            let tree_node = map\n                .entry(node_value)\n                .or_insert_with(|| Rc::new(RefCell::new(TreeNode::new(node_value))))\n                .clone();\n            let child_node = map\n                .entry(child_value)\n                .or_insert_with(|| Rc::new(RefCell::new(TreeNode::new(child_value))))\n                .clone();\n            if is_left {\n                tree_node.borrow_mut().left = Some(child_node.clone());\n            } else {\n                tree_node.borrow_mut().right = Some(child_node.clone());\n            }\n        }\n\n        for node in map.values() {\n            let c = Rc::strong_count(node);\n            if c == 1 {\n                return Some(node.clone());\n            }\n        }\n\n        None\n    }\n}\nstruct Solution {}\n\nfn main() {\n    let x = Solution::create_binary_tree(vec![\n        vec![20, 15, 1],\n        vec![20, 17, 0],\n        vec![50, 20, 1],\n        vec![50, 80, 0],\n        vec![80, 19, 1],\n    ]);\n    println!(\"{:?}\", x);\n}\n",
+          "codeHash": "e2e0fddc0adb6de0552f82f61cf2629ea29e872bb520a01bffd72d46519ae195",
+          "markedWrong": false,
+          "commitComment": "small cleanup",
+          "rawCommitSubject": "rust 2196: small cleanup",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2196_create_binary_tree_from_descriptions.rs b/rust/src/bin/2196_create_binary_tree_from_descriptions.rs\nindex f256a2a..bb19fa6 100644\n--- a/rust/src/bin/2196_create_binary_tree_from_descriptions.rs\n+++ b/rust/src/bin/2196_create_binary_tree_from_descriptions.rs\n@@ -23,28 +23,14 @@ impl Solution {\n     pub fn create_binary_tree(descriptions: Vec<Vec<i32>>) -> Option<Rc<RefCell<TreeNode>>> {\n         let mut map = HashMap::<i32, Rc<RefCell<TreeNode>>>::new();\n         for e_node in descriptions {\n-            let node_value = e_node[0];\n-            let child_value = e_node[1];\n-            let is_left = e_node[2] == 1;\n+            let (node_value, child_value, is_left) = (e_node[0], e_node[1], e_node[2] == 1);\n             let tree_node = map\n                 .entry(node_value)\n-                .or_insert_with(|| {\n-                    Rc::new(RefCell::new(TreeNode {\n-                        val: node_value,\n-                        left: None,\n-                        right: None,\n-                    }))\n-                })\n+                .or_insert_with(|| Rc::new(RefCell::new(TreeNode::new(node_value))))\n                 .clone();\n             let child_node = map\n                 .entry(child_value)\n-                .or_insert_with(|| {\n-                    Rc::new(RefCell::new(TreeNode {\n-                        val: child_value,\n-                        left: None,\n-                        right: None,\n-                    }))\n-                })\n+                .or_insert_with(|| Rc::new(RefCell::new(TreeNode::new(child_value))))\n                 .clone();\n             if is_left {\n                 tree_node.borrow_mut().left = Some(child_node.clone());\n",
+          "changedLineCounts": {
+            "additions": 3,
+            "deletions": 17
+          },
+          "approachId": "refcounting-approach",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Simplified by using tuple destructuring and TreeNode::new helper",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "02de3dea78a00aeb1396a21913726f85adaa2e37",
+    "ec7994963223268713fc263380c9ff530bb3f1c8"
+  ],
+  "warnings": []
+}

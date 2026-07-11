@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1288,
+    "title": "Remove Covered Intervals",
+    "slug": "remove-covered-intervals"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/1288_remove_covered_intervals.rs",
+    "latestSha": "2ce38f9245f3908b43e1b127515227235c48e382",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-07-07T02:37:36Z",
+    "lastCommittedAt": "2026-07-07T02:37:36Z"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "c774e7b08dcbaf3b3920c8728b6f82ca6a773d4c1e83c86cd9cb0804689f1380"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "2ce38f9245f3908b43e1b127515227235c48e382",
+          "shortSha": "2ce38f9",
+          "parentSha": "092a8ed6fb17d6813bf28cc2e7bb2c2de049de22",
+          "authoredAt": "2026-07-07T02:37:36Z",
+          "committedAt": "2026-07-07T02:37:36Z",
+          "chronologicalIndex": 195,
+          "problemId": 1288,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1288_remove_covered_intervals.rs",
+          "sourceFilename": "1288_remove_covered_intervals.rs",
+          "code": "impl Solution {\n    pub fn remove_covered_intervals(mut intervals: Vec<Vec<i32>>) -> i32 {\n        intervals.sort_unstable_by_key(|x| (x[0], -x[1]));\n        let mut upperbound = 0;\n        let mut kept = 0;\n        for interval in intervals {\n            let to = interval[1];\n            if to > upperbound {\n                upperbound = to;\n                kept += 1;\n            }\n        }\n        kept\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        Solution::remove_covered_intervals(vec![vec![1, 2], vec![1, 4], vec![3, 4]]),\n        1\n    );\n}\n",
+          "codeHash": "19e9829d5cedfd3c768580c5c67c0d059463c35b5c8674640decf8272d3f5bd6",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 1288",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "2ce38f9245f3908b43e1b127515227235c48e382"
+  ],
+  "warnings": []
+}

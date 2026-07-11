@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 14,
+    "title": "Longest Common Prefix",
+    "slug": "longest-common-prefix"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/14_longest_common_prefix.rs",
+    "latestSha": "e8b8b91d4482bb8d0ef29b4b2d7288520b572f8b",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-01-29T23:49:46+08:00",
+    "lastCommittedAt": "2026-01-29T23:49:46+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "2",
+    "inputHash": "746d2f049691e218e235de1609c14c04024afa013a5f5dca213c1a753423578a"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "e8b8b91d4482bb8d0ef29b4b2d7288520b572f8b",
+          "shortSha": "e8b8b91",
+          "parentSha": "83f769fa7742e8b2d674cae1198871055b8ea530",
+          "authoredAt": "2026-01-29T23:49:46+08:00",
+          "committedAt": "2026-01-29T23:49:46+08:00",
+          "chronologicalIndex": 39,
+          "problemId": 14,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/14_longest_common_prefix.rs",
+          "sourceFilename": "14_longest_common_prefix.rs",
+          "code": "struct Solution {}\nimpl Solution {\n    pub fn longest_common_prefix(strs: Vec<String>) -> String {\n        let base = &strs[0];\n        let mut to = 0;\n        'outer: for i in 0..base.len() {\n            for s in strs.iter().skip(1) {\n                if base.as_bytes().get(i) != s.as_bytes().get(i) {\n                    break 'outer;\n                }\n            }\n            to += 1;\n        }\n        base[0..to].to_owned()\n    }\n}\n\nfn main() {\n    println!(\n        \"{}\",\n        Solution::longest_common_prefix(vec![\n            \"flower\".to_owned(),\n            \"flow\".to_owned(),\n            \"flight\".to_owned(),\n        ])\n    );\n    println!(\n        \"{}\",\n        Solution::longest_common_prefix(vec![\n            \"flower\".to_owned(),\n            \"car\".to_owned(),\n            \"dog\".to_owned(),\n        ])\n    );\n    println!(\n        \"{}\",\n        Solution::longest_common_prefix(vec![\n            \"flower\".to_owned(),\n            \"flower\".to_owned(),\n            \"flow\".to_owned(),\n        ])\n    );\n    println!(\n        \"{}\",\n        Solution::longest_common_prefix(vec![\n            \"\".to_owned(),\n            \"flow\".to_owned(),\n            \"flight\".to_owned(),\n        ])\n    );\n    println!(\n        \"{}\",\n        Solution::longest_common_prefix(vec![\"flow\".to_owned(), \"\".to_owned(),])\n    );\n}\n",
+          "codeHash": "9a25727888db11cc70418da34c6cb831becef21f8cb19d3f6189e3d191f60ed7",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "14",
+          "commitBody": "time: O(n*m)\nspace: O(1)",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "e8b8b91d4482bb8d0ef29b4b2d7288520b572f8b"
+  ],
+  "warnings": []
+}

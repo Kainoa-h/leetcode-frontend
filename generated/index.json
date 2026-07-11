@@ -1,1 +1,1996 @@
-{"schemaVersion":1,"generatedAt":"1970-01-01T00:00:00.000Z","sourceHeadSha":null,"questions":[]}
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-11T14:05:40.433Z",
+  "sourceHeadSha": "7f0e4cd14d71c9f16e15dbfe02e74726adb3425c",
+  "questions": [
+    {
+      "id": 1,
+      "title": "Two Sum",
+      "slug": "two-sum",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/1/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-06-08T22:08:29+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-06-08T22:08:29+08:00",
+      "lastCommittedAt": "2026-06-08T22:08:29+08:00"
+    },
+    {
+      "id": 3,
+      "title": "Longest Substring Without Repeating Characters",
+      "slug": "longest-substring-without-repeating-characters",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-03-14T18:58:53+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-03-14T18:58:53+08:00",
+      "lastCommittedAt": "2026-03-14T18:58:53+08:00"
+    },
+    {
+      "id": 5,
+      "title": "Longest Palandromic Substring",
+      "slug": "longest-palandromic-substring",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/5/rust/",
+          "revisionCount": 3,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-06-09T20:16:52+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-06-09T01:07:20+08:00",
+      "lastCommittedAt": "2026-06-09T20:16:52+08:00"
+    },
+    {
+      "id": 6,
+      "title": "Zigzag Conversation",
+      "slug": "zigzag-conversation",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/6/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-01-31T14:33:07+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-01-31T14:33:07+08:00",
+      "lastCommittedAt": "2026-01-31T14:33:07+08:00"
+    },
+    {
+      "id": 11,
+      "title": "Container With the Most Water",
+      "slug": "container-with-the-most-water",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/11/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-02-11T20:54:32+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-02-05T17:52:24+08:00",
+      "lastCommittedAt": "2026-02-11T20:54:32+08:00"
+    },
+    {
+      "id": 12,
+      "title": "Integer to Roman",
+      "slug": "integer-to-roman",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/12/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-01-29T22:43:26+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-01-29T22:28:46+08:00",
+      "lastCommittedAt": "2026-01-29T22:43:26+08:00"
+    },
+    {
+      "id": 13,
+      "title": "Roman to Integer",
+      "slug": "roman-to-integer",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/13/rust/",
+          "revisionCount": 3,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-01-29T23:00:03+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-01-29T21:30:03+08:00",
+      "lastCommittedAt": "2026-01-29T23:00:03+08:00"
+    },
+    {
+      "id": 14,
+      "title": "Longest Common Prefix",
+      "slug": "longest-common-prefix",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/14/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-01-29T23:49:46+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-01-29T23:49:46+08:00",
+      "lastCommittedAt": "2026-01-29T23:49:46+08:00"
+    },
+    {
+      "id": 15,
+      "title": "3sum",
+      "slug": "3sum",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/15/rust/",
+          "revisionCount": 2,
+          "approachCount": 2,
+          "incorrectRevisionCount": 1,
+          "lastCommittedAt": "2026-02-11T21:53:05+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-02-11T20:54:40+08:00",
+      "lastCommittedAt": "2026-02-11T21:53:05+08:00"
+    },
+    {
+      "id": 22,
+      "title": "Main",
+      "slug": "main",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/22/rust/",
+          "revisionCount": 8,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-01-24T00:39:07+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-01-24T00:39:07+08:00",
+      "lastCommittedAt": "2026-01-24T00:39:07+08:00"
+    },
+    {
+      "id": 26,
+      "title": "Remove Duplicates From Sorted Array",
+      "slug": "remove-duplicates-from-sorted-array",
+      "languages": [
+        {
+          "id": "java",
+          "label": "Java",
+          "route": "/problems/26/java/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-03-29T19:23:03+08:00"
+        },
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/26/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-01-24T20:16:53+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-01-24T20:16:53+08:00",
+      "lastCommittedAt": "2026-03-29T19:23:03+08:00"
+    },
+    {
+      "id": 27,
+      "title": "Remove Element",
+      "slug": "remove-element",
+      "languages": [
+        {
+          "id": "java",
+          "label": "Java",
+          "route": "/problems/27/java/",
+          "revisionCount": 2,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-03-29T18:54:40+08:00"
+        },
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/27/rust/",
+          "revisionCount": 3,
+          "approachCount": 3,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-03-29T19:04:21+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-01-24T18:36:50+08:00",
+      "lastCommittedAt": "2026-03-29T19:04:21+08:00"
+    },
+    {
+      "id": 28,
+      "title": "Find the Index of the First Occurance in A String",
+      "slug": "find-the-index-of-the-first-occurance-in-a-string",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/28/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-01-31T15:03:32+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-01-31T15:03:32+08:00",
+      "lastCommittedAt": "2026-01-31T15:03:32+08:00"
+    },
+    {
+      "id": 33,
+      "title": "Search in Rotated Sorted Array",
+      "slug": "search-in-rotated-sorted-array",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/33/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-05-23T16:18:38+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-05-23T16:18:38+08:00",
+      "lastCommittedAt": "2026-05-23T16:18:38+08:00"
+    },
+    {
+      "id": 36,
+      "title": "Valid Sudoku",
+      "slug": "valid-sudoku",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/36/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-01-24T00:39:07+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-01-24T00:39:07+08:00",
+      "lastCommittedAt": "2026-01-24T00:39:07+08:00"
+    },
+    {
+      "id": 42,
+      "title": "Trapping Rain Water",
+      "slug": "trapping-rain-water",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/42/rust/",
+          "revisionCount": 2,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-01-28T20:54:43+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-01-28T20:09:04+08:00",
+      "lastCommittedAt": "2026-01-28T20:54:43+08:00"
+    },
+    {
+      "id": 45,
+      "title": "Jump Game",
+      "slug": "jump-game",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/45/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-01-25T16:21:58+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-01-25T16:10:01+08:00",
+      "lastCommittedAt": "2026-01-25T16:21:58+08:00"
+    },
+    {
+      "id": 48,
+      "title": "Rotate Image",
+      "slug": "rotate-image",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/48/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-03-27T22:46:58+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-03-27T22:46:58+08:00",
+      "lastCommittedAt": "2026-03-27T22:46:58+08:00"
+    },
+    {
+      "id": 49,
+      "title": "Group Anagrams",
+      "slug": "group-anagrams",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/49/rust/",
+          "revisionCount": 3,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-06-08T19:07:45+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-06-08T19:00:36+08:00",
+      "lastCommittedAt": "2026-06-08T19:07:45+08:00"
+    },
+    {
+      "id": 54,
+      "title": "Spiral Matrix",
+      "slug": "spiral-matrix",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/54/rust/",
+          "revisionCount": 3,
+          "approachCount": 2,
+          "incorrectRevisionCount": 1,
+          "lastCommittedAt": "2026-03-23T22:36:26+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-03-15T21:22:52+08:00",
+      "lastCommittedAt": "2026-03-23T22:36:26+08:00"
+    },
+    {
+      "id": 55,
+      "title": "Can Jump",
+      "slug": "can-jump",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/55/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-01-25T14:51:29+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-01-25T14:51:29+08:00",
+      "lastCommittedAt": "2026-01-25T14:51:29+08:00"
+    },
+    {
+      "id": 56,
+      "title": "Merge Intervals",
+      "slug": "merge-intervals",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/56/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-06-19T21:01:39+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-06-19T20:51:31+08:00",
+      "lastCommittedAt": "2026-06-19T21:01:39+08:00"
+    },
+    {
+      "id": 57,
+      "title": "Insert Interval",
+      "slug": "insert-interval",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/57/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-06-25T21:45:25+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-06-25T21:45:25+08:00",
+      "lastCommittedAt": "2026-06-25T21:45:25+08:00"
+    },
+    {
+      "id": 58,
+      "title": "Length of Last Word",
+      "slug": "length-of-last-word",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/58/rust/",
+          "revisionCount": 2,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-01-29T23:13:29+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-01-29T23:12:46+08:00",
+      "lastCommittedAt": "2026-01-29T23:13:29+08:00"
+    },
+    {
+      "id": 68,
+      "title": "Text Justification",
+      "slug": "text-justification",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/68/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 1,
+          "lastCommittedAt": "2026-02-01T15:06:52+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-02-01T15:06:52+08:00",
+      "lastCommittedAt": "2026-02-01T15:06:52+08:00"
+    },
+    {
+      "id": 73,
+      "title": "Set Matrix Zeros",
+      "slug": "set-matrix-zeros",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/73/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-03-27T23:46:05+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-03-27T23:46:05+08:00",
+      "lastCommittedAt": "2026-03-27T23:46:05+08:00"
+    },
+    {
+      "id": 80,
+      "title": "Remove Duplicates From Sorted Array Ii",
+      "slug": "remove-duplicates-from-sorted-array-ii",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/80/rust/",
+          "revisionCount": 2,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-01-24T20:51:37+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-01-24T20:41:58+08:00",
+      "lastCommittedAt": "2026-01-24T20:51:37+08:00"
+    },
+    {
+      "id": 88,
+      "title": "Merge Sorted Array",
+      "slug": "merge-sorted-array",
+      "languages": [
+        {
+          "id": "java",
+          "label": "Java",
+          "route": "/problems/88/java/",
+          "revisionCount": 4,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-03-29T18:39:08+08:00"
+        },
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/88/rust/",
+          "revisionCount": 2,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-01-24T14:55:43+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-01-24T14:39:10+08:00",
+      "lastCommittedAt": "2026-03-29T18:39:08+08:00"
+    },
+    {
+      "id": 121,
+      "title": "Best Time to Buy and Sell Stock",
+      "slug": "best-time-to-buy-and-sell-stock",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/121/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-01-25T13:32:19+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-01-25T13:23:54+08:00",
+      "lastCommittedAt": "2026-01-25T13:32:19+08:00"
+    },
+    {
+      "id": 122,
+      "title": "Best Time to Buy and Sell Stock Ii",
+      "slug": "best-time-to-buy-and-sell-stock-ii",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/122/rust/",
+          "revisionCount": 2,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-01-25T14:09:16+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-01-25T14:03:51+08:00",
+      "lastCommittedAt": "2026-01-25T14:09:16+08:00"
+    },
+    {
+      "id": 125,
+      "title": "Valid Palindrome",
+      "slug": "valid-palindrome",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/125/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-02-01T16:56:43+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-02-01T16:56:43+08:00",
+      "lastCommittedAt": "2026-02-01T16:56:43+08:00"
+    },
+    {
+      "id": 134,
+      "title": "Gas Station",
+      "slug": "gas-station",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/134/rust/",
+          "revisionCount": 2,
+          "approachCount": 2,
+          "incorrectRevisionCount": 1,
+          "lastCommittedAt": "2026-01-28T00:13:55+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-01-27T23:57:28+08:00",
+      "lastCommittedAt": "2026-01-28T00:13:55+08:00"
+    },
+    {
+      "id": 135,
+      "title": "Candy",
+      "slug": "candy",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/135/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-01-28T08:08:45+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-01-28T08:04:56+08:00",
+      "lastCommittedAt": "2026-01-28T08:08:45+08:00"
+    },
+    {
+      "id": 151,
+      "title": "Reverse Words in String",
+      "slug": "reverse-words-in-string",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/151/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-01-31T14:27:54+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-01-31T14:27:54+08:00",
+      "lastCommittedAt": "2026-01-31T14:27:54+08:00"
+    },
+    {
+      "id": 167,
+      "title": "Two Sum Ii Input Array Sorted",
+      "slug": "two-sum-ii-input-array-sorted",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/167/rust/",
+          "revisionCount": 2,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-02-05T17:31:58+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-02-05T17:31:58+08:00",
+      "lastCommittedAt": "2026-02-05T17:31:58+08:00"
+    },
+    {
+      "id": 169,
+      "title": "Majority Element",
+      "slug": "majority-element",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/169/rust/",
+          "revisionCount": 3,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-01-24T22:04:43+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-01-24T21:48:25+08:00",
+      "lastCommittedAt": "2026-01-24T22:04:43+08:00"
+    },
+    {
+      "id": 189,
+      "title": "Rotate Array",
+      "slug": "rotate-array",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/189/rust/",
+          "revisionCount": 3,
+          "approachCount": 3,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-01-24T23:15:04+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-01-24T22:26:34+08:00",
+      "lastCommittedAt": "2026-01-24T23:15:04+08:00"
+    },
+    {
+      "id": 202,
+      "title": "Happy Number",
+      "slug": "happy-number",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/202/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-06-09T20:43:28+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-06-09T20:43:28+08:00",
+      "lastCommittedAt": "2026-06-09T20:43:28+08:00"
+    },
+    {
+      "id": 205,
+      "title": "Isomorphic Strings",
+      "slug": "isomorphic-strings",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/205/rust/",
+          "revisionCount": 2,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-05-30T21:44:36+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-05-30T21:30:04+08:00",
+      "lastCommittedAt": "2026-05-30T21:44:36+08:00"
+    },
+    {
+      "id": 209,
+      "title": "Minimum Size Subarray Sum",
+      "slug": "minimum-size-subarray-sum",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/209/rust/",
+          "revisionCount": 2,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-03-11T23:14:17+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-03-11T23:04:30+08:00",
+      "lastCommittedAt": "2026-03-11T23:14:17+08:00"
+    },
+    {
+      "id": 228,
+      "title": "Summary Ranges",
+      "slug": "summary-ranges",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/228/rust/",
+          "revisionCount": 2,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-06-19T09:15:32+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-06-19T09:15:04+08:00",
+      "lastCommittedAt": "2026-06-19T09:15:32+08:00"
+    },
+    {
+      "id": 238,
+      "title": "Product of Self",
+      "slug": "product-of-self",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/238/rust/",
+          "revisionCount": 2,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-01-27T22:30:07+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-01-27T00:10:50+08:00",
+      "lastCommittedAt": "2026-01-27T22:30:07+08:00"
+    },
+    {
+      "id": 242,
+      "title": "Valid Anagram",
+      "slug": "valid-anagram",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/242/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-05-30T22:56:12+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-05-30T22:56:12+08:00",
+      "lastCommittedAt": "2026-05-30T22:56:12+08:00"
+    },
+    {
+      "id": 274,
+      "title": "H Index",
+      "slug": "h-index",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/274/rust/",
+          "revisionCount": 3,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-01-26T01:45:37+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-01-26T01:43:53+08:00",
+      "lastCommittedAt": "2026-01-26T01:45:37+08:00"
+    },
+    {
+      "id": 286,
+      "title": "Game of Life",
+      "slug": "game-of-life",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/286/rust/",
+          "revisionCount": 2,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-03-28T01:01:04+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-03-28T00:40:17+08:00",
+      "lastCommittedAt": "2026-03-28T01:01:04+08:00"
+    },
+    {
+      "id": 290,
+      "title": "Word Pattern",
+      "slug": "word-pattern",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/290/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-05-30T22:10:56+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-05-30T22:10:56+08:00",
+      "lastCommittedAt": "2026-05-30T22:10:56+08:00"
+    },
+    {
+      "id": 380,
+      "title": "Insert Delete Get Random O1",
+      "slug": "insert-delete-get-random-o1",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/380/rust/",
+          "revisionCount": 3,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-01-26T21:56:51+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-01-26T21:56:51+08:00",
+      "lastCommittedAt": "2026-01-26T21:56:51+08:00"
+    },
+    {
+      "id": 383,
+      "title": "Ransom Note",
+      "slug": "ransom-note",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/383/rust/",
+          "revisionCount": 2,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-05-24T22:20:15+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-05-24T22:14:53+08:00",
+      "lastCommittedAt": "2026-05-24T22:20:15+08:00"
+    },
+    {
+      "id": 392,
+      "title": "Is Valid Subsequence",
+      "slug": "is-valid-subsequence",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/392/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-02-05T17:05:21+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-02-05T17:05:21+08:00",
+      "lastCommittedAt": "2026-02-05T17:05:21+08:00"
+    },
+    {
+      "id": 396,
+      "title": "Rotate Function",
+      "slug": "rotate-function",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/396/rust/",
+          "revisionCount": 2,
+          "approachCount": 2,
+          "incorrectRevisionCount": 1,
+          "lastCommittedAt": "2026-05-05T20:46:08+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-05-05T20:12:03+08:00",
+      "lastCommittedAt": "2026-05-05T20:46:08+08:00"
+    },
+    {
+      "id": 739,
+      "title": "Daily Temperatures",
+      "slug": "daily-temperatures",
+      "languages": [
+        {
+          "id": "java",
+          "label": "Java",
+          "route": "/problems/739/java/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-06-18T15:08:11+08:00"
+        },
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/739/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-06-16T21:23:46+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-06-16T21:20:49+08:00",
+      "lastCommittedAt": "2026-06-18T15:08:11+08:00"
+    },
+    {
+      "id": 874,
+      "title": "Walking Robot Simulation",
+      "slug": "walking-robot-simulation",
+      "languages": [
+        {
+          "id": "java",
+          "label": "Java",
+          "route": "/problems/874/java/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-04-06T23:10:41+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-04-06T23:10:41+08:00",
+      "lastCommittedAt": "2026-04-06T23:10:41+08:00"
+    },
+    {
+      "id": 1009,
+      "title": "Complement of Base 10 Integer",
+      "slug": "complement-of-base-10-integer",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/1009/rust/",
+          "revisionCount": 2,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-03-11T23:39:39+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-03-11T23:35:17+08:00",
+      "lastCommittedAt": "2026-03-11T23:39:39+08:00"
+    },
+    {
+      "id": 1189,
+      "title": "Number of Baloons",
+      "slug": "number-of-baloons",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/1189/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-06-22T15:36:51+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-06-22T15:36:51+08:00",
+      "lastCommittedAt": "2026-06-22T15:36:51+08:00"
+    },
+    {
+      "id": 1288,
+      "title": "Remove Covered Intervals",
+      "slug": "remove-covered-intervals",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/1288/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-07-07T02:37:36Z"
+        }
+      ],
+      "firstCommittedAt": "2026-07-07T02:37:36Z",
+      "lastCommittedAt": "2026-07-07T02:37:36Z"
+    },
+    {
+      "id": 1340,
+      "title": "Jump Game V",
+      "slug": "jump-game-v",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/1340/rust/",
+          "revisionCount": 2,
+          "approachCount": 2,
+          "incorrectRevisionCount": 1,
+          "lastCommittedAt": "2026-05-24T23:39:45+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-05-24T23:28:21+08:00",
+      "lastCommittedAt": "2026-05-24T23:39:45+08:00"
+    },
+    {
+      "id": 1344,
+      "title": "Angle Between Hands of A Clock",
+      "slug": "angle-between-hands-of-a-clock",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/1344/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-06-18T15:08:11+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-06-18T15:08:11+08:00",
+      "lastCommittedAt": "2026-06-18T15:08:11+08:00"
+    },
+    {
+      "id": 1358,
+      "title": "Number of Substrings Containing All Three Characters",
+      "slug": "number-of-substrings-containing-all-three-characters",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/1358/rust/",
+          "revisionCount": 2,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-06-30T15:03:54+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-06-30T15:03:54+08:00",
+      "lastCommittedAt": "2026-06-30T15:03:54+08:00"
+    },
+    {
+      "id": 1391,
+      "title": "Check If There Is A Valid Path in A Grid",
+      "slug": "check-if-there-is-a-valid-path-in-a-grid",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/1391/rust/",
+          "revisionCount": 2,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-04-28T00:10:24+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-04-27T22:09:23+08:00",
+      "lastCommittedAt": "2026-04-28T00:10:24+08:00"
+    },
+    {
+      "id": 1722,
+      "title": "Minimize Hamming Distance After Swap Operations",
+      "slug": "minimize-hamming-distance-after-swap-operations",
+      "languages": [
+        {
+          "id": "java",
+          "label": "Java",
+          "route": "/problems/1722/java/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-04-23T21:22:19+08:00"
+        },
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/1722/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-04-25T13:17:17+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-04-23T21:22:19+08:00",
+      "lastCommittedAt": "2026-04-25T13:17:17+08:00"
+    },
+    {
+      "id": 1732,
+      "title": "Find the Highest Altitude",
+      "slug": "find-the-highest-altitude",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/1732/rust/",
+          "revisionCount": 2,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-06-19T09:02:56+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-06-19T08:51:03+08:00",
+      "lastCommittedAt": "2026-06-19T09:02:56+08:00"
+    },
+    {
+      "id": 1758,
+      "title": "Minimum Changes to Make Alternating Binary String",
+      "slug": "minimum-changes-to-make-alternating-binary-string",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/1758/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-03-05T10:14:06+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-03-05T10:14:06+08:00",
+      "lastCommittedAt": "2026-03-05T10:14:06+08:00"
+    },
+    {
+      "id": 1784,
+      "title": "Check If Binary String Has At Most One Segment of Ones",
+      "slug": "check-if-binary-string-has-at-most-one-segment-of-ones",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/1784/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-03-06T23:00:17+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-03-06T23:00:17+08:00",
+      "lastCommittedAt": "2026-03-06T23:00:17+08:00"
+    },
+    {
+      "id": 1833,
+      "title": "Maximum Icecream Bars",
+      "slug": "maximum-icecream-bars",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/1833/rust/",
+          "revisionCount": 2,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-06-22T21:32:00+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-06-22T20:58:47+08:00",
+      "lastCommittedAt": "2026-06-22T21:32:00+08:00"
+    },
+    {
+      "id": 1840,
+      "title": "Maximum Building Height",
+      "slug": "maximum-building-height",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/1840/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-06-21T10:26:44+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-06-21T10:21:05+08:00",
+      "lastCommittedAt": "2026-06-21T10:26:44+08:00"
+    },
+    {
+      "id": 1848,
+      "title": "Minimum Distance to the Target Element",
+      "slug": "minimum-distance-to-the-target-element",
+      "languages": [
+        {
+          "id": "java",
+          "label": "Java",
+          "route": "/problems/1848/java/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-04-13T20:14:55+08:00"
+        },
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/1848/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-04-13T20:14:55+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-04-13T20:14:55+08:00",
+      "lastCommittedAt": "2026-04-13T20:14:55+08:00"
+    },
+    {
+      "id": 1967,
+      "title": "Number of Strings That Appear As Substrings in Word",
+      "slug": "number-of-strings-that-appear-as-substrings-in-word",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/1967/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-06-29T21:35:06+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-06-29T21:35:06+08:00",
+      "lastCommittedAt": "2026-06-29T21:35:06+08:00"
+    },
+    {
+      "id": 2033,
+      "title": "Minimum Operations to Make A Univalue Grid",
+      "slug": "minimum-operations-to-make-a-univalue-grid",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/2033/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-04-28T10:40:20+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-04-28T10:40:20+08:00",
+      "lastCommittedAt": "2026-04-28T10:40:20+08:00"
+    },
+    {
+      "id": 2069,
+      "title": "Walking Robot Simulation Ii",
+      "slug": "walking-robot-simulation-ii",
+      "languages": [
+        {
+          "id": "java",
+          "label": "Java",
+          "route": "/problems/2069/java/",
+          "revisionCount": 2,
+          "approachCount": 2,
+          "incorrectRevisionCount": 1,
+          "lastCommittedAt": "2026-04-07T21:30:14+08:00"
+        },
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/2069/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-04-07T22:42:05+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-04-07T21:06:30+08:00",
+      "lastCommittedAt": "2026-04-07T22:42:05+08:00"
+    },
+    {
+      "id": 2078,
+      "title": "Two Furthest Houses With Different Colors",
+      "slug": "two-furthest-houses-with-different-colors",
+      "languages": [
+        {
+          "id": "java",
+          "label": "Java",
+          "route": "/problems/2078/java/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-04-20T20:58:49+08:00"
+        },
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/2078/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-04-20T20:58:49+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-04-20T20:58:49+08:00",
+      "lastCommittedAt": "2026-04-20T20:58:49+08:00"
+    },
+    {
+      "id": 2095,
+      "title": "Delete the Middle Node of A Linked List",
+      "slug": "delete-the-middle-node-of-a-linked-list",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/2095/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-06-15T16:40:49+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-06-15T16:14:18+08:00",
+      "lastCommittedAt": "2026-06-15T16:40:49+08:00"
+    },
+    {
+      "id": 2130,
+      "title": "Maximum Twin Sum of A Linked List",
+      "slug": "maximum-twin-sum-of-a-linked-list",
+      "languages": [
+        {
+          "id": "java",
+          "label": "Java",
+          "route": "/problems/2130/java/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-06-17T17:24:02+08:00"
+        },
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/2130/rust/",
+          "revisionCount": 3,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-06-14T09:10:31+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-06-14T08:50:15+08:00",
+      "lastCommittedAt": "2026-06-17T17:24:02+08:00"
+    },
+    {
+      "id": 2144,
+      "title": "Minimum Cost of Buying Candies With Discount",
+      "slug": "minimum-cost-of-buying-candies-with-discount",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/2144/rust/",
+          "revisionCount": 2,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-06-01T21:52:08+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-06-01T21:48:02+08:00",
+      "lastCommittedAt": "2026-06-01T21:52:08+08:00"
+    },
+    {
+      "id": 2161,
+      "title": "Partition Array According to Given Pivot",
+      "slug": "partition-array-according-to-given-pivot",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/2161/rust/",
+          "revisionCount": 2,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-06-08T10:29:58+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-06-08T10:03:57+08:00",
+      "lastCommittedAt": "2026-06-08T10:29:58+08:00"
+    },
+    {
+      "id": 2196,
+      "title": "Create Binary Tree From Descriptions",
+      "slug": "create-binary-tree-from-descriptions",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/2196/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-06-07T22:01:37+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-06-07T21:53:01+08:00",
+      "lastCommittedAt": "2026-06-07T22:01:37+08:00"
+    },
+    {
+      "id": 2452,
+      "title": "Words Within Two Edits of Dictionary",
+      "slug": "words-within-two-edits-of-dictionary",
+      "languages": [
+        {
+          "id": "java",
+          "label": "Java",
+          "route": "/problems/2452/java/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-04-23T22:21:24+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-04-23T22:21:24+08:00",
+      "lastCommittedAt": "2026-04-23T22:21:24+08:00"
+    },
+    {
+      "id": 2492,
+      "title": "Minimum Score of A Path Between Two Cities",
+      "slug": "minimum-score-of-a-path-between-two-cities",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/2492/rust/",
+          "revisionCount": 3,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-07-04T22:35:48+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-07-04T22:35:48+08:00",
+      "lastCommittedAt": "2026-07-04T22:35:48+08:00"
+    },
+    {
+      "id": 2574,
+      "title": "Left and Right Sum Differences",
+      "slug": "left-and-right-sum-differences",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/2574/rust/",
+          "revisionCount": 2,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-06-06T23:27:15+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-06-06T23:21:41+08:00",
+      "lastCommittedAt": "2026-06-06T23:27:15+08:00"
+    },
+    {
+      "id": 2615,
+      "title": "Sum of Distances",
+      "slug": "sum-of-distances",
+      "languages": [
+        {
+          "id": "java",
+          "label": "Java",
+          "route": "/problems/2615/java/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 1,
+          "lastCommittedAt": "2026-04-23T23:39:33+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-04-23T23:39:33+08:00",
+      "lastCommittedAt": "2026-04-23T23:39:33+08:00"
+    },
+    {
+      "id": 2685,
+      "title": "Count the Number of Complete Components",
+      "slug": "count-the-number-of-complete-components",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/2685/rust/",
+          "revisionCount": 5,
+          "approachCount": 5,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-07-11T20:12:44+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-07-11T18:38:07+08:00",
+      "lastCommittedAt": "2026-07-11T20:12:44+08:00"
+    },
+    {
+      "id": 2751,
+      "title": "Robot Collisions",
+      "slug": "robot-collisions",
+      "languages": [
+        {
+          "id": "java",
+          "label": "Java",
+          "route": "/problems/2751/java/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-04-01T22:27:50+08:00"
+        },
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/2751/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-04-01T22:27:54+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-04-01T22:27:50+08:00",
+      "lastCommittedAt": "2026-04-01T22:27:54+08:00"
+    },
+    {
+      "id": 2839,
+      "title": "Check If Strings Can Be Made Equal With Operations I",
+      "slug": "check-if-strings-can-be-made-equal-with-operations-i",
+      "languages": [
+        {
+          "id": "java",
+          "label": "Java",
+          "route": "/problems/2839/java/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-03-29T20:02:23+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-03-29T20:02:23+08:00",
+      "lastCommittedAt": "2026-03-29T20:02:23+08:00"
+    },
+    {
+      "id": 2840,
+      "title": "Check If Strings Can Be Made Equal With Operations Ii",
+      "slug": "check-if-strings-can-be-made-equal-with-operations-ii",
+      "languages": [
+        {
+          "id": "java",
+          "label": "Java",
+          "route": "/problems/2840/java/",
+          "revisionCount": 4,
+          "approachCount": 4,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-04-16T18:09:38+08:00"
+        },
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/2840/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-03-31T00:27:47+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-03-30T23:33:24+08:00",
+      "lastCommittedAt": "2026-04-16T18:09:38+08:00"
+    },
+    {
+      "id": 2906,
+      "title": "Construct Product Matrix",
+      "slug": "construct-product-matrix",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/2906/rust/",
+          "revisionCount": 3,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-03-24T22:44:17+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-03-24T22:01:08+08:00",
+      "lastCommittedAt": "2026-03-24T22:44:17+08:00"
+    },
+    {
+      "id": 2946,
+      "title": "Matrix Similarity After Cyclic Shifts",
+      "slug": "matrix-similarity-after-cyclic-shifts",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/2946/rust/",
+          "revisionCount": 3,
+          "approachCount": 3,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-03-27T21:13:41+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-03-27T21:00:44+08:00",
+      "lastCommittedAt": "2026-03-27T21:13:41+08:00"
+    },
+    {
+      "id": 3043,
+      "title": "Find the Length of the Longest Common Prefix",
+      "slug": "find-the-length-of-the-longest-common-prefix",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3043/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-05-21T23:32:23+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-05-21T23:20:18+08:00",
+      "lastCommittedAt": "2026-05-21T23:32:23+08:00"
+    },
+    {
+      "id": 3120,
+      "title": "Count the Number of Special Characters I",
+      "slug": "count-the-number-of-special-characters-i",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3120/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-05-27T00:53:57+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-05-27T00:53:57+08:00",
+      "lastCommittedAt": "2026-05-27T00:53:57+08:00"
+    },
+    {
+      "id": 3121,
+      "title": "Count the Number of Special Characters Ii",
+      "slug": "count-the-number-of-special-characters-ii",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3121/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-05-27T17:06:51+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-05-27T16:49:49+08:00",
+      "lastCommittedAt": "2026-05-27T17:06:51+08:00"
+    },
+    {
+      "id": 3212,
+      "title": "Count Submatrices With Equal Frequency of X and Y",
+      "slug": "count-submatrices-with-equal-frequency-of-x-and-y",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3212/rust/",
+          "revisionCount": 3,
+          "approachCount": 3,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-03-22T15:29:37+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-03-22T00:45:42+08:00",
+      "lastCommittedAt": "2026-03-22T15:29:37+08:00"
+    },
+    {
+      "id": 3300,
+      "title": "Minimum Element After Replacement With Digit Sum",
+      "slug": "minimum-element-after-replacement-with-digit-sum",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3300/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-05-29T11:20:14+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-05-29T11:20:14+08:00",
+      "lastCommittedAt": "2026-05-29T11:20:14+08:00"
+    },
+    {
+      "id": 3418,
+      "title": "Maximum Amount of Money Robot Can Earn",
+      "slug": "maximum-amount-of-money-robot-can-earn",
+      "languages": [
+        {
+          "id": "java",
+          "label": "Java",
+          "route": "/problems/3418/java/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-04-02T21:20:16+08:00"
+        },
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3418/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-04-02T21:50:40+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-04-02T19:51:07+08:00",
+      "lastCommittedAt": "2026-04-02T21:50:40+08:00"
+    },
+    {
+      "id": 3488,
+      "title": "Closest Equal Element Queries",
+      "slug": "closest-equal-element-queries",
+      "languages": [
+        {
+          "id": "java",
+          "label": "Java",
+          "route": "/problems/3488/java/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-04-16T18:09:38+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-04-16T18:09:38+08:00",
+      "lastCommittedAt": "2026-04-16T18:09:38+08:00"
+    },
+    {
+      "id": 3532,
+      "title": "Path Existence Queries in A Graph I",
+      "slug": "path-existence-queries-in-a-graph-i",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3532/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-07-09T22:20:44+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-07-09T22:20:44+08:00",
+      "lastCommittedAt": "2026-07-09T22:20:44+08:00"
+    },
+    {
+      "id": 3546,
+      "title": "Equal Sum Grid Partition",
+      "slug": "equal-sum-grid-partition",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3546/rust/",
+          "revisionCount": 3,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-03-26T00:13:35+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-03-25T23:11:16+08:00",
+      "lastCommittedAt": "2026-03-26T00:13:35+08:00"
+    },
+    {
+      "id": 3558,
+      "title": "Number of Ways to Assign Edge Weights I",
+      "slug": "number-of-ways-to-assign-edge-weights-i",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3558/rust/",
+          "revisionCount": 6,
+          "approachCount": 5,
+          "incorrectRevisionCount": 4,
+          "lastCommittedAt": "2026-06-11T20:03:19+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-06-11T18:26:28+08:00",
+      "lastCommittedAt": "2026-06-11T20:03:19+08:00"
+    },
+    {
+      "id": 3612,
+      "title": "Process String With Special Operations I",
+      "slug": "process-string-with-special-operations-i",
+      "languages": [
+        {
+          "id": "java",
+          "label": "Java",
+          "route": "/problems/3612/java/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-06-17T17:46:06+08:00"
+        },
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3612/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-06-16T10:50:52+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-06-16T10:50:52+08:00",
+      "lastCommittedAt": "2026-06-17T17:46:06+08:00"
+    },
+    {
+      "id": 3635,
+      "title": "Earliest Finish Time For Land and Water Rides",
+      "slug": "earliest-finish-time-for-land-and-water-rides",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3635/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-06-03T21:56:30+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-06-03T21:56:30+08:00",
+      "lastCommittedAt": "2026-06-03T21:56:30+08:00"
+    },
+    {
+      "id": 3653,
+      "title": "Xor After Range Multipilication Queries I",
+      "slug": "xor-after-range-multipilication-queries-i",
+      "languages": [
+        {
+          "id": "java",
+          "label": "Java",
+          "route": "/problems/3653/java/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-04-08T10:26:27+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-04-08T10:26:27+08:00",
+      "lastCommittedAt": "2026-04-08T10:26:27+08:00"
+    },
+    {
+      "id": 3689,
+      "title": "Maximum Total Subaarray Value I",
+      "slug": "maximum-total-subaarray-value-i",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3689/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-06-09T09:42:54+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-06-09T09:42:54+08:00",
+      "lastCommittedAt": "2026-06-09T09:42:54+08:00"
+    },
+    {
+      "id": 3691,
+      "title": "Maximum Total Subarray Value Ii",
+      "slug": "maximum-total-subarray-value-ii",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3691/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 2,
+          "lastCommittedAt": "2026-06-11T00:30:13+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-06-11T00:30:13+08:00",
+      "lastCommittedAt": "2026-06-11T00:30:13+08:00"
+    },
+    {
+      "id": 3737,
+      "title": "Count Subarrays With Majority Element 1",
+      "slug": "count-subarrays-with-majority-element-1",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3737/rust/",
+          "revisionCount": 2,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-06-25T11:07:36+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-06-25T10:53:54+08:00",
+      "lastCommittedAt": "2026-06-25T11:07:36+08:00"
+    },
+    {
+      "id": 3742,
+      "title": "Maximum Path Score in A Grid",
+      "slug": "maximum-path-score-in-a-grid",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3742/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-05-01T14:57:37+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-05-01T14:57:37+08:00",
+      "lastCommittedAt": "2026-05-01T14:57:37+08:00"
+    },
+    {
+      "id": 3751,
+      "title": "Total Waviness of Numbers in Range",
+      "slug": "total-waviness-of-numbers-in-range",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3751/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-06-06T23:21:32+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-06-06T23:21:32+08:00",
+      "lastCommittedAt": "2026-06-06T23:21:32+08:00"
+    },
+    {
+      "id": 3754,
+      "title": "Concatenate Non Zero Digits and Multiply By Sum I",
+      "slug": "concatenate-non-zero-digits-and-multiply-by-sum-i",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3754/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-07-07T03:01:52Z"
+        }
+      ],
+      "firstCommittedAt": "2026-07-07T03:01:52Z",
+      "lastCommittedAt": "2026-07-07T03:01:52Z"
+    }
+  ]
+}
