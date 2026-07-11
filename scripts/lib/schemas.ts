@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const SCHEMA_VERSION = 1;
 export const PARSER_VERSION = '1';
-export const PROMPT_VERSION = '2';
+export const PROMPT_VERSION = '3';
 export const analysisStatusSchema = z.enum([
   'llm',
   'cached',

@@ -1,6 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { validateNarrative } from '../scripts/lib/schemas';
-import { shouldRequestLlm } from '../scripts/lib/narrative';
+import {
+  NARRATIVE_INSTRUCTIONS,
+  shouldRequestLlm,
+} from '../scripts/lib/narrative';
 const rev = (sha: string, order = 0) => ({
   sha,
   order,
@@ -53,5 +56,29 @@ describe('LLM request policy', () => {
 
   it('analyzes groups with multiple revisions', () => {
     expect(shouldRequestLlm(2)).toBe(true);
+  });
+});
+
+describe('narrative prompt policy', () => {
+  const instructions = NARRATIVE_INSTRUCTIONS.join(' ');
+
+  it('defines revisions as improvements within the same strategy', () => {
+    expect(instructions).toContain('time or space complexity');
+    expect(instructions).toContain('more idiomatic');
+    expect(instructions).toContain(
+      'general solution strategy remains the same',
+    );
+  });
+
+  it('defines approaches as materially different strategies', () => {
+    expect(instructions).toContain('fundamentally different algorithm');
+    expect(instructions).toContain(
+      'core way of solving the problem materially changes',
+    );
+  });
+
+  it('requires exactly one entry for every SHA', () => {
+    expect(instructions).toContain('exactly once');
+    expect(instructions).toContain('Never duplicate a SHA');
   });
 });
