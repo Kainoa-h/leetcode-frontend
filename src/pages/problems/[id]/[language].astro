@@ -55,40 +55,47 @@ const { page } = Astro.props;
         ))
       }
     </ol>
-  </nav><aside
-    class="approach-rail"
-    data-approach-rail
-    aria-label="Quick approach navigation"
-  >
-    <nav class="approach-rail-desktop" aria-label="Quick approach navigation">
-      <strong>Approaches</strong>
-      <ol>
-        {
-          page.approaches.map((a) => (
-            <li>
-              <a href={`#approach-${a.id}`}>
-                {a.order + 1}. {a.title}
-              </a>
-            </li>
-          ))
-        }
-      </ol>
-    </nav>
-    <details class="approach-rail-mobile">
-      <summary>Approaches</summary>
-      <ol>
-        {
-          page.approaches.map((a) => (
-            <li>
-              <a href={`#approach-${a.id}`}>
-                {a.order + 1}. {a.title}
-              </a>
-            </li>
-          ))
-        }
-      </ol>
-    </details>
-  </aside>{
+  </nav>{
+    page.approaches.length > 1 && (
+      <aside
+        class="approach-rail"
+        data-approach-rail
+        aria-label="Quick approach navigation"
+        tabindex="0"
+      >
+        <span class="approach-rail-hint" aria-hidden="true">
+          •••
+        </span>
+        <nav
+          class="approach-rail-desktop"
+          aria-label="Quick approach navigation"
+        >
+          <strong>Approaches</strong>
+          <ol>
+            {page.approaches.map((a) => (
+              <li>
+                <a href={`#approach-${a.id}`}>
+                  {a.order + 1}. {a.title}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+        <details class="approach-rail-mobile">
+          <summary aria-label="Open approach jump list">•••</summary>
+          <ol>
+            {page.approaches.map((a) => (
+              <li>
+                <a href={`#approach-${a.id}`}>
+                  {a.order + 1}. {a.title}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </details>
+      </aside>
+    )
+  }{
     page.approaches.map((approach) => (
       <section class="approach" id={`approach-${approach.id}`}>
         <>

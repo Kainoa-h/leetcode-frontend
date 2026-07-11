@@ -248,8 +248,9 @@ button {
   top: 5rem;
   right: 1rem;
   z-index: 20;
-  width: min(14rem, calc(100vw - 2rem));
-  padding: 0.7rem;
+  width: 2.6rem;
+  min-height: 2.25rem;
+  padding: 0.45rem;
   border: 1px solid var(--line);
   background: color-mix(in srgb, var(--panel) 94%, transparent);
   box-shadow: 0 0.4rem 1.4rem rgb(0 0 0 / 0.12);
@@ -258,6 +259,7 @@ button {
   transform: translateX(0.75rem);
   transition:
     opacity 120ms ease,
+    width 120ms ease,
     transform 120ms ease,
     visibility 120ms;
 }
@@ -265,6 +267,30 @@ button {
   opacity: 1;
   visibility: visible;
   transform: none;
+}
+.approach-rail:hover,
+.approach-rail:focus-within {
+  width: min(14rem, calc(100vw - 2rem));
+  padding: 0.7rem;
+}
+.approach-rail-hint {
+  display: block;
+  color: var(--muted);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-align: center;
+}
+.approach-rail-desktop {
+  display: none;
+}
+.approach-rail:hover .approach-rail-hint,
+.approach-rail:focus-within .approach-rail-hint {
+  display: none;
+}
+.approach-rail:hover .approach-rail-desktop,
+.approach-rail:focus-within .approach-rail-desktop {
+  display: block;
 }
 .approach-rail ol {
   display: grid;
@@ -411,8 +437,20 @@ footer {
   .approach-rail {
     top: 0.75rem;
     right: 0.75rem;
-    width: min(13rem, calc(100vw - 1.5rem));
+    width: 2.6rem;
+    min-height: 0;
     padding: 0;
+  }
+  .approach-rail:hover,
+  .approach-rail:focus-within {
+    width: 2.6rem;
+    padding: 0;
+  }
+  .approach-rail:has(details[open]) {
+    width: min(13rem, calc(100vw - 1.5rem));
+  }
+  .approach-rail-hint {
+    display: none;
   }
   .approach-rail-desktop {
     display: none;
@@ -426,6 +464,12 @@ footer {
     color: var(--muted);
     font-size: 0.75rem;
     font-weight: 700;
+    letter-spacing: 0.08em;
+    list-style: none;
+    text-align: center;
+  }
+  .approach-rail-mobile summary::-webkit-details-marker {
+    display: none;
   }
   .approach-rail-mobile ol {
     margin: 0;
@@ -438,6 +482,9 @@ footer {
 @media (min-width: 1100px) {
   .revision {
     flex-basis: calc((100% - 1rem) / 2);
+  }
+  .revision:only-child {
+    flex-basis: 100%;
   }
 }
 @media (prefers-reduced-motion: reduce) {
