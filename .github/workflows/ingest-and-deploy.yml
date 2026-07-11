@@ -70,4 +70,4 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_PAGES_PROJECT: ${{ vars.CLOUDFLARE_PAGES_PROJECT }}
-        run: pnpm wrangler deploy dist --project-name="${CLOUDFLARE_PAGES_PROJECT:-leetcode-solution-history}"
+        run: pnpm wrangler deploy
