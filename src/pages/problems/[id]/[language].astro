@@ -1,0 +1,70 @@
+---
+import Base from '../../../layouts/Base.astro';
+import RevisionCard from '../../../components/RevisionCard.astro';
+import { pages, sourceUrl } from '../../../lib/data';
+export function getStaticPaths() {
+  return pages.map((page) => ({
+    params: { id: String(page.problem.id), language: page.language.id },
+    props: { page },
+  }));
+}
+const { page } = Astro.props;
+---
+
+<Base
+  title={`${page.problem.id}. ${page.problem.title} — ${page.language.label}`}
+  ><nav>
+    <a href="/">All questions</a> / <a href={`/problems/${page.problem.id}/`}
+      >Problem {page.problem.id}</a>
+  </nav><header class="page-header">
+    <p class="eyebrow">Problem {page.problem.id} · {page.language.label}</p><h1>
+      {page.problem.title}
+    </h1><p>
+      {page.statistics.revisionCount} revisions across {
+        page.statistics.approachCount
+      } approaches · Analysis: <strong>{page.analysis.status}</strong>
+    </p><p>
+      <a
+        href={page.source.latestSha
+          ? sourceUrl(
+              page.source.latestSha,
+              page.source.latestPath ?? undefined,
+            )
+          : page.source.repositoryUrl}>Latest source ↗</a>
+    </p>
+  </header><nav class="approach-nav" aria-label="Approaches">
+    <strong>Approaches</strong><ol>
+      {
+        page.approaches.map((a) => (
+          <li>
+            <a href={`#approach-${a.id}`}>
+              {a.title} <span>{a.revisions.length}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+  </nav>{
+    page.approaches.map((approach) => (
+      <section class="approach" id={`approach-${approach.id}`}>
+        <>
+          <header>
+            <>
+              <p class="eyebrow">Approach {approach.order + 1}</p>
+              <h2>{approach.title}</h2>
+              <p>{approach.summary}</p>
+            </>
+          </header>
+          <div class="comparison" aria-label={`${approach.title} revisions`}>
+            {approach.revisions.map((revision) => (
+              <RevisionCard
+                revision={revision}
+                language={page.language.shikiLanguage}
+              />
+            ))}
+          </div>
+        </>
+      </section>
+    ))
+  }<script is:inline src="/revision-controls.js"></script></Base
+>

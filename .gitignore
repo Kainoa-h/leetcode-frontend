@@ -1,1 +1,7 @@
+node_modules/
+dist/
+.astro/
+.env
+source-solutions/
+.wrangler/
 /.direnv

@@ -1,0 +1,17 @@
+name: Trigger solution site
+on:
+  push:
+    branches: [main]
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger frontend build
+        env:
+          GH_TOKEN: ${{ secrets.FRONTEND_DISPATCH_TOKEN }}
+          FRONTEND_REPOSITORY: Kainoa-h/leetcode-frontend
+        run: |
+          gh api --method POST "repos/${FRONTEND_REPOSITORY}/dispatches" \
+            -f event_type="leetcode-updated" \
+            -F client_payload[source_sha]="${GITHUB_SHA}" \
+            -F client_payload[source_ref]="${GITHUB_REF}"

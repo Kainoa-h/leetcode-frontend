@@ -1,0 +1,126 @@
+---
+import Base from '../layouts/Base.astro';
+import QuestionRow from '../components/QuestionRow.astro';
+import { index, favorites, site } from '../lib/data';
+const ids = [...new Set(favorites.problemIds)];
+const favoriteQuestions = ids
+  .map((id) => index.questions.find((q) => q.id === id))
+  .filter((q) => q !== undefined);
+for (const id of ids)
+  if (!index.questions.some((q) => q.id === id))
+    console.warn(`[favorites] Problem ${id} is not in generated/index.json`);
+const favoriteSet = new Set(ids);
+const totals = {
+  solutions: index.questions.reduce((n, q) => n + q.languages.length, 0),
+  revisions: index.questions
+    .flatMap((q) => q.languages)
+    .reduce((n, l) => n + l.revisionCount, 0),
+};
+---
+
+<Base
+  ><header class="site-header">
+    <div>
+      <p class="eyebrow">Git history, reconstructed</p><h1>{site.title}</h1><p>
+        {site.description}
+      </p>
+    </div><a class="source" href={site.sourceRepositoryUrl}
+      >Source repository ↗</a
+    ><dl>
+      <div><dt>Questions</dt><dd>{index.questions.length}</dd></div><div>
+        <dt>Solutions</dt><dd>{totals.solutions}</dd>
+      </div><div><dt>Revisions</dt><dd>{totals.revisions}</dd></div>
+    </dl>
+  </header>{
+    favoriteQuestions.length > 0 && (
+      <section>
+        <>
+          <h2>Favorites</h2>
+          <div class="question-list favorites">
+            {favoriteQuestions.map((q) => (
+              <QuestionRow question={q} favorite />
+            ))}
+          </div>
+        </>
+      </section>
+    )
+  }<section>
+    <div class="section-title">
+      <div>
+        <h2>All questions</h2><p>
+          Search and sort every generated solution history.
+        </p>
+      </div>
+    </div>{
+      index.questions.length === 0 ? (
+        <div class="empty">
+          <>
+            <h3>No histories ingested yet</h3>
+            <p>
+              Run{' '}
+              <code>
+                pnpm ingest --source ./source-solutions --full --no-llm
+              </code>{' '}
+              with a full clone.
+            </p>
+          </>
+        </div>
+      ) : (
+        <>
+          <>
+            <form class="controls" data-controls>
+              <>
+                <label>
+                  Search{' '}
+                  <input
+                    type="search"
+                    name="search"
+                    placeholder="ID or title"
+                  />
+                </label>
+                <label>
+                  Language{' '}
+                  <select name="language">
+                    <option value="">All languages</option>
+                    {[
+                      ...new Set(
+                        index.questions.flatMap((q) =>
+                          q.languages.map((l) => l.id),
+                        ),
+                      ),
+                    ]
+                      .sort()
+                      .map((l) => (
+                        <option value={l}>{l}</option>
+                      ))}
+                  </select>
+                </label>
+                <label>
+                  Sort{' '}
+                  <select name="sort">
+                    <>
+                      <option value="id-asc">Problem ID ↑</option>
+                      <option value="id-desc">Problem ID ↓</option>
+                      <option value="updated">Recently updated</option>
+                      <option value="title">Title</option>
+                      <option value="revisions">Revision count</option>
+                    </>
+                  </select>
+                </label>
+                <label class="check">
+                  <input type="checkbox" name="favorites" /> Favorites only
+                </label>
+              </>
+            </form>
+            <p data-results aria-live="polite" />
+            <div class="question-list" data-list>
+              {index.questions.map((q) => (
+                <QuestionRow question={q} favorite={favoriteSet.has(q.id)} />
+              ))}
+            </div>
+          </>
+        </>
+      )
+    }
+  </section><script is:inline src="/index-controls.js"></script></Base
+>

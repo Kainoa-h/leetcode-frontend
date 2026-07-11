@@ -1,0 +1,3 @@
+import fs from 'node:fs/promises';import path from 'node:path';import {manifestSchema,type BuildManifest} from './schemas.js';
+export async function readManifest(root:string):Promise<BuildManifest|null>{try{return manifestSchema.parse(JSON.parse(await fs.readFile(path.join(root,'generated/manifest.json'),'utf8')))}catch{return null}}
+export async function writeStable(file:string,value:unknown){const text=JSON.stringify(value,null,2)+'\n';try{if(await fs.readFile(file,'utf8')===text)return false}catch{}await fs.mkdir(path.dirname(file),{recursive:true});const temp=`${file}.${process.pid}.tmp`;await fs.writeFile(temp,text);await fs.rename(temp,file);return true}
