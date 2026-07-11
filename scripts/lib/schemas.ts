@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const SCHEMA_VERSION = 1;
 export const PARSER_VERSION = '1';
-export const PROMPT_VERSION = '1';
+export const PROMPT_VERSION = '2';
 export const analysisStatusSchema = z.enum([
   'llm',
   'cached',
@@ -29,6 +29,7 @@ export const parsedCommitSchema = z.object({
   committedAt: z.string(),
   chronologicalIndex: z.number().int().nonnegative(),
   rawSubject: z.string(),
+  rawBody: z.string(),
   problemId: z.number().int().positive().nullable(),
   declaredLanguage: z.string().nullable(),
   normalizedLanguage: z.string().nullable(),
@@ -55,6 +56,7 @@ export const revisionSchema = z.object({
   markedWrong: z.boolean(),
   commitComment: z.string(),
   rawCommitSubject: z.string(),
+  commitBody: z.string(),
   diffFromPreviousRelevantRevision: z.string().nullable(),
   changedLineCounts: z
     .object({

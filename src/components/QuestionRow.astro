@@ -1,4 +1,50 @@
 ---
-import type {GeneratedIndex} from '../../scripts/lib/schemas';const {question,favorite=false}=Astro.props as {question:GeneratedIndex['questions'][number];favorite?:boolean};const revisions=question.languages.reduce((n,l)=>n+l.revisionCount,0);
+import type { GeneratedIndex } from '../../scripts/lib/schemas';
+const { question, favorite = false } = Astro.props as {
+  question: GeneratedIndex['questions'][number];
+  favorite?: boolean;
+};
+const revisions = question.languages.reduce((n, l) => n + l.revisionCount, 0);
 ---
-<article class="question" data-question data-id={question.id} data-title={question.title.toLowerCase()} data-languages={question.languages.map(l=>l.id).join(',')} data-updated={question.lastCommittedAt??''} data-revisions={revisions} data-favorite={favorite?'true':'false'}><div><span class="number">#{question.id}</span>{favorite&&<span class="favorite" aria-label="Favorite">★</span>}<h3><a href={`/problems/${question.id}/`}>{question.title}</a></h3><time datetime={question.lastCommittedAt??undefined}>{question.lastCommittedAt?new Date(question.lastCommittedAt).toLocaleDateString('en-CA'):'No date'}</time></div><ul class="badges">{question.languages.map(l=><li><a href={l.route}><strong>{l.label}</strong> · {l.revisionCount} rev · {l.approachCount} {l.approachCount===1?'approach':'approaches'}{l.incorrectRevisionCount>0&&<span class="wrong"> · {l.incorrectRevisionCount} incorrect</span>}</a></li>)}</ul></article>
+
+<article
+  class="question"
+  data-question
+  data-id={question.id}
+  data-title={question.title.toLowerCase()}
+  data-languages={question.languages.map((l) => l.id).join(',')}
+  data-updated={question.lastCommittedAt ?? ''}
+  data-revisions={revisions}
+  data-favorite={favorite ? 'true' : 'false'}
+>
+  <div>
+    <span class="number">#{question.id}</span>{
+      favorite && (
+        <span class="favorite" aria-label="Favorite">
+          ★
+        </span>
+      )
+    }<h3><a href={`/problems/${question.id}/`}>{question.title}</a></h3><time
+      datetime={question.lastCommittedAt ?? undefined}
+      >{
+        question.lastCommittedAt
+          ? new Date(question.lastCommittedAt).toLocaleDateString('en-CA')
+          : 'No date'
+      }</time>
+  </div><ul class="badges">
+    {
+      question.languages.map((l) => (
+        <li>
+          <a href={l.route}>
+            <strong>{l.label}</strong> · {l.revisionCount} rev ·{' '}
+            {l.approachCount}{' '}
+            {l.approachCount === 1 ? 'approach' : 'approaches'}
+            {l.incorrectRevisionCount > 0 && (
+              <span class="wrong"> · {l.incorrectRevisionCount} incorrect</span>
+            )}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</article>

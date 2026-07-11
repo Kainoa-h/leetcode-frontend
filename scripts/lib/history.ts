@@ -25,9 +25,15 @@ export async function collectHistory(
   const deleted = new Set<string>();
   for (let index = 0; index < rows.length; index++) {
     const row = rows[index]!;
-    if (row.length < 5) continue;
-    const [sha, parents, authoredAt, committedAt, ...subjectParts] = row;
-    const rawSubject = subjectParts.join('\0');
+    if (row.length < 6) continue;
+    const [sha, parents, authoredAt, committedAt, rawSubject, rawBody] = row as [
+      string,
+      string,
+      string,
+      string,
+      string,
+      string,
+    ];
     if (!sha || !authoredAt || !committedAt) continue;
     const parsed = parseCommitSubject(rawSubject);
     const changed = await git.changedFiles(sha);
@@ -38,6 +44,7 @@ export async function collectHistory(
       committedAt,
       chronologicalIndex: index,
       rawSubject,
+      rawBody: rawBody ?? '',
       ...parsed,
       changedFiles: changed,
     };
@@ -128,6 +135,7 @@ export async function collectHistory(
         markedWrong: parsed.markedWrong,
         commitComment: parsed.comment,
         rawCommitSubject: rawSubject,
+        commitBody: rawBody ?? '',
         diffFromPreviousRelevantRevision: diff,
         changedLineCounts,
         approachId: 'chronological',

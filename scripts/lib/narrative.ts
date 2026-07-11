@@ -1,4 +1,52 @@
-import type {NarrativeResult,SolutionRevision} from './schemas.js';import {validateNarrative,PROMPT_VERSION} from './schemas.js';
-export function fallbackNarrative(revisions:Pick<SolutionRevision,'sha'|'commitComment'>[]):NarrativeResult{return{approaches:[{id:'chronological',title:'Solution history',summary:'Revisions in chronological order.',order:0,revisions:revisions.map((r,i)=>({sha:r.sha,order:i,shortChange:(r.commitComment||'Updates the solution.').slice(0,120)}))}]}}
-export function narrativePrompt(problemId:number,title:string,language:string,revisions:SolutionRevision[],existing?:NarrativeResult){return JSON.stringify({promptVersion:PROMPT_VERSION,instructions:['Group actual algorithmic approaches; assign every SHA exactly once.','Narrative order is presentation only; chronology remains separate.','Keep incorrect markers; do not invent failures or complexity.','Return only schema data.'],problem:{id:problemId,title,language},revisions:revisions.map(r=>({sha:r.sha,subject:r.rawCommitSubject,markedWrong:r.markedWrong,code:r.code,diff:r.diffFromPreviousRelevantRevision})),existing:existing??null})}
-export {validateNarrative};
+import type { NarrativeResult, SolutionRevision } from './schemas.js';
+import { validateNarrative, PROMPT_VERSION } from './schemas.js';
+export function fallbackNarrative(
+  revisions: Pick<SolutionRevision, 'sha' | 'commitComment'>[],
+): NarrativeResult {
+  return {
+    approaches: [
+      {
+        id: 'chronological',
+        title: 'Solution history',
+        summary: 'Revisions in chronological order.',
+        order: 0,
+        revisions: revisions.map((r, i) => ({
+          sha: r.sha,
+          order: i,
+          shortChange: (r.commitComment || 'Updates the solution.').slice(
+            0,
+            120,
+          ),
+        })),
+      },
+    ],
+  };
+}
+export function narrativePrompt(
+  problemId: number,
+  title: string,
+  language: string,
+  revisions: SolutionRevision[],
+  existing?: NarrativeResult,
+) {
+  return JSON.stringify({
+    promptVersion: PROMPT_VERSION,
+    instructions: [
+      'Group actual algorithmic approaches; assign every SHA exactly once.',
+      'Narrative order is presentation only; chronology remains separate.',
+      'Keep incorrect markers; do not invent failures or complexity.',
+      'Return only schema data.',
+    ],
+    problem: { id: problemId, title, language },
+    revisions: revisions.map((r) => ({
+      sha: r.sha,
+      subject: r.rawCommitSubject,
+      body: r.commitBody,
+      markedWrong: r.markedWrong,
+      code: r.code,
+      diff: r.diffFromPreviousRelevantRevision,
+    })),
+    existing: existing ?? null,
+  });
+}
+export { validateNarrative };

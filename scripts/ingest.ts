@@ -90,6 +90,7 @@ async function main() {
         sha: r.sha,
         codeHash: r.codeHash,
         subject: r.rawCommitSubject,
+        body: r.commitBody,
         diff: r.diffFromPreviousRelevantRevision,
       })),
     });
@@ -257,7 +258,11 @@ async function main() {
   const processedCommits: BuildManifest['processedCommits'] = {};
   for (const c of history.commits)
     processedCommits[c.sha] = {
-      contentHash: hash({ subject: c.rawSubject, files: c.changedFiles }),
+      contentHash: hash({
+        subject: c.rawSubject,
+        body: c.rawBody,
+        files: c.changedFiles,
+      }),
       affectedGroups: [...history.groups]
         .filter(([, rs]) => rs.some((r) => r.sha === c.sha))
         .map(([k]) => k),

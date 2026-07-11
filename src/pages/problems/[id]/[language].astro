@@ -15,14 +15,24 @@ const { page } = Astro.props;
   title={`${page.problem.id}. ${page.problem.title} — ${page.language.label}`}
   ><nav>
     <a href="/">All questions</a> / <a href={`/problems/${page.problem.id}/`}
-      >Problem {page.problem.id}</a>
+      >Problem {page.problem.id}</a
+    >
   </nav><header class="page-header">
     <p class="eyebrow">Problem {page.problem.id} · {page.language.label}</p><h1>
       {page.problem.title}
     </h1><p>
       {page.statistics.revisionCount} revisions across {
         page.statistics.approachCount
-      } approaches · Analysis: <strong>{page.analysis.status}</strong>
+      } approaches · Analysis: <strong>{page.analysis.status}</strong>{
+        page.analysis.model && (
+          <span
+            class="model-badge"
+            title={`Review generated with ${page.analysis.model}`}
+          >
+            {page.analysis.model}
+          </span>
+        )
+      }
     </p><p>
       <a
         href={page.source.latestSha
@@ -30,7 +40,8 @@ const { page } = Astro.props;
               page.source.latestSha,
               page.source.latestPath ?? undefined,
             )
-          : page.source.repositoryUrl}>Latest source ↗</a>
+          : page.source.repositoryUrl}>Latest source ↗</a
+      >
     </p>
   </header><nav class="approach-nav" aria-label="Approaches">
     <strong>Approaches</strong><ol>

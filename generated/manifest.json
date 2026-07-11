@@ -1,1 +1,10 @@
-{"schemaVersion":1,"sourceRepository":"https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB","sourceHeadSha":null,"generatedAt":"1970-01-01T00:00:00.000Z","parserVersion":"1","promptVersion":"1","processedCommits":{},"groups":{}}
+{
+  "schemaVersion": 1,
+  "sourceRepository": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+  "sourceHeadSha": null,
+  "generatedAt": "1970-01-01T00:00:00.000Z",
+  "parserVersion": "1",
+  "promptVersion": "2",
+  "processedCommits": {},
+  "groups": {}
+}

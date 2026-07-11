@@ -31,7 +31,7 @@ export class GitRepository {
     }
   }
   async commits(range?: string) {
-    const format = '%H%x00%P%x00%aI%x00%cI%x00%s%x1e';
+    const format = '%H%x00%P%x00%aI%x00%cI%x00%s%x00%b%x1e';
     const out = await this.git([
       'log',
       '--reverse',
@@ -41,7 +41,7 @@ export class GitRepository {
     return out
       .split('\x1e')
       .map((record) => record.replace(/^\s+|\s+$/g, '').split('\0'))
-      .filter((record) => record.length === 5);
+      .filter((record) => record.length === 6);
   }
   async changedFiles(sha: string) {
     const out = await this.git([
