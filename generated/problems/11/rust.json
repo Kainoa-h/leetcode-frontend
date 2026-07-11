@@ -24,7 +24,7 @@
     "lastCommittedAt": "2026-02-11T20:54:32+08:00"
   },
   "analysis": {
-    "status": "llm",
+    "status": "cached",
     "model": "mistralai/mistral-small-2603",
     "promptVersion": "2",
     "inputHash": "5f0085c41709efc257f6610a0020edbec40d362023c447a38a78fc272514922c"
