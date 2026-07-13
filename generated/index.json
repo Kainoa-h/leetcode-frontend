@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-12T15:14:07.010Z",
-  "sourceHeadSha": "7f0e4cd14d71c9f16e15dbfe02e74726adb3425c",
+  "generatedAt": "2026-07-13T02:04:47.037Z",
+  "sourceHeadSha": "a86e237f75b720cc1aea59d4dcdf4b1446f0d54a",
   "questions": [
     {
       "id": 1,
@@ -1028,6 +1028,42 @@
       ],
       "firstCommittedAt": "2026-07-07T02:37:36Z",
       "lastCommittedAt": "2026-07-07T02:37:36Z"
+    },
+    {
+      "id": 1291,
+      "title": "Sequential Digits",
+      "slug": "sequential-digits",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/1291/rust/",
+          "revisionCount": 2,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-07-13T09:58:14+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-07-13T09:52:19+08:00",
+      "lastCommittedAt": "2026-07-13T09:58:14+08:00"
+    },
+    {
+      "id": 1331,
+      "title": "Rank Transform of An Array",
+      "slug": "rank-transform-of-an-array",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/1331/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-07-12T21:51:35+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-07-12T21:29:43+08:00",
+      "lastCommittedAt": "2026-07-12T21:51:35+08:00"
     },
     {
       "id": 1340,

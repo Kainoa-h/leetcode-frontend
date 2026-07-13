@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1331,
+    "title": "Rank Transform of An Array",
+    "slug": "rank-transform-of-an-array"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/1331_rank_transform_of_an_array.rs",
+    "latestSha": "20e097d94ef32c6acabb20907a29bb4f0e560eb8",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-07-12T21:29:43+08:00",
+    "lastCommittedAt": "2026-07-12T21:51:35+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
+    "inputHash": "50c888c498e28b9a2b9b67590cd8768b9f120fd9af14edf3fbf4ccfd86bbd10a"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "Sort unique values and binary-search ranks",
+      "summary": "Create a sorted, deduplicated copy of the array, then determine each element's 1-based rank via binary search. Revision 2 retains this strategy while writing-rน",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "36a29f9b6a50c7aca260c4c774ede5c994e228e4",
+          "shortSha": "36a29f9",
+          "parentSha": "7f0e4cd14d71c9f16e15dbfe02e74726adb3425c",
+          "authoredAt": "2026-07-12T21:21:02+08:00",
+          "committedAt": "2026-07-12T21:29:43+08:00",
+          "chronologicalIndex": 203,
+          "problemId": 1331,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1331_rank_transform_of_an_array.rs",
+          "sourceFilename": "1331_rank_transform_of_an_array.rs",
+          "code": "impl Solution {\n    pub fn array_rank_transform(mut arr: Vec<i32>) -> Vec<i32> {\n        let mut sorted = arr.clone();\n        sorted.sort_unstable();\n        sorted.dedup();\n        let n = sorted.len();\n\n        arr.iter()\n            .map(|x| (sorted.binary_search(x).unwrap() + 1) as i32)\n            .collect()\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "b4735802a955ca1011fd982437f06f88eca81fdaeb004014bd448067a7c24e82",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 1331",
+          "commitBody": ".",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Sorts and deduplicates a copy, then maps each original value to its 1-based rank using binary search.",
+          "warnings": []
+        },
+        {
+          "sha": "20e097d94ef32c6acabb20907a29bb4f0e560eb8",
+          "shortSha": "20e097d",
+          "parentSha": "36a29f9b6a50c7aca260c4c774ede5c994e228e4",
+          "authoredAt": "2026-07-12T21:38:24+08:00",
+          "committedAt": "2026-07-12T21:51:35+08:00",
+          "chronologicalIndex": 204,
+          "problemId": 1331,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1331_rank_transform_of_an_array.rs",
+          "sourceFilename": "1331_rank_transform_of_an_array.rs",
+          "code": "impl Solution {\n    pub fn array_rank_transform(mut arr: Vec<i32>) -> Vec<i32> {\n        let mut sorted = arr.clone();\n        sorted.sort_unstable();\n        sorted.dedup();\n        let n = sorted.len();\n\n        for x in arr.iter_mut(){\n            *x = (sorted.binary_search(x).unwrap() + 1) as i32;\n        }\n\n        arr\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "4a1e66b217c5cc6e5ad1dbc22476dd7ec0e6155c634c3fe0cd61be640bf3cb4a",
+          "markedWrong": false,
+          "commitComment": "avoid extra allocation",
+          "rawCommitSubject": "rust 1331: avoid extra allocation",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/1331_rank_transform_of_an_array.rs b/rust/src/bin/1331_rank_transform_of_an_array.rs\nindex 139bd13..dba94de 100644\n--- a/rust/src/bin/1331_rank_transform_of_an_array.rs\n+++ b/rust/src/bin/1331_rank_transform_of_an_array.rs\n@@ -5,9 +5,11 @@ impl Solution {\n         sorted.dedup();\n         let n = sorted.len();\n \n-        arr.iter()\n-            .map(|x| (sorted.binary_search(x).unwrap() + 1) as i32)\n-            .collect()\n+        for x in arr.iter_mut(){\n+            *x = (sorted.binary_search(x).unwrap() + 1) as i32;\n+        }\n+\n+        arr\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 5,
+            "deletions": 3
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Preserves the same ranking algorithm but transforms the input vector in place, avoiding a separate result allocation.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "36a29f9b6a50c7aca260c4c774ede5c994e228e4",
+    "20e097d94ef32c6acabb20907a29bb4f0e560eb8"
+  ],
+  "warnings": []
+}

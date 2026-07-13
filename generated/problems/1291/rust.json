@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1291,
+    "title": "Sequential Digits",
+    "slug": "sequential-digits"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/1291_sequential_digits.rs",
+    "latestSha": "a86e237f75b720cc1aea59d4dcdf4b1446f0d54a",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-07-13T09:52:19+08:00",
+    "lastCommittedAt": "2026-07-13T09:58:14+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
+    "inputHash": "5ed09a0b159118f687e73a3627ce30332a392d030a8beae8079a76e26f3ae1e4"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "Generate sequential numbers by length and starting digit",
+      "summary": "Constructs candidates dynamically by tracking the digit length and leading digit, then filters candidates against the bounds.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "548d2d94dce0eb47c3551a3ba7c5b53dc9b8f66d",
+          "shortSha": "548d2d9",
+          "parentSha": "20e097d94ef32c6acabb20907a29bb4f0e560eb8",
+          "authoredAt": "2026-07-13T09:52:19+08:00",
+          "committedAt": "2026-07-13T09:52:19+08:00",
+          "chronologicalIndex": 205,
+          "problemId": 1291,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1291_sequential_digits.rs",
+          "sourceFilename": "1291_sequential_digits.rs",
+          "code": "impl Solution {\n    pub fn sequential_digits(low: i32, high: i32) -> Vec<i32> {\n        let mut result = Vec::new();\n\n        let (low_len, high_len) = (low.ilog10() as i32 + 1, high.ilog10() as i32 + 1);\n\n        fn most_significant_digit_log(n: i32) -> i32 {\n            if n == 0 {\n                return 0;\n            }\n            let log = (n as f64).log10().floor() as u32;\n            n / 10_i32.pow(log)\n        }\n\n        let mut len = low_len;\n        let mut start = most_significant_digit_log(low);\n        loop {\n            if start + len > 10 {\n                start = 1;\n                len += 1;\n            }\n\n            if len > 9 {\n                break;\n            }\n\n            let candidate = (start..start + len)\n                .rev()\n                .enumerate()\n                .fold(0, |acc, (idx, x)| acc + (x * 10_i32.pow(idx as u32)));\n\n            if candidate < low {\n                start += 1;\n                continue;\n            }\n\n            if len < high_len || candidate <= high {\n                result.push(candidate);\n                start += 1;\n            } else {\n                break;\n            }\n        }\n        result\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(Solution::sequential_digits(100, 300), vec![123, 234]);\n}\n",
+          "codeHash": "c972701b09754176e53d55ba669f45c714f410768804b5cb43459fcf1a142942",
+          "markedWrong": false,
+          "commitComment": "wtf",
+          "rawCommitSubject": "rust 1291: wtf",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial dynamic generation of sequential-digit candidates across valid lengths and starting digits.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "approach-2",
+      "title": "Filter a precomputed list",
+      "summary": "Uses a hardcoded ordered list of every possible sequential-digit number and retains values within the requested range.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "a86e237f75b720cc1aea59d4dcdf4b1446f0d54a",
+          "shortSha": "a86e237",
+          "parentSha": "548d2d94dce0eb47c3551a3ba7c5b53dc9b8f66d",
+          "authoredAt": "2026-07-13T09:58:14+08:00",
+          "committedAt": "2026-07-13T09:58:14+08:00",
+          "chronologicalIndex": 206,
+          "problemId": 1291,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1291_sequential_digits.rs",
+          "sourceFilename": "1291_sequential_digits.rs",
+          "code": "impl Solution {\n    pub fn sequential_digits(low: i32, high: i32) -> Vec<i32> {\n        [\n            12_i32, 23, 34, 45, 56, 67, 78, 89,\n            123, 234, 345, 456, 567, 678, 789,\n            1234, 2345, 3456, 4567, 5678, 6789,\n            12345, 23456, 34567, 45678, 56789, 123456, 234567, 345678, 456789,\n            1234567, 2345678, 3456789, 12345678, 23456789, 123456789,\n        ].into_iter().filter(|&x|{\n            low <= x && x <= high\n        }).collect()\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(Solution::sequential_digits(100, 300), vec![123, 234]);\n}\n",
+          "codeHash": "3f5c3418885ae1ba020a473907265b25d19d6fb7b12b613d8725e709bff69712",
+          "markedWrong": false,
+          "commitComment": "O(1) solution lol",
+          "rawCommitSubject": "rust 1291: O(1) solution lol",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/1291_sequential_digits.rs b/rust/src/bin/1291_sequential_digits.rs\nindex c61ff0f..cacaa8f 100644\n--- a/rust/src/bin/1291_sequential_digits.rs\n+++ b/rust/src/bin/1291_sequential_digits.rs\n@@ -1,47 +1,14 @@\n impl Solution {\n     pub fn sequential_digits(low: i32, high: i32) -> Vec<i32> {\n-        let mut result = Vec::new();\n-\n-        let (low_len, high_len) = (low.ilog10() as i32 + 1, high.ilog10() as i32 + 1);\n-\n-        fn most_significant_digit_log(n: i32) -> i32 {\n-            if n == 0 {\n-                return 0;\n-            }\n-            let log = (n as f64).log10().floor() as u32;\n-            n / 10_i32.pow(log)\n-        }\n-\n-        let mut len = low_len;\n-        let mut start = most_significant_digit_log(low);\n-        loop {\n-            if start + len > 10 {\n-                start = 1;\n-                len += 1;\n-            }\n-\n-            if len > 9 {\n-                break;\n-            }\n-\n-            let candidate = (start..start + len)\n-                .rev()\n-                .enumerate()\n-                .fold(0, |acc, (idx, x)| acc + (x * 10_i32.pow(idx as u32)));\n-\n-            if candidate < low {\n-                start += 1;\n-                continue;\n-            }\n-\n-            if len < high_len || candidate <= high {\n-                result.push(candidate);\n-                start += 1;\n-            } else {\n-                break;\n-            }\n-        }\n-        result\n+        [\n+            12_i32, 23, 34, 45, 56, 67, 78, 89,\n+            123, 234, 345, 456, 567, 678, 789,\n+            1234, 2345, 3456, 4567, 5678, 6789,\n+            12345, 23456, 34567, 45678, 56789, 123456, 234567, 345678, 456789,\n+            1234567, 2345678, 3456789, 12345678, 23456789, 123456789,\n+        ].into_iter().filter(|&x|{\n+            low <= x && x <= high\n+        }).collect()\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 9,
+            "deletions": 42
+          },
+          "approachId": "approach-2",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaces dynamic generation with a precomputed array followed by range filtering.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "548d2d94dce0eb47c3551a3ba7c5b53dc9b8f66d",
+    "a86e237f75b720cc1aea59d4dcdf4b1446f0d54a"
+  ],
+  "warnings": []
+}
