@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-03-26T00:13:35+08:00"
   },
   "analysis": {
-    "status": "cached",
-    "model": null,
-    "promptVersion": "2",
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
     "inputHash": "62ea70d26904fc60828a3dec70e385f4262705c4185f091b35a1ffea2e25ff65"
   },
   "approaches": [
     {
-      "id": "chronological",
-      "title": "Solution history",
-      "summary": "Revisions in chronological order.",
+      "id": "approach-1",
+      "title": "Check equal-sum horizontal and vertical partitions using row",
+      "summary": "Computes row and column totals and checks whether a prefix partition equals the remaining grid, evolving from explicit prefix/suffix lists to a streaming prefix",
       "order": 0,
       "revisions": [
         {
@@ -55,9 +55,9 @@
           "commitBody": "time: O(n*m)\nspace: O(n*m)",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "chronological",
+          "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Updates the solution.",
+          "shortChangeSummary": "Initial implementation builds row and column totals with prefix and suffix lists, then compares the two sides of each",
           "warnings": []
         },
         {
@@ -82,9 +82,9 @@
             "additions": 31,
             "deletions": 55
           },
-          "approachId": "chronological",
+          "approachId": "approach-1",
           "narrativeIndex": 1,
-          "shortChangeSummary": "very funky. Mix of strategies. not the best but is hella funk",
+          "shortChangeSummary": "Reframes the check around total-sum parity and half-sum prefixes, using a stored row-prefix vector and a folded column",
           "warnings": []
         },
         {
@@ -109,9 +109,9 @@
             "additions": 20,
             "deletions": 28
           },
-          "approachId": "chronological",
+          "approachId": "approach-1",
           "narrativeIndex": 2,
-          "shortChangeSummary": "straight forward approach",
+          "shortChangeSummary": "Streams row and column prefixes directly without storing prefix arrays, reducing auxiliary space while preserving the",
           "warnings": []
         }
       ]

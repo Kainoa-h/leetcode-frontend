@@ -18,22 +18,22 @@
   },
   "statistics": {
     "revisionCount": 2,
-    "approachCount": 2,
+    "approachCount": 1,
     "incorrectRevisionCount": 1,
     "firstCommittedAt": "2026-02-11T20:54:40+08:00",
     "lastCommittedAt": "2026-02-11T21:53:05+08:00"
   },
   "analysis": {
-    "status": "cached",
-    "model": "mistralai/mistral-small-2603",
-    "promptVersion": "2",
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "6",
     "inputHash": "6a025674345f977df116e8bee8cb2d3eec37d3159e9fb698dfc8401fdc991055"
   },
   "approaches": [
     {
-      "id": "hashset_duplicates",
-      "title": "HashSet with duplicate filtering",
-      "summary": "Uses a HashSet to avoid duplicates but fails due to incorrect loop bounds and duplicate handling.",
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
       "order": 0,
       "revisions": [
         {
@@ -55,19 +55,11 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "hashset_duplicates",
+          "approachId": "chronological",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial attempt with HashSet to deduplicate triplets, but loop bounds and duplicate handling are incorrect.",
+          "shortChangeSummary": "Updates the solution.",
           "warnings": []
-        }
-      ]
-    },
-    {
-      "id": "two_pointers_sorted",
-      "title": "Two-pointers on sorted array",
-      "summary": "Sorts the array and uses two pointers to find triplets summing to zero, with duplicate skipping.",
-      "order": 1,
-      "revisions": [
+        },
         {
           "sha": "e0bc404ebea730c6dd3f3754094883fd4c21ece0",
           "shortSha": "e0bc404",
@@ -90,9 +82,9 @@
             "additions": 14,
             "deletions": 13
           },
-          "approachId": "two_pointers_sorted",
-          "narrativeIndex": 0,
-          "shortChangeSummary": "Optimized solution using two pointers on a sorted array with duplicate skipping for O(n^2) time and O(1) space.",
+          "approachId": "chronological",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Updates the solution.",
           "warnings": []
         }
       ]

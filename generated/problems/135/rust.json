@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-01-28T08:08:45+08:00"
   },
   "analysis": {
-    "status": "cached",
-    "model": "mistralai/mistral-small-2603",
-    "promptVersion": "2",
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
     "inputHash": "c33274f7f606b5505dbad3fa5a44667e1cc4170770f56738c77975c2004dcda4"
   },
   "approaches": [
     {
-      "id": "two-pass-linear",
-      "title": "Two-Pass Linear Scan",
-      "summary": "Initialize candies to 1, then perform left-to-right and right-to-left passes to satisfy adjacent rating constraints.",
+      "id": "approach-1",
+      "title": "Two-pass candy assignment",
+      "summary": "Assigns one candy to every child, scans left to right to satisfy increasing sequences, then scans right to left and takes the maximum needed for decreasing-se列u",
       "order": 0,
       "revisions": [
         {
@@ -55,9 +55,9 @@
           "commitBody": "time: O(n)\nspace: O(n)",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "two-pass-linear",
+          "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial implementation with redundant checks and extra branching in both passes.",
+          "shortChangeSummary": "Initial O(n) time, O(n) space two-pass solution with conditional checks in both scans.",
           "warnings": []
         },
         {
@@ -82,9 +82,9 @@
             "additions": 3,
             "deletions": 3
           },
-          "approachId": "two-pass-linear",
+          "approachId": "approach-1",
           "narrativeIndex": 1,
-          "shortChangeSummary": "Removed redundant checks and simplified branching by using max() in the right-to-left pass.",
+          "shortChangeSummary": "Simplifies the scan conditions by removing redundant candy comparisons and uses max during the reverse pass.",
           "warnings": []
         }
       ]

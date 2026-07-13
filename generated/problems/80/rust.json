@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-01-24T20:51:37+08:00"
   },
   "analysis": {
-    "status": "cached",
-    "model": "mistralai/mistral-small-2603",
-    "promptVersion": "2",
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
     "inputHash": "239281a9b3664d6ccaa8eb67c7c1e49d0d7024f0f0f9d88b14c7b69360329340"
   },
   "approaches": [
     {
-      "id": "two-pointers-single-pass",
-      "title": "Two-pointers single-pass with seen count",
-      "summary": "Iterate once, track seen count per value, and overwrite duplicates beyond two occurrences in-place.",
+      "id": "count-and-track-duplicates",
+      "title": "Track previous value and occurrence count",
+      "summary": "Iterates through the sorted array while tracking the previous value and how many times it has been seen, copying each value at most twice.",
       "order": 0,
       "revisions": [
         {
@@ -55,17 +55,17 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "two-pointers-single-pass",
+          "approachId": "count-and-track-duplicates",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial two-pointer implementation tracking seen count per value.",
+          "shortChangeSummary": "Initial in-place solution using previous-value and occurrence-count state.",
           "warnings": []
         }
       ]
     },
     {
-      "id": "two-pointers-optimized",
-      "title": "Two-pointers optimized with early exit",
-      "summary": "Use two pointers and compare with the value two positions back to allow at most two duplicates; early exit for small arrays.",
+      "id": "compare-with-output-two-positions-back",
+      "title": "Allow a value when it differs from the retained value two-1?",
+      "summary": "Uses the fact that a candidate can be retained exactly when it differs from the element two positions earlier in the compacted output, eliminating explicit run-",
       "order": 1,
       "revisions": [
         {
@@ -90,9 +90,9 @@
             "additions": 8,
             "deletions": 11
           },
-          "approachId": "two-pointers-optimized",
+          "approachId": "compare-with-output-two-positions-back",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Optimized two-pointer approach with early exit for arrays shorter than 3 elements.",
+          "shortChangeSummary": "Replaced explicit duplicate counting with a two-positions-back comparison and added a short-array guard.",
           "warnings": []
         }
       ]

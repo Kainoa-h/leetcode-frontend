@@ -18,22 +18,22 @@
   },
   "statistics": {
     "revisionCount": 2,
-    "approachCount": 2,
+    "approachCount": 1,
     "incorrectRevisionCount": 0,
     "firstCommittedAt": "2026-06-01T21:48:02+08:00",
     "lastCommittedAt": "2026-06-01T21:52:08+08:00"
   },
   "analysis": {
-    "status": "cached",
-    "model": "mistralai/mistral-small-2603",
-    "promptVersion": "2",
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
     "inputHash": "d87fecf1aae472f1457ee4bb7f18b630ab6dd4b2257136c8b09a8e88ffe73ef4"
   },
   "approaches": [
     {
-      "id": "sort_and_discount",
-      "title": "Sort and Apply Discount Iteratively",
-      "summary": "Sort candies in descending order and sum every two candies while skipping the third to minimize cost.",
+      "id": "approach-1",
+      "title": "Sort candies descending and pay for the two most expensiveик",
+      "summary": "Sort prices from highest to lowest, then pay for two candies in each group of three while taking the third as free. Revision 2 expresses the same greedy rule in",
       "order": 0,
       "revisions": [
         {
@@ -55,19 +55,11 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "sort_and_discount",
+          "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial implementation using iterative state tracking to apply discount every third candy.",
+          "shortChangeSummary": "Uses a stateful loop after descending sort to pay for two candies and skip every third candy.",
           "warnings": []
-        }
-      ]
-    },
-    {
-      "id": "sort_and_chunk_sum",
-      "title": "Sort and Chunk Sum with Functional Style",
-      "summary": "Sort candies in descending order and sum the first two candies in every group of three using functional operations.",
-      "order": 1,
-      "revisions": [
+        },
         {
           "sha": "866d2132509c8a4d5ea09d9e3f3c8701afcafc91",
           "shortSha": "866d213",
@@ -90,9 +82,9 @@
             "additions": 1,
             "deletions": 12
           },
-          "approachId": "sort_and_chunk_sum",
-          "narrativeIndex": 0,
-          "shortChangeSummary": "Refactored to use chunks and map for concise functional approach while maintaining correctness.",
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Refactors the same greedy strategy into chunks of three and sums the first two prices in each chunk.",
           "warnings": []
         }
       ]

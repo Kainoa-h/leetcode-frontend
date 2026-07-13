@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-01-26T21:56:51+08:00"
   },
   "analysis": {
-    "status": "cached",
-    "model": "mistralai/mistral-small-2603",
-    "promptVersion": "2",
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "6",
     "inputHash": "98683b89baec1001610db45d30821491f2ae9cdf8ee89b8a328daa59a1da3ec9"
   },
   "approaches": [
     {
-      "id": "hashmap-vector-swap",
-      "title": "HashMap + Vector with Swap-Remove",
-      "summary": "Maintain a HashMap for O(1) lookups and a Vector for O(1) random access, using swap-remove to preserve O(1) removal.",
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
       "order": 0,
       "revisions": [
         {
@@ -58,9 +58,63 @@
             "additions": 0,
             "deletions": 0
           },
-          "approachId": "hashmap-vector-swap",
+          "approachId": "chronological",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial implementation using HashMap for tracking indices and Vector for storage with swap-remove for O(1) removal.",
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        },
+        {
+          "sha": "9a315face2bc7367881f50dc01a228e1e001a629",
+          "shortSha": "9a315fa",
+          "parentSha": "93f9625414f5adfed48b545860297d9f3d4331e6",
+          "authoredAt": "2026-01-26T21:55:46+08:00",
+          "committedAt": "2026-01-26T21:56:51+08:00",
+          "chronologicalIndex": 23,
+          "problemId": 380,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/380_insert_delete_get_random_o1.rs",
+          "sourceFilename": "380_insert_delete_get_random_o1.rs",
+          "code": "use rand::Rng;\nuse std::collections::HashMap;\nuse std::collections::hash_map::Entry::{Occupied, Vacant};\n\nstruct RandomizedSet {\n    map: HashMap<i32, usize>,\n    list: Vec<i32>,\n}\n\nimpl RandomizedSet {\n    fn new() -> Self {\n        Self {\n            map: HashMap::new(),\n            list: Vec::new(),\n        }\n    }\n\n    fn insert(&mut self, val: i32) -> bool {\n        let idx = self.list.len();\n        match self.map.entry(val) {\n            Occupied(_) => false,\n            Vacant(x) => {\n                x.insert(idx);\n                self.list.push(val);\n                true\n            }\n        }\n    }\n\n    fn remove(&mut self, val: i32) -> bool {\n        match self.map.remove(&val) {\n            Some(idx) => {\n                self.list.swap_remove(idx);\n                if let Some(moved_val) = self.list.get(idx) {\n                    self.map.insert(*moved_val, idx);\n                }\n                true\n            }\n            None => false,\n        }\n    }\n\n    fn get_random(&mut self) -> i32 {\n        if self.list.len() == 1 {\n            return *self.list.first().unwrap();\n        }\n        let mut rng = rand::thread_rng();\n        let random_idx = rng.gen_range(0..self.list.len());\n\n        self.list[random_idx]\n    }\n}\n\nfn main() {\n    let mut x = RandomizedSet::new();\n    println!(\"insert 1: {:?}\", x.insert(1));\n    println!(\"list: {:?}\", x.list);\n    println!(\"remove 2: {:?}\", x.remove(2));\n    println!(\"list: {:?}\", x.list);\n    println!(\"insert 2: {:?}\", x.insert(2));\n    println!(\"list: {:?}\", x.list);\n    println!(\"list: {:?}\", x.list);\n    println!(\"get random: {:?}\", x.get_random());\n    println!(\"remove 1: {:?}\", x.remove(1));\n    println!(\"list: {:?}\", x.list);\n    println!(\"insert 2: {:?}\", x.insert(2));\n    println!(\"list: {:?}\", x.list);\n    println!(\"get random: {:?}\", x.get_random());\n}\n",
+          "codeHash": "461daad12b48dac0f7b8565bd914d5213f193e96e6cb79964121bb006539ff22",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "380",
+          "commitBody": "time: O(1)\nspace: O(n)",
+          "diffFromPreviousRelevantRevision": "",
+          "changedLineCounts": {
+            "additions": 0,
+            "deletions": 0
+          },
+          "approachId": "chronological",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        },
+        {
+          "sha": "9a315face2bc7367881f50dc01a228e1e001a629",
+          "shortSha": "9a315fa",
+          "parentSha": "93f9625414f5adfed48b545860297d9f3d4331e6",
+          "authoredAt": "2026-01-26T21:55:46+08:00",
+          "committedAt": "2026-01-26T21:56:51+08:00",
+          "chronologicalIndex": 23,
+          "problemId": 380,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/380_insert_delete_get_random_o1.rs",
+          "sourceFilename": "380_insert_delete_get_random_o1.rs",
+          "code": "use rand::Rng;\nuse std::collections::HashMap;\nuse std::collections::hash_map::Entry::{Occupied, Vacant};\n\nstruct RandomizedSet {\n    map: HashMap<i32, usize>,\n    list: Vec<i32>,\n}\n\nimpl RandomizedSet {\n    fn new() -> Self {\n        Self {\n            map: HashMap::new(),\n            list: Vec::new(),\n        }\n    }\n\n    fn insert(&mut self, val: i32) -> bool {\n        let idx = self.list.len();\n        match self.map.entry(val) {\n            Occupied(_) => false,\n            Vacant(x) => {\n                x.insert(idx);\n                self.list.push(val);\n                true\n            }\n        }\n    }\n\n    fn remove(&mut self, val: i32) -> bool {\n        match self.map.remove(&val) {\n            Some(idx) => {\n                self.list.swap_remove(idx);\n                if let Some(moved_val) = self.list.get(idx) {\n                    self.map.insert(*moved_val, idx);\n                }\n                true\n            }\n            None => false,\n        }\n    }\n\n    fn get_random(&mut self) -> i32 {\n        if self.list.len() == 1 {\n            return *self.list.first().unwrap();\n        }\n        let mut rng = rand::thread_rng();\n        let random_idx = rng.gen_range(0..self.list.len());\n\n        self.list[random_idx]\n    }\n}\n\nfn main() {\n    let mut x = RandomizedSet::new();\n    println!(\"insert 1: {:?}\", x.insert(1));\n    println!(\"list: {:?}\", x.list);\n    println!(\"remove 2: {:?}\", x.remove(2));\n    println!(\"list: {:?}\", x.list);\n    println!(\"insert 2: {:?}\", x.insert(2));\n    println!(\"list: {:?}\", x.list);\n    println!(\"list: {:?}\", x.list);\n    println!(\"get random: {:?}\", x.get_random());\n    println!(\"remove 1: {:?}\", x.remove(1));\n    println!(\"list: {:?}\", x.list);\n    println!(\"insert 2: {:?}\", x.insert(2));\n    println!(\"list: {:?}\", x.list);\n    println!(\"get random: {:?}\", x.get_random());\n}\n",
+          "codeHash": "461daad12b48dac0f7b8565bd914d5213f193e96e6cb79964121bb006539ff22",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "380",
+          "commitBody": "time: O(1)\nspace: O(n)",
+          "diffFromPreviousRelevantRevision": "",
+          "changedLineCounts": {
+            "additions": 0,
+            "deletions": 0
+          },
+          "approachId": "chronological",
+          "narrativeIndex": 2,
+          "shortChangeSummary": "Updates the solution.",
           "warnings": []
         }
       ]

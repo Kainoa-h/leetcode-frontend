@@ -24,9 +24,9 @@
     "lastCommittedAt": "2026-06-16T10:50:52+08:00"
   },
   "analysis": {
-    "status": "cached",
+    "status": "fallback",
     "model": null,
-    "promptVersion": "2",
+    "promptVersion": "6",
     "inputHash": "30426b61d4e2c61306424d9d632c29f7c20006ee96e374315e3dd64ca54643f2"
   },
   "approaches": [

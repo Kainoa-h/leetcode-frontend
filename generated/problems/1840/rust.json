@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-06-21T10:26:44+08:00"
   },
   "analysis": {
-    "status": "cached",
-    "model": "mistralai/mistral-small-2603",
-    "promptVersion": "2",
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "6",
     "inputHash": "d4739c231b4f8339f09bfd90a9ac08e87facdd0198d3dbeb3a2b0db7d11028e2"
   },
   "approaches": [
     {
-      "id": "two-pass-constraint-propagation",
-      "title": "Two-Pass Constraint Propagation",
-      "summary": "Propagate height constraints forward and backward to determine feasible heights at each position, then compute the maximum height between adjacent constraints.",
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
       "order": 0,
       "revisions": [
         {
@@ -55,9 +55,9 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "two-pass-constraint-propagation",
+          "approachId": "chronological",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial implementation with separate forward and backward passes, then computing max between adjacent constraints.",
+          "shortChangeSummary": "had a peek at hints",
           "warnings": []
         },
         {
@@ -82,9 +82,9 @@
             "additions": 6,
             "deletions": 12
           },
-          "approachId": "two-pass-constraint-propagation",
+          "approachId": "chronological",
           "narrativeIndex": 1,
-          "shortChangeSummary": "Optimized by merging the backward pass into the forward pass and computing max during the same iteration.",
+          "shortChangeSummary": "one less interation",
           "warnings": []
         }
       ]

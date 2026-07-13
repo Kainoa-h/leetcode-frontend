@@ -1,4 +1,7 @@
-import { narrativeResultSchema, type NarrativeResult } from './schemas.js';
+import {
+  llmNarrativeResultSchema,
+  type LlmNarrativeResult,
+} from './schemas.js';
 const responseSchema = {
   type: 'object',
   additionalProperties: false,
@@ -20,9 +23,9 @@ const responseSchema = {
             items: {
               type: 'object',
               additionalProperties: false,
-              required: ['sha', 'order', 'shortChange'],
+              required: ['revisionId', 'order', 'shortChange'],
               properties: {
-                sha: { type: 'string' },
+                revisionId: { type: 'integer', minimum: 1 },
                 order: { type: 'integer' },
                 shortChange: { type: 'string', maxLength: 120 },
               },
@@ -36,7 +39,7 @@ const responseSchema = {
 export class OpenRouterClient {
   readonly calls = { count: 0 };
   constructor(private readonly env: NodeJS.ProcessEnv = process.env) {}
-  async generate(prompt: string): Promise<NarrativeResult> {
+  async generate(prompt: string): Promise<LlmNarrativeResult> {
     const key = this.env.OPENROUTER_API_KEY,
       model = this.env.OPENROUTER_MODEL;
     if (!key || !model)
@@ -63,6 +66,7 @@ export class OpenRouterClient {
           body: JSON.stringify({
             model,
             temperature: 0.1,
+            reasoning: { effort: 'low' },
             messages: [
               {
                 role: 'system',
@@ -91,7 +95,7 @@ export class OpenRouterClient {
           ).choices?.[0]?.message?.content;
           if (!content)
             throw new Error('OpenRouter response contained no message content');
-          return narrativeResultSchema.parse(JSON.parse(content));
+          return llmNarrativeResultSchema.parse(JSON.parse(content));
         }
       } catch (error) {
         last = error instanceof Error ? error.message : String(error);

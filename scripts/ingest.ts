@@ -10,7 +10,7 @@ import {
   fallbackNarrative,
   narrativePrompt,
   shouldRequestLlm,
-  validateNarrative,
+  validateRevisionIdNarrative,
 } from './lib/narrative.js';
 import { OpenRouterClient } from './lib/openrouter.js';
 import { readManifest, writeStable } from './lib/manifest.js';
@@ -48,6 +48,7 @@ async function main() {
     throw new Error('Missing --source <path> (a full Git clone)');
   const root = process.cwd();
   const source = path.resolve(flags.source);
+  console.log(`[ingest] Validating source repository at ${source}`);
   try {
     if (!(await fs.stat(source)).isDirectory()) throw new Error();
   } catch {
@@ -55,12 +56,14 @@ async function main() {
       `Source path does not exist or is not a directory: ${source}`,
     );
   }
+  console.log('[ingest] Reading site configuration and previous generated state');
   const site = siteSchema.parse(
     JSON.parse(await fs.readFile(path.join(root, 'config/site.json'), 'utf8')),
   );
   const git = new GitRepository(source);
   const head = await git.verify();
   const old = await readManifest(root);
+  console.log(`[git] Source HEAD ${head}`);
   const rewritten =
     Boolean(old?.sourceHeadSha) &&
     !(await git.isAncestor(old!.sourceHeadSha!, head));
@@ -68,19 +71,31 @@ async function main() {
     console.warn(
       '[git] Previous HEAD is not an ancestor; performing full re-index',
     );
+  console.log('[history] Collecting committed solution history');
   const history = await collectHistory(git);
+  console.log(
+    `[history] Found ${history.commits.length} commits, ${history.groups.size} solution groups, and ${history.warnings.length} warnings`,
+  );
   const client = new OpenRouterClient();
   const pages: GeneratedPage[] = [];
   let cacheHits = 0,
     regenerated = 0;
-  for (const [key, revisions] of [...history.groups].sort()) {
+  const selectedGroups = [...history.groups]
+    .sort()
+    .filter(([key]) => {
+      const [idText, language] = key.split('/') as [string, string];
+      return (
+        (!flags.problem || Number(idText) === Number(flags.problem)) &&
+        (!flags.language || language === flags.language)
+      );
+    });
+  console.log(`[ingest] Processing ${selectedGroups.length} selected solution groups`);
+  for (const [groupIndex, [key, revisions]] of selectedGroups.entries()) {
     const [idText, language] = key.split('/') as [string, string];
     const problemId = Number(idText);
-    if (
-      (flags.problem && problemId !== Number(flags.problem)) ||
-      (flags.language && language !== flags.language)
-    )
-      continue;
+    console.log(
+      `[group ${groupIndex + 1}/${selectedGroups.length}] Processing ${key} (${revisions.length} revision${revisions.length === 1 ? '' : 's'})`,
+    );
     const latest = revisions.at(-1)!;
     const title = deriveTitle(latest.sourceFilename, problemId);
     const inputHash = hash({
@@ -129,6 +144,7 @@ async function main() {
         status = 'cached';
         model = existing.analysis.model;
         cacheHits++;
+        console.log(`[group ${groupIndex + 1}/${selectedGroups.length}] Reusing cached narrative`);
       }
     } catch {}
     if (
@@ -139,11 +155,12 @@ async function main() {
       process.env.OPENROUTER_MODEL
     ) {
       try {
-        narrative = validateNarrative(
+        console.log(`[group ${groupIndex + 1}/${selectedGroups.length}] Requesting LLM narrative`);
+        narrative = validateRevisionIdNarrative(
           await client.generate(
             narrativePrompt(problemId, title, language, revisions),
           ),
-          revisions.map((r) => r.sha),
+          revisions,
         );
         status = 'llm';
         model = process.env.OPENROUTER_MODEL;
@@ -153,7 +170,10 @@ async function main() {
         );
       }
     }
-    if (!narrative) narrative = fallbackNarrative(revisions);
+    if (!narrative) {
+      console.log(`[group ${groupIndex + 1}/${selectedGroups.length}] Using deterministic fallback narrative`);
+      narrative = fallbackNarrative(revisions);
+    }
     const bySha = new Map(revisions.map((r) => [r.sha, r]));
     const approaches = narrative.approaches
       .sort((a, b) => a.order - b.order)
@@ -205,6 +225,9 @@ async function main() {
     problemPageSchema.parse(page);
     pages.push(page);
     regenerated++;
+    console.log(
+      `[group ${groupIndex + 1}/${selectedGroups.length}] Ready: ${approaches.length} approach${approaches.length === 1 ? '' : 'es'} (${status})`,
+    );
   }
   const questionMap = new Map<number, GeneratedIndex['questions'][number]>();
   for (const p of pages) {
@@ -281,6 +304,7 @@ async function main() {
     groups,
   };
   if (!flags.dryRun) {
+    console.log(`[write] Writing ${pages.length} problem page${pages.length === 1 ? '' : 's'}, index, manifest, and warnings`);
     for (const p of pages)
       await writeStable(
         path.join(
@@ -302,6 +326,7 @@ async function main() {
       }),
     );
     if (flags.full || rewritten) {
+      console.log('[write] Removing stale generated problem pages');
       const expected = new Set(
         pages.map((p) =>
           path.join(

@@ -18,22 +18,22 @@
   },
   "statistics": {
     "revisionCount": 2,
-    "approachCount": 2,
+    "approachCount": 1,
     "incorrectRevisionCount": 1,
     "firstCommittedAt": "2026-05-24T23:28:21+08:00",
     "lastCommittedAt": "2026-05-24T23:39:45+08:00"
   },
   "analysis": {
-    "status": "cached",
-    "model": "mistralai/mistral-small-2603",
-    "promptVersion": "2",
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
     "inputHash": "2e6619cf4171993294cfd7085acd21bce628df5385950a6f723f7137e5eafacb"
   },
   "approaches": [
     {
-      "id": "357e6b0b0495ff760b3785393de16411ea08d5de",
-      "title": "Incorrect: Max selection with memoization",
-      "summary": "Attempts DP with memoization but incorrectly tracks max values by storing indices and values separately, leading to wrong jumps.",
+      "id": "approach-1",
+      "title": "Top-down memoized dynamic programming",
+      "summary": "Uses recursive depth-first search with memoization to compute the maximum number of jumps from each index, exploring reachable lower-valued positions to the左 or",
       "order": 0,
       "revisions": [
         {
@@ -55,19 +55,11 @@
           "commitBody": "probably not working due to multiple max_left/right",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "357e6b0b0495ff760b3785393de16411ea08d5de",
+          "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial incorrect approach using separate max tracking for left/right jumps with memoization.",
+          "shortChangeSummary": "Initial memoized recursive DP attempt, but it incorrectly follows only the maximum-valued reachable position on each側;‌",
           "warnings": []
-        }
-      ]
-    },
-    {
-      "id": "b403dfffc867cc84cb650841aa914af4235d01b6",
-      "title": "Correct: Dynamic programming with memoization",
-      "summary": "Proper DP solution using memoization to compute maximum jumps by recursively exploring valid left/right positions.",
-      "order": 1,
-      "revisions": [
+        },
         {
           "sha": "b403dfffc867cc84cb650841aa914af4235d01b6",
           "shortSha": "b403dff",
@@ -90,9 +82,9 @@
             "additions": 5,
             "deletions": 21
           },
-          "approachId": "b403dfffc867cc84cb650841aa914af4235d01b6",
-          "narrativeIndex": 0,
-          "shortChangeSummary": "Fixed DP approach by directly using recursive results for max jumps instead of tracking max values.",
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Corrects the recurrence by recursively evaluating every reachable lower-valued index on both sides and taking the best结果",
           "warnings": []
         }
       ]

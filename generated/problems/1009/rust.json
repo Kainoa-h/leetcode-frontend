@@ -18,22 +18,22 @@
   },
   "statistics": {
     "revisionCount": 2,
-    "approachCount": 2,
+    "approachCount": 1,
     "incorrectRevisionCount": 0,
     "firstCommittedAt": "2026-03-11T23:35:17+08:00",
     "lastCommittedAt": "2026-03-11T23:39:39+08:00"
   },
   "analysis": {
-    "status": "cached",
-    "model": "mistralai/mistral-small-2603",
-    "promptVersion": "2",
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
     "inputHash": "2780541dfd36d00e78fe4d87275dc3f38a19ede7d05c1aed6adc2f79699dd001"
   },
   "approaches": [
     {
-      "id": "leading_zeros_approach",
-      "title": "Leading Zeros Masking",
-      "summary": "Uses leading_zeros() to generate a bitmask for XOR operation in O(1) time and space.",
+      "id": "approach-1",
+      "title": "Bitwise complement using a highest-bit mask",
+      "summary": "Constructs a mask covering all significant bits of n, then XORs n with the mask; handles zero separately.",
       "order": 0,
       "revisions": [
         {
@@ -55,19 +55,11 @@
           "commitBody": "time: O(1)\nspace: O(1)",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "leading_zeros_approach",
+          "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial implementation using leading_zeros() to create a bitmask for XOR.",
+          "shortChangeSummary": "Uses leading_zeros() to construct the mask in constant time.",
           "warnings": []
-        }
-      ]
-    },
-    {
-      "id": "bit_smearing_approach",
-      "title": "Bit Smearing Masking",
-      "summary": "Generates a bitmask by propagating set bits across all positions in O(1) time and space.",
-      "order": 1,
-      "revisions": [
+        },
         {
           "sha": "1ce63bcb75b48fea858cf4ae5d46cd0873aa87c5",
           "shortSha": "1ce63bc",
@@ -90,9 +82,9 @@
             "additions": 7,
             "deletions": 1
           },
-          "approachId": "bit_smearing_approach",
-          "narrativeIndex": 0,
-          "shortChangeSummary": "Replaced leading_zeros() with bit-smearing technique for mask generation.",
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Replaces leading_zeros() with bit smearing to propagate the highest set bit through the mask.",
           "warnings": []
         }
       ]

@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-06-18T15:08:11+08:00"
   },
   "analysis": {
-    "status": "cached",
-    "model": "mistralai/mistral-small-2603",
-    "promptVersion": "2",
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
     "inputHash": "9296c6f8ecc20bfbbcc0e08de790fa7430bbecc772bebfaf70c1c7cecb3a2abd"
   },
   "approaches": [
     {
-      "id": "direct_calculation",
-      "title": "Direct Calculation of Angles",
-      "summary": "Compute hour and minute angles directly using constant increments and return the smallest angle between them.",
+      "id": "1",
+      "title": "Direct geometric calculation using hand angular increments",
+      "summary": "Computes the hour-hand and minute-hand angles from the given time, takes their absolute difference, and selects the smaller angle around the clock. Revision 2,1",
       "order": 0,
       "revisions": [
         {
@@ -55,9 +55,9 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "direct_calculation",
+          "approachId": "1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial implementation with explicit 12/60 handling and separate variable assignments.",
+          "shortChangeSummary": "Initial implementation using floating-point angular increments, with normalization for hour 12 and minute 60.",
           "warnings": []
         },
         {
@@ -82,9 +82,9 @@
             "additions": 2,
             "deletions": 4
           },
-          "approachId": "direct_calculation",
+          "approachId": "1",
           "narrativeIndex": 1,
-          "shortChangeSummary": "Simplified by removing redundant 12/60 checks and consolidating type conversions.",
+          "shortChangeSummary": "Simplified the implementation by removing input normalization and converting integer inputs directly during angle 계산.",
           "warnings": []
         }
       ]

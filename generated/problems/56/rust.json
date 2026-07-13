@@ -18,22 +18,22 @@
   },
   "statistics": {
     "revisionCount": 2,
-    "approachCount": 1,
+    "approachCount": 2,
     "incorrectRevisionCount": 0,
     "firstCommittedAt": "2026-06-19T20:51:31+08:00",
     "lastCommittedAt": "2026-06-19T21:01:39+08:00"
   },
   "analysis": {
-    "status": "cached",
-    "model": null,
-    "promptVersion": "2",
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
     "inputHash": "996caf9aab1900243d971ec9ad3623d501b15549b3a0edc4e4149533153a0b9d"
   },
   "approaches": [
     {
-      "id": "chronological",
-      "title": "Solution history",
-      "summary": "Revisions in chronological order.",
+      "id": "approach-1",
+      "title": "Disjoint-set union for overlapping components",
+      "summary": "Checks every pair of intervals for overlap, unions overlapping intervals with a DSU, then aggregates each connected component into one merged interval and sorts",
       "order": 0,
       "revisions": [
         {
@@ -55,11 +55,19 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "chronological",
+          "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "over complicated DSU LOL",
+          "shortChangeSummary": "Initial solution using pairwise overlap checks and a disjoint-set union structure to merge connected interval components",
           "warnings": []
-        },
+        }
+      ]
+    },
+    {
+      "id": "approach-2",
+      "title": "Sort and scan intervals",
+      "summary": "Sorts intervals by their starting positions, then performs a single left-to-right pass, extending the last merged interval when overlap is detected",
+      "order": 1,
+      "revisions": [
         {
           "sha": "7224b1d45403a3b9d1ed4b9a9bed2970e5692a03",
           "shortSha": "7224b1d",
@@ -82,9 +90,9 @@
             "additions": 11,
             "deletions": 50
           },
-          "approachId": "chronological",
-          "narrativeIndex": 1,
-          "shortChangeSummary": "what a normal person would do",
+          "approachId": "approach-2",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaces the DSU and pairwise comparisons with the standard sort-and-linear-scan merging strategy",
           "warnings": []
         }
       ]

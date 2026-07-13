@@ -18,22 +18,22 @@
   },
   "statistics": {
     "revisionCount": 2,
-    "approachCount": 2,
+    "approachCount": 1,
     "incorrectRevisionCount": 0,
     "firstCommittedAt": "2026-06-19T09:15:04+08:00",
     "lastCommittedAt": "2026-06-19T09:15:32+08:00"
   },
   "analysis": {
-    "status": "cached",
-    "model": "mistralai/mistral-small-2603",
-    "promptVersion": "2",
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
     "inputHash": "87d733e661dc8fd48681efc77c8f8a393a01d2bf23343636a2718b097fceb862"
   },
   "approaches": [
     {
-      "id": "linear-scan-with-separate-range-checks",
-      "title": "Linear scan with separate range checks",
-      "summary": "Iterate through the array, tracking start and previous values, and handle ranges and single values separately.",
+      "id": "1",
+      "title": "Single-pass range aggregation",
+      "summary": "Tracks the start and previous value of each range in one pass, emitting a formatted range whenever a gap is found. Revision 2 cleans up the control flow and idi",
       "order": 0,
       "revisions": [
         {
@@ -55,19 +55,11 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "linear-scan-with-separate-range-checks",
+          "approachId": "1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial implementation with separate checks for range continuation and single values.",
+          "shortChangeSummary": "Initial single-pass implementation that handles duplicates, consecutive values, gaps, and final range emission.",
           "warnings": []
-        }
-      ]
-    },
-    {
-      "id": "linear-scan-with-combined-checks",
-      "title": "Linear scan with combined checks",
-      "summary": "Simplify the logic by combining equality and range checks into a single condition for cleaner code.",
-      "order": 1,
-      "revisions": [
+        },
         {
           "sha": "2a2555b2de70550743eaa166cfb3d1e408d1b638",
           "shortSha": "2a2555b",
@@ -90,9 +82,9 @@
             "additions": 14,
             "deletions": 17
           },
-          "approachId": "linear-scan-with-combined-checks",
-          "narrativeIndex": 0,
-          "shortChangeSummary": "Refactored to merge equality and range checks, and improved string formatting.",
+          "approachId": "1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Refactors range formatting and combines duplicate/consecutive checks while preserving the same single-pass strategy.",
           "warnings": []
         }
       ]

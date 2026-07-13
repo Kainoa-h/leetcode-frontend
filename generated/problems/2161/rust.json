@@ -18,22 +18,22 @@
   },
   "statistics": {
     "revisionCount": 2,
-    "approachCount": 2,
+    "approachCount": 1,
     "incorrectRevisionCount": 0,
     "firstCommittedAt": "2026-06-08T10:03:57+08:00",
     "lastCommittedAt": "2026-06-08T10:29:58+08:00"
   },
   "analysis": {
-    "status": "cached",
-    "model": "mistralai/mistral-small-2603",
-    "promptVersion": "2",
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
     "inputHash": "75e310476c78c8194616985e36be5e996d57067cb336c5ee8c37524169d1a901"
   },
   "approaches": [
     {
-      "id": "pythonic-approach",
-      "title": "Pythonic approach with pre-allocation",
-      "summary": "Pre-allocates output array and uses three pointers to partition elements in-place.",
+      "id": "approach-1",
+      "title": "Three-way stable partition",
+      "summary": "Partitions elements into values less than, equal to, and greater than the pivot while preserving their relative order, then concatenates the groups.",
       "order": 0,
       "revisions": [
         {
@@ -55,19 +55,11 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "pythonic-approach",
+          "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial implementation using pre-allocated array and three pointers for partitioning.",
+          "shortChangeSummary": "Uses a preallocated output array with calculated insertion positions for each partition.",
           "warnings": []
-        }
-      ]
-    },
-    {
-      "id": "cleaner-approach",
-      "title": "Cleaner approach with separate vectors",
-      "summary": "Uses three separate collections (less, equal, more) and concatenates them at the end.",
-      "order": 1,
-      "revisions": [
+        },
         {
           "sha": "1788b2a660df16980956cd8d187d3c06d800e402",
           "shortSha": "1788b2a",
@@ -90,9 +82,9 @@
             "additions": 9,
             "deletions": 11
           },
-          "approachId": "cleaner-approach",
-          "narrativeIndex": 0,
-          "shortChangeSummary": "Refactored to use separate vectors for less, equal, and more elements, improving readability.",
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Refactors to collect less-than and greater-than values separately, count pivot values, and concatenate the groups more直接",
           "warnings": []
         }
       ]

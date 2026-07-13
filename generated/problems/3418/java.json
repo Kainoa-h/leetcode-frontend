@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-04-02T21:20:16+08:00"
   },
   "analysis": {
-    "status": "cached",
-    "model": null,
-    "promptVersion": "2",
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
     "inputHash": "1a6a6a935fa7bbbf18479225fff4ef53a4abe461c282be0532fddbf0924a7717"
   },
   "approaches": [
     {
-      "id": "chronological",
-      "title": "Solution history",
-      "summary": "Revisions in chronological order.",
+      "id": "approach-1",
+      "title": "Rolling dynamic programming with neutralization states",
+      "summary": "Uses dynamic programming over the grid, tracking the maximum amount for each number of neutralizations used. Revision 2 refines the same strategy with a dummy/1",
       "order": 0,
       "revisions": [
         {
@@ -55,9 +55,9 @@
           "commitBody": "time: O(m*n)\nspace: O(n)",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "chronological",
+          "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "works for any neutralises count",
+          "shortChangeSummary": "Introduces a rolling-column dynamic programming solution with nullable states and support for a configurable number of��",
           "warnings": []
         },
         {
@@ -82,9 +82,9 @@
             "additions": 20,
             "deletions": 47
           },
-          "approachId": "chronological",
+          "approachId": "approach-1",
           "narrativeIndex": 1,
-          "shortChangeSummary": "proper solution with dummy col",
+          "shortChangeSummary": "Refactors the DP to use a fixed three-state array, sentinel values, and a dummy column for cleaner in-place transitions.",
           "warnings": []
         }
       ]

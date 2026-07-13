@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-06-16T21:23:46+08:00"
   },
   "analysis": {
-    "status": "cached",
-    "model": "mistralai/mistral-small-2603",
-    "promptVersion": "2",
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
     "inputHash": "006bdf1ce712f030e06642988417fd5f93bd46fb9a2f86a9dd7f6ad80420400d"
   },
   "approaches": [
     {
       "id": "monotonic_stack",
-      "title": "Monotonic Stack",
-      "summary": "Uses a stack to keep track of indices of temperatures in decreasing order. For each temperature, pops indices from the stack until a warmer temperature is found",
+      "title": "Monotonic decreasing stack",
+      "summary": "Process temperatures from left to right while maintaining indices of unresolved days in a decreasing monotonic stack; resolve entries when a warmer temperatureอ",
       "order": 0,
       "revisions": [
         {
@@ -57,7 +57,7 @@
           "changedLineCounts": null,
           "approachId": "monotonic_stack",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial implementation with monotonic stack",
+          "shortChangeSummary": "Initial monotonic-stack solution that resolves prior cooler temperatures when a warmer day is encountered.",
           "warnings": []
         },
         {
@@ -84,7 +84,7 @@
           },
           "approachId": "monotonic_stack",
           "narrativeIndex": 1,
-          "shortChangeSummary": "Optimized by using iterator to reduce bounds checks",
+          "shortChangeSummary": "Refactors iteration to use enumerate and the current temperature value directly, preserving the same monotonic-stack算法.",
           "warnings": []
         }
       ]

@@ -18,22 +18,22 @@
   },
   "statistics": {
     "revisionCount": 2,
-    "approachCount": 2,
+    "approachCount": 1,
     "incorrectRevisionCount": 0,
     "firstCommittedAt": "2026-06-06T23:21:41+08:00",
     "lastCommittedAt": "2026-06-06T23:27:15+08:00"
   },
   "analysis": {
-    "status": "cached",
-    "model": "mistralai/mistral-small-2603",
-    "promptVersion": "2",
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
     "inputHash": "e280709720f37e50077916bac7a945411624786b0cc44673a8dd46e65f32de8a"
   },
   "approaches": [
     {
-      "id": "prefix-suffix-scans",
-      "title": "Prefix and Suffix Scans with Extra Allocations",
-      "summary": "Compute left and right sums using scans with separate allocations and combine results.",
+      "id": "approach-1",
+      "title": "Prefix and total-sum running differences",
+      "summary": "Computes the sum on each side of every element and takes the absolute difference. Revision 1 builds left and right prefix-sum arrays explicitly; revision 2 uses",
       "order": 0,
       "revisions": [
         {
@@ -55,19 +55,11 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "prefix-suffix-scans",
+          "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial implementation using prefix and suffix scans with extra allocations for left and right sums.",
+          "shortChangeSummary": "Builds left and right prefix-sum arrays with iterator scans, then zips them to compute absolute differences.",
           "warnings": []
-        }
-      ]
-    },
-    {
-      "id": "single-pass-total-sum",
-      "title": "Single-Pass Total Sum with In-Place Calculation",
-      "summary": "Calculate total sum once, then compute differences in a single pass without extra allocations.",
-      "order": 1,
-      "revisions": [
+        },
         {
           "sha": "0253780184f36047432a0b3ff5b1d6f031e18fe4",
           "shortSha": "0253780",
@@ -90,9 +82,9 @@
             "additions": 9,
             "deletions": 24
           },
-          "approachId": "single-pass-total-sum",
-          "narrativeIndex": 0,
-          "shortChangeSummary": "Optimized to avoid extra allocations by using total sum and in-place left sum tracking.",
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Replaces the extra prefix-sum arrays with one total-sum pass and a running left sum, reducing auxiliary allocations.",
           "warnings": []
         }
       ]

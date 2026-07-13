@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-06-22T21:32:00+08:00"
   },
   "analysis": {
-    "status": "cached",
-    "model": "mistralai/mistral-small-2603",
-    "promptVersion": "2",
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
     "inputHash": "2fba30585a9617160d50c7525bbb72c0b65af70c9be76fe9719c3673899a1ce9"
   },
   "approaches": [
     {
-      "id": "sorting_greedy",
-      "title": "Sorting with Greedy Selection",
-      "summary": "Sorts the costs and iteratively buys the cheapest available ice cream bars until coins run out.",
+      "id": "approach-1",
+      "title": "Sort costs and greedily buy cheapest bars",
+      "summary": "Sorts all costs in ascending order, then purchases bars from cheapest to most expensive until the remaining coins cannot cover the next price.",
       "order": 0,
       "revisions": [
         {
@@ -55,17 +55,17 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "sorting_greedy",
+          "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "None",
+          "shortChangeSummary": "Initial greedy solution using comparison sorting followed by cheapest-first purchasing.",
           "warnings": []
         }
       ]
     },
     {
-      "id": "counting_sort",
-      "title": "Counting Sort with Frequency Tracking",
-      "summary": "Uses counting sort to track frequencies of each cost, then iteratively buys from the cheapest available bars.",
+      "id": "approach-2",
+      "title": "Counting sort with greedy purchasing",
+      "summary": "Uses a fixed-size frequency array indexed by cost to process prices in ascending order, then greedily purchases every affordable bar.",
       "order": 1,
       "revisions": [
         {
@@ -90,9 +90,9 @@
             "additions": 21,
             "deletions": 9
           },
-          "approachId": "counting_sort",
+          "approachId": "approach-2",
           "narrativeIndex": 0,
-          "shortChangeSummary": "None",
+          "shortChangeSummary": "Replaces comparison sorting with counting sort over the bounded cost range and adds a sample assertion.",
           "warnings": []
         }
       ]

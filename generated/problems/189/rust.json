@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-01-24T23:15:04+08:00"
   },
   "analysis": {
-    "status": "cached",
-    "model": "mistralai/mistral-small-2603",
-    "promptVersion": "2",
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
     "inputHash": "50aac56b1892f9848786dec6c88573d1b3d83a3a0349b0f315d7304d10ee0788"
   },
   "approaches": [
     {
-      "id": "brute_force_shift",
-      "title": "Brute Force Shift",
-      "summary": "Naive O(n*k) approach shifting elements one by one in a loop.",
+      "id": "approach-1",
+      "title": "Repeated one-step right shifts",
+      "summary": "Rotates the array by moving the last element to the front and shifting all other elements right once for each of k rotations.",
       "order": 0,
       "revisions": [
         {
@@ -55,17 +55,17 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "brute_force_shift",
+          "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "O(n*k) time, O(1) space",
+          "shortChangeSummary": "Initial brute-force rotation using repeated single-position shifts.",
           "warnings": []
         }
       ]
     },
     {
-      "id": "clone_and_reassign",
-      "title": "Clone and Reassign",
-      "summary": "O(n) time and space approach using a clone to split and reassign blocks.",
+      "id": "approach-2",
+      "title": "Clone and rearrange blocks",
+      "summary": "Creates a clone of the array, splits it at the rotation boundary, and writes the suffix followed by the prefix back into the original array.",
       "order": 1,
       "revisions": [
         {
@@ -90,17 +90,17 @@
             "additions": 13,
             "deletions": 6
           },
-          "approachId": "clone_and_reassign",
+          "approachId": "approach-2",
           "narrativeIndex": 0,
-          "shortChangeSummary": "O(n) time, O(n) space",
+          "shortChangeSummary": "Replaced repeated shifts with cloned-array block rearrangement and reduced k modulo the array length.",
           "warnings": []
         }
       ]
     },
     {
-      "id": "triple_reverse",
-      "title": "Triple Reverse",
-      "summary": "O(n) time, O(1) space approach using three reverses to rotate in-place.",
+      "id": "approach-3",
+      "title": "Triple-reversal rotation",
+      "summary": "Rotates in place by reversing the entire array, then reversing the first k elements and the remaining elements.",
       "order": 2,
       "revisions": [
         {
@@ -125,9 +125,9 @@
             "additions": 4,
             "deletions": 14
           },
-          "approachId": "triple_reverse",
+          "approachId": "approach-3",
           "narrativeIndex": 0,
-          "shortChangeSummary": "O(n) time, O(1) space",
+          "shortChangeSummary": "Replaced cloning and block copying with the in-place triple-reverse technique.",
           "warnings": []
         }
       ]

@@ -18,22 +18,22 @@
   },
   "statistics": {
     "revisionCount": 3,
-    "approachCount": 2,
+    "approachCount": 1,
     "incorrectRevisionCount": 0,
     "firstCommittedAt": "2026-01-29T21:30:03+08:00",
     "lastCommittedAt": "2026-01-29T23:00:03+08:00"
   },
   "analysis": {
-    "status": "cached",
-    "model": "mistralai/mistral-small-2603",
-    "promptVersion": "2",
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
     "inputHash": "fe0d8bd6e1108d760754e42668ada4505abbc480897c41a4230ca6cce28662ff"
   },
   "approaches": [
     {
-      "id": "hash_map_lookup",
-      "title": "HashMap Lookup",
-      "summary": "Uses a HashMap to store Roman numeral values and iterates through the string to compute the total.",
+      "id": "approach-1",
+      "title": "Single-pass Roman numeral accumulation",
+      "summary": "Iterates through the Roman numeral characters, maps each symbol to its value, and adjusts the running total when a larger value follows a smaller one.",
       "order": 0,
       "revisions": [
         {
@@ -55,19 +55,11 @@
           "commitBody": "time: O(n)\nspace: O(1)",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "hash_map_lookup",
+          "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial implementation with HashMap.",
+          "shortChangeSummary": "Initial implementation using a HashMap for Roman symbol lookup and a single-pass subtraction adjustment.",
           "warnings": []
-        }
-      ]
-    },
-    {
-      "id": "closure_match",
-      "title": "Closure with Match",
-      "summary": "Replaces HashMap with a closure using pattern matching for a more idiomatic Rust approach.",
-      "order": 1,
-      "revisions": [
+        },
         {
           "sha": "6d1ea7d6566ddfa2ad4354bd36a1223d724a52c6",
           "shortSha": "6d1ea7d",
@@ -90,9 +82,9 @@
             "additions": 11,
             "deletions": 15
           },
-          "approachId": "closure_match",
-          "narrativeIndex": 0,
-          "shortChangeSummary": "Switches to a closure-based lookup for better idiomatic Rust.",
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Replaced the HashMap with an idiomatic Rust match closure while preserving the same single-pass algorithm.",
           "warnings": []
         },
         {
@@ -117,9 +109,9 @@
             "additions": 1,
             "deletions": 1
           },
-          "approachId": "closure_match",
-          "narrativeIndex": 1,
-          "shortChangeSummary": "Simplifies iteration by using `s.chars()` instead of `s.char_indices()`.",
+          "approachId": "approach-1",
+          "narrativeIndex": 2,
+          "shortChangeSummary": "Replaced char_indices with chars because byte indices are unnecessary, preserving the same algorithm.",
           "warnings": []
         }
       ]

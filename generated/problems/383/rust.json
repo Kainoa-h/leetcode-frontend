@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-05-24T22:20:15+08:00"
   },
   "analysis": {
-    "status": "cached",
-    "model": "mistralai/mistral-small-2603",
-    "promptVersion": "2",
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
     "inputHash": "b60db9cfdbb8f68bec030ba90f211409249b67d1db8e5a325de486687f3c32f0"
   },
   "approaches": [
     {
-      "id": "hashmap",
-      "title": "HashMap Frequency Count",
-      "summary": "Use a HashMap to count character frequencies in magazine and decrement for ransom note.",
+      "id": "approach-1",
+      "title": "Hash map character frequency counting",
+      "summary": "Counts magazine characters in a hash map, then consumes those counts while scanning the ransom note.",
       "order": 0,
       "revisions": [
         {
@@ -55,17 +55,17 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "hashmap",
+          "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial implementation using HashMap for frequency counting.",
+          "shortChangeSummary": "Initial solution using a HashMap to track available character frequencies.",
           "warnings": []
         }
       ]
     },
     {
-      "id": "fixed_array",
-      "title": "Fixed Array with Offset",
-      "summary": "Use a fixed-size array to count character frequencies with ASCII offset for efficiency.",
+      "id": "approach-2",
+      "title": "Fixed-size alphabet frequency array",
+      "summary": "Uses a 26-element array indexed by the offset of each lowercase letter from 'a' to track available characters.",
       "order": 1,
       "revisions": [
         {
@@ -90,9 +90,9 @@
             "additions": 7,
             "deletions": 11
           },
-          "approachId": "fixed_array",
+          "approachId": "approach-2",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Optimized to fixed array for better performance and reduced overhead.",
+          "shortChangeSummary": "Replaces the hash map with a fixed-size array indexed by lowercase-letter offsets.",
           "warnings": []
         }
       ]

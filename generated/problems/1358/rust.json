@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-06-30T15:03:54+08:00"
   },
   "analysis": {
-    "status": "cached",
-    "model": "mistralai/mistral-small-2603",
-    "promptVersion": "2",
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
     "inputHash": "d82769bb3619d14e1f8bf7dad0d29fd9945c8097a11003ab4acc1a4929fe311c"
   },
   "approaches": [
     {
-      "id": "linked_list_tracking",
-      "title": "Track character positions with linked lists",
-      "summary": "Maintain three linked lists to record positions of 'a', 'b', and 'c', then compute valid substrings by analyzing front elements.",
+      "id": "approach-1",
+      "title": "Track character positions with per-character queues",
+      "summary": "Stores every index for each character in linked lists, then advances the queue for the character at each position to determine how many valid substrings begin. ",
       "order": 0,
       "revisions": [
         {
@@ -55,17 +55,17 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "linked_list_tracking",
+          "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial implementation using LinkedList to track character positions and compute valid substrings.",
+          "shortChangeSummary": "Initial queue-based solution using three LinkedLists of character positions.",
           "warnings": []
         }
       ]
     },
     {
-      "id": "sliding_window_with_minimum_indices",
-      "title": "Sliding window with minimum indices",
-      "summary": "Use a vector to track the most recent positions of 'a', 'b', and 'c', updating the count whenever all three characters are seen.",
+      "id": "approach-2",
+      "title": "Track latest occurrence of each character",
+      "summary": "Maintains the most recent index of each character and adds one plus the smallest latest index to count valid substrings ending at each position.",
       "order": 1,
       "revisions": [
         {
@@ -90,9 +90,9 @@
             "additions": 4,
             "deletions": 38
           },
-          "approachId": "sliding_window_with_minimum_indices",
+          "approachId": "approach-2",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Optimized solution using a sliding window approach with minimum indices to count valid substrings efficiently.",
+          "shortChangeSummary": "Replaces position queues with a constant-space last-seen index array and direct counting.",
           "warnings": []
         }
       ]

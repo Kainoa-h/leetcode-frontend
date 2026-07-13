@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-02-05T17:31:58+08:00"
   },
   "analysis": {
-    "status": "cached",
-    "model": "mistralai/mistral-small-2603",
-    "promptVersion": "2",
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
     "inputHash": "7da3307c7cbafa1e1e607b93c32fd1ef8e0964e64f67bafccd2aeba98969aad1"
   },
   "approaches": [
     {
-      "id": "brute-force",
-      "title": "Brute Force",
-      "summary": "Iterate through all pairs of numbers to find the target sum.",
+      "id": "approach-1",
+      "title": "Brute-force search with sorted-array pruning",
+      "summary": "Checks pairs using nested loops and stops scanning an inner loop once the sorted values make the sum exceed the target.",
       "order": 0,
       "revisions": [
         {
@@ -55,17 +55,17 @@
           "commitBody": "time: O(n^2)\nspace: O(1)",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "brute-force",
+          "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial brute force solution with O(n^2) time complexity.",
+          "shortChangeSummary": "Initial nested-loop brute-force solution with O(n^2) time and O(1) space.",
           "warnings": []
         }
       ]
     },
     {
-      "id": "two-pointers",
-      "title": "Two Pointers",
-      "summary": "Use two pointers starting from both ends to efficiently find the target sum.",
+      "id": "approach-2",
+      "title": "Two-pointer scan",
+      "summary": "Uses left and right pointers and adjusts them based on whether the current sum is below or above the target, achieving a linear scan.",
       "order": 1,
       "revisions": [
         {
@@ -90,9 +90,9 @@
             "additions": 13,
             "deletions": 10
           },
-          "approachId": "two-pointers",
+          "approachId": "approach-2",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Optimized to O(n) time using two pointers on the sorted array.",
+          "shortChangeSummary": "Replaces nested loops with the sorted-array two-pointer algorithm, reducing time to O(n) while retaining O(1) space.",
           "warnings": []
         }
       ]

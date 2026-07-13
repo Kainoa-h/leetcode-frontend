@@ -18,22 +18,22 @@
   },
   "statistics": {
     "revisionCount": 5,
-    "approachCount": 5,
+    "approachCount": 2,
     "incorrectRevisionCount": 0,
     "firstCommittedAt": "2026-07-11T18:38:07+08:00",
     "lastCommittedAt": "2026-07-11T20:12:44+08:00"
   },
   "analysis": {
-    "status": "cached",
-    "model": "mistralai/mistral-small-2603",
-    "promptVersion": "2",
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
     "inputHash": "45dece0c404349fa7f1c5cfba5571d7410e77d48dbecd960ba3a8fbdefc5edab"
   },
   "approaches": [
     {
-      "id": "adjacency_matrix_initial",
-      "title": "Initial adjacency matrix approach",
-      "summary": "Represents the graph as a boolean adjacency matrix and checks connectivity by comparing rows.",
+      "id": "approach-1",
+      "title": "Bitset adjacency representation with component validation",
+      "summary": "Represents each vertex's neighbors and itself as a bitset, then identifies components from matching adjacency bitsets. Revisions 1–4 progressively optimize the同",
       "order": 0,
       "revisions": [
         {
@@ -55,19 +55,11 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "adjacency_matrix_initial",
+          "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial implementation using a boolean adjacency matrix to track connections and verify complete components.",
+          "shortChangeSummary": "Uses a boolean adjacency matrix and compares adjacency rows to determine whether each connected component is complete.",
           "warnings": []
-        }
-      ]
-    },
-    {
-      "id": "bitwise_adjacency_optimization",
-      "title": "Bitwise adjacency optimization",
-      "summary": "Uses bitwise operations to represent the adjacency matrix, improving memory efficiency and access speed.",
-      "order": 1,
-      "revisions": [
+        },
         {
           "sha": "059a3aa33f7207db73aa027285cbb29632985ec1",
           "shortSha": "059a3aa",
@@ -90,19 +82,11 @@
             "additions": 15,
             "deletions": 10
           },
-          "approachId": "bitwise_adjacency_optimization",
-          "narrativeIndex": 0,
-          "shortChangeSummary": "Replaced boolean matrix with u64 bitmasks for adjacency representation and optimized visited tracking.",
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Replaces the boolean matrix with u64 bitsets and tracks visited vertices with a bitmask.",
           "warnings": []
-        }
-      ]
-    },
-    {
-      "id": "early_exit_bitwise_traversal",
-      "title": "Early exit bitwise traversal",
-      "summary": "Optimizes bitwise traversal by skipping inactive bits and exiting early when a mismatch is found.",
-      "order": 2,
-      "revisions": [
+        },
         {
           "sha": "3bd99ed44145272d7d13335a061492bbf6b9067a",
           "shortSha": "3bd99ed",
@@ -125,19 +109,11 @@
             "additions": 11,
             "deletions": 7
           },
-          "approachId": "early_exit_bitwise_traversal",
-          "narrativeIndex": 0,
-          "shortChangeSummary": "Implemented active bit tracking with while loop and early exit to reduce unnecessary checks.",
+          "approachId": "approach-1",
+          "narrativeIndex": 2,
+          "shortChangeSummary": "Iterates through set bits using a manually maintained active-bit mask instead of scanning all vertex positions.",
           "warnings": []
-        }
-      ]
-    },
-    {
-      "id": "brian_kernighan_optimization",
-      "title": "Brian Kernighan's optimization with trailing_zeros",
-      "summary": "Uses Brian Kernighan's algorithm to efficiently iterate over set bits, reducing traversal overhead.",
-      "order": 3,
-      "revisions": [
+        },
         {
           "sha": "48068ba5551e64fc2a6e2ebecc2261219eb799ee",
           "shortSha": "48068ba",
@@ -160,18 +136,18 @@
             "additions": 5,
             "deletions": 10
           },
-          "approachId": "brian_kernighan_optimization",
-          "narrativeIndex": 0,
-          "shortChangeSummary": "Optimized bit iteration using trailing_zeros() and active_bits &= active_bits - 1 for faster set bit processing.",
+          "approachId": "approach-1",
+          "narrativeIndex": 3,
+          "shortChangeSummary": "Uses trailing_zeros and Brian Kernighan's bit-clearing technique to iterate set bits more efficiently.",
           "warnings": []
         }
       ]
     },
     {
-      "id": "disjoint_set_union_approach",
-      "title": "Disjoint Set Union (DSU) approach",
-      "summary": "Uses DSU to track connected components and checks for complete components by comparing expected vs actual edges.",
-      "order": 4,
+      "id": "approach-2",
+      "title": "Disjoint-set union with component edge counts",
+      "summary": "Uses union-find to build connected components while maintaining each component's vertex and edge counts, then checks whether each component has n(n-1)/2 edges.",
+      "order": 1,
       "revisions": [
         {
           "sha": "7f0e4cd14d71c9f16e15dbfe02e74726adb3425c",
@@ -195,9 +171,9 @@
             "additions": 31,
             "deletions": 25
           },
-          "approachId": "disjoint_set_union_approach",
+          "approachId": "approach-2",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Switched to DSU to manage connected components and validate completeness via edge count formula.",
+          "shortChangeSummary": "Replaces adjacency bitsets with DSU connectivity, component sizes, and edge counts to identify complete components.",
           "warnings": []
         }
       ]

@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const SCHEMA_VERSION = 1;
 export const PARSER_VERSION = '1';
-export const PROMPT_VERSION = '3';
+export const PROMPT_VERSION = '6';
 export const analysisStatusSchema = z.enum([
   'llm',
   'cached',
@@ -212,6 +212,28 @@ export const narrativeResultSchema = z.object({
     .min(1),
 });
 export type NarrativeResult = z.infer<typeof narrativeResultSchema>;
+export const llmNarrativeResultSchema = z.object({
+  approaches: z
+    .array(
+      z.object({
+        id: z.string().min(1),
+        title: z.string().min(1).max(60),
+        summary: z.string().max(160),
+        order: z.number().int(),
+        revisions: z
+          .array(
+            z.object({
+              revisionId: z.number().int().positive(),
+              order: z.number().int(),
+              shortChange: z.string().min(1).max(120),
+            }),
+          )
+          .min(1),
+      }),
+    )
+    .min(1),
+});
+export type LlmNarrativeResult = z.infer<typeof llmNarrativeResultSchema>;
 export function validateNarrative(
   value: unknown,
   shas: string[],

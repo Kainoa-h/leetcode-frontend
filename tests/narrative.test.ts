@@ -3,6 +3,7 @@ import { validateNarrative } from '../scripts/lib/schemas';
 import {
   NARRATIVE_INSTRUCTIONS,
   shouldRequestLlm,
+  validateRevisionIdNarrative,
 } from '../scripts/lib/narrative';
 const rev = (sha: string, order = 0) => ({
   sha,
@@ -15,6 +16,25 @@ const result = (revisions: ReturnType<typeof rev>[]) => ({
   ],
 });
 describe('narrative validation', () => {
+  it('maps LLM revision IDs back to full SHAs', () =>
+    expect(
+      validateRevisionIdNarrative(
+        {
+          approaches: [
+            {
+              id: 'a',
+              title: 'Approach',
+              summary: 'Summary',
+              order: 0,
+              revisions: [
+                { revisionId: 1, order: 0, shortChange: 'Changed.' },
+              ],
+            },
+          ],
+        },
+        [{ sha: 'abc1234def5678' }],
+      ).approaches[0]?.revisions[0]?.sha,
+    ).toBe('abc1234def5678'));
   it('accepts complete output', () =>
     expect(
       validateNarrative(result([rev('a'), rev('b', 1)]), ['a', 'b']).approaches,
@@ -77,8 +97,8 @@ describe('narrative prompt policy', () => {
     );
   });
 
-  it('requires exactly one entry for every SHA', () => {
+  it('requires exactly one entry for every revision ID', () => {
     expect(instructions).toContain('exactly once');
-    expect(instructions).toContain('Never duplicate a SHA');
+    expect(instructions).toContain('Never duplicate a revision ID');
   });
 });

@@ -18,22 +18,22 @@
   },
   "statistics": {
     "revisionCount": 3,
-    "approachCount": 2,
+    "approachCount": 1,
     "incorrectRevisionCount": 0,
     "firstCommittedAt": "2026-06-08T19:00:36+08:00",
     "lastCommittedAt": "2026-06-08T19:07:45+08:00"
   },
   "analysis": {
-    "status": "cached",
-    "model": "mistralai/mistral-small-2603",
-    "promptVersion": "2",
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
     "inputHash": "78f55155d96c1be7a4227c32e68a5cf81903ef2acf21d57f5db0325221b05ec0"
   },
   "approaches": [
     {
-      "id": "hashmap-frequency-count",
-      "title": "HashMap with Character Frequency Count",
-      "summary": "Group anagrams by counting character frequencies using a HashMap with fixed-size arrays as keys.",
+      "id": "approach-1",
+      "title": "Group by fixed-length character frequency signature",
+      "summary": "Uses a 26-element character-count array as the hash-map key, placing each string into the bucket shared by its anagrams. Later revisions simplify result сборage",
       "order": 0,
       "revisions": [
         {
@@ -55,9 +55,9 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "hashmap-frequency-count",
+          "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial implementation using HashMap with character frequency arrays and explicit result collection.",
+          "shortChangeSummary": "Initial implementation using an explicit loop to collect the hash-map values.",
           "warnings": []
         },
         {
@@ -82,19 +82,11 @@
             "additions": 1,
             "deletions": 6
           },
-          "approachId": "hashmap-frequency-count",
+          "approachId": "approach-1",
           "narrativeIndex": 1,
-          "shortChangeSummary": "Simplified result collection by using `collect()` instead of manual Vec construction.",
+          "shortChangeSummary": "Replaces the manual result-building loop with map.into_values().collect().",
           "warnings": []
-        }
-      ]
-    },
-    {
-      "id": "functional-pipeline",
-      "title": "Functional Pipeline with Fold",
-      "summary": "Refactor the solution into a pure functional style using `fold` to build the HashMap iteratively.",
-      "order": 1,
-      "revisions": [
+        },
         {
           "sha": "adb8c6f87656b92d50d016fe183f6378c0570906",
           "shortSha": "adb8c6f",
@@ -117,9 +109,9 @@
             "additions": 11,
             "deletions": 10
           },
-          "approachId": "functional-pipeline",
-          "narrativeIndex": 0,
-          "shortChangeSummary": "Converted imperative loop into a functional pipeline using `fold` for HashMap construction.",
+          "approachId": "approach-1",
+          "narrativeIndex": 2,
+          "shortChangeSummary": "Refactors the input-processing loop into a functional fold while preserving the same frequency-signature strategy.",
           "warnings": []
         }
       ]

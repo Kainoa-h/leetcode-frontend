@@ -18,22 +18,22 @@
   },
   "statistics": {
     "revisionCount": 2,
-    "approachCount": 2,
+    "approachCount": 1,
     "incorrectRevisionCount": 1,
     "firstCommittedAt": "2026-05-05T20:12:03+08:00",
     "lastCommittedAt": "2026-05-05T20:46:08+08:00"
   },
   "analysis": {
-    "status": "cached",
-    "model": "mistralai/mistral-small-2603",
-    "promptVersion": "2",
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
     "inputHash": "402288bfe0fc68b1633bb20372ed7bc07d330bb0bd6c7dca0123af7a6ca6678d"
   },
   "approaches": [
     {
-      "id": "brute_force",
-      "title": "Brute Force with Nested Loops",
-      "summary": "Iterate over all possible rotations using nested loops to compute the sum for each rotation.",
+      "id": "approach-1",
+      "title": "Iterative rotation with recurrence",
+      "summary": "Computes each rotation's weighted sum using a direct quadratic-time nested loop, then replaces it with an O(n)-time recurrence that updates the previous sum in-",
       "order": 0,
       "revisions": [
         {
@@ -55,19 +55,11 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "brute_force",
+          "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial brute force approach with O(n²) time complexity, leading to TLE.",
+          "shortChangeSummary": "Uses a direct nested-loop computation for every rotation; marked wrong and noted as TLE.",
           "warnings": []
-        }
-      ]
-    },
-    {
-      "id": "math_optimization",
-      "title": "Mathematical Optimization with Incremental Sum",
-      "summary": "Derive a formula to compute each rotation's sum incrementally from the previous one, reducing time complexity to O(n).",
-      "order": 1,
-      "revisions": [
+        },
         {
           "sha": "5d2cdebb215682a485f84a720b05673f67d78348",
           "shortSha": "5d2cdeb",
@@ -90,9 +82,9 @@
             "additions": 11,
             "deletions": 8
           },
-          "approachId": "math_optimization",
-          "narrativeIndex": 0,
-          "shortChangeSummary": "Optimized solution using mathematical insight to avoid recomputation, achieving O(n) time and O(1) space.",
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Uses the rotation-sum recurrence to achieve O(n) time and O(1) space.",
           "warnings": []
         }
       ]

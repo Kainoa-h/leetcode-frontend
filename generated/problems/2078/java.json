@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-04-20T20:58:49+08:00"
   },
   "analysis": {
-    "status": "cached",
-    "model": "mistralai/mistral-small-2603",
-    "promptVersion": "2",
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
     "inputHash": "b5e4a62fb5fd650c10ea29709eb4d34aafd013c3846c351c3b40744217ede4fe"
   },
   "approaches": [
     {
-      "id": "two-pointers-linear-scan",
-      "title": "Two-pointer linear scan from both ends",
-      "summary": "Iterate from both ends of the array simultaneously to find the maximum distance between houses of different colors in O(n) time and O(1) space.",
+      "id": "1",
+      "title": "Check maximum distance from the array endpoints",
+      "summary": "Uses the fact that an optimal pair includes either the first or last house, scanning candidate distances from largest to smallest and returning the first valid,",
       "order": 0,
       "revisions": [
         {
@@ -55,9 +55,9 @@
           "commitBody": "time: O(n)\nspace: O(1)",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "two-pointers-linear-scan",
+          "approachId": "1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial implementation scanning from both ends with early termination.",
+          "shortChangeSummary": "Initial linear-time, constant-space endpoint-based scan.",
           "warnings": []
         },
         {
@@ -82,9 +82,9 @@
             "additions": 6,
             "deletions": 8
           },
-          "approachId": "two-pointers-linear-scan",
+          "approachId": "1",
           "narrativeIndex": 1,
-          "shortChangeSummary": "Refactored to use a single loop with distance variable for improved clarity and idiomatic style.",
+          "shortChangeSummary": "Refactors the same scan to iterate directly by decreasing distance and simplifies the condition.",
           "warnings": []
         }
       ]

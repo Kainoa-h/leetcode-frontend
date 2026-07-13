@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-01-24T22:04:43+08:00"
   },
   "analysis": {
-    "status": "cached",
-    "model": "mistralai/mistral-small-2603",
-    "promptVersion": "2",
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
     "inputHash": "ec815be3e467313dfcfd9aafe6731a6e367bb7fce751b40546721853f6413a19"
   },
   "approaches": [
     {
-      "id": "hashmap-counting",
-      "title": "HashMap Counting",
-      "summary": "Count occurrences of each element using a HashMap and return the first element exceeding half the array length.",
+      "id": "approach-1",
+      "title": "Hash map frequency counting",
+      "summary": "Counts occurrences of each value with a hash map and returns a value as soon as its count exceeds half the array length.",
       "order": 0,
       "revisions": [
         {
@@ -55,17 +55,17 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "hashmap-counting",
+          "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial implementation using HashMap to count element frequencies and return the majority element.",
+          "shortChangeSummary": "Initial hash map counting solution.",
           "warnings": []
         }
       ]
     },
     {
-      "id": "boyer-moore-voting",
-      "title": "Boyer-Moore Voting Algorithm",
-      "summary": "Track a candidate and its strength; update candidate when strength drops to zero, increment on match, decrement otherwise.",
+      "id": "approach-2",
+      "title": "Boyer–Moore majority vote",
+      "summary": "Tracks a candidate and a cancellation strength, relying on the majority element surviving pairwise cancellation.",
       "order": 1,
       "revisions": [
         {
@@ -90,9 +90,9 @@
             "additions": 11,
             "deletions": 10
           },
-          "approachId": "boyer-moore-voting",
+          "approachId": "approach-2",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Introduced Boyer-Moore Voting Algorithm to find majority element in O(n) time and O(1) space.",
+          "shortChangeSummary": "Replaces hash map counting with the Boyer–Moore voting algorithm.",
           "warnings": []
         },
         {
@@ -117,9 +117,9 @@
             "additions": 6,
             "deletions": 6
           },
-          "approachId": "boyer-moore-voting",
+          "approachId": "approach-2",
           "narrativeIndex": 1,
-          "shortChangeSummary": "Simplified Boyer-Moore implementation by removing redundant strength reset and adjusting loop structure.",
+          "shortChangeSummary": "Simplifies the Boyer–Moore implementation by initializing strength to zero and processing all elements uniformly.",
           "warnings": []
         }
       ]

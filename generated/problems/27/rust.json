@@ -18,22 +18,22 @@
   },
   "statistics": {
     "revisionCount": 3,
-    "approachCount": 3,
+    "approachCount": 2,
     "incorrectRevisionCount": 0,
     "firstCommittedAt": "2026-01-24T18:36:50+08:00",
     "lastCommittedAt": "2026-03-29T19:04:21+08:00"
   },
   "analysis": {
-    "status": "cached",
-    "model": "mistralai/mistral-small-2603",
-    "promptVersion": "2",
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
     "inputHash": "f0e01eef2f0556c99a3e7b14978fc6f50875710765a16bbbea743c7a5299eade"
   },
   "approaches": [
     {
-      "id": "stack-based-replacement",
-      "title": "Stack-based replacement with backfill",
-      "summary": "Uses a stack to track indices of elements to remove, then backfills with non-matching elements from the end.",
+      "id": "approach-1",
+      "title": "Mark matches and replace them from the end",
+      "summary": "Identifies matching elements, records their positions, and fills those positions using non-matching elements found from the back.",
       "order": 0,
       "revisions": [
         {
@@ -55,17 +55,17 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "stack-based-replacement",
+          "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial stack-based approach with backfill logic.",
+          "shortChangeSummary": "Initial stack-based replacement strategy.",
           "warnings": []
         }
       ]
     },
     {
-      "id": "two-pointer-overwrite",
-      "title": "Two-pointer overwrite",
-      "summary": "Iterates through the array with a pointer tracking the position to write non-matching elements.",
+      "id": "approach-2",
+      "title": "Compact non-matching elements in place",
+      "summary": "Removes matching values by compacting retained elements toward the front of the vector, first with explicit indexing and then with Rust's retain method.",
       "order": 1,
       "revisions": [
         {
@@ -90,19 +90,11 @@
             "additions": 5,
             "deletions": 27
           },
-          "approachId": "two-pointer-overwrite",
+          "approachId": "approach-2",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Simplified to a two-pointer overwrite method with O(n) time and O(1) space.",
+          "shortChangeSummary": "Replaced the stack-based method with direct in-place compaction using a write index.",
           "warnings": []
-        }
-      ]
-    },
-    {
-      "id": "retain-method",
-      "title": "Retain method",
-      "summary": "Uses Rust's retain method to filter out elements matching the target value.",
-      "order": 2,
-      "revisions": [
+        },
         {
           "sha": "e14d6583a81edd877c16d38a347a60f6c3ce7a5d",
           "shortSha": "e14d658",
@@ -125,9 +117,9 @@
             "additions": 2,
             "deletions": 9
           },
-          "approachId": "retain-method",
-          "narrativeIndex": 0,
-          "shortChangeSummary": "Directly uses retain to remove elements, concise but less explicit.",
+          "approachId": "approach-2",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Refactored explicit compaction to use Vec::retain and return the resulting length.",
           "warnings": []
         }
       ]
