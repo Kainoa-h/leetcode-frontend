@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3867,
+    "title": "Sum of Gcd of Formed Pairs",
+    "slug": "sum-of-gcd-of-formed-pairs"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3867_sum_of_gcd_of_formed_pairs.rs",
+    "latestSha": "6612cb30a8c117d579a02b6a81471d420c122494",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-07-16T14:50:34+08:00",
+    "lastCommittedAt": "2026-07-16T15:28:38+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
+    "inputHash": "7fe982b1a2daed09c18a319ae26e2a1c84911bcff3248c800809f17945686ea8"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "Sort prefix GCD values and pair extremes",
+      "summary": "Computes each element's GCD with the running maximum, sorts the resulting values, then sums GCDs of mirrored pairs. Later revisions only refactor the scan and-p",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "3bf79538cb37de6754e1ebd7bb5999ebc148c05b",
+          "shortSha": "3bf7953",
+          "parentSha": "a86e237f75b720cc1aea59d4dcdf4b1446f0d54a",
+          "authoredAt": "2026-07-16T14:50:34+08:00",
+          "committedAt": "2026-07-16T14:50:34+08:00",
+          "chronologicalIndex": 207,
+          "problemId": 3867,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3867_sum_of_gcd_of_formed_pairs.rs",
+          "sourceFilename": "3867_sum_of_gcd_of_formed_pairs.rs",
+          "code": "impl Solution {\n    pub fn gcd_sum(nums: Vec<i32>) -> i64 {\n        let gcd = |mut a, mut b| -> i32 {\n            while b != 0 {\n                (a, b) = (b, a % b);\n            }\n            a\n        };\n\n        let mut max = nums[0];\n        let mut prefix_gcd = Vec::with_capacity(nums.len());\n        for x in nums {\n            max = max.max(x);\n            prefix_gcd.push(gcd(x, max));\n        }\n\n        prefix_gcd.sort_unstable();\n\n        let mut left_ptr = 0;\n        let mut right_ptr = prefix_gcd.len() - 1;\n        let mut result = 0_i64;\n        while left_ptr < right_ptr {\n            let (a, b) = (prefix_gcd[left_ptr], prefix_gcd[right_ptr]);\n            result += gcd(a, b) as i64;\n\n            left_ptr += 1;\n            right_ptr -= 1;\n        }\n        result\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(Solution::gcd_sum(vec![2, 6, 4]), 2);\n}\n",
+          "codeHash": "6a98ee4dc5f8f92b861f29cbacba8e9a6904940954dcdaceceb64427b3cf2e8f",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 3867",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation using an explicit loop to build prefix GCDs and two pointers to pair sorted extremes.",
+          "warnings": []
+        },
+        {
+          "sha": "c766edc7125afbc5070e7d6d7302a2164e93097c",
+          "shortSha": "c766edc",
+          "parentSha": "3bf79538cb37de6754e1ebd7bb5999ebc148c05b",
+          "authoredAt": "2026-07-16T15:18:59+08:00",
+          "committedAt": "2026-07-16T15:18:59+08:00",
+          "chronologicalIndex": 208,
+          "problemId": 3867,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3867_sum_of_gcd_of_formed_pairs.rs",
+          "sourceFilename": "3867_sum_of_gcd_of_formed_pairs.rs",
+          "code": "impl Solution {\n    pub fn gcd_sum(nums: Vec<i32>) -> i64 {\n        let gcd = |mut a, mut b| -> i32 {\n            while b != 0 {\n                (a, b) = (b, a % b);\n            }\n            a\n        };\n\n        let mut max = nums[0];\n        let mut prefix_gcd = nums\n            .into_iter()\n            .map(|x| {\n                max = max.max(x);\n                gcd(x, max)\n            })\n            .collect::<Vec<i32>>();\n        prefix_gcd.sort_unstable();\n\n        let half = prefix_gcd.len() / 2;\n        prefix_gcd\n            .iter()\n            .zip(prefix_gcd.iter().rev())\n            .take(half)\n            .map(|(&a, &b)| gcd(a, b) as i64)\n            .sum()\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(Solution::gcd_sum(vec![2, 6, 4]), 2);\n}\n",
+          "codeHash": "d8dfc3362a543074f46a40bce0a240f25d76afcf2a526943754d34ade0bcf20d",
+          "markedWrong": false,
+          "commitComment": "more functional, less mutable state",
+          "rawCommitSubject": "rust 3867: more functional, less mutable state",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3867_sum_of_gcd_of_formed_pairs.rs b/rust/src/bin/3867_sum_of_gcd_of_formed_pairs.rs\nindex 1ec7644..6515a0b 100644\n--- a/rust/src/bin/3867_sum_of_gcd_of_formed_pairs.rs\n+++ b/rust/src/bin/3867_sum_of_gcd_of_formed_pairs.rs\n@@ -8,25 +8,22 @@ impl Solution {\n         };\n \n         let mut max = nums[0];\n-        let mut prefix_gcd = Vec::with_capacity(nums.len());\n-        for x in nums {\n-            max = max.max(x);\n-            prefix_gcd.push(gcd(x, max));\n-        }\n-\n+        let mut prefix_gcd = nums\n+            .into_iter()\n+            .map(|x| {\n+                max = max.max(x);\n+                gcd(x, max)\n+            })\n+            .collect::<Vec<i32>>();\n         prefix_gcd.sort_unstable();\n \n-        let mut left_ptr = 0;\n-        let mut right_ptr = prefix_gcd.len() - 1;\n-        let mut result = 0_i64;\n-        while left_ptr < right_ptr {\n-            let (a, b) = (prefix_gcd[left_ptr], prefix_gcd[right_ptr]);\n-            result += gcd(a, b) as i64;\n-\n-            left_ptr += 1;\n-            right_ptr -= 1;\n-        }\n-        result\n+        let half = prefix_gcd.len() / 2;\n+        prefix_gcd\n+            .iter()\n+            .zip(prefix_gcd.iter().rev())\n+            .take(half)\n+            .map(|(&a, &b)| gcd(a, b) as i64)\n+            .sum()\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 14,
+            "deletions": 17
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Refactors prefix construction and pair summation into iterator-based expressions while preserving the same algorithm.",
+          "warnings": []
+        },
+        {
+          "sha": "6612cb30a8c117d579a02b6a81471d420c122494",
+          "shortSha": "6612cb3",
+          "parentSha": "c766edc7125afbc5070e7d6d7302a2164e93097c",
+          "authoredAt": "2026-07-16T15:27:11+08:00",
+          "committedAt": "2026-07-16T15:28:38+08:00",
+          "chronologicalIndex": 209,
+          "problemId": 3867,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3867_sum_of_gcd_of_formed_pairs.rs",
+          "sourceFilename": "3867_sum_of_gcd_of_formed_pairs.rs",
+          "code": "impl Solution {\n    pub fn gcd_sum(nums: Vec<i32>) -> i64 {\n        let gcd = |mut a, mut b| -> i32 {\n            while b != 0 {\n                (a, b) = (b, a % b);\n            }\n            a\n        };\n\n        let mut prefix_gcd = nums\n            .into_iter()\n            .scan(0,|max, x|{\n                *max = x.max(*max);\n                Some(gcd(x, *max))\n            })\n            .collect::<Vec<i32>>();\n\n        prefix_gcd.sort_unstable();\n\n        let half = prefix_gcd.len() / 2;\n        prefix_gcd\n            .iter()\n            .zip(prefix_gcd.iter().rev())\n            .take(half)\n            .map(|(&a, &b)| gcd(a, b) as i64)\n            .sum()\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(Solution::gcd_sum(vec![2, 6, 4]), 2);\n}\n",
+          "codeHash": "4cbdf9f30566d44562c5f6eb1efe45a5a7c67f5d0d46b38135edaebb21598ae6",
+          "markedWrong": false,
+          "commitComment": "encapsulate state change of max within a scan",
+          "rawCommitSubject": "rust 3867: encapsulate state change of max within a scan",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3867_sum_of_gcd_of_formed_pairs.rs b/rust/src/bin/3867_sum_of_gcd_of_formed_pairs.rs\nindex 6515a0b..d81a9e7 100644\n--- a/rust/src/bin/3867_sum_of_gcd_of_formed_pairs.rs\n+++ b/rust/src/bin/3867_sum_of_gcd_of_formed_pairs.rs\n@@ -7,14 +7,14 @@ impl Solution {\n             a\n         };\n \n-        let mut max = nums[0];\n         let mut prefix_gcd = nums\n             .into_iter()\n-            .map(|x| {\n-                max = max.max(x);\n-                gcd(x, max)\n+            .scan(0,|max, x|{\n+                *max = x.max(*max);\n+                Some(gcd(x, *max))\n             })\n             .collect::<Vec<i32>>();\n+\n         prefix_gcd.sort_unstable();\n \n         let half = prefix_gcd.len() / 2;\n",
+          "changedLineCounts": {
+            "additions": 4,
+            "deletions": 4
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 2,
+          "shortChangeSummary": "Uses scan to encapsulate the running-maximum state during prefix GCD construction; pairing and sorting remain unchanged.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "3bf79538cb37de6754e1ebd7bb5999ebc148c05b",
+    "c766edc7125afbc5070e7d6d7302a2164e93097c",
+    "6612cb30a8c117d579a02b6a81471d420c122494"
+  ],
+  "warnings": []
+}

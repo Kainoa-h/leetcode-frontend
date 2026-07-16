@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-13T02:04:47.037Z",
-  "sourceHeadSha": "a86e237f75b720cc1aea59d4dcdf4b1446f0d54a",
+  "generatedAt": "2026-07-16T07:29:54.119Z",
+  "sourceHeadSha": "6612cb30a8c117d579a02b6a81471d420c122494",
   "questions": [
     {
       "id": 1,
@@ -2027,6 +2027,24 @@
       ],
       "firstCommittedAt": "2026-07-07T03:01:52Z",
       "lastCommittedAt": "2026-07-07T03:01:52Z"
+    },
+    {
+      "id": 3867,
+      "title": "Sum of Gcd of Formed Pairs",
+      "slug": "sum-of-gcd-of-formed-pairs",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3867/rust/",
+          "revisionCount": 3,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-07-16T15:28:38+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-07-16T14:50:34+08:00",
+      "lastCommittedAt": "2026-07-16T15:28:38+08:00"
     }
   ]
 }
