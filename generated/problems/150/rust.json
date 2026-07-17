@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 150,
+    "title": "Evaluate Reverse Polish Notation",
+    "slug": "evaluate-reverse-polish-notation"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/150_evaluate_reverse_polish_notation.rs",
+    "latestSha": "d582d0bdeb938b18ab0363fa9df92a83f8dfce7c",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-07-17T20:16:42+08:00",
+    "lastCommittedAt": "2026-07-17T20:16:42+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "6",
+    "inputHash": "7a1afd4a0ffc13ff0a01d986b52481243b2dd7a287333c404ef6a5d872d4dd7a"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "d582d0bdeb938b18ab0363fa9df92a83f8dfce7c",
+          "shortSha": "d582d0b",
+          "parentSha": "065499f3681da30732f51c4146ec2f9be102feb1",
+          "authoredAt": "2026-07-17T20:16:42+08:00",
+          "committedAt": "2026-07-17T20:16:42+08:00",
+          "chronologicalIndex": 220,
+          "problemId": 150,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/150_evaluate_reverse_polish_notation.rs",
+          "sourceFilename": "150_evaluate_reverse_polish_notation.rs",
+          "code": "impl Solution {\n    pub fn eval_rpn(tokens: Vec<String>) -> i32 {\n        let mut stack = Vec::<i32>::new();\n\n        for tok in tokens {\n            match tok.as_str() {\n                \"+\" => {\n                    let a = stack.pop().unwrap();\n                    let b = stack.pop().unwrap();\n                    stack.push(b + a);\n                },\n                \"-\" => {\n                    let a = stack.pop().unwrap();\n                    let b = stack.pop().unwrap();\n                    stack.push(b - a);\n                },\n                \"*\" => {\n                    let a = stack.pop().unwrap();\n                    let b = stack.pop().unwrap();\n                    stack.push(b * a);\n                },\n                \"/\" => {\n                    let a = stack.pop().unwrap();\n                    let b = stack.pop().unwrap();\n                    stack.push(b / a);\n                },\n                _ => stack.push(tok.parse().unwrap()),\n            }\n        }\n        stack[0]\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "5b151786f66d74ada159f1f3fc0175def8485fae8ae1b4d83bf0d471d8572271",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 150",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "d582d0bdeb938b18ab0363fa9df92a83f8dfce7c"
+  ],
+  "warnings": []
+}

@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 200,
+    "title": "Number of Islands",
+    "slug": "number-of-islands"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/200_number_of_islands.rs",
+    "latestSha": "8935462d01244aa9e2aa596ba79529476dbc803c",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-07-17T21:48:53+08:00",
+    "lastCommittedAt": "2026-07-17T21:48:53+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "6",
+    "inputHash": "ad7dd3e181f8e89935ac599ee7882b9ae32f5aab0de7e71255bd5df1e24556bd"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "8935462d01244aa9e2aa596ba79529476dbc803c",
+          "shortSha": "8935462",
+          "parentSha": "d582d0bdeb938b18ab0363fa9df92a83f8dfce7c",
+          "authoredAt": "2026-07-17T21:48:53+08:00",
+          "committedAt": "2026-07-17T21:48:53+08:00",
+          "chronologicalIndex": 221,
+          "problemId": 200,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/200_number_of_islands.rs",
+          "sourceFilename": "200_number_of_islands.rs",
+          "code": "impl Solution {\n    pub fn num_islands(mut grid: Vec<Vec<char>>) -> i32 {\n        fn mut_neighours(grid: &mut Vec<Vec<char>>, row_idx: usize, col_idx: usize) {\n            let top = (row_idx.saturating_sub(1), col_idx);\n            let bot = (row_idx  + 1, col_idx);\n            let right = (row_idx, col_idx +1);\n            let left = (row_idx, col_idx.saturating_sub(1));\n            \n            if let Some(x) = grid.get_mut(top.0).and_then(|c| c.get_mut(top.1)) && *x == '1' {\n                *x = '0';\n                mut_neighours(grid, top.0, top.1);\n            }\n\n            if let Some(x) = grid.get_mut(bot.0).and_then(|c| c.get_mut(bot.1)) && *x == '1' {\n                *x = '0';\n                mut_neighours(grid, bot.0, bot.1);\n            }\n\n            if let Some(x) = grid.get_mut(right.0).and_then(|c| c.get_mut(right.1)) && *x == '1' {\n                *x = '0';\n                mut_neighours(grid, right.0, right.1);\n            }\n\n            if let Some(x) = grid.get_mut(left.0).and_then(|c| c.get_mut(left.1)) && *x == '1' {\n                *x = '0';\n                mut_neighours(grid, left.0, left.1);\n            }\n        }\n        \n        let mut count = 0;\n        for row_idx in 0..grid.len() {\n            for col_idx in 0..grid[0].len(){\n                if grid[row_idx][col_idx] == '1' {\n                    count += 1;\n                    mut_neighours(&mut grid, row_idx, col_idx);\n                }\n            }\n        }\n        count\n    }\n}\n\nstruct Solution{}\n",
+          "codeHash": "a9f05462579f92a922d38556f9ff838068095aa3c14d217e046ab0d6608a6463",
+          "markedWrong": false,
+          "commitComment": "this feels scuffed",
+          "rawCommitSubject": "rust 200: this feels scuffed",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "this feels scuffed",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "8935462d01244aa9e2aa596ba79529476dbc803c"
+  ],
+  "warnings": []
+}
