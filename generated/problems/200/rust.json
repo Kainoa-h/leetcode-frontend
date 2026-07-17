@@ -13,27 +13,27 @@
   "source": {
     "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
     "latestPath": "rust/src/bin/200_number_of_islands.rs",
-    "latestSha": "8935462d01244aa9e2aa596ba79529476dbc803c",
+    "latestSha": "d1277feb6444d0e9b5811375d7e6120169d0f6e5",
     "deleted": false
   },
   "statistics": {
-    "revisionCount": 1,
+    "revisionCount": 2,
     "approachCount": 1,
     "incorrectRevisionCount": 0,
     "firstCommittedAt": "2026-07-17T21:48:53+08:00",
-    "lastCommittedAt": "2026-07-17T21:48:53+08:00"
+    "lastCommittedAt": "2026-07-18T01:39:04+08:00"
   },
   "analysis": {
-    "status": "fallback",
-    "model": null,
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
     "promptVersion": "6",
-    "inputHash": "ad7dd3e181f8e89935ac599ee7882b9ae32f5aab0de7e71255bd5df1e24556bd"
+    "inputHash": "179e6f8d2ef673d220c04832f1754e870d23eaec2aa47595db56a0f23dc6791b"
   },
   "approaches": [
     {
-      "id": "chronological",
-      "title": "Solution history",
-      "summary": "Revisions in chronological order.",
+      "id": "approach-1",
+      "title": "Recursive in-place flood fill",
+      "summary": "Counts islands by scanning the grid and recursively marking each connected land cell as water. Revision 2 cleans up the neighbor traversal while preserving the同",
       "order": 0,
       "revisions": [
         {
@@ -55,16 +55,44 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "chronological",
+          "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "this feels scuffed",
+          "shortChangeSummary": "Initial recursive flood-fill implementation that mutates visited land cells in place.",
+          "warnings": []
+        },
+        {
+          "sha": "d1277feb6444d0e9b5811375d7e6120169d0f6e5",
+          "shortSha": "d1277fe",
+          "parentSha": "8935462d01244aa9e2aa596ba79529476dbc803c",
+          "authoredAt": "2026-07-18T01:39:04+08:00",
+          "committedAt": "2026-07-18T01:39:04+08:00",
+          "chronologicalIndex": 222,
+          "problemId": 200,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/200_number_of_islands.rs",
+          "sourceFilename": "200_number_of_islands.rs",
+          "code": "impl Solution {\n    pub fn num_islands(mut grid: Vec<Vec<char>>) -> i32 {\n        fn mut_neighours(grid: &mut Vec<Vec<char>>, row_idx: usize, col_idx: usize) {\n            if let Some(x) = grid.get_mut(row_idx).and_then(|c| c.get_mut(col_idx))\n                && *x == '1'\n            {\n                *x = '0';\n                mut_neighours(grid, row_idx.saturating_sub(1), col_idx);\n                mut_neighours(grid, row_idx + 1, col_idx);\n                mut_neighours(grid, row_idx, col_idx.saturating_sub(1));\n                mut_neighours(grid, row_idx, col_idx + 1);\n            }\n        }\n\n        let mut count = 0;\n        for row_idx in 0..grid.len() {\n            for col_idx in 0..grid[0].len() {\n                if grid[row_idx][col_idx] == '1' {\n                    count += 1;\n                    mut_neighours(&mut grid, row_idx, col_idx);\n                }\n            }\n        }\n        count\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "e0717206f972edefd5900e2803152e58e504b4ccfebcb2ebaa5175b709e2d8b5",
+          "markedWrong": false,
+          "commitComment": "cleanup",
+          "rawCommitSubject": "rust 200: cleanup",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/200_number_of_islands.rs b/rust/src/bin/200_number_of_islands.rs\nindex 603dc32..cd08050 100644\n--- a/rust/src/bin/200_number_of_islands.rs\n+++ b/rust/src/bin/200_number_of_islands.rs\n@@ -1,35 +1,20 @@\n impl Solution {\n     pub fn num_islands(mut grid: Vec<Vec<char>>) -> i32 {\n         fn mut_neighours(grid: &mut Vec<Vec<char>>, row_idx: usize, col_idx: usize) {\n-            let top = (row_idx.saturating_sub(1), col_idx);\n-            let bot = (row_idx  + 1, col_idx);\n-            let right = (row_idx, col_idx +1);\n-            let left = (row_idx, col_idx.saturating_sub(1));\n-            \n-            if let Some(x) = grid.get_mut(top.0).and_then(|c| c.get_mut(top.1)) && *x == '1' {\n+            if let Some(x) = grid.get_mut(row_idx).and_then(|c| c.get_mut(col_idx))\n+                && *x == '1'\n+            {\n                 *x = '0';\n-                mut_neighours(grid, top.0, top.1);\n-            }\n-\n-            if let Some(x) = grid.get_mut(bot.0).and_then(|c| c.get_mut(bot.1)) && *x == '1' {\n-                *x = '0';\n-                mut_neighours(grid, bot.0, bot.1);\n-            }\n-\n-            if let Some(x) = grid.get_mut(right.0).and_then(|c| c.get_mut(right.1)) && *x == '1' {\n-                *x = '0';\n-                mut_neighours(grid, right.0, right.1);\n-            }\n-\n-            if let Some(x) = grid.get_mut(left.0).and_then(|c| c.get_mut(left.1)) && *x == '1' {\n-                *x = '0';\n-                mut_neighours(grid, left.0, left.1);\n+                mut_neighours(grid, row_idx.saturating_sub(1), col_idx);\n+                mut_neighours(grid, row_idx + 1, col_idx);\n+                mut_neighours(grid, row_idx, col_idx.saturating_sub(1));\n+                mut_neighours(grid, row_idx, col_idx + 1);\n             }\n         }\n-        \n+\n         let mut count = 0;\n         for row_idx in 0..grid.len() {\n-            for col_idx in 0..grid[0].len(){\n+            for col_idx in 0..grid[0].len() {\n                 if grid[row_idx][col_idx] == '1' {\n                     count += 1;\n                     mut_neighours(&mut grid, row_idx, col_idx);\n@@ -40,4 +25,4 @@ impl Solution {\n     }\n }\n \n-struct Solution{}\n+struct Solution {}\n",
+          "changedLineCounts": {
+            "additions": 10,
+            "deletions": 25
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Cleans up the recursive neighbor traversal and formatting without changing the underlying approach.",
           "warnings": []
         }
       ]
     }
   ],
   "chronologicalRevisionShas": [
-    "8935462d01244aa9e2aa596ba79529476dbc803c"
+    "8935462d01244aa9e2aa596ba79529476dbc803c",
+    "d1277feb6444d0e9b5811375d7e6120169d0f6e5"
   ],
   "warnings": []
 }
