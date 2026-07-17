@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 155,
+    "title": "Min Stack",
+    "slug": "min-stack"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/155_min_stack.rs",
+    "latestSha": "157b0a4fd103a16bfb959a209910d990cffe0985",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-07-17T15:22:35+08:00",
+    "lastCommittedAt": "2026-07-17T15:33:07+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
+    "inputHash": "1ffa6246a4ee168a2af4c617ecae16c42a809a13c7bd91873f682b3d8bb555fb"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "Separate value and minimum stacks",
+      "summary": "Maintains the stack values separately from a stack containing the current minima, updating the minimum stack only when a new minimum is pushed or removed.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "b2be7860e616a8588e23e8016cdc3d67c6fb23c2",
+          "shortSha": "b2be786",
+          "parentSha": "42ae3bfb5b4810847d23e7973c7ae6e7438c3a50",
+          "authoredAt": "2026-07-17T15:22:35+08:00",
+          "committedAt": "2026-07-17T15:22:35+08:00",
+          "chronologicalIndex": 216,
+          "problemId": 155,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/155_min_stack.rs",
+          "sourceFilename": "155_min_stack.rs",
+          "code": "struct MinStack {\n    stack: Vec<i32>,\n    min: Vec<i32>,\n}\n\nimpl MinStack {\n    fn new() -> Self {\n        Self {\n            stack: Vec::new(),\n            min: Vec::new(),\n        }\n    }\n\n    fn push(&mut self, value: i32) {\n        self.stack.push(value);\n        if let Some(&min) = self.min.last() {\n            if value <= min {\n                self.min.push(value);\n            }\n        } else {\n            self.min.push(value);\n        }\n    }\n\n    fn pop(&mut self) {\n        if let Some(v) = self.stack.pop() && let Some(&m) = self.min.last() && m == v {\n            self.min.pop();\n        }\n    }\n\n    fn top(&self) -> i32 {\n        *self.stack.last().unwrap()\n    }\n\n    fn get_min(&self) -> i32 {\n        *self.min.last().unwrap()\n    }\n}\n\nfn main(){}\n",
+          "codeHash": "12e7892deb3a46ed36a5fe180fbbf1425c42acb780595a014cfc303f95d4afb7",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 155",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Implemented MinStack with separate value and minimum vectors, providing constant-time push, pop, top, and minimum lookup",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "approach-2",
+      "title": "Per-element minimum tracking",
+      "summary": "Stores each value together with the minimum value for the stack at that position, allowing minimum retrieval directly from the top tuple.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "157b0a4fd103a16bfb959a209910d990cffe0985",
+          "shortSha": "157b0a4",
+          "parentSha": "b2be7860e616a8588e23e8016cdc3d67c6fb23c2",
+          "authoredAt": "2026-07-17T15:33:07+08:00",
+          "committedAt": "2026-07-17T15:33:07+08:00",
+          "chronologicalIndex": 217,
+          "problemId": 155,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/155_min_stack.rs",
+          "sourceFilename": "155_min_stack.rs",
+          "code": "struct MinStack {\n    stack: Vec<(i32,i32)>\n}\n\nimpl MinStack {\n    fn new() -> Self {\n        Self {\n            stack: Vec::new(),\n        }\n    }\n\n    fn push(&mut self, value: i32) {\n        let min = match self.stack.last() {\n            Some(m) => m.1.min(value),\n            None => value\n        };\n        self.stack.push((value, min));\n    }\n\n    fn pop(&mut self) {\n        self.stack.pop();\n    }\n\n    fn top(&self) -> i32 {\n        self.stack.last().unwrap().0\n    }\n\n    fn get_min(&self) -> i32 {\n        self.stack.last().unwrap().1\n    }\n}\n\nfn main(){}\n",
+          "codeHash": "6b6e6bfdfacf13100f754047750f9639c0c1225e11f0530b25b85115951b9dcc",
+          "markedWrong": false,
+          "commitComment": "less efficient, but simplier",
+          "rawCommitSubject": "rust 155: less efficient, but simplier",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/155_min_stack.rs b/rust/src/bin/155_min_stack.rs\nindex 3c6c857..83d4cf8 100644\n--- a/rust/src/bin/155_min_stack.rs\n+++ b/rust/src/bin/155_min_stack.rs\n@@ -1,39 +1,32 @@\n struct MinStack {\n-    stack: Vec<i32>,\n-    min: Vec<i32>,\n+    stack: Vec<(i32,i32)>\n }\n \n impl MinStack {\n     fn new() -> Self {\n         Self {\n             stack: Vec::new(),\n-            min: Vec::new(),\n         }\n     }\n \n     fn push(&mut self, value: i32) {\n-        self.stack.push(value);\n-        if let Some(&min) = self.min.last() {\n-            if value <= min {\n-                self.min.push(value);\n-            }\n-        } else {\n-            self.min.push(value);\n-        }\n+        let min = match self.stack.last() {\n+            Some(m) => m.1.min(value),\n+            None => value\n+        };\n+        self.stack.push((value, min));\n     }\n \n     fn pop(&mut self) {\n-        if let Some(v) = self.stack.pop() && let Some(&m) = self.min.last() && m == v {\n-            self.min.pop();\n-        }\n+        self.stack.pop();\n     }\n \n     fn top(&self) -> i32 {\n-        *self.stack.last().unwrap()\n+        self.stack.last().unwrap().0\n     }\n \n     fn get_min(&self) -> i32 {\n-        *self.min.last().unwrap()\n+        self.stack.last().unwrap().1\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 9,
+            "deletions": 16
+          },
+          "approachId": "approach-2",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Changed the representation to a single vector of (value, minimum-so-far) tuples, simplifying pop and minimum tracking",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "b2be7860e616a8588e23e8016cdc3d67c6fb23c2",
+    "157b0a4fd103a16bfb959a209910d990cffe0985"
+  ],
+  "warnings": []
+}

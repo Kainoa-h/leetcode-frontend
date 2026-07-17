@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 104,
+    "title": "Maximum Depth of Binary Tree",
+    "slug": "maximum-depth-of-binary-tree"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/104_maximum_depth_of_binary_tree.rs",
+    "latestSha": "065499f3681da30732f51c4146ec2f9be102feb1",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-07-17T16:31:34+08:00",
+    "lastCommittedAt": "2026-07-17T16:35:44+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
+    "inputHash": "eb08d5e10da9628ec9957fd2a89115b48766f46bbe887d43ed95bfcc5299e8da"
+  },
+  "approaches": [
+    {
+      "id": "recursive-depth-first-search",
+      "title": "Recursive depth-first computation",
+      "summary": "Computes the maximum binary-tree depth recursively by taking one plus the maximum depth of the left and right subtrees. Revision 2 expresses the same strategy, ",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "43ef49a306af1cf2b8b28fb9bf43f2fde63385f6",
+          "shortSha": "43ef49a",
+          "parentSha": "157b0a4fd103a16bfb959a209910d990cffe0985",
+          "authoredAt": "2026-07-17T16:31:34+08:00",
+          "committedAt": "2026-07-17T16:31:34+08:00",
+          "chronologicalIndex": 218,
+          "problemId": 104,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/104_maximum_depth_of_binary_tree.rs",
+          "sourceFilename": "104_maximum_depth_of_binary_tree.rs",
+          "code": "#[derive(Debug, PartialEq, Eq)]\npub struct TreeNode {\n  pub val: i32,\n  pub left: Option<Rc<RefCell<TreeNode>>>,\n  pub right: Option<Rc<RefCell<TreeNode>>>,\n}\n\nimpl TreeNode {\n  #[inline]\n  pub fn new(val: i32) -> Self {\n    TreeNode {\n      val,\n      left: None,\n      right: None\n    }\n  }\n}\n\nuse std::cmp;\nuse std::rc::Rc;\nuse std::cell::RefCell;\nimpl Solution {\n    pub fn max_depth(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {\n        fn search(node: Option<Rc<RefCell<TreeNode>>>, depth: i32) -> i32{\n            let Some(node) = node else { return depth - 1;};\n            let node = node.borrow();\n            cmp::max(search(node.left.clone(), depth + 1), search(node.right.clone(), depth + 1))\n        }\n        search(root, 1)\n    }\n\n}\n\nstruct Solution {}\n",
+          "codeHash": "eaa3e7bb5fa5085c6f6110901ea466ee4601939d79b42c79d0e245cb8d9ecf81",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 104",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "recursive-depth-first-search",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Uses a nested recursive DFS with an explicit depth parameter and returns the maximum depth reached.",
+          "warnings": []
+        },
+        {
+          "sha": "065499f3681da30732f51c4146ec2f9be102feb1",
+          "shortSha": "065499f",
+          "parentSha": "43ef49a306af1cf2b8b28fb9bf43f2fde63385f6",
+          "authoredAt": "2026-07-17T16:35:44+08:00",
+          "committedAt": "2026-07-17T16:35:44+08:00",
+          "chronologicalIndex": 219,
+          "problemId": 104,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/104_maximum_depth_of_binary_tree.rs",
+          "sourceFilename": "104_maximum_depth_of_binary_tree.rs",
+          "code": "#[derive(Debug, PartialEq, Eq)]\npub struct TreeNode {\n  pub val: i32,\n  pub left: Option<Rc<RefCell<TreeNode>>>,\n  pub right: Option<Rc<RefCell<TreeNode>>>,\n}\n\nimpl TreeNode {\n  #[inline]\n  pub fn new(val: i32) -> Self {\n    TreeNode {\n      val,\n      left: None,\n      right: None\n    }\n  }\n}\n\nuse std::cmp;\nuse std::rc::Rc;\nuse std::cell::RefCell;\nimpl Solution {\n    pub fn max_depth(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {\n        let Some(node) = root else { return 0; };\n        1 + cmp::max(\n            Self::max_depth(node.borrow().left.clone()),\n            Self::max_depth(node.borrow().right.clone())\n        )\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "f5861b9592a4fa5859b3a9663a85ef1be8dcbb8daa33c158e7b7daadabedcaa6",
+          "markedWrong": false,
+          "commitComment": "more idomatic bottom up recursion",
+          "rawCommitSubject": "rust 104: more idomatic bottom up recursion",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/104_maximum_depth_of_binary_tree.rs b/rust/src/bin/104_maximum_depth_of_binary_tree.rs\nindex 79127f7..4b442e6 100644\n--- a/rust/src/bin/104_maximum_depth_of_binary_tree.rs\n+++ b/rust/src/bin/104_maximum_depth_of_binary_tree.rs\n@@ -21,14 +21,12 @@ use std::rc::Rc;\n use std::cell::RefCell;\n impl Solution {\n     pub fn max_depth(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {\n-        fn search(node: Option<Rc<RefCell<TreeNode>>>, depth: i32) -> i32{\n-            let Some(node) = node else { return depth - 1;};\n-            let node = node.borrow();\n-            cmp::max(search(node.left.clone(), depth + 1), search(node.right.clone(), depth + 1))\n-        }\n-        search(root, 1)\n+        let Some(node) = root else { return 0; };\n+        1 + cmp::max(\n+            Self::max_depth(node.borrow().left.clone()),\n+            Self::max_depth(node.borrow().right.clone())\n+        )\n     }\n-\n }\n \n struct Solution {}\n",
+          "changedLineCounts": {
+            "additions": 5,
+            "deletions": 7
+          },
+          "approachId": "recursive-depth-first-search",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Refactors to idiomatic bottom-up recursion: the empty tree has depth 0, otherwise returns 1 plus the maximum recursive06",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "43ef49a306af1cf2b8b28fb9bf43f2fde63385f6",
+    "065499f3681da30732f51c4146ec2f9be102feb1"
+  ],
+  "warnings": []
+}

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-17T03:35:27.957Z",
-  "sourceHeadSha": "183f64f4432dd4fe090b695120ad1e980f56453a",
+  "generatedAt": "2026-07-17T08:37:18.142Z",
+  "sourceHeadSha": "065499f3681da30732f51c4146ec2f9be102feb1",
   "questions": [
     {
       "id": 1,
@@ -164,6 +164,24 @@
       ],
       "firstCommittedAt": "2026-02-11T20:54:40+08:00",
       "lastCommittedAt": "2026-02-11T21:53:05+08:00"
+    },
+    {
+      "id": 20,
+      "title": "Valid Parentheses",
+      "slug": "valid-parentheses",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/20/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-07-17T14:39:09+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-07-17T14:36:08+08:00",
+      "lastCommittedAt": "2026-07-17T14:39:09+08:00"
     },
     {
       "id": 22,
@@ -472,6 +490,24 @@
       "lastCommittedAt": "2026-02-01T15:06:52+08:00"
     },
     {
+      "id": 71,
+      "title": "Simplify Path",
+      "slug": "simplify-path",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/71/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-07-17T14:55:38+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-07-17T14:55:38+08:00",
+      "lastCommittedAt": "2026-07-17T14:55:38+08:00"
+    },
+    {
       "id": 73,
       "title": "Set Matrix Zeros",
       "slug": "set-matrix-zeros",
@@ -533,6 +569,24 @@
       ],
       "firstCommittedAt": "2026-01-24T14:39:10+08:00",
       "lastCommittedAt": "2026-03-29T18:39:08+08:00"
+    },
+    {
+      "id": 104,
+      "title": "Maximum Depth of Binary Tree",
+      "slug": "maximum-depth-of-binary-tree",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/104/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-07-17T16:35:44+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-07-17T16:31:34+08:00",
+      "lastCommittedAt": "2026-07-17T16:35:44+08:00"
     },
     {
       "id": 121,
@@ -641,6 +695,24 @@
       ],
       "firstCommittedAt": "2026-01-31T14:27:54+08:00",
       "lastCommittedAt": "2026-01-31T14:27:54+08:00"
+    },
+    {
+      "id": 155,
+      "title": "Min Stack",
+      "slug": "min-stack",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/155/rust/",
+          "revisionCount": 2,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-07-17T15:33:07+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-07-17T15:22:35+08:00",
+      "lastCommittedAt": "2026-07-17T15:33:07+08:00"
     },
     {
       "id": 167,

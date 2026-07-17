@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 71,
+    "title": "Simplify Path",
+    "slug": "simplify-path"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/71_simplify_path.rs",
+    "latestSha": "42ae3bfb5b4810847d23e7973c7ae6e7438c3a50",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-07-17T14:55:38+08:00",
+    "lastCommittedAt": "2026-07-17T14:55:38+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "6",
+    "inputHash": "572a1561a6e3abfa7fba47d2ce418c38e3c413872dc59646372ec94ed35b2f94"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "42ae3bfb5b4810847d23e7973c7ae6e7438c3a50",
+          "shortSha": "42ae3bf",
+          "parentSha": "ad1f37f7087f4fd50b1b1ee07db73466128ebf1f",
+          "authoredAt": "2026-07-17T14:55:38+08:00",
+          "committedAt": "2026-07-17T14:55:38+08:00",
+          "chronologicalIndex": 215,
+          "problemId": 71,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/71_simplify_path.rs",
+          "sourceFilename": "71_simplify_path.rs",
+          "code": "impl Solution {\n    pub fn simplify_path(path: String) -> String {\n        let mut stack = Vec::new();\n        for subpath in path.split('/') {\n            match subpath {\n                \"..\" => { stack.pop(); },\n                \".\" | \"\" => {}\n                _ => stack.push(subpath)\n                \n            }\n        }\n        format!(\"/{}\", stack.join(\"/\"))\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    Solution::simplify_path(\"\".to_string());\n}\n",
+          "codeHash": "979710aa2e93a17f71e733f49e781b363c23a93a11a76de49075cd768b1273e7",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 71",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "42ae3bfb5b4810847d23e7973c7ae6e7438c3a50"
+  ],
+  "warnings": []
+}

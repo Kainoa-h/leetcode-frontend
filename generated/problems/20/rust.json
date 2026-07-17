@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 20,
+    "title": "Valid Parentheses",
+    "slug": "valid-parentheses"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/20_valid_parentheses.rs",
+    "latestSha": "ad1f37f7087f4fd50b1b1ee07db73466128ebf1f",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-07-17T14:36:08+08:00",
+    "lastCommittedAt": "2026-07-17T14:39:09+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
+    "inputHash": "e3942059d240d33cb618e5e78b7a6ae83e08360c862155644e16979d2ec299fa"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "Stack-based delimiter matching",
+      "summary": "Uses a stack to track opening parentheses and validates each closing delimiter against the most recent unmatched opener. Revision 2 simplifies this by storing-­",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "d3048cc523a8c4a28b53c3981965cd2601b1ebaa",
+          "shortSha": "d3048cc",
+          "parentSha": "183f64f4432dd4fe090b695120ad1e980f56453a",
+          "authoredAt": "2026-07-17T14:36:08+08:00",
+          "committedAt": "2026-07-17T14:36:08+08:00",
+          "chronologicalIndex": 213,
+          "problemId": 20,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/20_valid_parentheses.rs",
+          "sourceFilename": "20_valid_parentheses.rs",
+          "code": "impl Solution {\n    pub fn is_valid(s: String) -> bool {\n        let mut stack = Vec::new();\n        for &c in s.as_bytes() {\n            if c == b'[' || c == b'{' || c == b'(' {\n                stack.push(c);\n                continue;\n            }\n            let top = stack.pop();\n            if top.is_none() || c != match top.unwrap() {\n                    b'[' => b']',\n                    b'{' => b'}',\n                    b'(' => b')',\n                    _ => b' ',\n                }\n            {\n                return false;\n            }\n        }\n\n        stack.is_empty()\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert!(!Solution::is_valid(\"(}\".to_string()));\n    assert!(Solution::is_valid(\"()[{()}]{}\".to_string()));\n    assert!(!Solution::is_valid(\"(\".to_string()));\n    assert!(!Solution::is_valid(\"}\".to_string()));\n}\n",
+          "codeHash": "9c6902dbc332e7591982bce21317ed7e9ad7a0cdcc163335adf20bbb1df154d9",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 20",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial stack implementation that stores opening delimiters and maps them to expected closing delimiters when matching.",
+          "warnings": []
+        },
+        {
+          "sha": "ad1f37f7087f4fd50b1b1ee07db73466128ebf1f",
+          "shortSha": "ad1f37f",
+          "parentSha": "d3048cc523a8c4a28b53c3981965cd2601b1ebaa",
+          "authoredAt": "2026-07-17T14:39:03+08:00",
+          "committedAt": "2026-07-17T14:39:09+08:00",
+          "chronologicalIndex": 214,
+          "problemId": 20,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/20_valid_parentheses.rs",
+          "sourceFilename": "20_valid_parentheses.rs",
+          "code": "impl Solution {\n    pub fn is_valid(s: String) -> bool {\n        let mut stack = Vec::new();\n        for &c in s.as_bytes() {\n            match c {\n                b'[' => stack.push(b']'),\n                b'{' => stack.push(b'}'),\n                b'(' => stack.push(b')'),\n                _ => {\n                    if Some(c) != stack.pop() {\n                        return false;\n                    }\n                }\n            }\n        }\n\n        stack.is_empty()\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert!(!Solution::is_valid(\"(}\".to_string()));\n    assert!(Solution::is_valid(\"()[{()}]{}\".to_string()));\n    assert!(!Solution::is_valid(\"(\".to_string()));\n    assert!(!Solution::is_valid(\"}\".to_string()));\n}\n",
+          "codeHash": "758faca64e3aac47d52a759b74831af567ff8cf9de36901495c1ac09c39457f0",
+          "markedWrong": false,
+          "commitComment": "cleaner",
+          "rawCommitSubject": "rust 20: cleaner",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/20_valid_parentheses.rs b/rust/src/bin/20_valid_parentheses.rs\nindex be8cadf..ede453c 100644\n--- a/rust/src/bin/20_valid_parentheses.rs\n+++ b/rust/src/bin/20_valid_parentheses.rs\n@@ -2,19 +2,15 @@ impl Solution {\n     pub fn is_valid(s: String) -> bool {\n         let mut stack = Vec::new();\n         for &c in s.as_bytes() {\n-            if c == b'[' || c == b'{' || c == b'(' {\n-                stack.push(c);\n-                continue;\n-            }\n-            let top = stack.pop();\n-            if top.is_none() || c != match top.unwrap() {\n-                    b'[' => b']',\n-                    b'{' => b'}',\n-                    b'(' => b')',\n-                    _ => b' ',\n+            match c {\n+                b'[' => stack.push(b']'),\n+                b'{' => stack.push(b'}'),\n+                b'(' => stack.push(b')'),\n+                _ => {\n+                    if Some(c) != stack.pop() {\n+                        return false;\n+                    }\n                 }\n-            {\n-                return false;\n             }\n         }\n \n",
+          "changedLineCounts": {
+            "additions": 8,
+            "deletions": 12
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Cleans up the same stack strategy by pushing expected closing delimiters directly and comparing each closing character,\\",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "d3048cc523a8c4a28b53c3981965cd2601b1ebaa",
+    "ad1f37f7087f4fd50b1b1ee07db73466128ebf1f"
+  ],
+  "warnings": []
+}
