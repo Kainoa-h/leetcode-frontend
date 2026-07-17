@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 452,
+    "title": "Minimum Number of Arrows to Burst Ballons",
+    "slug": "minimum-number-of-arrows-to-burst-ballons"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/452_minimum_number_of_arrows_to_burst_ballons.rs",
+    "latestSha": "183f64f4432dd4fe090b695120ad1e980f56453a",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-07-17T11:18:01+08:00",
+    "lastCommittedAt": "2026-07-17T11:34:53+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
+    "inputHash": "48bdaa61faa105eef75cf2e9f85a19c37ef5e0dc2a771e730924d7f1d73f9d27"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "Greedy interval overlap scanning",
+      "summary": "Sort balloon intervals and greedily track the shared feasible endpoint to count the minimum arrows. Later revisions simplify the representation and sort by end,",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "937d957040a3e4d235d9db3fa70b69315c729687",
+          "shortSha": "937d957",
+          "parentSha": "6612cb30a8c117d579a02b6a81471d420c122494",
+          "authoredAt": "2026-07-17T11:18:01+08:00",
+          "committedAt": "2026-07-17T11:18:01+08:00",
+          "chronologicalIndex": 210,
+          "problemId": 452,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/452_minimum_number_of_arrows_to_burst_ballons.rs",
+          "sourceFilename": "452_minimum_number_of_arrows_to_burst_ballons.rs",
+          "code": "impl Solution {\n    pub fn find_min_arrow_shots(points: Vec<Vec<i32>>) -> i32 {\n        let mut points = points\n            .iter()\n            .map(|v| [v[0] as i64, v[1] as i64])\n            .collect::<Vec<[i64; 2]>>();\n        points.sort_unstable_by_key(|v| (v[0], v[1]));\n        points.push([i64::MAX, 0]);\n\n        let mut overlap_end = points[0][1];\n        let mut result = 0;\n        for v in points.iter().skip(1) {\n            let (start, end) = (v[0], v[1]);\n            overlap_end = overlap_end.min(end);\n            if start > overlap_end {\n                result += 1;\n                overlap_end = v[1];\n            }\n        }\n        result\n    }\n}\n\nstruct Solution {}\nfn main() {\n    assert_eq!(\n        Solution::find_min_arrow_shots(vec![vec![10, 16], vec![2, 8], vec![1, 6], vec![7, 12]]),\n        2\n    );\n\n    assert_eq!(\n        Solution::find_min_arrow_shots(vec![vec![1, 2], vec![3, 4], vec![5, 6], vec![7, 8]]),\n        4\n    );\n\n    assert_eq!(\n        Solution::find_min_arrow_shots(vec![vec![1, 2], vec![2, 3], vec![3, 4], vec![4, 5]]),\n        2\n    );\n    assert_eq!(Solution::find_min_arrow_shots(vec![vec![1, 2147483647]]), 1);\n\n    assert_eq!(\n        Solution::find_min_arrow_shots(vec![\n            vec![9, 12],\n            vec![1, 10],\n            vec![4, 11],\n            vec![8, 12],\n            vec![3, 9],\n            vec![6, 9],\n            vec![6, 7]\n        ]),\n        2\n    );\n}\n",
+          "codeHash": "9cbedc730e555fb4b53d1410b4a413b2cba80e8e639ee54706eb92ac873c1163",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 452",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial greedy solution sorts by start, tracks the minimum overlap endpoint, and uses a sentinel interval to finalize​​.",
+          "warnings": []
+        },
+        {
+          "sha": "92793fa3db58831d1c339a7da05afeab4da6fc0e",
+          "shortSha": "92793fa",
+          "parentSha": "937d957040a3e4d235d9db3fa70b69315c729687",
+          "authoredAt": "2026-07-17T11:24:11+08:00",
+          "committedAt": "2026-07-17T11:24:11+08:00",
+          "chronologicalIndex": 211,
+          "problemId": 452,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/452_minimum_number_of_arrows_to_burst_ballons.rs",
+          "sourceFilename": "452_minimum_number_of_arrows_to_burst_ballons.rs",
+          "code": "impl Solution {\n    pub fn find_min_arrow_shots(mut points: Vec<Vec<i32>>) -> i32 {\n        points.sort_unstable_by_key(|v| (v[0], v[1]));\n\n        let mut overlap_end = points[0][1];\n        let mut result = 1;\n        for v in points.iter().skip(1) {\n            let (start, end) = (v[0], v[1]);\n            overlap_end = overlap_end.min(end);\n            if start > overlap_end {\n                result += 1;\n                overlap_end = v[1];\n            }\n        }\n        result\n    }\n}\n\nstruct Solution {}\nfn main() {\n    assert_eq!(\n        Solution::find_min_arrow_shots(vec![vec![10, 16], vec![2, 8], vec![1, 6], vec![7, 12]]),\n        2\n    );\n\n    assert_eq!(\n        Solution::find_min_arrow_shots(vec![vec![1, 2], vec![3, 4], vec![5, 6], vec![7, 8]]),\n        4\n    );\n\n    assert_eq!(\n        Solution::find_min_arrow_shots(vec![vec![1, 2], vec![2, 3], vec![3, 4], vec![4, 5]]),\n        2\n    );\n    assert_eq!(Solution::find_min_arrow_shots(vec![vec![1, 2147483647]]), 1);\n\n    assert_eq!(\n        Solution::find_min_arrow_shots(vec![\n            vec![9, 12],\n            vec![1, 10],\n            vec![4, 11],\n            vec![8, 12],\n            vec![3, 9],\n            vec![6, 9],\n            vec![6, 7]\n        ]),\n        2\n    );\n}\n",
+          "codeHash": "304f5bcaf4ba95438f7e0656be6d06d13fafe4d5430e45cba60aa72b34d31944",
+          "markedWrong": false,
+          "commitComment": "simplified",
+          "rawCommitSubject": "rust 452: simplified",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/452_minimum_number_of_arrows_to_burst_ballons.rs b/rust/src/bin/452_minimum_number_of_arrows_to_burst_ballons.rs\nindex 615247c..a13f985 100644\n--- a/rust/src/bin/452_minimum_number_of_arrows_to_burst_ballons.rs\n+++ b/rust/src/bin/452_minimum_number_of_arrows_to_burst_ballons.rs\n@@ -1,14 +1,9 @@\n impl Solution {\n-    pub fn find_min_arrow_shots(points: Vec<Vec<i32>>) -> i32 {\n-        let mut points = points\n-            .iter()\n-            .map(|v| [v[0] as i64, v[1] as i64])\n-            .collect::<Vec<[i64; 2]>>();\n+    pub fn find_min_arrow_shots(mut points: Vec<Vec<i32>>) -> i32 {\n         points.sort_unstable_by_key(|v| (v[0], v[1]));\n-        points.push([i64::MAX, 0]);\n \n         let mut overlap_end = points[0][1];\n-        let mut result = 0;\n+        let mut result = 1;\n         for v in points.iter().skip(1) {\n             let (start, end) = (v[0], v[1]);\n             overlap_end = overlap_end.min(end);\n",
+          "changedLineCounts": {
+            "additions": 2,
+            "deletions": 7
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Simplifies the same greedy scan by retaining the input vector, initializing the arrow count to one, and removing the||||",
+          "warnings": []
+        },
+        {
+          "sha": "183f64f4432dd4fe090b695120ad1e980f56453a",
+          "shortSha": "183f64f",
+          "parentSha": "92793fa3db58831d1c339a7da05afeab4da6fc0e",
+          "authoredAt": "2026-07-17T11:34:53+08:00",
+          "committedAt": "2026-07-17T11:34:53+08:00",
+          "chronologicalIndex": 212,
+          "problemId": 452,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/452_minimum_number_of_arrows_to_burst_ballons.rs",
+          "sourceFilename": "452_minimum_number_of_arrows_to_burst_ballons.rs",
+          "code": "impl Solution {\n    pub fn find_min_arrow_shots(mut points: Vec<Vec<i32>>) -> i32 {\n        points.sort_unstable_by_key(|v| v[1]);\n\n        let mut current_end = points[0][1];\n        let mut result = 1;\n        for v in points.iter().skip(1) {\n            if v[0] > current_end {\n                result += 1;\n                current_end = v[1];\n            }\n        }\n        result\n    }\n}\n\nstruct Solution {}\nfn main() {\n    assert_eq!(\n        Solution::find_min_arrow_shots(vec![vec![10, 16], vec![2, 8], vec![1, 6], vec![7, 12]]),\n        2\n    );\n\n    assert_eq!(\n        Solution::find_min_arrow_shots(vec![vec![1, 2], vec![3, 4], vec![5, 6], vec![7, 8]]),\n        4\n    );\n\n    assert_eq!(\n        Solution::find_min_arrow_shots(vec![vec![1, 2], vec![2, 3], vec![3, 4], vec![4, 5]]),\n        2\n    );\n    assert_eq!(Solution::find_min_arrow_shots(vec![vec![1, 2147483647]]), 1);\n\n    assert_eq!(\n        Solution::find_min_arrow_shots(vec![\n            vec![9, 12],\n            vec![1, 10],\n            vec![4, 11],\n            vec![8, 12],\n            vec![3, 9],\n            vec![6, 9],\n            vec![6, 7]\n        ]),\n        2\n    );\n}\n",
+          "codeHash": "2dfc2bdc3fd3a1bc9ec21aed57cb4526f5ae7ec4ae5326400d367765513daf84",
+          "markedWrong": false,
+          "commitComment": "remove need for min, by sorting by end",
+          "rawCommitSubject": "rust 452: remove need for min, by sorting by end",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/452_minimum_number_of_arrows_to_burst_ballons.rs b/rust/src/bin/452_minimum_number_of_arrows_to_burst_ballons.rs\nindex a13f985..89175e3 100644\n--- a/rust/src/bin/452_minimum_number_of_arrows_to_burst_ballons.rs\n+++ b/rust/src/bin/452_minimum_number_of_arrows_to_burst_ballons.rs\n@@ -1,15 +1,13 @@\n impl Solution {\n     pub fn find_min_arrow_shots(mut points: Vec<Vec<i32>>) -> i32 {\n-        points.sort_unstable_by_key(|v| (v[0], v[1]));\n+        points.sort_unstable_by_key(|v| v[1]);\n \n-        let mut overlap_end = points[0][1];\n+        let mut current_end = points[0][1];\n         let mut result = 1;\n         for v in points.iter().skip(1) {\n-            let (start, end) = (v[0], v[1]);\n-            overlap_end = overlap_end.min(end);\n-            if start > overlap_end {\n+            if v[0] > current_end {\n                 result += 1;\n-                overlap_end = v[1];\n+                current_end = v[1];\n             }\n         }\n         result\n",
+          "changedLineCounts": {
+            "additions": 4,
+            "deletions": 6
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 2,
+          "shortChangeSummary": "Refines the greedy strategy by sorting intervals by end, eliminating the running minimum-overlap calculation.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "937d957040a3e4d235d9db3fa70b69315c729687",
+    "92793fa3db58831d1c339a7da05afeab4da6fc0e",
+    "183f64f4432dd4fe090b695120ad1e980f56453a"
+  ],
+  "warnings": []
+}

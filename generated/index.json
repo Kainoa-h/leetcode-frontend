@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-16T07:29:54.119Z",
-  "sourceHeadSha": "6612cb30a8c117d579a02b6a81471d420c122494",
+  "generatedAt": "2026-07-17T03:35:27.957Z",
+  "sourceHeadSha": "183f64f4432dd4fe090b695120ad1e980f56453a",
   "questions": [
     {
       "id": 1,
@@ -929,6 +929,24 @@
       ],
       "firstCommittedAt": "2026-05-05T20:12:03+08:00",
       "lastCommittedAt": "2026-05-05T20:46:08+08:00"
+    },
+    {
+      "id": 452,
+      "title": "Minimum Number of Arrows to Burst Ballons",
+      "slug": "minimum-number-of-arrows-to-burst-ballons",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/452/rust/",
+          "revisionCount": 3,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-07-17T11:34:53+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-07-17T11:18:01+08:00",
+      "lastCommittedAt": "2026-07-17T11:34:53+08:00"
     },
     {
       "id": 739,
