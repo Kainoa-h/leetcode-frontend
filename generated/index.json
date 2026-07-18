@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-17T17:39:36.718Z",
-  "sourceHeadSha": "d1277feb6444d0e9b5811375d7e6120169d0f6e5",
+  "generatedAt": "2026-07-18T02:59:03.230Z",
+  "sourceHeadSha": "74e87676ad23d9b5af8fda9e3cd9e7acec34ae45",
   "questions": [
     {
       "id": 1,
@@ -1424,6 +1424,24 @@
       ],
       "firstCommittedAt": "2026-06-29T21:35:06+08:00",
       "lastCommittedAt": "2026-06-29T21:35:06+08:00"
+    },
+    {
+      "id": 1979,
+      "title": "Find Greatest Common Divisor of Array",
+      "slug": "find-greatest-common-divisor-of-array",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/1979/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-07-18T10:58:36+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-07-18T10:58:36+08:00",
+      "lastCommittedAt": "2026-07-18T10:58:36+08:00"
     },
     {
       "id": 2033,

@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1979,
+    "title": "Find Greatest Common Divisor of Array",
+    "slug": "find-greatest-common-divisor-of-array"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/1979_find_greatest_common_divisor_of_array.rs",
+    "latestSha": "74e87676ad23d9b5af8fda9e3cd9e7acec34ae45",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-07-18T10:58:36+08:00",
+    "lastCommittedAt": "2026-07-18T10:58:36+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "6",
+    "inputHash": "b1143b2829af44cc7061be677fcf140d2477b847ba1591e059808110239779ab"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "74e87676ad23d9b5af8fda9e3cd9e7acec34ae45",
+          "shortSha": "74e8767",
+          "parentSha": "d1277feb6444d0e9b5811375d7e6120169d0f6e5",
+          "authoredAt": "2026-07-18T10:58:36+08:00",
+          "committedAt": "2026-07-18T10:58:36+08:00",
+          "chronologicalIndex": 223,
+          "problemId": 1979,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1979_find_greatest_common_divisor_of_array.rs",
+          "sourceFilename": "1979_find_greatest_common_divisor_of_array.rs",
+          "code": "impl Solution {\n    pub fn find_gcd(nums: Vec<i32>) -> i32 {\n        let (&first, rest) = nums.split_first().unwrap();\n        let mut max = first;\n        let mut min = first;\n        for &n in rest {\n            max = max.max(n);\n            min = min.min(n);\n        }\n        while min != 0 {\n            (max, min) = (min, max % min)\n        }\n        max\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "7967dc2f71ae912ac863fd61e6fd539c6c1d9d0bf500f5f7646fc078850e1d80",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 1979",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "74e87676ad23d9b5af8fda9e3cd9e7acec34ae45"
+  ],
+  "warnings": []
+}
