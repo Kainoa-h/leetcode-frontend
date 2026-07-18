@@ -10,6 +10,9 @@ for (const id of ids)
   if (!index.questions.some((q) => q.id === id))
     console.warn(`[favorites] Problem ${id} is not in generated/index.json`);
 const favoriteSet = new Set(ids);
+const questions = [...index.questions].sort((a, b) =>
+  (b.lastCommittedAt ?? '').localeCompare(a.lastCommittedAt ?? ''),
+);
 const totals = {
   solutions: index.questions.reduce((n, q) => n + q.languages.length, 0),
   revisions: index.questions
@@ -99,9 +102,9 @@ const totals = {
                   Sort{' '}
                   <select name="sort">
                     <>
+                      <option value="updated">Recently updated</option>
                       <option value="id-asc">Problem ID ↑</option>
                       <option value="id-desc">Problem ID ↓</option>
-                      <option value="updated">Recently updated</option>
                       <option value="title">Title</option>
                       <option value="revisions">Revision count</option>
                     </>
@@ -114,7 +117,7 @@ const totals = {
             </form>
             <p data-results aria-live="polite" />
             <div class="question-list" data-list>
-              {index.questions.map((q) => (
+              {questions.map((q) => (
                 <QuestionRow question={q} favorite={favoriteSet.has(q.id)} />
               ))}
             </div>
