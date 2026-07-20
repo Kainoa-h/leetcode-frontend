@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-20T09:27:34.238Z",
-  "sourceHeadSha": "8868f549fbe852b9c7fd35d4c5543ff59e1beb17",
+  "generatedAt": "2026-07-20T10:04:56.033Z",
+  "sourceHeadSha": "185f1afe467addd122a95d7043d93286ee5da405",
   "questions": [
     {
       "id": 1,
@@ -1118,6 +1118,24 @@
       ],
       "firstCommittedAt": "2026-03-11T23:35:17+08:00",
       "lastCommittedAt": "2026-03-11T23:39:39+08:00"
+    },
+    {
+      "id": 1081,
+      "title": "Smallest Subsequence of Distinct Characters",
+      "slug": "smallest-subsequence-of-distinct-characters",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/1081/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-07-20T18:03:31+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-07-20T18:03:31+08:00",
+      "lastCommittedAt": "2026-07-20T18:03:31+08:00"
     },
     {
       "id": 1189,

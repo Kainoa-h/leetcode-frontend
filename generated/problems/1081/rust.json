@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1081,
+    "title": "Smallest Subsequence of Distinct Characters",
+    "slug": "smallest-subsequence-of-distinct-characters"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/1081_smallest_subsequence_of_distinct_characters.rs",
+    "latestSha": "185f1afe467addd122a95d7043d93286ee5da405",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-07-20T18:03:31+08:00",
+    "lastCommittedAt": "2026-07-20T18:03:31+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "6",
+    "inputHash": "729c9d820a9d1b4291502cece0e3e8d75326e591a98d74c517eae47df40ce36c"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "185f1afe467addd122a95d7043d93286ee5da405",
+          "shortSha": "185f1af",
+          "parentSha": "8868f549fbe852b9c7fd35d4c5543ff59e1beb17",
+          "authoredAt": "2026-07-20T18:03:31+08:00",
+          "committedAt": "2026-07-20T18:03:31+08:00",
+          "chronologicalIndex": 226,
+          "problemId": 1081,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1081_smallest_subsequence_of_distinct_characters.rs",
+          "sourceFilename": "1081_smallest_subsequence_of_distinct_characters.rs",
+          "code": "impl Solution {\n    pub fn smallest_subsequence(s: String) -> String {\n        let bytes = s.as_bytes();\n        let mut last_index_map = [0_usize; 256];\n        for (i, &b) in bytes.iter().enumerate() {\n            last_index_map[b as usize] = i;\n        }\n\n        let mut monotonic_stack = Vec::new();\n        let mut currently_contained = [false; 256];\n        for (i, &b) in bytes.iter().enumerate() {\n            if currently_contained[b as usize] {\n                continue;\n            }\n            while let Some(&top) = monotonic_stack.last() && b < top && last_index_map[top as usize] > i {\n                monotonic_stack.pop();\n                currently_contained[top as usize] = false;\n            }\n            monotonic_stack.push(b);\n            currently_contained[b as usize] = true;\n        }\n        unsafe {\n            String::from_utf8_unchecked(monotonic_stack)\n        }\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "75d112b43a8ec862f7849671499c09edc2d1ceaa7b40b26a3d603d78dcff3b7c",
+          "markedWrong": false,
+          "commitComment": "referred to solutions. monotonic stack!",
+          "rawCommitSubject": "rust 1081: referred to solutions. monotonic stack!",
+          "commitBody": "i could never dream this shit up.\n\nAlso fun use of unsafe lul...",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "referred to solutions. monotonic stack!",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "185f1afe467addd122a95d7043d93286ee5da405"
+  ],
+  "warnings": []
+}
