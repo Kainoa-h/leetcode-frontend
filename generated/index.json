@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-18T03:31:30.168Z",
-  "sourceHeadSha": "74e87676ad23d9b5af8fda9e3cd9e7acec34ae45",
+  "generatedAt": "2026-07-20T03:28:50.987Z",
+  "sourceHeadSha": "ce7e3f9d02d5112db755e2f1e3d1a80983645799",
   "questions": [
     {
       "id": 1,
@@ -1136,6 +1136,24 @@
       ],
       "firstCommittedAt": "2026-06-22T15:36:51+08:00",
       "lastCommittedAt": "2026-06-22T15:36:51+08:00"
+    },
+    {
+      "id": 1260,
+      "title": "Shift 2d Grid",
+      "slug": "shift-2d-grid",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/1260/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-07-20T10:39:00+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-07-20T10:39:00+08:00",
+      "lastCommittedAt": "2026-07-20T10:39:00+08:00"
     },
     {
       "id": 1288,

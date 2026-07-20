@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1260,
+    "title": "Shift 2d Grid",
+    "slug": "shift-2d-grid"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/1260_shift_2d_grid.rs",
+    "latestSha": "ce7e3f9d02d5112db755e2f1e3d1a80983645799",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-07-20T10:39:00+08:00",
+    "lastCommittedAt": "2026-07-20T10:39:00+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "6",
+    "inputHash": "18fa692caf7509ccc37692779bed6ea01822cbe0120a6b2f0950f994db7184a4"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "ce7e3f9d02d5112db755e2f1e3d1a80983645799",
+          "shortSha": "ce7e3f9",
+          "parentSha": "74e87676ad23d9b5af8fda9e3cd9e7acec34ae45",
+          "authoredAt": "2026-07-20T10:39:00+08:00",
+          "committedAt": "2026-07-20T10:39:00+08:00",
+          "chronologicalIndex": 224,
+          "problemId": 1260,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1260_shift_2d_grid.rs",
+          "sourceFilename": "1260_shift_2d_grid.rs",
+          "code": "impl Solution {\n    pub fn shift_grid(grid: Vec<Vec<i32>>, k: i32) -> Vec<Vec<i32>> {\n        let cols = grid[0].len();\n        let mut flattened = grid.into_iter().flatten().collect::<Vec<i32>>();\n        let rot = k as usize % flattened.len();\n        flattened.rotate_right(rot);\n        flattened.chunks(cols).map(|c| c.to_vec()).collect()\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "3afef6c99b25582edad84f597c1f2c3832cf0e2a1002e8f724a9f14f8354a216",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 1260",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "ce7e3f9d02d5112db755e2f1e3d1a80983645799"
+  ],
+  "warnings": []
+}
