@@ -13,27 +13,27 @@
   "source": {
     "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
     "latestPath": "rust/src/bin/1260_shift_2d_grid.rs",
-    "latestSha": "ce7e3f9d02d5112db755e2f1e3d1a80983645799",
+    "latestSha": "8868f549fbe852b9c7fd35d4c5543ff59e1beb17",
     "deleted": false
   },
   "statistics": {
-    "revisionCount": 1,
-    "approachCount": 1,
+    "revisionCount": 2,
+    "approachCount": 2,
     "incorrectRevisionCount": 0,
     "firstCommittedAt": "2026-07-20T10:39:00+08:00",
-    "lastCommittedAt": "2026-07-20T10:39:00+08:00"
+    "lastCommittedAt": "2026-07-20T17:26:19+08:00"
   },
   "analysis": {
-    "status": "fallback",
-    "model": null,
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
     "promptVersion": "6",
-    "inputHash": "18fa692caf7509ccc37692779bed6ea01822cbe0120a6b2f0950f994db7184a4"
+    "inputHash": "cc084145da77a9fa4ca27e9f1293a94336b7a228371cdfdc4ab4fd0211a29973"
   },
   "approaches": [
     {
-      "id": "chronological",
-      "title": "Solution history",
-      "summary": "Revisions in chronological order.",
+      "id": "approach-1",
+      "title": "Flatten the grid and rotate the linear sequence",
+      "summary": "Flattens the 2D grid into a one-dimensional vector, rotates it right by k positions, then rebuilds the rows.",
       "order": 0,
       "revisions": [
         {
@@ -55,16 +55,52 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "chronological",
+          "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Updates the solution.",
+          "shortChangeSummary": "Initial solution using a flattened buffer and Vec::rotate_right.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "approach-2",
+      "title": "In-place three-reversal rotation",
+      "summary": "Treats the grid as a linear sequence while accessing elements by row and column, and performs an in-place right rotation using three reversals without creating-",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "8868f549fbe852b9c7fd35d4c5543ff59e1beb17",
+          "shortSha": "8868f54",
+          "parentSha": "ce7e3f9d02d5112db755e2f1e3d1a80983645799",
+          "authoredAt": "2026-07-20T17:26:19+08:00",
+          "committedAt": "2026-07-20T17:26:19+08:00",
+          "chronologicalIndex": 225,
+          "problemId": 1260,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1260_shift_2d_grid.rs",
+          "sourceFilename": "1260_shift_2d_grid.rs",
+          "code": "impl Solution {\n    pub fn shift_grid(mut grid: Vec<Vec<i32>>, k: i32) -> Vec<Vec<i32>> {\n        let rows = grid.len();\n        let cols = grid[0].len();\n        let n = rows * cols;\n        let k = k as usize % n;\n        if k == 0 {\n            return grid;\n        }\n        let mut rot = |mut start_inc: usize, mut end_inc: usize| {\n            while start_inc < end_inc {\n                let (l_r, l_c) = (start_inc / cols, start_inc % cols);\n                let (r_r, r_c) = (end_inc / cols, end_inc % cols);\n                (grid[l_r][l_c], grid[r_r][r_c]) = (grid[r_r][r_c], grid[l_r][l_c]);\n                start_inc += 1;\n                end_inc -= 1;\n            }\n        };\n        rot(0, n-1);\n        rot(0, k-1);\n        rot(k, n-1);\n\n        grid\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "71f3596b5dab90000fbd07647b014cc74924490f5c8426a4824962bddd7514fc",
+          "markedWrong": false,
+          "commitComment": "slower but 0 allocations",
+          "rawCommitSubject": "rust 1260: slower but 0 allocations",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/1260_shift_2d_grid.rs b/rust/src/bin/1260_shift_2d_grid.rs\nindex db8b4c2..1445b0d 100644\n--- a/rust/src/bin/1260_shift_2d_grid.rs\n+++ b/rust/src/bin/1260_shift_2d_grid.rs\n@@ -1,10 +1,26 @@\n impl Solution {\n-    pub fn shift_grid(grid: Vec<Vec<i32>>, k: i32) -> Vec<Vec<i32>> {\n+    pub fn shift_grid(mut grid: Vec<Vec<i32>>, k: i32) -> Vec<Vec<i32>> {\n+        let rows = grid.len();\n         let cols = grid[0].len();\n-        let mut flattened = grid.into_iter().flatten().collect::<Vec<i32>>();\n-        let rot = k as usize % flattened.len();\n-        flattened.rotate_right(rot);\n-        flattened.chunks(cols).map(|c| c.to_vec()).collect()\n+        let n = rows * cols;\n+        let k = k as usize % n;\n+        if k == 0 {\n+            return grid;\n+        }\n+        let mut rot = |mut start_inc: usize, mut end_inc: usize| {\n+            while start_inc < end_inc {\n+                let (l_r, l_c) = (start_inc / cols, start_inc % cols);\n+                let (r_r, r_c) = (end_inc / cols, end_inc % cols);\n+                (grid[l_r][l_c], grid[r_r][r_c]) = (grid[r_r][r_c], grid[l_r][l_c]);\n+                start_inc += 1;\n+                end_inc -= 1;\n+            }\n+        };\n+        rot(0, n-1);\n+        rot(0, k-1);\n+        rot(k, n-1);\n+\n+        grid\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 21,
+            "deletions": 5
+          },
+          "approachId": "approach-2",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaces the allocated flattened buffer with in-place triple-reversal rotation.",
           "warnings": []
         }
       ]
     }
   ],
   "chronologicalRevisionShas": [
-    "ce7e3f9d02d5112db755e2f1e3d1a80983645799"
+    "ce7e3f9d02d5112db755e2f1e3d1a80983645799",
+    "8868f549fbe852b9c7fd35d4c5543ff59e1beb17"
   ],
   "warnings": []
 }
