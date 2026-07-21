@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-20T10:04:56.033Z",
-  "sourceHeadSha": "185f1afe467addd122a95d7043d93286ee5da405",
+  "generatedAt": "2026-07-21T01:17:46.519Z",
+  "sourceHeadSha": "21637e56b762af280907625cd2a86206e441563d",
   "questions": [
     {
       "id": 1,
@@ -1982,6 +1982,24 @@
       ],
       "firstCommittedAt": "2026-04-16T18:09:38+08:00",
       "lastCommittedAt": "2026-04-16T18:09:38+08:00"
+    },
+    {
+      "id": 3499,
+      "title": "Maximize Active Section With Trade I",
+      "slug": "maximize-active-section-with-trade-i",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3499/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-07-21T09:16:03+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-07-21T08:56:09+08:00",
+      "lastCommittedAt": "2026-07-21T09:16:03+08:00"
     },
     {
       "id": 3532,

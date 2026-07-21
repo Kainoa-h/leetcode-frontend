@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3499,
+    "title": "Maximize Active Section With Trade I",
+    "slug": "maximize-active-section-with-trade-i"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3499_maximize_active_section_with_trade_I.rs",
+    "latestSha": "21637e56b762af280907625cd2a86206e441563d",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-07-21T08:56:09+08:00",
+    "lastCommittedAt": "2026-07-21T09:16:03+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
+    "inputHash": "86a9b2aedf035ecd0d41a771abe386adb1a22987cb86a894c7f2f4cadafb3533"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "Run-length analysis of binary sections",
+      "summary": "Compresses or streams contiguous runs of equal bits, counts all existing active sections, and finds the maximum gain from combining neighboring zero runs around",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "b789d201512cfa4e3bb8c80ee05868849156ebe0",
+          "shortSha": "b789d20",
+          "parentSha": "185f1afe467addd122a95d7043d93286ee5da405",
+          "authoredAt": "2026-07-21T08:55:53+08:00",
+          "committedAt": "2026-07-21T08:56:09+08:00",
+          "chronologicalIndex": 227,
+          "problemId": 3499,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3499_maximize_active_section_with_trade_I.rs",
+          "sourceFilename": "3499_maximize_active_section_with_trade_I.rs",
+          "code": "impl Solution {\n    pub fn max_active_sections_after_trade(s: String) -> i32 {\n        let mut compressed = Vec::new();\n        let mut count = 1;\n        let s = format!(\"{};\", s);\n        for w in s.as_bytes().windows(2) {\n            let (prev, now) = (w[0], w[1]);\n            if prev == now {\n                count += 1;\n            } else {\n                compressed.push((prev, count));\n                count = 1;\n            }\n        }\n\n        let mut max = 0;\n        for w in compressed.windows(3) {\n            if w[0].0 != b'0' {\n                continue;\n            }\n            let delta = w[0].1 + w[2].1;\n            max = max.max(delta);\n        }\n\n        max + compressed\n            .into_iter()\n            .filter(|x| x.0 == b'1')\n            .map(|x| x.1)\n            .sum::<i32>()\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "757511c38afe1948f1b21e5939632c8110bb770feda03f675b76b82a84f6530c",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 3499",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Builds an explicit run-length encoding, evaluates adjacent zero-run gains, and adds the total number of one bits.",
+          "warnings": []
+        },
+        {
+          "sha": "21637e56b762af280907625cd2a86206e441563d",
+          "shortSha": "21637e5",
+          "parentSha": "b789d201512cfa4e3bb8c80ee05868849156ebe0",
+          "authoredAt": "2026-07-21T09:12:26+08:00",
+          "committedAt": "2026-07-21T09:16:03+08:00",
+          "chronologicalIndex": 228,
+          "problemId": 3499,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3499_maximize_active_section_with_trade_I.rs",
+          "sourceFilename": "3499_maximize_active_section_with_trade_I.rs",
+          "code": "impl Solution {\n    pub fn max_active_sections_after_trade(s: String) -> i32 {\n        let mut total_ones = 0;\n        let mut max_delta = 0;\n        let mut prev_zeros = 0;\n        for chunk in s.as_bytes().chunk_by(|a, b| a == b) {\n            let len = chunk.len();\n            if chunk[0] == b'1' {\n                total_ones += len;\n                continue;\n            }\n            if prev_zeros != 0 {\n                max_delta = max_delta.max(len + prev_zeros);\n            }\n            prev_zeros = len;\n        }\n        (total_ones + max_delta) as i32\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "cd08d0ccae7f1378ac2638ee4cb99ed2b46356a097612c78361499eb9225255e",
+          "markedWrong": false,
+          "commitComment": "cool use of chunk_by!",
+          "rawCommitSubject": "rust 3499: cool use of chunk_by!",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3499_maximize_active_section_with_trade_I.rs b/rust/src/bin/3499_maximize_active_section_with_trade_I.rs\nindex 50e62f5..c665b1f 100644\n--- a/rust/src/bin/3499_maximize_active_section_with_trade_I.rs\n+++ b/rust/src/bin/3499_maximize_active_section_with_trade_I.rs\n@@ -1,32 +1,20 @@\n impl Solution {\n     pub fn max_active_sections_after_trade(s: String) -> i32 {\n-        let mut compressed = Vec::new();\n-        let mut count = 1;\n-        let s = format!(\"{};\", s);\n-        for w in s.as_bytes().windows(2) {\n-            let (prev, now) = (w[0], w[1]);\n-            if prev == now {\n-                count += 1;\n-            } else {\n-                compressed.push((prev, count));\n-                count = 1;\n-            }\n-        }\n-\n-        let mut max = 0;\n-        for w in compressed.windows(3) {\n-            if w[0].0 != b'0' {\n+        let mut total_ones = 0;\n+        let mut max_delta = 0;\n+        let mut prev_zeros = 0;\n+        for chunk in s.as_bytes().chunk_by(|a, b| a == b) {\n+            let len = chunk.len();\n+            if chunk[0] == b'1' {\n+                total_ones += len;\n                 continue;\n             }\n-            let delta = w[0].1 + w[2].1;\n-            max = max.max(delta);\n+            if prev_zeros != 0 {\n+                max_delta = max_delta.max(len + prev_zeros);\n+            }\n+            prev_zeros = len;\n         }\n-\n-        max + compressed\n-            .into_iter()\n-            .filter(|x| x.0 == b'1')\n-            .map(|x| x.1)\n-            .sum::<i32>()\n+        (total_ones + max_delta) as i32\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 12,
+            "deletions": 24
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Refactors the same run-based strategy to stream chunks with `chunk_by`, avoiding explicit compression storage.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "b789d201512cfa4e3bb8c80ee05868849156ebe0",
+    "21637e56b762af280907625cd2a86206e441563d"
+  ],
+  "warnings": []
+}
