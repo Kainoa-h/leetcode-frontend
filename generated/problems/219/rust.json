@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 219,
+    "title": "Contains Duplicate Ii",
+    "slug": "contains-duplicate-ii"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/219_contains_duplicate_II.rs",
+    "latestSha": "eba7cf01c95262a42d99636a6ebddfaa7bd5b713",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-07-27T21:53:24+08:00",
+    "lastCommittedAt": "2026-07-27T21:53:24+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
+    "inputHash": "df75579f19505d9080430db024f5e919ea6ebcc0216aee9f8ff69ce334a07aa7"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "Track each value's most recent index",
+      "summary": "Uses a hash map from each number to its latest index, checking whether the current occurrence is within distance k before updating the stored index.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "38632938465c287067c183445f0f61388c73dc7b",
+          "shortSha": "3863293",
+          "parentSha": "94af922e2e553bc62db1d60aad2f443da77982bb",
+          "authoredAt": "2026-07-27T21:44:41+08:00",
+          "committedAt": "2026-07-27T21:53:24+08:00",
+          "chronologicalIndex": 233,
+          "problemId": 219,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/219_contains_duplicate_II.rs",
+          "sourceFilename": "219_contains_duplicate_II.rs",
+          "code": "use std::collections::HashMap;\n\nimpl Solution {\n    pub fn contains_nearby_duplicate(nums: Vec<i32>, k: i32) -> bool {\n        let k = k as usize;\n        let mut map: HashMap<i32,usize> = HashMap::new();\n        for (i,n) in nums.into_iter().enumerate(){\n            if let Some(prev_idx) = map.insert(n,i) && i-prev_idx <= k {\n                    return true;\n            }\n        }\n        false\n    }\n}\n\nstruct Solution{}\n\nfn main(){\n}\n",
+          "codeHash": "d2ffe4e23a818c5a93f34b8b4cf5d8a29212be00c903ac463e16562ca3ad6d7e",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 219",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial HashMap-based solution storing the most recent index for each value.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "approach-2",
+      "title": "Maintain a sliding window set",
+      "summary": "Uses a HashSet containing the values in the previous k positions, removing the value that leaves the window before checking for a duplicate.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "eba7cf01c95262a42d99636a6ebddfaa7bd5b713",
+          "shortSha": "eba7cf0",
+          "parentSha": "38632938465c287067c183445f0f61388c73dc7b",
+          "authoredAt": "2026-07-27T21:52:46+08:00",
+          "committedAt": "2026-07-27T21:53:24+08:00",
+          "chronologicalIndex": 234,
+          "problemId": 219,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/219_contains_duplicate_II.rs",
+          "sourceFilename": "219_contains_duplicate_II.rs",
+          "code": "use std::collections::HashSet;\n\nimpl Solution {\n    pub fn contains_nearby_duplicate(nums: Vec<i32>, k: i32) -> bool {\n        let k = k as usize;\n        let mut set: HashSet<i32> = HashSet::with_capacity(usize::min(nums.len(), k));\n        for (i,&n) in nums.iter().enumerate(){\n            if i > k {\n                set.remove(&nums[i - k - 1]);\n            }\n\n            if !set.insert(n){\n                    return true;\n            }\n        }\n        false\n    }\n}\n\nstruct Solution{}\n\nfn main(){\n}\n",
+          "codeHash": "26c28fe138b13db8b718ee56980679c4cfb0475037d9512fd536d21fff144ee7",
+          "markedWrong": false,
+          "commitComment": "set only tracks sliding window of numbers",
+          "rawCommitSubject": "rust 219: set only tracks sliding window of numbers",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/219_contains_duplicate_II.rs b/rust/src/bin/219_contains_duplicate_II.rs\nindex 375e3bf..ef5937f 100644\n--- a/rust/src/bin/219_contains_duplicate_II.rs\n+++ b/rust/src/bin/219_contains_duplicate_II.rs\n@@ -1,11 +1,15 @@\n-use std::collections::HashMap;\n+use std::collections::HashSet;\n \n impl Solution {\n     pub fn contains_nearby_duplicate(nums: Vec<i32>, k: i32) -> bool {\n         let k = k as usize;\n-        let mut map: HashMap<i32,usize> = HashMap::new();\n-        for (i,n) in nums.into_iter().enumerate(){\n-            if let Some(prev_idx) = map.insert(n,i) && i-prev_idx <= k {\n+        let mut set: HashSet<i32> = HashSet::with_capacity(usize::min(nums.len(), k));\n+        for (i,&n) in nums.iter().enumerate(){\n+            if i > k {\n+                set.remove(&nums[i - k - 1]);\n+            }\n+\n+            if !set.insert(n){\n                     return true;\n             }\n         }\n",
+          "changedLineCounts": {
+            "additions": 8,
+            "deletions": 4
+          },
+          "approachId": "approach-2",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaced the index map with a sliding-window HashSet that tracks only nearby values.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "38632938465c287067c183445f0f61388c73dc7b",
+    "eba7cf01c95262a42d99636a6ebddfaa7bd5b713"
+  ],
+  "warnings": []
+}
