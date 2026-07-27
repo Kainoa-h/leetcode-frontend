@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1464,
+    "title": "Maximum Product of Two Elements in An Array",
+    "slug": "maximum-product-of-two-elements-in-an-array"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/1464_maximum_product_of_two_elements_in_an_array.rs",
+    "latestSha": "94af922e2e553bc62db1d60aad2f443da77982bb",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-07-27T11:11:13+08:00",
+    "lastCommittedAt": "2026-07-27T11:20:57+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
+    "inputHash": "1ea7e2e9f1f1236a3375bf7b47c174ee2f2515bf3bc5dc123c25c8be2162760b"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "Track the two largest values in one pass",
+      "summary": "Maintains the largest and second-largest elements while scanning the input, then computes their decremented product. Revision 2 preserves this algorithm and rew",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "f89b5e809af56a4795b860e725a3d1453a7947fe",
+          "shortSha": "f89b5e8",
+          "parentSha": "76e2c188863c963a72e219f94f549eccdb4195c7",
+          "authoredAt": "2026-07-27T11:11:13+08:00",
+          "committedAt": "2026-07-27T11:11:13+08:00",
+          "chronologicalIndex": 231,
+          "problemId": 1464,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1464_maximum_product_of_two_elements_in_an_array.rs",
+          "sourceFilename": "1464_maximum_product_of_two_elements_in_an_array.rs",
+          "code": "impl Solution {\n    pub fn max_product(nums: Vec<i32>) -> i32 {\n        let mut first = 0;\n        let mut second = 0;\n        for n in nums {\n            second = second.max(first.min(n));\n            first = first.max(n);\n        }\n        (first - 1) * (second - 1)\n    }\n}\n",
+          "codeHash": "d11134723bf9bcc54a5be15e9c2cb6cbc14c3855f4134b3a3d2088a0dfefcefa",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 1464",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial one-pass solution tracking the two largest values with mutable variables.",
+          "warnings": []
+        },
+        {
+          "sha": "94af922e2e553bc62db1d60aad2f443da77982bb",
+          "shortSha": "94af922",
+          "parentSha": "f89b5e809af56a4795b860e725a3d1453a7947fe",
+          "authoredAt": "2026-07-27T11:20:57+08:00",
+          "committedAt": "2026-07-27T11:20:57+08:00",
+          "chronologicalIndex": 232,
+          "problemId": 1464,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1464_maximum_product_of_two_elements_in_an_array.rs",
+          "sourceFilename": "1464_maximum_product_of_two_elements_in_an_array.rs",
+          "code": "impl Solution {\n    pub fn max_product(nums: Vec<i32>) -> i32 {\n        let (first, second) = nums.iter().fold((0,0), |mut acc, &n| {\n            acc.1 = acc.1.max(acc.0.min(n));\n            acc.0 = acc.0.max(n);\n            acc\n        });\n        (first - 1) * (second - 1)\n    }\n}\n",
+          "codeHash": "3d1dd8f63147c3a5a89bc0b61a023c4d8171e96cf8fff961d94b6bb86c178db4",
+          "markedWrong": false,
+          "commitComment": "functional for fun",
+          "rawCommitSubject": "rust 1464: functional for fun",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/1464_maximum_product_of_two_elements_in_an_array.rs b/rust/src/bin/1464_maximum_product_of_two_elements_in_an_array.rs\nindex 9a84c6d..ef79a8c 100644\n--- a/rust/src/bin/1464_maximum_product_of_two_elements_in_an_array.rs\n+++ b/rust/src/bin/1464_maximum_product_of_two_elements_in_an_array.rs\n@@ -1,11 +1,10 @@\n impl Solution {\n     pub fn max_product(nums: Vec<i32>) -> i32 {\n-        let mut first = 0;\n-        let mut second = 0;\n-        for n in nums {\n-            second = second.max(first.min(n));\n-            first = first.max(n);\n-        }\n+        let (first, second) = nums.iter().fold((0,0), |mut acc, &n| {\n+            acc.1 = acc.1.max(acc.0.min(n));\n+            acc.0 = acc.0.max(n);\n+            acc\n+        });\n         (first - 1) * (second - 1)\n     }\n }\n",
+          "changedLineCounts": {
+            "additions": 5,
+            "deletions": 6
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Refactors the same one-pass tracking logic into an iterator fold.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "f89b5e809af56a4795b860e725a3d1453a7947fe",
+    "94af922e2e553bc62db1d60aad2f443da77982bb"
+  ],
+  "warnings": []
+}
