@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-27T13:54:01.360Z",
-  "sourceHeadSha": "eba7cf01c95262a42d99636a6ebddfaa7bd5b713",
+  "generatedAt": "2026-07-28T02:48:55.194Z",
+  "sourceHeadSha": "b2a2315ea70a1fc156ec8245e1ddcfde80d23d32",
   "questions": [
     {
       "id": 1,
@@ -2054,6 +2054,24 @@
       ],
       "firstCommittedAt": "2026-07-21T08:56:09+08:00",
       "lastCommittedAt": "2026-07-21T09:16:03+08:00"
+    },
+    {
+      "id": 3517,
+      "title": "Smallest Palindromic Rearrangement I",
+      "slug": "smallest-palindromic-rearrangement-i",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3517/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-07-28T10:29:26+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-07-28T10:08:22+08:00",
+      "lastCommittedAt": "2026-07-28T10:29:26+08:00"
     },
     {
       "id": 3532,

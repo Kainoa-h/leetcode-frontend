@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3517,
+    "title": "Smallest Palindromic Rearrangement I",
+    "slug": "smallest-palindromic-rearrangement-i"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3517_smallest_palindromic_rearrangement_I.rs",
+    "latestSha": "b2a2315ea70a1fc156ec8245e1ddcfde80d23d32",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-07-28T10:08:22+08:00",
+    "lastCommittedAt": "2026-07-28T10:29:26+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "6",
+    "inputHash": "029e01dbe1c8ce9f713267ed546be80995e362b346db4abb624e18297deb9958"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "227ccac857ed32f45744b486f5aa05e5426383ff",
+          "shortSha": "227ccac",
+          "parentSha": "eba7cf01c95262a42d99636a6ebddfaa7bd5b713",
+          "authoredAt": "2026-07-28T10:08:22+08:00",
+          "committedAt": "2026-07-28T10:08:22+08:00",
+          "chronologicalIndex": 235,
+          "problemId": 3517,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3517_smallest_palindromic_rearrangement_I.rs",
+          "sourceFilename": "3517_smallest_palindromic_rearrangement_I.rs",
+          "code": "impl Solution {\n    pub fn smallest_palindrome(s: String) -> String {\n        let mut count = [0; 26];\n        for &c in s.as_bytes() {\n            count[(c - b'a') as usize] += 1;\n        }\n\n        let mut str_list = vec![0_u8; s.len()];\n        let mut head = 0;\n        let mut tail = s.len() - 1;\n        let mut odd = 0_u8;\n        for (i, count) in count.iter().enumerate() {\n            let char = i as u8 + b'a';\n            if odd == 0 && count % 2 != 0 {\n                odd = char;\n            }\n            let count = count / 2;\n            for _ in 0..count {\n                str_list[head] = char;\n                str_list[tail] = char;\n                head += 1;\n                tail -= 1;\n            }\n        }\n        if odd != 0 {\n            str_list[s.len()/2] = odd;\n        }\n\n        str_list.into_iter().map(|x| x as char).collect()\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        Solution::smallest_palindrome(\"z\".to_string()),\n        \"z\".to_string()\n    );\n}\n",
+          "codeHash": "e00d7252b1bfbe3b0c28dcf73487fcb9e44e35ee6cda35744f0850e7792dc021",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 3517",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        },
+        {
+          "sha": "b2a2315ea70a1fc156ec8245e1ddcfde80d23d32",
+          "shortSha": "b2a2315",
+          "parentSha": "227ccac857ed32f45744b486f5aa05e5426383ff",
+          "authoredAt": "2026-07-28T10:27:10+08:00",
+          "committedAt": "2026-07-28T10:29:26+08:00",
+          "chronologicalIndex": 236,
+          "problemId": 3517,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3517_smallest_palindromic_rearrangement_I.rs",
+          "sourceFilename": "3517_smallest_palindromic_rearrangement_I.rs",
+          "code": "impl Solution {\n    pub fn smallest_palindrome(s: String) -> String {\n        let mut count = [0; 26];\n        for &c in s.as_bytes() {\n            count[(c - b'a') as usize] += 1;\n        }\n\n        let mut left_half = Vec::<u8>::with_capacity(s.len()/2);\n        for (i, count) in count.iter().enumerate() {\n            let char = i as u8 + b'a';\n            left_half.extend(std::iter::repeat_n(char, count/2));\n        }\n\n        let mut result = Vec::with_capacity(s.len());\n        result.extend(&left_half);\n        if s.len() % 2 != 0 {\n            result.push(s.as_bytes()[s.len()/2]);\n        }\n        result.extend(left_half.iter().rev().copied());\n\n        unsafe {\n            String::from_utf8_unchecked(result)\n        }\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        Solution::smallest_palindrome(\"z\".to_string()),\n        \"z\".to_string()\n    );\n}\n",
+          "codeHash": "4993c02d4adbad5cd3fbad043a2c63150703d8ffd809c827aef446309fe0e392",
+          "markedWrong": false,
+          "commitComment": "more idomatic & no search for odd char",
+          "rawCommitSubject": "rust 3517: more idomatic & no search for odd char",
+          "commitBody": "- odd char can be directly indexed instead of searched\n- use iterators and cloning to make code more idomatic\n- fast unsafe parse into String",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3517_smallest_palindromic_rearrangement_I.rs b/rust/src/bin/3517_smallest_palindromic_rearrangement_I.rs\nindex 091d72a..c5d60cc 100644\n--- a/rust/src/bin/3517_smallest_palindromic_rearrangement_I.rs\n+++ b/rust/src/bin/3517_smallest_palindromic_rearrangement_I.rs\n@@ -5,28 +5,22 @@ impl Solution {\n             count[(c - b'a') as usize] += 1;\n         }\n \n-        let mut str_list = vec![0_u8; s.len()];\n-        let mut head = 0;\n-        let mut tail = s.len() - 1;\n-        let mut odd = 0_u8;\n+        let mut left_half = Vec::<u8>::with_capacity(s.len()/2);\n         for (i, count) in count.iter().enumerate() {\n             let char = i as u8 + b'a';\n-            if odd == 0 && count % 2 != 0 {\n-                odd = char;\n-            }\n-            let count = count / 2;\n-            for _ in 0..count {\n-                str_list[head] = char;\n-                str_list[tail] = char;\n-                head += 1;\n-                tail -= 1;\n-            }\n+            left_half.extend(std::iter::repeat_n(char, count/2));\n         }\n-        if odd != 0 {\n-            str_list[s.len()/2] = odd;\n+\n+        let mut result = Vec::with_capacity(s.len());\n+        result.extend(&left_half);\n+        if s.len() % 2 != 0 {\n+            result.push(s.as_bytes()[s.len()/2]);\n         }\n+        result.extend(left_half.iter().rev().copied());\n \n-        str_list.into_iter().map(|x| x as char).collect()\n+        unsafe {\n+            String::from_utf8_unchecked(result)\n+        }\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 11,
+            "deletions": 17
+          },
+          "approachId": "chronological",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "more idomatic & no search for odd char",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "227ccac857ed32f45744b486f5aa05e5426383ff",
+    "b2a2315ea70a1fc156ec8245e1ddcfde80d23d32"
+  ],
+  "warnings": []
+}
