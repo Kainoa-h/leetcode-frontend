@@ -13,21 +13,21 @@
   "source": {
     "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
     "latestPath": "rust/src/bin/3517_smallest_palindromic_rearrangement_I.rs",
-    "latestSha": "b2a2315ea70a1fc156ec8245e1ddcfde80d23d32",
+    "latestSha": "468fef4c9c9730ac8095e4c65f0fdcf676d1c864",
     "deleted": false
   },
   "statistics": {
-    "revisionCount": 2,
+    "revisionCount": 3,
     "approachCount": 1,
     "incorrectRevisionCount": 0,
     "firstCommittedAt": "2026-07-28T10:08:22+08:00",
-    "lastCommittedAt": "2026-07-28T10:29:26+08:00"
+    "lastCommittedAt": "2026-07-28T10:58:50+08:00"
   },
   "analysis": {
     "status": "fallback",
     "model": null,
     "promptVersion": "6",
-    "inputHash": "029e01dbe1c8ce9f713267ed546be80995e362b346db4abb624e18297deb9958"
+    "inputHash": "66023c812573e82e564aae5375ec099f978e754d4a610d44b21d72ebb5891467"
   },
   "approaches": [
     {
@@ -86,13 +86,41 @@
           "narrativeIndex": 1,
           "shortChangeSummary": "more idomatic & no search for odd char",
           "warnings": []
+        },
+        {
+          "sha": "468fef4c9c9730ac8095e4c65f0fdcf676d1c864",
+          "shortSha": "468fef4",
+          "parentSha": "b2a2315ea70a1fc156ec8245e1ddcfde80d23d32",
+          "authoredAt": "2026-07-28T10:58:50+08:00",
+          "committedAt": "2026-07-28T10:58:50+08:00",
+          "chronologicalIndex": 237,
+          "problemId": 3517,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3517_smallest_palindromic_rearrangement_I.rs",
+          "sourceFilename": "3517_smallest_palindromic_rearrangement_I.rs",
+          "code": "impl Solution {\n    pub fn smallest_palindrome(s: String) -> String {\n        let len = s.len();\n        let mid = len / 2;\n        let mut result = s.into_bytes();\n        result[0..mid].sort_unstable();\n        for i in 0..mid {\n            result[len - i - 1] = result[i];\n        }\n\n        unsafe { String::from_utf8_unchecked(result) }\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        Solution::smallest_palindrome(\"z\".to_string()),\n        \"z\".to_string()\n    );\n}\n",
+          "codeHash": "6aa33bb7889eb37ac1aed4116986b785f3d570f2fc7e1982048d555cc2ea8cbf",
+          "markedWrong": false,
+          "commitComment": "much slower due to sort, but so clean!",
+          "rawCommitSubject": "rust 3517: much slower due to sort, but so clean!",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3517_smallest_palindromic_rearrangement_I.rs b/rust/src/bin/3517_smallest_palindromic_rearrangement_I.rs\nindex c5d60cc..1f23f2b 100644\n--- a/rust/src/bin/3517_smallest_palindromic_rearrangement_I.rs\n+++ b/rust/src/bin/3517_smallest_palindromic_rearrangement_I.rs\n@@ -1,26 +1,14 @@\n impl Solution {\n     pub fn smallest_palindrome(s: String) -> String {\n-        let mut count = [0; 26];\n-        for &c in s.as_bytes() {\n-            count[(c - b'a') as usize] += 1;\n+        let len = s.len();\n+        let mid = len / 2;\n+        let mut result = s.into_bytes();\n+        result[0..mid].sort_unstable();\n+        for i in 0..mid {\n+            result[len - i - 1] = result[i];\n         }\n \n-        let mut left_half = Vec::<u8>::with_capacity(s.len()/2);\n-        for (i, count) in count.iter().enumerate() {\n-            let char = i as u8 + b'a';\n-            left_half.extend(std::iter::repeat_n(char, count/2));\n-        }\n-\n-        let mut result = Vec::with_capacity(s.len());\n-        result.extend(&left_half);\n-        if s.len() % 2 != 0 {\n-            result.push(s.as_bytes()[s.len()/2]);\n-        }\n-        result.extend(left_half.iter().rev().copied());\n-\n-        unsafe {\n-            String::from_utf8_unchecked(result)\n-        }\n+        unsafe { String::from_utf8_unchecked(result) }\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 7,
+            "deletions": 19
+          },
+          "approachId": "chronological",
+          "narrativeIndex": 2,
+          "shortChangeSummary": "much slower due to sort, but so clean!",
+          "warnings": []
         }
       ]
     }
   ],
   "chronologicalRevisionShas": [
     "227ccac857ed32f45744b486f5aa05e5426383ff",
-    "b2a2315ea70a1fc156ec8245e1ddcfde80d23d32"
+    "b2a2315ea70a1fc156ec8245e1ddcfde80d23d32",
+    "468fef4c9c9730ac8095e4c65f0fdcf676d1c864"
   ],
   "warnings": []
 }
