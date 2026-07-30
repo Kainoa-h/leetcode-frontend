@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3014,
+    "title": "Minimum Number of Pushes to Type Word I",
+    "slug": "minimum-number-of-pushes-to-type-word-i"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3014_minimum_number_of_pushes_to_type_word_I.rs",
+    "latestSha": "b6c6b63cb47d83312c0fe4706a76eef15509ab59",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-07-30T09:25:54+08:00",
+    "lastCommittedAt": "2026-07-30T10:04:52+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
+    "inputHash": "e1008c057b75d228bb9e53add415bb08ef6a76bd1e16cd914a2f0f23ba544850"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "Compute push cost by groups of eight positions",
+      "summary": "Calculates the total pushes by assigning increasing push counts to each consecutive block of eight characters. The revisions progress from block-wise iteration,",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "2bfe2466a4a3c2fcbaf03c4bf5082d3f36b2da65",
+          "shortSha": "2bfe246",
+          "parentSha": "2a0fe2f592f4ac1a8ef84403485acc11d5e2e9b4",
+          "authoredAt": "2026-07-30T09:25:54+08:00",
+          "committedAt": "2026-07-30T09:25:54+08:00",
+          "chronologicalIndex": 238,
+          "problemId": 3014,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3014_minimum_number_of_pushes_to_type_word_I.rs",
+          "sourceFilename": "3014_minimum_number_of_pushes_to_type_word_I.rs",
+          "code": "impl Solution {\n    pub fn minimum_pushes(word: String) -> i32 {\n        let mut len = word.len() as i32;\n        let mut pushes = 0;\n        let mut offset = 1;\n        while len > 0 {\n            pushes += if len < 9 { len * offset } else { 8 * offset };\n            len -= 8;\n            offset += 1;\n        }\n\n        pushes\n    }\n}\n\nstruct  Solution{}\n\nfn main(){\n    assert_eq!(Solution::minimum_pushes(\"abcd\".to_owned()), 4);\n    assert_eq!(Solution::minimum_pushes(\"xycdefghij\".to_owned()), 12);\n}\n",
+          "codeHash": "d3085d9e07e2a5f2c7549f05ff497d603823d98788f11841ae9bbd76e827dfbf",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 3014",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Uses a while loop to process characters in groups of eight, adding the cost for each push-count tier.",
+          "warnings": []
+        },
+        {
+          "sha": "e5f5072d4b2cc640c3651eb4729881ea8cfceee7",
+          "shortSha": "e5f5072",
+          "parentSha": "2bfe2466a4a3c2fcbaf03c4bf5082d3f36b2da65",
+          "authoredAt": "2026-07-30T09:27:40+08:00",
+          "committedAt": "2026-07-30T09:27:40+08:00",
+          "chronologicalIndex": 239,
+          "problemId": 3014,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3014_minimum_number_of_pushes_to_type_word_I.rs",
+          "sourceFilename": "3014_minimum_number_of_pushes_to_type_word_I.rs",
+          "code": "impl Solution {\n    pub fn minimum_pushes(word: String) -> i32 {\n        let mut pushes = 0;\n        for i in 0..word.len() as i32 {\n            pushes += i/8 + 1;\n        }\n\n        pushes\n    }\n}\n\nstruct  Solution{}\n\nfn main(){\n    assert_eq!(Solution::minimum_pushes(\"abcd\".to_owned()), 4);\n    assert_eq!(Solution::minimum_pushes(\"xycdefghij\".to_owned()), 12);\n}\n",
+          "codeHash": "b48c2ab8778b9c3867bb10690b6fb57920b52553c0eb8d0fc4857b4c817f557a",
+          "markedWrong": false,
+          "commitComment": "simplified loop",
+          "rawCommitSubject": "rust 3014: simplified loop",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3014_minimum_number_of_pushes_to_type_word_I.rs b/rust/src/bin/3014_minimum_number_of_pushes_to_type_word_I.rs\nindex 4893ab9..8f5d4eb 100644\n--- a/rust/src/bin/3014_minimum_number_of_pushes_to_type_word_I.rs\n+++ b/rust/src/bin/3014_minimum_number_of_pushes_to_type_word_I.rs\n@@ -1,12 +1,8 @@\n impl Solution {\n     pub fn minimum_pushes(word: String) -> i32 {\n-        let mut len = word.len() as i32;\n         let mut pushes = 0;\n-        let mut offset = 1;\n-        while len > 0 {\n-            pushes += if len < 9 { len * offset } else { 8 * offset };\n-            len -= 8;\n-            offset += 1;\n+        for i in 0..word.len() as i32 {\n+            pushes += i/8 + 1;\n         }\n \n         pushes\n",
+          "changedLineCounts": {
+            "additions": 2,
+            "deletions": 6
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Simplifies the same calculation by iterating over character positions and summing i / 8 + 1.",
+          "warnings": []
+        },
+        {
+          "sha": "b6c6b63cb47d83312c0fe4706a76eef15509ab59",
+          "shortSha": "b6c6b63",
+          "parentSha": "e5f5072d4b2cc640c3651eb4729881ea8cfceee7",
+          "authoredAt": "2026-07-30T10:04:52+08:00",
+          "committedAt": "2026-07-30T10:04:52+08:00",
+          "chronologicalIndex": 240,
+          "problemId": 3014,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3014_minimum_number_of_pushes_to_type_word_I.rs",
+          "sourceFilename": "3014_minimum_number_of_pushes_to_type_word_I.rs",
+          "code": "impl Solution {\n    pub fn minimum_pushes(word: String) -> i32 {\n        let len = word.len() as i32;\n        let mut pushes = 0;\n        let full_blocks = len / 8;\n        let remainder = len % 8;\n\n        pushes += 8 * full_blocks * (full_blocks + 1) / 2;\n        pushes += remainder * (full_blocks + 1);\n        \n        pushes\n    }\n}\n\nstruct  Solution{}\n\nfn main(){\n    assert_eq!(Solution::minimum_pushes(\"abcd\".to_owned()), 4);\n    assert_eq!(Solution::minimum_pushes(\"xycdefghij\".to_owned()), 12);\n}\n",
+          "codeHash": "4c373b4b72067b54cf05461a29a3819366e9bdfeefd4b5c4cc6a571c10f49164",
+          "markedWrong": false,
+          "commitComment": "closed form summation! mathematical! | (• ◡•)|",
+          "rawCommitSubject": "rust 3014: closed form summation! mathematical! | (• ◡•)|",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3014_minimum_number_of_pushes_to_type_word_I.rs b/rust/src/bin/3014_minimum_number_of_pushes_to_type_word_I.rs\nindex 8f5d4eb..b5904f9 100644\n--- a/rust/src/bin/3014_minimum_number_of_pushes_to_type_word_I.rs\n+++ b/rust/src/bin/3014_minimum_number_of_pushes_to_type_word_I.rs\n@@ -1,10 +1,13 @@\n impl Solution {\n     pub fn minimum_pushes(word: String) -> i32 {\n+        let len = word.len() as i32;\n         let mut pushes = 0;\n-        for i in 0..word.len() as i32 {\n-            pushes += i/8 + 1;\n-        }\n+        let full_blocks = len / 8;\n+        let remainder = len % 8;\n \n+        pushes += 8 * full_blocks * (full_blocks + 1) / 2;\n+        pushes += remainder * (full_blocks + 1);\n+        \n         pushes\n     }\n }\n",
+          "changedLineCounts": {
+            "additions": 6,
+            "deletions": 3
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 2,
+          "shortChangeSummary": "Replaces the per-character loop with a closed-form arithmetic sum over full blocks and the remainder.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "2bfe2466a4a3c2fcbaf03c4bf5082d3f36b2da65",
+    "e5f5072d4b2cc640c3651eb4729881ea8cfceee7",
+    "b6c6b63cb47d83312c0fe4706a76eef15509ab59"
+  ],
+  "warnings": []
+}
