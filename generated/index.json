@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-30T02:05:30.417Z",
-  "sourceHeadSha": "b6c6b63cb47d83312c0fe4706a76eef15509ab59",
+  "generatedAt": "2026-07-31T02:14:42.716Z",
+  "sourceHeadSha": "a015e25b81d99656244044891a78254009f15520",
   "questions": [
     {
       "id": 1,
@@ -1919,6 +1919,24 @@
       ],
       "firstCommittedAt": "2026-07-30T09:25:54+08:00",
       "lastCommittedAt": "2026-07-30T10:04:52+08:00"
+    },
+    {
+      "id": 3016,
+      "title": "Minimum Number of Pushes to Type Word Ii",
+      "slug": "minimum-number-of-pushes-to-type-word-ii",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3016/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-07-31T10:13:24+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-07-31T10:10:15+08:00",
+      "lastCommittedAt": "2026-07-31T10:13:24+08:00"
     },
     {
       "id": 3043,
