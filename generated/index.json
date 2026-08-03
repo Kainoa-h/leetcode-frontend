@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-31T02:14:42.716Z",
-  "sourceHeadSha": "a015e25b81d99656244044891a78254009f15520",
+  "generatedAt": "2026-08-03T13:31:34.154Z",
+  "sourceHeadSha": "b1aa57c7f55307d562a3a30d2274fc640bf71b89",
   "questions": [
     {
       "id": 1,
@@ -1073,6 +1073,24 @@
       ],
       "firstCommittedAt": "2026-07-17T11:18:01+08:00",
       "lastCommittedAt": "2026-07-17T11:34:53+08:00"
+    },
+    {
+      "id": 486,
+      "title": "Predict the Winner",
+      "slug": "predict-the-winner",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/486/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-08-03T21:13:05+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-08-03T21:13:05+08:00",
+      "lastCommittedAt": "2026-08-03T21:13:05+08:00"
     },
     {
       "id": 628,

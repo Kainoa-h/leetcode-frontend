@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 486,
+    "title": "Predict the Winner",
+    "slug": "predict-the-winner"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/486_predict_the_winner.rs",
+    "latestSha": "b1aa57c7f55307d562a3a30d2274fc640bf71b89",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-08-03T21:13:05+08:00",
+    "lastCommittedAt": "2026-08-03T21:13:05+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "6",
+    "inputHash": "525469d4802a3208b548275b755abb03aebe10e6d2a6b3a053e9e6749b787f70"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "b1aa57c7f55307d562a3a30d2274fc640bf71b89",
+          "shortSha": "b1aa57c",
+          "parentSha": "a015e25b81d99656244044891a78254009f15520",
+          "authoredAt": "2026-08-03T21:13:05+08:00",
+          "committedAt": "2026-08-03T21:13:05+08:00",
+          "chronologicalIndex": 243,
+          "problemId": 486,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/486_predict_the_winner.rs",
+          "sourceFilename": "486_predict_the_winner.rs",
+          "code": "impl Solution {\n    pub fn predict_the_winner(nums: Vec<i32>) -> bool {\n        let n = nums.len();\n\n        if n & 1 == 0 {\n            return true;\n        }\n\n        let mut dp = nums.clone();\n        for left_bound in (0..n - 1).rev() {\n            for right_bound in left_bound + 1..n {\n                let pick_left = nums[left_bound] - dp[right_bound];\n                let pick_right = nums[right_bound] - dp[right_bound -1];\n                dp[right_bound] = i32::max(pick_left, pick_right);\n\n            }\n        }\n\n        dp[n - 1] >= 0\n    }\n}\n\nstruct Solution {}\n\nfn main() {}\n",
+          "codeHash": "c8f87d39c3b82390cdf27afce0587a3a021aa7ce30a802d12e553dd90b92da5d",
+          "markedWrong": false,
+          "commitComment": "copied solution. idk what's going on",
+          "rawCommitSubject": "rust 486: copied solution. idk what's going on",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "copied solution. idk what's going on",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "b1aa57c7f55307d562a3a30d2274fc640bf71b89"
+  ],
+  "warnings": []
+}
