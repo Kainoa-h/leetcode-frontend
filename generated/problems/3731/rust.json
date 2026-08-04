@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3731,
+    "title": "Find Missing Elements",
+    "slug": "find-missing-elements"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3731_find_missing_elements.rs",
+    "latestSha": "ab53ca9f8ef3ec9f08fa658caaf473c97489dc00",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-08-04T10:48:32+08:00",
+    "lastCommittedAt": "2026-08-04T10:48:32+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "6",
+    "inputHash": "da0bc956255ca664d583b1d7e595a4ed394cc5eb908fccfa3ecda768e386acf0"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "ab53ca9f8ef3ec9f08fa658caaf473c97489dc00",
+          "shortSha": "ab53ca9",
+          "parentSha": "b1aa57c7f55307d562a3a30d2274fc640bf71b89",
+          "authoredAt": "2026-08-04T10:43:47+08:00",
+          "committedAt": "2026-08-04T10:48:32+08:00",
+          "chronologicalIndex": 244,
+          "problemId": 3731,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3731_find_missing_elements.rs",
+          "sourceFilename": "3731_find_missing_elements.rs",
+          "code": "impl Solution {\n    pub fn find_missing_elements(nums: Vec<i32>) -> Vec<i32> {\n        let mut bucket = [false; 101];\n        let (mut min, mut max) = (101, 0);\n        for n in nums {\n            bucket[n as usize] = true;\n            max = max.max(n);\n            min = min.min(n);\n        }\n        (min..max).filter(|&x| !bucket[x as usize]).collect()\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "8f3a3dcf94257334c79afa2c4b61ffddcd964c88e50985a0d4dc3d8a103556fd",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 3731",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "ab53ca9f8ef3ec9f08fa658caaf473c97489dc00"
+  ],
+  "warnings": []
+}
