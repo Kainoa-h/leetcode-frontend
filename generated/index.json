@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-04T02:51:03.320Z",
-  "sourceHeadSha": "ab53ca9f8ef3ec9f08fa658caaf473c97489dc00",
+  "generatedAt": "2026-08-04T03:52:28.189Z",
+  "sourceHeadSha": "658d70db69f8e499eacb5da1f001ba7eedcaf106",
   "questions": [
     {
       "id": 1,
@@ -2286,6 +2286,15 @@
       "slug": "find-missing-elements",
       "languages": [
         {
+          "id": "java",
+          "label": "Java",
+          "route": "/problems/3731/java/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-08-04T11:51:46+08:00"
+        },
+        {
           "id": "rust",
           "label": "Rust",
           "route": "/problems/3731/rust/",
@@ -2296,7 +2305,7 @@
         }
       ],
       "firstCommittedAt": "2026-08-04T10:48:32+08:00",
-      "lastCommittedAt": "2026-08-04T10:48:32+08:00"
+      "lastCommittedAt": "2026-08-04T11:51:46+08:00"
     },
     {
       "id": 3737,

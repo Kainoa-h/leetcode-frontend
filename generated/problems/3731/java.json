@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3731,
+    "title": "Find Missing Elements",
+    "slug": "find-missing-elements"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/3731_find_missing_elements.java",
+    "latestSha": "658d70db69f8e499eacb5da1f001ba7eedcaf106",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-08-04T11:51:46+08:00",
+    "lastCommittedAt": "2026-08-04T11:51:46+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "6",
+    "inputHash": "63fd791fdded075d28371602dac07a65ecd4cc67de7678905d4783e32dfe4153"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "658d70db69f8e499eacb5da1f001ba7eedcaf106",
+          "shortSha": "658d70d",
+          "parentSha": "ab53ca9f8ef3ec9f08fa658caaf473c97489dc00",
+          "authoredAt": "2026-08-04T11:51:46+08:00",
+          "committedAt": "2026-08-04T11:51:46+08:00",
+          "chronologicalIndex": 245,
+          "problemId": 3731,
+          "language": "java",
+          "sourcePath": "java/src/solutions/3731_find_missing_elements.java",
+          "sourceFilename": "3731_find_missing_elements.java",
+          "code": "import java.util.ArrayList;\nimport java.util.List;\n\nclass Solution {\n    public List<Integer> findMissingElements(int[] nums) {\n        boolean[] bucket = new boolean[101];\n        int min = 101;\n        int max = 0;\n        for (int n : nums) {\n            bucket[n] = true;\n            min = Math.min(min, n);\n            max = Math.max(max, n);\n        }\n        List<Integer> result = new ArrayList<>();\n        for (int i = min + 1; i < max; i++){\n            if (!bucket[i]){\n                result.add(i);\n            }\n        }\n        return result;\n    }\n}\n",
+          "codeHash": "4feafa249dc3d73663b91dbf6028fc3c12f7f41ccaf146ede4890a1951cf2193",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "java 3731",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "658d70db69f8e499eacb5da1f001ba7eedcaf106"
+  ],
+  "warnings": []
+}
