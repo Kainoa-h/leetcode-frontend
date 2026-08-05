@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2,
+    "title": "Add Two Numbers",
+    "slug": "add-two-numbers"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/2_add_two_numbers.rs",
+    "latestSha": "bff65ce35e271e8094c72a66e0413867f36bd503",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-08-05T21:41:38+08:00",
+    "lastCommittedAt": "2026-08-05T22:00:13+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
+    "inputHash": "976cc678d8582f0d5e0ab2685d8e38c7e28a5849e818a38d92cdacd5adce9edf"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "Iterative linked-list digit addition",
+      "summary": "Adds corresponding digits from both reverse-order linked lists in a single iterative traversal, propagating carry and constructing the result with a dummy head.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "f15d30d2e320e9acaaebf60d95dd88ec9968a27d",
+          "shortSha": "f15d30d",
+          "parentSha": "14654d913bf457c6b955840dff0fe69cdd1c69f4",
+          "authoredAt": "2026-08-05T21:41:38+08:00",
+          "committedAt": "2026-08-05T21:41:38+08:00",
+          "chronologicalIndex": 252,
+          "problemId": 2,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2_add_two_numbers.rs",
+          "sourceFilename": "2_add_two_numbers.rs",
+          "code": "#[derive(PartialEq, Eq, Clone, Debug)]\npub struct ListNode {\n    pub val: i32,\n    pub next: Option<Box<ListNode>>,\n}\n\nimpl ListNode {\n    #[inline]\n    fn new(val: i32) -> Self {\n        ListNode { next: None, val }\n    }\n}\n\nimpl Solution {\n    pub fn add_two_numbers(\n        mut l1: Option<Box<ListNode>>,\n        mut l2: Option<Box<ListNode>>,\n    ) -> Option<Box<ListNode>> {\n        let mut carry = 0;\n        let mut head = ListNode {\n            val: 0, next: None\n        };\n        let mut node = &mut head;\n        while l1.is_some() || l2.is_some() {\n            let n1 = l1.as_ref().map_or(0, |x|x.val);\n            let n2 = l2.as_ref().map_or(0, |x|x.val);\n            let sum = n1 + n2 + carry;\n            let digit = sum % 10;\n\n            node.next = Some(Box::new(ListNode{ val: digit, next: None}));\n            node = node.next.as_mut().unwrap();\n\n            carry = sum / 10;\n            l1 = l1.map_or(None, |x| x.next);\n            l2 = l2.map_or(None, |x| x.next);\n        }\n        if carry != 0 {\n            node.next = Some(Box::new(ListNode{ val: carry, next: None}));\n        }\n        head.next\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "a0cc2ef25b1c5aeaa168bff85bad6899ad866bc0786be8432f8580a373d69f8d",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 2",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial iterative solution using a dummy head, separate carry handling, and optional-node value extraction.",
+          "warnings": []
+        },
+        {
+          "sha": "8e3ae8a82d76bd197fcab98d629db24e827dcbc1",
+          "shortSha": "8e3ae8a",
+          "parentSha": "f15d30d2e320e9acaaebf60d95dd88ec9968a27d",
+          "authoredAt": "2026-08-05T21:52:03+08:00",
+          "committedAt": "2026-08-05T21:52:03+08:00",
+          "chronologicalIndex": 253,
+          "problemId": 2,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2_add_two_numbers.rs",
+          "sourceFilename": "2_add_two_numbers.rs",
+          "code": "#[derive(PartialEq, Eq, Clone, Debug)]\npub struct ListNode {\n    pub val: i32,\n    pub next: Option<Box<ListNode>>,\n}\n\nimpl ListNode {\n    #[inline]\n    fn new(val: i32) -> Self {\n        ListNode { next: None, val }\n    }\n}\n\nimpl Solution {\n    pub fn add_two_numbers(\n        mut l1: Option<Box<ListNode>>,\n        mut l2: Option<Box<ListNode>>,\n    ) -> Option<Box<ListNode>> {\n        let mut carry = 0;\n        let mut head = ListNode::new(0);\n        let mut node = &mut head;\n        while l1.is_some() || l2.is_some() || carry != 0 {\n            let n1 = l1.as_ref().map_or(0, |x| x.val);\n            let n2 = l2.as_ref().map_or(0, |x| x.val);\n            let sum = n1 + n2 + carry;\n            carry = sum / 10;\n\n            l1 = l1.and_then(|x| x.next);\n            l2 = l2.and_then(|x| x.next);\n\n            node.next = Some(Box::new(ListNode::new(sum % 10)));\n            node = node.next.as_mut().unwrap();\n        }\n        head.next\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "4b649e97554d4fc66e758fa25931b76e73ec0cb3c3034b78d9805806c50320e9",
+          "markedWrong": false,
+          "commitComment": "fold last carry into the while loop",
+          "rawCommitSubject": "rust 2: fold last carry into the while loop",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2_add_two_numbers.rs b/rust/src/bin/2_add_two_numbers.rs\nindex 87f6909..c69b603 100644\n--- a/rust/src/bin/2_add_two_numbers.rs\n+++ b/rust/src/bin/2_add_two_numbers.rs\n@@ -17,25 +17,19 @@ impl Solution {\n         mut l2: Option<Box<ListNode>>,\n     ) -> Option<Box<ListNode>> {\n         let mut carry = 0;\n-        let mut head = ListNode {\n-            val: 0, next: None\n-        };\n+        let mut head = ListNode::new(0);\n         let mut node = &mut head;\n-        while l1.is_some() || l2.is_some() {\n-            let n1 = l1.as_ref().map_or(0, |x|x.val);\n-            let n2 = l2.as_ref().map_or(0, |x|x.val);\n+        while l1.is_some() || l2.is_some() || carry != 0 {\n+            let n1 = l1.as_ref().map_or(0, |x| x.val);\n+            let n2 = l2.as_ref().map_or(0, |x| x.val);\n             let sum = n1 + n2 + carry;\n-            let digit = sum % 10;\n+            carry = sum / 10;\n \n-            node.next = Some(Box::new(ListNode{ val: digit, next: None}));\n-            node = node.next.as_mut().unwrap();\n+            l1 = l1.and_then(|x| x.next);\n+            l2 = l2.and_then(|x| x.next);\n \n-            carry = sum / 10;\n-            l1 = l1.map_or(None, |x| x.next);\n-            l2 = l2.map_or(None, |x| x.next);\n-        }\n-        if carry != 0 {\n-            node.next = Some(Box::new(ListNode{ val: carry, next: None}));\n+            node.next = Some(Box::new(ListNode::new(sum % 10)));\n+            node = node.next.as_mut().unwrap();\n         }\n         head.next\n     }\n",
+          "changedLineCounts": {
+            "additions": 9,
+            "deletions": 15
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Refactors carry handling into the loop condition and uses the ListNode constructor and and_then for traversal.",
+          "warnings": []
+        },
+        {
+          "sha": "bff65ce35e271e8094c72a66e0413867f36bd503",
+          "shortSha": "bff65ce",
+          "parentSha": "8e3ae8a82d76bd197fcab98d629db24e827dcbc1",
+          "authoredAt": "2026-08-05T22:00:13+08:00",
+          "committedAt": "2026-08-05T22:00:13+08:00",
+          "chronologicalIndex": 254,
+          "problemId": 2,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2_add_two_numbers.rs",
+          "sourceFilename": "2_add_two_numbers.rs",
+          "code": "#[derive(PartialEq, Eq, Clone, Debug)]\npub struct ListNode {\n    pub val: i32,\n    pub next: Option<Box<ListNode>>,\n}\n\nimpl ListNode {\n    #[inline]\n    fn new(val: i32) -> Self {\n        ListNode { next: None, val }\n    }\n}\n\nimpl Solution {\n    pub fn add_two_numbers(\n        mut l1: Option<Box<ListNode>>,\n        mut l2: Option<Box<ListNode>>,\n    ) -> Option<Box<ListNode>> {\n        let mut carry = 0;\n        let mut head = ListNode::new(0);\n        let mut node = &mut head;\n        while l1.is_some() || l2.is_some() || carry != 0 {\n            let mut sum = carry;\n\n            if let Some(n) = l1 {\n                sum += n.val;\n                l1 = n.next;\n            }\n\n            if let Some(n) = l2 {\n                sum += n.val;\n                l2 = n.next;\n            }\n\n            carry = sum / 10;\n\n            node.next = Some(Box::new(ListNode::new(sum % 10)));\n            node = node.next.as_mut().unwrap();\n        }\n        head.next\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "93829ab3445cb72f1a93258449e5ab99dda27ce9df39c3af57f0b0848b8b837b",
+          "markedWrong": false,
+          "commitComment": "combine node value extraction and advance pointer",
+          "rawCommitSubject": "rust 2: combine node value extraction and advance pointer",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2_add_two_numbers.rs b/rust/src/bin/2_add_two_numbers.rs\nindex c69b603..a61ad60 100644\n--- a/rust/src/bin/2_add_two_numbers.rs\n+++ b/rust/src/bin/2_add_two_numbers.rs\n@@ -20,13 +20,19 @@ impl Solution {\n         let mut head = ListNode::new(0);\n         let mut node = &mut head;\n         while l1.is_some() || l2.is_some() || carry != 0 {\n-            let n1 = l1.as_ref().map_or(0, |x| x.val);\n-            let n2 = l2.as_ref().map_or(0, |x| x.val);\n-            let sum = n1 + n2 + carry;\n-            carry = sum / 10;\n+            let mut sum = carry;\n+\n+            if let Some(n) = l1 {\n+                sum += n.val;\n+                l1 = n.next;\n+            }\n \n-            l1 = l1.and_then(|x| x.next);\n-            l2 = l2.and_then(|x| x.next);\n+            if let Some(n) = l2 {\n+                sum += n.val;\n+                l2 = n.next;\n+            }\n+\n+            carry = sum / 10;\n \n             node.next = Some(Box::new(ListNode::new(sum % 10)));\n             node = node.next.as_mut().unwrap();\n",
+          "changedLineCounts": {
+            "additions": 12,
+            "deletions": 6
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 2,
+          "shortChangeSummary": "Consumes each optional input node directly with if let, combining value extraction and pointer advancement.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "f15d30d2e320e9acaaebf60d95dd88ec9968a27d",
+    "8e3ae8a82d76bd197fcab98d629db24e827dcbc1",
+    "bff65ce35e271e8094c72a66e0413867f36bd503"
+  ],
+  "warnings": []
+}

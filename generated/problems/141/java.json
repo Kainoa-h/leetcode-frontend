@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 141,
+    "title": "Linked List Cycle",
+    "slug": "linked-list-cycle"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/141_linked_list_cycle.java",
+    "latestSha": "14654d913bf457c6b955840dff0fe69cdd1c69f4",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-08-05T17:32:49+08:00",
+    "lastCommittedAt": "2026-08-05T17:38:35+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
+    "inputHash": "9dd44a9a37fc12fbfae4fdb9973e9b07ef08aa391999a4099537d8ac3023005c"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "Destructive node-value marking",
+      "summary": "Traverses the list while overwriting each visited node's value with a sentinel; encountering the sentinel indicates a cycle. This approach mutates the list and,",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "d95f2f9666304b3f35119e49b54cddcbe9961e82",
+          "shortSha": "d95f2f9",
+          "parentSha": "8f084502536a3ea53a587449e860b85c89b50233",
+          "authoredAt": "2026-08-05T17:32:49+08:00",
+          "committedAt": "2026-08-05T17:32:49+08:00",
+          "chronologicalIndex": 250,
+          "problemId": 141,
+          "language": "java",
+          "sourcePath": "java/src/solutions/141_linked_list_cycle.java",
+          "sourceFilename": "141_linked_list_cycle.java",
+          "code": "import java.util.HashSet;\nimport java.util.Set;\n\nclass ListNode {\n  int val;\n  ListNode next;\n\n  ListNode(int x) {\n    val = x;\n    next = null;\n  }\n}\n\nclass Solution {\n  public boolean hasCycle(ListNode head) {\n    while (head != null) {\n      if (head.val == Integer.MAX_VALUE){\n        return true;\n      }\n      head.val = Integer.MAX_VALUE;\n      head = head.next;\n    }\n    return false;\n  }\n}\n",
+          "codeHash": "90b0bb818930ed767c68dc5b7074c32ecb8f4c6e574681ef35a26115f23ecbe2",
+          "markedWrong": false,
+          "commitComment": "destructive check",
+          "rawCommitSubject": "java 141: destructive check",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Checks for a cycle by marking visited node values with Integer.MAX_VALUE, destructively modifying the list.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "approach-2",
+      "title": "Floyd’s tortoise-and-hare algorithm",
+      "summary": "Uses slow and fast pointers that advance at different rates; if they meet, the list contains a cycle, otherwise the fast pointer reaches the end.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "14654d913bf457c6b955840dff0fe69cdd1c69f4",
+          "shortSha": "14654d9",
+          "parentSha": "d95f2f9666304b3f35119e49b54cddcbe9961e82",
+          "authoredAt": "2026-08-05T17:38:35+08:00",
+          "committedAt": "2026-08-05T17:38:35+08:00",
+          "chronologicalIndex": 251,
+          "problemId": 141,
+          "language": "java",
+          "sourcePath": "java/src/solutions/141_linked_list_cycle.java",
+          "sourceFilename": "141_linked_list_cycle.java",
+          "code": "import java.util.HashSet;\nimport java.util.Set;\n\nclass ListNode {\n  int val;\n  ListNode next;\n\n  ListNode(int x) {\n    val = x;\n    next = null;\n  }\n}\n\nclass Solution {\n  public boolean hasCycle(ListNode head) {\n    ListNode slow = head;\n    ListNode fast = head;\n    while (fast != null && fast.next != null) {\n      slow = slow.next;\n      fast = fast.next.next;\n      if (slow == fast) {\n        return true;\n      }\n    }\n    return false;\n  }\n}\n",
+          "codeHash": "25da62a6a243207d8637894ab532afe2f1316665a604085beb001fea7040b0a7",
+          "markedWrong": false,
+          "commitComment": "floyd's cycle finding (slow n fast pointer)",
+          "rawCommitSubject": "java 141: floyd's cycle finding (slow n fast pointer)",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/java/src/solutions/141_linked_list_cycle.java b/java/src/solutions/141_linked_list_cycle.java\nindex 113be0c..54cd0cf 100644\n--- a/java/src/solutions/141_linked_list_cycle.java\n+++ b/java/src/solutions/141_linked_list_cycle.java\n@@ -13,12 +13,14 @@ class ListNode {\n \n class Solution {\n   public boolean hasCycle(ListNode head) {\n-    while (head != null) {\n-      if (head.val == Integer.MAX_VALUE){\n+    ListNode slow = head;\n+    ListNode fast = head;\n+    while (fast != null && fast.next != null) {\n+      slow = slow.next;\n+      fast = fast.next.next;\n+      if (slow == fast) {\n         return true;\n       }\n-      head.val = Integer.MAX_VALUE;\n-      head = head.next;\n     }\n     return false;\n   }\n",
+          "changedLineCounts": {
+            "additions": 6,
+            "deletions": 4
+          },
+          "approachId": "approach-2",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaces destructive value marking with Floyd’s constant-space slow/fast pointer cycle detection.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "d95f2f9666304b3f35119e49b54cddcbe9961e82",
+    "14654d913bf457c6b955840dff0fe69cdd1c69f4"
+  ],
+  "warnings": []
+}
