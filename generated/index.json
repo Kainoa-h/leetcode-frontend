@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-04T03:52:28.189Z",
-  "sourceHeadSha": "658d70db69f8e499eacb5da1f001ba7eedcaf106",
+  "generatedAt": "2026-08-05T03:17:06.900Z",
+  "sourceHeadSha": "8f084502536a3ea53a587449e860b85c89b50233",
   "questions": [
     {
       "id": 1,
@@ -2045,6 +2045,24 @@
       ],
       "firstCommittedAt": "2026-05-29T11:20:14+08:00",
       "lastCommittedAt": "2026-05-29T11:20:14+08:00"
+    },
+    {
+      "id": 3310,
+      "title": "Remove Methods From Project",
+      "slug": "remove-methods-from-project",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3310/rust/",
+          "revisionCount": 4,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-08-05T11:16:20+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-08-05T10:42:51+08:00",
+      "lastCommittedAt": "2026-08-05T11:16:20+08:00"
     },
     {
       "id": 3418,

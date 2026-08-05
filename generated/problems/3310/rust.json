@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3310,
+    "title": "Remove Methods From Project",
+    "slug": "remove-methods-from-project"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3310_remove_methods_from_project.rs",
+    "latestSha": "8f084502536a3ea53a587449e860b85c89b50233",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 4,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-08-05T10:42:51+08:00",
+    "lastCommittedAt": "2026-08-05T11:16:20+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
+    "inputHash": "e6e44c46fe43c8b4563bc85404f38093642a54dc429f4215b6a0bbf3fadae75c"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "Graph traversal with suspicious-method reachability",
+      "summary": "Builds a call graph, traverses methods reachable from the suspicious starting method using an iterative DFS, then checks whether any non-suspicious method calls",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "d3dd74d0638cdf71265f1f1f4ad9fb4ad7dc2b99",
+          "shortSha": "d3dd74d",
+          "parentSha": "658d70db69f8e499eacb5da1f001ba7eedcaf106",
+          "authoredAt": "2026-08-05T10:42:51+08:00",
+          "committedAt": "2026-08-05T10:42:51+08:00",
+          "chronologicalIndex": 246,
+          "problemId": 3310,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3310_remove_methods_from_project.rs",
+          "sourceFilename": "3310_remove_methods_from_project.rs",
+          "code": "impl Solution {\n    pub fn remaining_methods(n: i32, k: i32, invocations: Vec<Vec<i32>>) -> Vec<i32> {\n        let n = n as usize;\n        let mut call_list = vec![Vec::new(); n];\n        for inv in invocations {\n            call_list[inv[0] as usize].push(inv[1] as usize);\n        }\n\n        let mut sus_list = vec![false; n];\n        let mut stack = vec![k as usize];\n        while let Some(sus) = stack.pop() {\n            if !sus_list[sus] {\n                sus_list[sus] = true;\n                stack.append(&mut call_list[sus]);\n            }\n        }\n\n        for i in 0..n {\n            if sus_list[i] {\n                continue;\n            }\n            if call_list[i].iter().any(|&x| sus_list[x]) {\n                return (0..n as i32).collect();\n            }\n        }\n\n        (0..n as i32).filter(|&x| !sus_list[x as usize]).collect()\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "2fc2a3c5cc38fa542b317d651446550c6cb0006a42b50a3cdcaa5f57ed9b44a4",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 3310",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial iterative DFS using a call graph and post-traversal validation.",
+          "warnings": []
+        },
+        {
+          "sha": "dd352db2bec994f459fd6e9bb2b22b928ca10025",
+          "shortSha": "dd352db",
+          "parentSha": "d3dd74d0638cdf71265f1f1f4ad9fb4ad7dc2b99",
+          "authoredAt": "2026-08-05T10:49:21+08:00",
+          "committedAt": "2026-08-05T10:49:21+08:00",
+          "chronologicalIndex": 247,
+          "problemId": 3310,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3310_remove_methods_from_project.rs",
+          "sourceFilename": "3310_remove_methods_from_project.rs",
+          "code": "impl Solution {\n    pub fn remaining_methods(n: i32, k: i32, invocations: Vec<Vec<i32>>) -> Vec<i32> {\n        let n = n as usize;\n        let mut call_list = vec![Vec::new(); n];\n        for inv in invocations {\n            call_list[inv[0] as usize].push(inv[1] as usize);\n        }\n\n        let mut sus_list = vec![false; n];\n        let mut stack = vec![k as usize];\n        sus_list[k as usize] = true;\n        while let Some(sus) = stack.pop() {\n            for &next in &call_list[sus] {\n                if !sus_list[next] {\n                    sus_list[next] = true;\n                        stack.push(next);\n                }\n            }\n        }\n\n        for i in 0..n {\n            if sus_list[i] {\n                continue;\n            }\n            if call_list[i].iter().any(|&x| sus_list[x]) {\n                return (0..n as i32).collect();\n            }\n        }\n\n        (0..n as i32).filter(|&x| !sus_list[x as usize]).collect()\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "a9b0c240e5cfca8837ba8bc3986cd3161979472d66276316c49b330d4e49e7ae",
+          "markedWrong": false,
+          "commitComment": "better dfs",
+          "rawCommitSubject": "rust 3310: better dfs",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3310_remove_methods_from_project.rs b/rust/src/bin/3310_remove_methods_from_project.rs\nindex eb121ad..c97ab97 100644\n--- a/rust/src/bin/3310_remove_methods_from_project.rs\n+++ b/rust/src/bin/3310_remove_methods_from_project.rs\n@@ -8,10 +8,13 @@ impl Solution {\n \n         let mut sus_list = vec![false; n];\n         let mut stack = vec![k as usize];\n+        sus_list[k as usize] = true;\n         while let Some(sus) = stack.pop() {\n-            if !sus_list[sus] {\n-                sus_list[sus] = true;\n-                stack.append(&mut call_list[sus]);\n+            for &next in &call_list[sus] {\n+                if !sus_list[next] {\n+                    sus_list[next] = true;\n+                        stack.push(next);\n+                }\n             }\n         }\n \n",
+          "changedLineCounts": {
+            "additions": 6,
+            "deletions": 3
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Marks the starting method immediately and avoids reprocessing already visited methods during DFS.",
+          "warnings": []
+        },
+        {
+          "sha": "a2c779c55ff769bbe11a586818f53112c5ed8f8e",
+          "shortSha": "a2c779c",
+          "parentSha": "dd352db2bec994f459fd6e9bb2b22b928ca10025",
+          "authoredAt": "2026-08-05T10:56:59+08:00",
+          "committedAt": "2026-08-05T10:56:59+08:00",
+          "chronologicalIndex": 248,
+          "problemId": 3310,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3310_remove_methods_from_project.rs",
+          "sourceFilename": "3310_remove_methods_from_project.rs",
+          "code": "impl Solution {\n    pub fn remaining_methods(n: i32, k: i32, invocations: Vec<Vec<i32>>) -> Vec<i32> {\n        let n = n as usize;\n        let mut call_list = vec![Vec::new(); n];\n        for inv in invocations {\n            call_list[inv[0] as usize].push(inv[1] as usize);\n        }\n\n        let mut sus_list = vec![false; n];\n        let mut stack = vec![k as usize];\n        sus_list[k as usize] = true;\n        while let Some(sus) = stack.pop() {\n            for &next in &call_list[sus] {\n                if !sus_list[next] {\n                    sus_list[next] = true;\n                        stack.push(next);\n                }\n            }\n        }\n\n        let mut result = Vec::new();\n        for i in 0..n {\n            if sus_list[i] {\n                continue;\n            }\n            if call_list[i].iter().any(|&x| sus_list[x]) {\n                return (0..n as i32).collect();\n            }\n            result.push(i as i32);\n        }\n\n        result\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "94ebe43e4b44a1699d41cf59bf6c85c8ba6df082ac9f39e09c9ab77bbe9634c3",
+          "markedWrong": false,
+          "commitComment": "1 less loop",
+          "rawCommitSubject": "rust 3310: 1 less loop",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3310_remove_methods_from_project.rs b/rust/src/bin/3310_remove_methods_from_project.rs\nindex c97ab97..5a061f0 100644\n--- a/rust/src/bin/3310_remove_methods_from_project.rs\n+++ b/rust/src/bin/3310_remove_methods_from_project.rs\n@@ -18,6 +18,7 @@ impl Solution {\n             }\n         }\n \n+        let mut result = Vec::new();\n         for i in 0..n {\n             if sus_list[i] {\n                 continue;\n@@ -25,9 +26,10 @@ impl Solution {\n             if call_list[i].iter().any(|&x| sus_list[x]) {\n                 return (0..n as i32).collect();\n             }\n+            result.push(i as i32);\n         }\n \n-        (0..n as i32).filter(|&x| !sus_list[x as usize]).collect()\n+        result\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 3,
+            "deletions": 1
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 2,
+          "shortChangeSummary": "Combines result construction with the validation loop to eliminate a separate filtering pass.",
+          "warnings": []
+        },
+        {
+          "sha": "8f084502536a3ea53a587449e860b85c89b50233",
+          "shortSha": "8f08450",
+          "parentSha": "a2c779c55ff769bbe11a586818f53112c5ed8f8e",
+          "authoredAt": "2026-08-05T11:16:20+08:00",
+          "committedAt": "2026-08-05T11:16:20+08:00",
+          "chronologicalIndex": 249,
+          "problemId": 3310,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3310_remove_methods_from_project.rs",
+          "sourceFilename": "3310_remove_methods_from_project.rs",
+          "code": "impl Solution {\n    pub fn remaining_methods(n: i32, k: i32, invocations: Vec<Vec<i32>>) -> Vec<i32> {\n        let n = n as usize;\n        let mut call_list = vec![Vec::new(); n];\n        let mut flattened_invocations = Vec::with_capacity(invocations.len());\n        for inv in &invocations {\n            let f = inv[0] as usize;\n            let t = inv[1] as usize;\n            call_list[f].push(t);\n            flattened_invocations.push((f, t));\n        }\n\n        let mut sus_list = vec![false; n];\n        let mut stack = vec![k as usize];\n        sus_list[k as usize] = true;\n        while let Some(sus) = stack.pop() {\n            for &next in &call_list[sus] {\n                if !sus_list[next] {\n                    sus_list[next] = true;\n                    stack.push(next);\n                }\n            }\n        }\n        let cannot_rm = flattened_invocations\n            .iter()\n            .any(|&x| !sus_list[x.0] && sus_list[x.1]);\n\n        if cannot_rm {\n            (0..n as i32).collect()\n        } else {\n            (0..n as i32).filter(|&x| !sus_list[x as usize]).collect()\n        }\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "78626b76016348988b5d09e17a668ada5ffd01b65bea39e792a6efc81531ea98",
+          "markedWrong": false,
+          "commitComment": "more mem but better cache locality",
+          "rawCommitSubject": "rust 3310: more mem but better cache locality",
+          "commitBody": "- iterate through flattened invocations\n- dense linear representation of edges in flattened invocations provides\nhigher simd throughput for .any()",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3310_remove_methods_from_project.rs b/rust/src/bin/3310_remove_methods_from_project.rs\nindex 5a061f0..7a55357 100644\n--- a/rust/src/bin/3310_remove_methods_from_project.rs\n+++ b/rust/src/bin/3310_remove_methods_from_project.rs\n@@ -2,8 +2,12 @@ impl Solution {\n     pub fn remaining_methods(n: i32, k: i32, invocations: Vec<Vec<i32>>) -> Vec<i32> {\n         let n = n as usize;\n         let mut call_list = vec![Vec::new(); n];\n-        for inv in invocations {\n-            call_list[inv[0] as usize].push(inv[1] as usize);\n+        let mut flattened_invocations = Vec::with_capacity(invocations.len());\n+        for inv in &invocations {\n+            let f = inv[0] as usize;\n+            let t = inv[1] as usize;\n+            call_list[f].push(t);\n+            flattened_invocations.push((f, t));\n         }\n \n         let mut sus_list = vec![false; n];\n@@ -13,23 +17,19 @@ impl Solution {\n             for &next in &call_list[sus] {\n                 if !sus_list[next] {\n                     sus_list[next] = true;\n-                        stack.push(next);\n+                    stack.push(next);\n                 }\n             }\n         }\n+        let cannot_rm = flattened_invocations\n+            .iter()\n+            .any(|&x| !sus_list[x.0] && sus_list[x.1]);\n \n-        let mut result = Vec::new();\n-        for i in 0..n {\n-            if sus_list[i] {\n-                continue;\n-            }\n-            if call_list[i].iter().any(|&x| sus_list[x]) {\n-                return (0..n as i32).collect();\n-            }\n-            result.push(i as i32);\n+        if cannot_rm {\n+            (0..n as i32).collect()\n+        } else {\n+            (0..n as i32).filter(|&x| !sus_list[x as usize]).collect()\n         }\n-\n-        result\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 14,
+            "deletions": 14
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 3,
+          "shortChangeSummary": "Stores flattened edges and checks invalid incoming calls with one linear edge scan; also cleans up stack insertion.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "d3dd74d0638cdf71265f1f1f4ad9fb4ad7dc2b99",
+    "dd352db2bec994f459fd6e9bb2b22b928ca10025",
+    "a2c779c55ff769bbe11a586818f53112c5ed8f8e",
+    "8f084502536a3ea53a587449e860b85c89b50233"
+  ],
+  "warnings": []
+}
