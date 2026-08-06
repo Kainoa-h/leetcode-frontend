@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-05T14:01:26.261Z",
-  "sourceHeadSha": "bff65ce35e271e8094c72a66e0413867f36bd503",
+  "generatedAt": "2026-08-06T05:37:06.269Z",
+  "sourceHeadSha": "f63a8ea60dedf0a1c8f0d39b4568970e7d28df13",
   "questions": [
     {
       "id": 1,
@@ -2099,6 +2099,24 @@
       ],
       "firstCommittedAt": "2026-08-05T10:42:51+08:00",
       "lastCommittedAt": "2026-08-05T11:16:20+08:00"
+    },
+    {
+      "id": 3345,
+      "title": "Smallest Divisible Digit Product I",
+      "slug": "smallest-divisible-digit-product-i",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3345/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-08-06T11:27:34+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-08-06T11:09:53+08:00",
+      "lastCommittedAt": "2026-08-06T11:27:34+08:00"
     },
     {
       "id": 3418,

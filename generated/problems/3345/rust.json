@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3345,
+    "title": "Smallest Divisible Digit Product I",
+    "slug": "smallest-divisible-digit-product-i"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3345_smallest_divisible_digit_product_I.rs",
+    "latestSha": "f63a8ea60dedf0a1c8f0d39b4568970e7d28df13",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-08-06T11:09:53+08:00",
+    "lastCommittedAt": "2026-08-06T11:27:34+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
+    "inputHash": "4e70ffb96a9255c7cdd20a5010fd64a6b9340fa6f8a2e696e424e21d2344beaa"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "Increment candidate digits until the digit product is divis­",
+      "summary": "Iteratively checks the product of the candidate number's tens and ones digits, advancing the ones digit and carrying into the tens digit until the product is a ",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "8f37e82097375719344f3899d794ac1fdc120f4f",
+          "shortSha": "8f37e82",
+          "parentSha": "bff65ce35e271e8094c72a66e0413867f36bd503",
+          "authoredAt": "2026-08-06T11:09:53+08:00",
+          "committedAt": "2026-08-06T11:09:53+08:00",
+          "chronologicalIndex": 255,
+          "problemId": 3345,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3345_smallest_divisible_digit_product_I.rs",
+          "sourceFilename": "3345_smallest_divisible_digit_product_I.rs",
+          "code": "impl Solution {\n    pub fn smallest_number(n: i32, t: i32) -> i32 {\n        if n % 10 == 0 {\n            return n;\n        }\n\n        let incr = |oneth, tenth| {\n            let no = oneth + 1;\n            if no == 10 {\n                return (0, tenth + 1);\n            }\n            (no, tenth)\n        };\n\n        let (mut oneth, mut tenth) = (n % 10, (n / 10) % 10);\n\n        let mut prod = oneth * tenth.max(1);\n        while prod % t != 0 {\n            (oneth, tenth) = incr(oneth, tenth);\n            prod = oneth * tenth.max(1);\n        }\n\n        tenth * 10 + oneth\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(Solution::smallest_number(1, 2), 2);\n}\n",
+          "codeHash": "f46440d688abc1c7c74990976aaf07ecefe336072c92534af01bcb84d5139c71",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 3345",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation using a helper closure to increment the ones and tens digits while checking divisibility.",
+          "warnings": []
+        },
+        {
+          "sha": "f63a8ea60dedf0a1c8f0d39b4568970e7d28df13",
+          "shortSha": "f63a8ea",
+          "parentSha": "8f37e82097375719344f3899d794ac1fdc120f4f",
+          "authoredAt": "2026-08-06T11:27:34+08:00",
+          "committedAt": "2026-08-06T11:27:34+08:00",
+          "chronologicalIndex": 256,
+          "problemId": 3345,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3345_smallest_divisible_digit_product_I.rs",
+          "sourceFilename": "3345_smallest_divisible_digit_product_I.rs",
+          "code": "impl Solution {\n    pub fn smallest_number(n: i32, t: i32) -> i32 {\n        if n % 10 == 0 {\n            return n;\n        }\n\n        let (mut ones, mut tens) = (n % 10, (n / 10) % 10);\n\n        while (ones * tens.max(1)) % t != 0 {\n            ones += 1;\n            if ones == 10 {\n                ones = 0;\n                tens += 1;\n            }\n        }\n\n        tens * 10 + ones\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(Solution::smallest_number(1, 2), 2);\n}\n",
+          "codeHash": "bf391aa4fc06435898931e06e40697a51af1ecb708794e14a64c43bbaa401877",
+          "markedWrong": false,
+          "commitComment": "simplified n fixed english",
+          "rawCommitSubject": "rust 3345: simplified n fixed english",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3345_smallest_divisible_digit_product_I.rs b/rust/src/bin/3345_smallest_divisible_digit_product_I.rs\nindex 25b2f81..8a2db42 100644\n--- a/rust/src/bin/3345_smallest_divisible_digit_product_I.rs\n+++ b/rust/src/bin/3345_smallest_divisible_digit_product_I.rs\n@@ -4,23 +4,17 @@ impl Solution {\n             return n;\n         }\n \n-        let incr = |oneth, tenth| {\n-            let no = oneth + 1;\n-            if no == 10 {\n-                return (0, tenth + 1);\n-            }\n-            (no, tenth)\n-        };\n-\n-        let (mut oneth, mut tenth) = (n % 10, (n / 10) % 10);\n+        let (mut ones, mut tens) = (n % 10, (n / 10) % 10);\n \n-        let mut prod = oneth * tenth.max(1);\n-        while prod % t != 0 {\n-            (oneth, tenth) = incr(oneth, tenth);\n-            prod = oneth * tenth.max(1);\n+        while (ones * tens.max(1)) % t != 0 {\n+            ones += 1;\n+            if ones == 10 {\n+                ones = 0;\n+                tens += 1;\n+            }\n         }\n \n-        tenth * 10 + oneth\n+        tens * 10 + ones\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 8,
+            "deletions": 14
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Simplified the same digit-incrementing strategy by updating the ones and tens digits directly and renaming variables for",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "8f37e82097375719344f3899d794ac1fdc120f4f",
+    "f63a8ea60dedf0a1c8f0d39b4568970e7d28df13"
+  ],
+  "warnings": []
+}
