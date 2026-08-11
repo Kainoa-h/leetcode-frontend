@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2996,
+    "title": "Smallest Missing Integer Greater Than Sequential Prefix Sum",
+    "slug": "smallest-missing-integer-greater-than-sequential-prefix-sum"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/2996_smallest_missing_integer_greater_than_sequential_prefix_sum.rs",
+    "latestSha": "b4257e2a4cf4c8684da1c648e1f1ad1c5ccc37c8",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-08-11T10:44:20+08:00",
+    "lastCommittedAt": "2026-08-11T10:56:57+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
+    "inputHash": "31c06fe0f5c382e638f52b2b92dac3d2c34dad9bdc4e3cc5fcc5fba819e9a5ca"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "Track the sequential prefix and scan for the smallest absent",
+      "summary": "Finds the longest sequential prefix, records values present in a bounded boolean array, then scans upward from the prefix sum for the smallest missing integer.2",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "a63a11b912cca3e8cfc6c913aaa7d0ce6cd18a8b",
+          "shortSha": "a63a11b",
+          "parentSha": "f63a8ea60dedf0a1c8f0d39b4568970e7d28df13",
+          "authoredAt": "2026-08-11T10:37:17+08:00",
+          "committedAt": "2026-08-11T10:44:20+08:00",
+          "chronologicalIndex": 257,
+          "problemId": 2996,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2996_smallest_missing_integer_greater_than_sequential_prefix_sum.rs",
+          "sourceFilename": "2996_smallest_missing_integer_greater_than_sequential_prefix_sum.rs",
+          "code": "impl Solution {\n    pub fn missing_integer(nums: Vec<i32>) -> i32 {\n        let (first, rest) = nums.split_first().unwrap();\n        let mut prev = *first;\n        let mut sum = *first;\n        let mut left = 0_usize;\n        let mut valid_nums = [true; 51];\n        valid_nums[sum as usize] = false;\n        for (idx,&n) in rest.iter().enumerate() {\n            if n != prev + 1 {\n                left = idx + 1;\n                break;\n            }\n            prev = n;\n            sum += n;\n            valid_nums[n as usize] = false;\n        }\n\n        for &n in rest.iter().skip(left - 1) {\n            valid_nums[n as usize] = false;\n        }\n\n        if sum > 50 {\n            return sum;\n        }\n\n        for (idx, &b) in valid_nums.iter().enumerate().skip(sum as usize) {\n            if b {\n                return idx as i32;\n            }\n        }\n\n        51\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        Solution::missing_integer(vec![49,27,5,45,50,6,45,28,6,11,8,7,35,20]),\n        51\n    );\n}\n",
+          "codeHash": "e1afdf9150eee3b5cb7f339ef6ddc61ff8551c011f26075a432458df3c817206",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 2996",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation using a sequential-prefix scan and bounded presence array.",
+          "warnings": []
+        },
+        {
+          "sha": "ffa1d858e46f3ba1255e31784b6e4538ea949714",
+          "shortSha": "ffa1d85",
+          "parentSha": "a63a11b912cca3e8cfc6c913aaa7d0ce6cd18a8b",
+          "authoredAt": "2026-08-11T10:44:08+08:00",
+          "committedAt": "2026-08-11T10:44:20+08:00",
+          "chronologicalIndex": 258,
+          "problemId": 2996,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2996_smallest_missing_integer_greater_than_sequential_prefix_sum.rs",
+          "sourceFilename": "2996_smallest_missing_integer_greater_than_sequential_prefix_sum.rs",
+          "code": "impl Solution {\n    pub fn missing_integer(nums: Vec<i32>) -> i32 {\n        let (first, rest) = nums.split_first().unwrap();\n        let mut prev = *first;\n        let mut sum = *first;\n        let mut left = 0_usize;\n        let mut valid_nums = [true; 51];\n        valid_nums[sum as usize] = false;\n        for (idx,&n) in rest.iter().enumerate() {\n            if n != prev + 1 {\n                left = idx + 1;\n                break;\n            }\n            prev = n;\n            sum += n;\n            valid_nums[n as usize] = false;\n        }\n\n        if sum > 50 {\n            return sum;\n        }\n\n        for &n in rest.iter().skip(left.saturating_sub(1)) {\n            valid_nums[n as usize] = false;\n        }\n\n        for (idx, &b) in valid_nums.iter().enumerate().skip(sum as usize) {\n            if b {\n                return idx as i32;\n            }\n        }\n\n        51\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        Solution::missing_integer(vec![49,27,5,45,50,6,45,28,6,11,8,7,35,20]),\n        51\n    );\n}\n",
+          "codeHash": "c6e10fe03fde02e0f43485234a880eb17cbffdaf00f96880d6b5bef8e8651b3e",
+          "markedWrong": false,
+          "commitComment": "'fix' underflow & escape earlier",
+          "rawCommitSubject": "rust 2996: 'fix' underflow & escape earlier",
+          "commitBody": "underflow would only cause issues in debug mode as the skip happens\ncorrectly for any usize when rest.len() is 0",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2996_smallest_missing_integer_greater_than_sequential_prefix_sum.rs b/rust/src/bin/2996_smallest_missing_integer_greater_than_sequential_prefix_sum.rs\nindex 4265353..b644e16 100644\n--- a/rust/src/bin/2996_smallest_missing_integer_greater_than_sequential_prefix_sum.rs\n+++ b/rust/src/bin/2996_smallest_missing_integer_greater_than_sequential_prefix_sum.rs\n@@ -16,14 +16,14 @@ impl Solution {\n             valid_nums[n as usize] = false;\n         }\n \n-        for &n in rest.iter().skip(left - 1) {\n-            valid_nums[n as usize] = false;\n-        }\n-\n         if sum > 50 {\n             return sum;\n         }\n \n+        for &n in rest.iter().skip(left.saturating_sub(1)) {\n+            valid_nums[n as usize] = false;\n+        }\n+\n         for (idx, &b) in valid_nums.iter().enumerate().skip(sum as usize) {\n             if b {\n                 return idx as i32;\n",
+          "changedLineCounts": {
+            "additions": 4,
+            "deletions": 4
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Replaces potentially underflowing subtraction with saturating_sub and returns early when the sum exceeds the scan bound.",
+          "warnings": []
+        },
+        {
+          "sha": "b4257e2a4cf4c8684da1c648e1f1ad1c5ccc37c8",
+          "shortSha": "b4257e2",
+          "parentSha": "ffa1d858e46f3ba1255e31784b6e4538ea949714",
+          "authoredAt": "2026-08-11T10:56:57+08:00",
+          "committedAt": "2026-08-11T10:56:57+08:00",
+          "chronologicalIndex": 259,
+          "problemId": 2996,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2996_smallest_missing_integer_greater_than_sequential_prefix_sum.rs",
+          "sourceFilename": "2996_smallest_missing_integer_greater_than_sequential_prefix_sum.rs",
+          "code": "impl Solution {\n    pub fn missing_integer(nums: Vec<i32>) -> i32 {\n        let (first, rest) = nums.split_first().unwrap();\n        let mut prev = *first;\n        let mut sum = *first;\n        let mut left = rest.len();\n        let mut valid_nums = [true; 51];\n        valid_nums[sum as usize] = false;\n        for (idx,&n) in rest.iter().enumerate() {\n            if n != prev + 1 {\n                left = idx;\n                break;\n            }\n            prev = n;\n            sum += n;\n            valid_nums[n as usize] = false;\n        }\n\n        if sum > 50 {\n            return sum;\n        }\n\n        for &n in rest.iter().skip(left) {\n            valid_nums[n as usize] = false;\n        }\n\n        for (idx, &b) in valid_nums.iter().enumerate().skip(sum as usize) {\n            if b {\n                return idx as i32;\n            }\n        }\n\n        51\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        Solution::missing_integer(vec![49,27,5,45,50,6,45,28,6,11,8,7,35,20]),\n        51\n    );\n}\n",
+          "codeHash": "56076f720fe85353b080bbbbc33f85e162bf4f318f4571ef76b54535d576d6ac",
+          "markedWrong": false,
+          "commitComment": "fix init bug that casuses rescan when whole array is squential",
+          "rawCommitSubject": "rust 2996: fix init bug that casuses rescan when whole array is squential",
+          "commitBody": "- remove redundent increment and decrement of left",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2996_smallest_missing_integer_greater_than_sequential_prefix_sum.rs b/rust/src/bin/2996_smallest_missing_integer_greater_than_sequential_prefix_sum.rs\nindex b644e16..b7935f2 100644\n--- a/rust/src/bin/2996_smallest_missing_integer_greater_than_sequential_prefix_sum.rs\n+++ b/rust/src/bin/2996_smallest_missing_integer_greater_than_sequential_prefix_sum.rs\n@@ -3,12 +3,12 @@ impl Solution {\n         let (first, rest) = nums.split_first().unwrap();\n         let mut prev = *first;\n         let mut sum = *first;\n-        let mut left = 0_usize;\n+        let mut left = rest.len();\n         let mut valid_nums = [true; 51];\n         valid_nums[sum as usize] = false;\n         for (idx,&n) in rest.iter().enumerate() {\n             if n != prev + 1 {\n-                left = idx + 1;\n+                left = idx;\n                 break;\n             }\n             prev = n;\n@@ -20,7 +20,7 @@ impl Solution {\n             return sum;\n         }\n \n-        for &n in rest.iter().skip(left.saturating_sub(1)) {\n+        for &n in rest.iter().skip(left) {\n             valid_nums[n as usize] = false;\n         }\n \n",
+          "changedLineCounts": {
+            "additions": 3,
+            "deletions": 3
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 2,
+          "shortChangeSummary": "Initializes the suffix boundary to rest.len() and uses the direct index, avoiding the prior off-by-one handling and res¬",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "a63a11b912cca3e8cfc6c913aaa7d0ce6cd18a8b",
+    "ffa1d858e46f3ba1255e31784b6e4538ea949714",
+    "b4257e2a4cf4c8684da1c648e1f1ad1c5ccc37c8"
+  ],
+  "warnings": []
+}
