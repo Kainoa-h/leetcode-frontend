@@ -2,31 +2,50 @@
 import type { SolutionRevision } from '../../scripts/lib/schemas';
 import { highlight } from '../lib/highlight';
 import { sourceUrl } from '../lib/data';
-const { revision, language } = Astro.props as {
+const { revision, language, isLlmGenerated } = Astro.props as {
   revision: SolutionRevision;
   language: string;
+  isLlmGenerated: boolean;
 };
 const full = await highlight(revision.code, language);
+const commitMessage = revision.commitComment.trim() || '-';
 ---
 
 <article class:list={['revision', revision.markedWrong && 'incorrect']}>
   <header>
-    <div>
-      <a href={sourceUrl(revision.sha)}><code>{revision.shortSha}</code></a>{
-        revision.markedWrong && (
-          <span class="wrong-badge">! Marked incorrect by the author</span>
-        )
-      }
-    </div><p>{revision.shortChangeSummary}</p><small
-      >Chronological #{revision.chronologicalIndex + 1} · Narrative #{
-        revision.narrativeIndex + 1
-      } · <time datetime={revision.committedAt}
-        >{new Date(revision.committedAt).toLocaleString('en-CA')}</time
-      ></small
-    ><small
-      ><a href={sourceUrl(revision.sha, revision.sourcePath)}
-        >{revision.sourceFilename}</a
-      >{revision.commitComment && <> · {revision.commitComment}</>}</small
-    >
+    <div class="revision-heading">
+      <div class="revision-topline">
+        <div class="revision-labels">
+          <p class="eyebrow">Commit message</p>
+          {
+            revision.markedWrong && (
+              <span class="wrong-badge">! Marked incorrect</span>
+            )
+          }
+        </div>
+        <div class="revision-commit-meta">
+          <a href={sourceUrl(revision.sha)}><code>{revision.shortSha}</code></a>
+          <span aria-hidden="true">·</span>
+          <time datetime={revision.committedAt}>
+            {new Date(revision.committedAt).toLocaleString('en-CA')}
+          </time>
+        </div>
+      </div>
+      <h3>{commitMessage}</h3>
+      <div class="revision-summary">
+        <p class="eyebrow">
+          {isLlmGenerated ? 'LLM-generated summary' : 'Revision summary'}
+        </p>
+        <p>{revision.shortChangeSummary}</p>
+      </div>
+    </div>
+    {
+      revision.commitBody && (
+        <details class="commit-body">
+          <summary>View commit body</summary>
+          <pre>{revision.commitBody}</pre>
+        </details>
+      )
+    }
   </header><div class="code-view full" set:html={full} />
 </article>
