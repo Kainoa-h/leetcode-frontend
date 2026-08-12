@@ -1,0 +1,176 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2986,
+    "title": "Length of Longest Subarrray With At Most K Frequency",
+    "slug": "length-of-longest-subarrray-with-at-most-k-frequency"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/2986_length_of_longest_subarrray_with_at_most_k_frequency.rs",
+    "latestSha": "78fc73184dd372a0d475990c55b5fade40dbcacd",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 4,
+    "approachCount": 2,
+    "incorrectRevisionCount": 1,
+    "firstCommittedAt": "2026-08-12T09:16:16+08:00",
+    "lastCommittedAt": "2026-08-12T10:03:35+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "6",
+    "inputHash": "32711a4406e8f0f6eb2018764a8eeb6ebfc1aed40e321b7c33902e337921859f"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "Brute-force subarray enumeration with frequency maps",
+      "summary": "Enumerates candidate subarrays and rebuilds a frequency map for each one to check whether every value occurs at most k times. This initial revision is marked as",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "63786dca88d98d4823430205a1adfbdc74a96c1d",
+          "shortSha": "63786dc",
+          "parentSha": "b4257e2a4cf4c8684da1c648e1f1ad1c5ccc37c8",
+          "authoredAt": "2026-08-12T09:16:16+08:00",
+          "committedAt": "2026-08-12T09:16:16+08:00",
+          "chronologicalIndex": 260,
+          "problemId": 2986,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2986_length_of_longest_subarrray_with_at_most_k_frequency.rs",
+          "sourceFilename": "2986_length_of_longest_subarrray_with_at_most_k_frequency.rs",
+          "code": "use std::collections::HashMap;\n\nimpl Solution {\n    pub fn max_subarray_length(nums: Vec<i32>, k: i32) -> i32 {\n        let k = k as u32;\n        let mut max = 1;\n        for head in 0..nums.len() - 1 {\n            if nums.len() - head < max {\n                break;\n            }\n            for tail in (head + 1..nums.len()).rev() {\n                let len = tail - head + 1;\n                if len <= max {\n                    break;\n                }\n\n                let mut map = HashMap::<i32, u32>::new();\n                let mut valid = true;\n                for &n in &nums[head..=tail] {\n                    if *map.entry(n).and_modify(|x| *x += 1).or_insert(1) > k {\n                        valid = false;\n                        break;\n                    }\n                }\n                if valid {\n                    max = max.max(len);\n                }\n            }\n        }\n\n        max as i32\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(Solution::max_subarray_length(vec![1,2,3,1,2,3,1,2], 2), 6);\n}\n",
+          "codeHash": "0610ddf5a90f400504b62ea6bba7c805acb2b461fa657b8169c0ebf7630a7702",
+          "markedWrong": true,
+          "commitComment": "tle",
+          "rawCommitSubject": "rust 2986!: tle",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial brute-force enumeration; marked wrong/TLE.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "approach-2",
+      "title": "Sliding window with frequency map",
+      "summary": "Maintains a variable-size window and frequency counts, moving the left boundary whenever the newly added value exceeds frequency k. Later revisions optimize and",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "ceb8eb16957520077187df56cd170f3743c19e24",
+          "shortSha": "ceb8eb1",
+          "parentSha": "63786dca88d98d4823430205a1adfbdc74a96c1d",
+          "authoredAt": "2026-08-12T09:46:42+08:00",
+          "committedAt": "2026-08-12T09:46:42+08:00",
+          "chronologicalIndex": 261,
+          "problemId": 2986,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2986_length_of_longest_subarrray_with_at_most_k_frequency.rs",
+          "sourceFilename": "2986_length_of_longest_subarrray_with_at_most_k_frequency.rs",
+          "code": "use std::collections::HashMap;\n\nimpl Solution {\n    pub fn max_subarray_length(nums: Vec<i32>, k: i32) -> i32 {\n        let mut map = HashMap::<i32,i32>::new();\n        let mut start = 0;\n        let mut max = 0;\n        for (idx, &n) in nums.iter().enumerate() {\n            map.entry(n).and_modify(|x| *x+=1).or_insert(1);\n            \n            while *map.get(&n).unwrap() > k {\n                map.entry(nums[start]).and_modify(|x| *x -= 1);\n                start += 1;\n            }\n\n            max = max.max(idx - start + 1);\n        }\n\n        max as i32\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(Solution::max_subarray_length(vec![1,2,3,1,2,3,1,2], 2), 6);\n}\n",
+          "codeHash": "ab1709ca9ad5ced7319fc04f028587bb906c8885faa963b9f7aada465e98a8c9",
+          "markedWrong": false,
+          "commitComment": "copied sliding window approach",
+          "rawCommitSubject": "rust 2986: copied sliding window approach",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2986_length_of_longest_subarrray_with_at_most_k_frequency.rs b/rust/src/bin/2986_length_of_longest_subarrray_with_at_most_k_frequency.rs\nindex c17c380..aec51a9 100644\n--- a/rust/src/bin/2986_length_of_longest_subarrray_with_at_most_k_frequency.rs\n+++ b/rust/src/bin/2986_length_of_longest_subarrray_with_at_most_k_frequency.rs\n@@ -2,30 +2,18 @@ use std::collections::HashMap;\n \n impl Solution {\n     pub fn max_subarray_length(nums: Vec<i32>, k: i32) -> i32 {\n-        let k = k as u32;\n-        let mut max = 1;\n-        for head in 0..nums.len() - 1 {\n-            if nums.len() - head < max {\n-                break;\n+        let mut map = HashMap::<i32,i32>::new();\n+        let mut start = 0;\n+        let mut max = 0;\n+        for (idx, &n) in nums.iter().enumerate() {\n+            map.entry(n).and_modify(|x| *x+=1).or_insert(1);\n+            \n+            while *map.get(&n).unwrap() > k {\n+                map.entry(nums[start]).and_modify(|x| *x -= 1);\n+                start += 1;\n             }\n-            for tail in (head + 1..nums.len()).rev() {\n-                let len = tail - head + 1;\n-                if len <= max {\n-                    break;\n-                }\n \n-                let mut map = HashMap::<i32, u32>::new();\n-                let mut valid = true;\n-                for &n in &nums[head..=tail] {\n-                    if *map.entry(n).and_modify(|x| *x += 1).or_insert(1) > k {\n-                        valid = false;\n-                        break;\n-                    }\n-                }\n-                if valid {\n-                    max = max.max(len);\n-                }\n-            }\n+            max = max.max(idx - start + 1);\n         }\n \n         max as i32\n",
+          "changedLineCounts": {
+            "additions": 10,
+            "deletions": 22
+          },
+          "approachId": "approach-2",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaces brute force with a sliding-window frequency-map algorithm.",
+          "warnings": []
+        },
+        {
+          "sha": "b6ab653c2cbd68da7ce0bcc6a88060cf2f9c7368",
+          "shortSha": "b6ab653",
+          "parentSha": "ceb8eb16957520077187df56cd170f3743c19e24",
+          "authoredAt": "2026-08-12T09:50:56+08:00",
+          "committedAt": "2026-08-12T09:50:56+08:00",
+          "chronologicalIndex": 262,
+          "problemId": 2986,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2986_length_of_longest_subarrray_with_at_most_k_frequency.rs",
+          "sourceFilename": "2986_length_of_longest_subarrray_with_at_most_k_frequency.rs",
+          "code": "use std::collections::HashMap;\n\nimpl Solution {\n    pub fn max_subarray_length(nums: Vec<i32>, k: i32) -> i32 {\n        let mut map = HashMap::<i32,i32>::new();\n        let mut start = 0;\n        let mut max = 0;\n        for (end, &n) in nums.iter().enumerate() {\n            *map.entry(n).or_default() += 1;\n            \n            while *map.get(&n).unwrap() > k {\n                *map.get_mut(&nums[start]).unwrap() -= 1;\n                start += 1;\n            }\n\n            max = max.max(end - start + 1);\n        }\n\n        max as i32\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(Solution::max_subarray_length(vec![1,2,3,1,2,3,1,2], 2), 6);\n}\n",
+          "codeHash": "6d438fcb66a88fb93611b2658f32fac2de4210fd34d5e014b956a4cdac68316a",
+          "markedWrong": false,
+          "commitComment": "idomatic refactor",
+          "rawCommitSubject": "rust 2986: idomatic refactor",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2986_length_of_longest_subarrray_with_at_most_k_frequency.rs b/rust/src/bin/2986_length_of_longest_subarrray_with_at_most_k_frequency.rs\nindex aec51a9..600ea84 100644\n--- a/rust/src/bin/2986_length_of_longest_subarrray_with_at_most_k_frequency.rs\n+++ b/rust/src/bin/2986_length_of_longest_subarrray_with_at_most_k_frequency.rs\n@@ -5,15 +5,15 @@ impl Solution {\n         let mut map = HashMap::<i32,i32>::new();\n         let mut start = 0;\n         let mut max = 0;\n-        for (idx, &n) in nums.iter().enumerate() {\n-            map.entry(n).and_modify(|x| *x+=1).or_insert(1);\n+        for (end, &n) in nums.iter().enumerate() {\n+            *map.entry(n).or_default() += 1;\n             \n             while *map.get(&n).unwrap() > k {\n-                map.entry(nums[start]).and_modify(|x| *x -= 1);\n+                *map.get_mut(&nums[start]).unwrap() -= 1;\n                 start += 1;\n             }\n \n-            max = max.max(idx - start + 1);\n+            max = max.max(end - start + 1);\n         }\n \n         max as i32\n",
+          "changedLineCounts": {
+            "additions": 4,
+            "deletions": 4
+          },
+          "approachId": "approach-2",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Refactors hashmap updates using idiomatic entry, default, and mutable lookup APIs.",
+          "warnings": []
+        },
+        {
+          "sha": "78fc73184dd372a0d475990c55b5fade40dbcacd",
+          "shortSha": "78fc731",
+          "parentSha": "b6ab653c2cbd68da7ce0bcc6a88060cf2f9c7368",
+          "authoredAt": "2026-08-12T10:03:35+08:00",
+          "committedAt": "2026-08-12T10:03:35+08:00",
+          "chronologicalIndex": 263,
+          "problemId": 2986,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2986_length_of_longest_subarrray_with_at_most_k_frequency.rs",
+          "sourceFilename": "2986_length_of_longest_subarrray_with_at_most_k_frequency.rs",
+          "code": "use std::collections::HashMap;\n\nimpl Solution {\n    pub fn max_subarray_length(nums: Vec<i32>, k: i32) -> i32 {\n        let mut map = HashMap::<i32,i32>::new();\n        let mut start = 0;\n        let mut max = 0;\n        for (end, &n) in nums.iter().enumerate() {\n            let count = *map.entry(n).and_modify(|x|*x+=1).or_insert(1);\n\n            if count > k {\n                loop {\n                    let val = nums[start];\n                    if let Some(x) = map.get_mut(&val) {\n                        *x -= 1;\n                    }\n                    start += 1;\n                    \n                    if val == n {\n                        break;\n                    }\n                }\n            }\n            \n            max = max.max(end - start + 1);\n        }\n\n        max as i32\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(Solution::max_subarray_length(vec![1,2,3,1,2,3,1,2], 2), 6);\n}\n",
+          "codeHash": "566478deb598752f58562b0842640825fa8244fd7839f633e5547165d0bd6b4b",
+          "markedWrong": false,
+          "commitComment": "less hashmap lookups",
+          "rawCommitSubject": "ust 2986: less hashmap lookups",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2986_length_of_longest_subarrray_with_at_most_k_frequency.rs b/rust/src/bin/2986_length_of_longest_subarrray_with_at_most_k_frequency.rs\nindex 600ea84..ef687f0 100644\n--- a/rust/src/bin/2986_length_of_longest_subarrray_with_at_most_k_frequency.rs\n+++ b/rust/src/bin/2986_length_of_longest_subarrray_with_at_most_k_frequency.rs\n@@ -6,13 +6,22 @@ impl Solution {\n         let mut start = 0;\n         let mut max = 0;\n         for (end, &n) in nums.iter().enumerate() {\n-            *map.entry(n).or_default() += 1;\n-            \n-            while *map.get(&n).unwrap() > k {\n-                *map.get_mut(&nums[start]).unwrap() -= 1;\n-                start += 1;\n-            }\n+            let count = *map.entry(n).and_modify(|x|*x+=1).or_insert(1);\n \n+            if count > k {\n+                loop {\n+                    let val = nums[start];\n+                    if let Some(x) = map.get_mut(&val) {\n+                        *x -= 1;\n+                    }\n+                    start += 1;\n+                    \n+                    if val == n {\n+                        break;\n+                    }\n+                }\n+            }\n+            \n             max = max.max(end - start + 1);\n         }\n \n",
+          "changedLineCounts": {
+            "additions": 15,
+            "deletions": 6
+          },
+          "approachId": "approach-2",
+          "narrativeIndex": 2,
+          "shortChangeSummary": "Avoids repeated frequency lookups by removing elements directly until the excess occurrence is removed.",
+          "warnings": [
+            {
+              "code": "language-conflict",
+              "message": "Declared language ust conflicts with file language rust; using rust.",
+              "sha": "78fc73184dd372a0d475990c55b5fade40dbcacd",
+              "path": "rust/src/bin/2986_length_of_longest_subarrray_with_at_most_k_frequency.rs"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "63786dca88d98d4823430205a1adfbdc74a96c1d",
+    "ceb8eb16957520077187df56cd170f3743c19e24",
+    "b6ab653c2cbd68da7ce0bcc6a88060cf2f9c7368",
+    "78fc73184dd372a0d475990c55b5fade40dbcacd"
+  ],
+  "warnings": [
+    {
+      "code": "language-conflict",
+      "message": "Declared language ust conflicts with file language rust; using rust.",
+      "sha": "78fc73184dd372a0d475990c55b5fade40dbcacd",
+      "path": "rust/src/bin/2986_length_of_longest_subarrray_with_at_most_k_frequency.rs"
+    }
+  ]
+}
