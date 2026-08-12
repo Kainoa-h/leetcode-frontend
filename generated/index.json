@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-12T13:39:54.988Z",
-  "sourceHeadSha": "78fc73184dd372a0d475990c55b5fade40dbcacd",
+  "generatedAt": "2026-08-12T15:45:37.484Z",
+  "sourceHeadSha": "82ad6f657cf988b12f028ff54b1a13a9d88a1d8f",
   "questions": [
     {
       "id": 1,
@@ -200,6 +200,24 @@
       ],
       "firstCommittedAt": "2026-07-17T14:36:08+08:00",
       "lastCommittedAt": "2026-07-17T14:39:09+08:00"
+    },
+    {
+      "id": 21,
+      "title": "Merge Two Sorted Lists",
+      "slug": "merge-two-sorted-lists",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/21/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-08-12T23:44:50+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-08-12T23:35:35+08:00",
+      "lastCommittedAt": "2026-08-12T23:44:50+08:00"
     },
     {
       "id": 22,

@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 21,
+    "title": "Merge Two Sorted Lists",
+    "slug": "merge-two-sorted-lists"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/21_merge_two_sorted_lists.rs",
+    "latestSha": "82ad6f657cf988b12f028ff54b1a13a9d88a1d8f",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-08-12T23:35:35+08:00",
+    "lastCommittedAt": "2026-08-12T23:44:50+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "c6d80a6f028a7e67e1bc0ebf2cdf0dc5822fab11d664a1e1ad8c4a6d1b2a9181"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "Iterative in-place merge with relinked nodes",
+      "summary": "Iteratively compares the heads of both sorted lists and appends the smaller node to the result by relinking existing nodes. When one list is exhausted, it attaches the remainder of the other list.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "a63de747d1fbab3401298f646f413baf5879ba20",
+          "shortSha": "a63de74",
+          "parentSha": "78fc73184dd372a0d475990c55b5fade40dbcacd",
+          "authoredAt": "2026-08-12T23:35:35+08:00",
+          "committedAt": "2026-08-12T23:35:35+08:00",
+          "chronologicalIndex": 264,
+          "problemId": 21,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/21_merge_two_sorted_lists.rs",
+          "sourceFilename": "21_merge_two_sorted_lists.rs",
+          "code": "#[derive(PartialEq, Eq, Clone, Debug)]\npub struct ListNode {\n    pub val: i32,\n    pub next: Option<Box<ListNode>>,\n}\n\nimpl ListNode {\n    #[inline]\n    fn new(val: i32) -> Self {\n        ListNode { next: None, val }\n    }\n}\nimpl Solution {\n    pub fn merge_two_lists(\n        mut list1: Option<Box<ListNode>>,\n        mut list2: Option<Box<ListNode>>,\n    ) -> Option<Box<ListNode>> {\n        let mut root = Box::new(ListNode::new(0));\n        let mut tail = &mut root;\n\n        while let (Some(l1),  Some(l2)) = (&list1, &list2) {\n            if l1.val < l2.val {\n                tail.next = list1.take();\n                tail = tail.next.as_mut().unwrap();\n                list1 = tail.next.take();\n            } else {\n                tail.next = list2.take();\n                tail = tail.next.as_mut().unwrap();\n                list2 = tail.next.take();\n            }\n        }\n\n        tail.next = list1.or(list2);\n\n        root.next\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "4b3537809890f282601f8134f5de18e71c8d882ca2836ea685f5c3700a0d8fde",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 21",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Uses a dummy root node and a mutable tail pointer to iteratively merge the two lists in place.",
+          "warnings": []
+        },
+        {
+          "sha": "82ad6f657cf988b12f028ff54b1a13a9d88a1d8f",
+          "shortSha": "82ad6f6",
+          "parentSha": "a63de747d1fbab3401298f646f413baf5879ba20",
+          "authoredAt": "2026-08-12T23:44:50+08:00",
+          "committedAt": "2026-08-12T23:44:50+08:00",
+          "chronologicalIndex": 265,
+          "problemId": 21,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/21_merge_two_sorted_lists.rs",
+          "sourceFilename": "21_merge_two_sorted_lists.rs",
+          "code": "#[derive(PartialEq, Eq, Clone, Debug)]\npub struct ListNode {\n    pub val: i32,\n    pub next: Option<Box<ListNode>>,\n}\n\nimpl ListNode {\n    #[inline]\n    fn new(val: i32) -> Self {\n        ListNode { next: None, val }\n    }\n}\nimpl Solution {\n    pub fn merge_two_lists(\n        mut list1: Option<Box<ListNode>>,\n        mut list2: Option<Box<ListNode>>,\n    ) -> Option<Box<ListNode>> {\n        let mut root = None;\n        let mut tail = &mut root;\n\n        while let (Some(l1),  Some(l2)) = (&list1, &list2) {\n            if l1.val < l2.val {\n                *tail = list1;\n                tail = &mut tail.as_mut().unwrap().next;\n                list1 = tail.take();\n            } else {\n                *tail = list2;\n                tail = &mut tail.as_mut().unwrap().next;\n                list2 = tail.take();\n            }\n        }\n\n        *tail = list1.or(list2);\n\n        root\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "057c3589426b00eced5cd5f85b13d1a1804e099e883d4b46fc74acf43df84f14",
+          "markedWrong": false,
+          "commitComment": "zero new heap allocations, with tricky option juggling",
+          "rawCommitSubject": "rust 21: zero new heap allocations, with tricky option juggling",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/21_merge_two_sorted_lists.rs b/rust/src/bin/21_merge_two_sorted_lists.rs\nindex 7b53767..07c3440 100644\n--- a/rust/src/bin/21_merge_two_sorted_lists.rs\n+++ b/rust/src/bin/21_merge_two_sorted_lists.rs\n@@ -15,24 +15,24 @@ impl Solution {\n         mut list1: Option<Box<ListNode>>,\n         mut list2: Option<Box<ListNode>>,\n     ) -> Option<Box<ListNode>> {\n-        let mut root = Box::new(ListNode::new(0));\n+        let mut root = None;\n         let mut tail = &mut root;\n \n         while let (Some(l1),  Some(l2)) = (&list1, &list2) {\n             if l1.val < l2.val {\n-                tail.next = list1.take();\n-                tail = tail.next.as_mut().unwrap();\n-                list1 = tail.next.take();\n+                *tail = list1;\n+                tail = &mut tail.as_mut().unwrap().next;\n+                list1 = tail.take();\n             } else {\n-                tail.next = list2.take();\n-                tail = tail.next.as_mut().unwrap();\n-                list2 = tail.next.take();\n+                *tail = list2;\n+                tail = &mut tail.as_mut().unwrap().next;\n+                list2 = tail.take();\n             }\n         }\n \n-        tail.next = list1.or(list2);\n+        *tail = list1.or(list2);\n \n-        root.next\n+        root\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 9,
+            "deletions": 9
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Removes the dummy heap-allocated root and builds the result directly through an Option tail pointer, avoiding the new root allocation while preserving the same merge strategy.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "a63de747d1fbab3401298f646f413baf5879ba20",
+    "82ad6f657cf988b12f028ff54b1a13a9d88a1d8f"
+  ],
+  "warnings": []
+}
