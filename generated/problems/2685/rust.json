@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-07-11T20:12:44+08:00"
   },
   "analysis": {
-    "status": "cached",
+    "status": "llm",
     "model": "openai/gpt-5.6-luna",
-    "promptVersion": "6",
+    "promptVersion": "7",
     "inputHash": "45dece0c404349fa7f1c5cfba5571d7410e77d48dbecd960ba3a8fbdefc5edab"
   },
   "approaches": [
     {
       "id": "approach-1",
-      "title": "Bitset adjacency representation with component validation",
-      "summary": "Represents each vertex's neighbors and itself as a bitset, then identifies components from matching adjacency bitsets. Revisions 1–4 progressively optimize the同",
+      "title": "Adjacency representation with complete-component validation",
+      "summary": "Builds a per-vertex adjacency representation and identifies each component from the adjacency set of an unvisited vertex. A component is complete when every vertex in that set has the same adjacency bitset.",
       "order": 0,
       "revisions": [
         {
@@ -57,7 +57,7 @@
           "changedLineCounts": null,
           "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Uses a boolean adjacency matrix and compares adjacency rows to determine whether each connected component is complete.",
+          "shortChangeSummary": "Initial solution using a boolean adjacency matrix and a visited list to validate components.",
           "warnings": []
         },
         {
@@ -84,7 +84,7 @@
           },
           "approachId": "approach-1",
           "narrativeIndex": 1,
-          "shortChangeSummary": "Replaces the boolean matrix with u64 bitsets and tracks visited vertices with a bitmask.",
+          "shortChangeSummary": "Replaces the boolean matrix and visited list with compact u64 bitsets for faster adjacency comparisons and visitation.",
           "warnings": []
         },
         {
@@ -111,7 +111,7 @@
           },
           "approachId": "approach-1",
           "narrativeIndex": 2,
-          "shortChangeSummary": "Iterates through set bits using a manually maintained active-bit mask instead of scanning all vertex positions.",
+          "shortChangeSummary": "Iterates through only active adjacency bits and exits once all relevant bits have been checked.",
           "warnings": []
         },
         {
@@ -138,15 +138,15 @@
           },
           "approachId": "approach-1",
           "narrativeIndex": 3,
-          "shortChangeSummary": "Uses trailing_zeros and Brian Kernighan's bit-clearing technique to iterate set bits more efficiently.",
+          "shortChangeSummary": "Uses trailing_zeros and Brian Kernighan’s bit-clearing technique to process set bits more directly.",
           "warnings": []
         }
       ]
     },
     {
       "id": "approach-2",
-      "title": "Disjoint-set union with component edge counts",
-      "summary": "Uses union-find to build connected components while maintaining each component's vertex and edge counts, then checks whether each component has n(n-1)/2 edges.",
+      "title": "Disjoint-set union with edge counting",
+      "summary": "Uses DSU to construct connected components while maintaining each component’s vertex and edge counts. A component is complete when its edge count equals the maximum possible number of edges for its vertex count.",
       "order": 1,
       "revisions": [
         {
@@ -173,7 +173,7 @@
           },
           "approachId": "approach-2",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Replaces adjacency bitsets with DSU connectivity, component sizes, and edge counts to identify complete components.",
+          "shortChangeSummary": "Replaces adjacency validation with union-find, tracking component sizes and edge counts to test completeness using n(n−1)/2.",
           "warnings": []
         }
       ]

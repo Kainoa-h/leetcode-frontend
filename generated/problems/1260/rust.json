@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-07-20T17:26:19+08:00"
   },
   "analysis": {
-    "status": "cached",
+    "status": "llm",
     "model": "openai/gpt-5.6-luna",
-    "promptVersion": "6",
+    "promptVersion": "7",
     "inputHash": "cc084145da77a9fa4ca27e9f1293a94336b7a228371cdfdc4ab4fd0211a29973"
   },
   "approaches": [
     {
       "id": "approach-1",
-      "title": "Flatten the grid and rotate the linear sequence",
-      "summary": "Flattens the 2D grid into a one-dimensional vector, rotates it right by k positions, then rebuilds the rows.",
+      "title": "Flatten and rotate",
+      "summary": "Flattens the 2D grid into a one-dimensional vector, rotates it right by the normalized shift, then reconstructs the rows.",
       "order": 0,
       "revisions": [
         {
@@ -57,15 +57,15 @@
           "changedLineCounts": null,
           "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial solution using a flattened buffer and Vec::rotate_right.",
+          "shortChangeSummary": "Implemented grid shifting by flattening the elements, applying an in-place right rotation, and rebuilding the 2D structure.",
           "warnings": []
         }
       ]
     },
     {
       "id": "approach-2",
-      "title": "In-place three-reversal rotation",
-      "summary": "Treats the grid as a linear sequence while accessing elements by row and column, and performs an in-place right rotation using three reversals without creating-",
+      "title": "In-place reversal rotation",
+      "summary": "Treats the 2D grid as a logical one-dimensional array and performs a right rotation using three reversals directly on the existing grid.",
       "order": 1,
       "revisions": [
         {
@@ -92,7 +92,7 @@
           },
           "approachId": "approach-2",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Replaces the allocated flattened buffer with in-place triple-reversal rotation.",
+          "shortChangeSummary": "Replaced the flattened allocation with three in-place reversals, reducing extra storage while retaining the same shift behavior.",
           "warnings": []
         }
       ]

@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-07-13T09:58:14+08:00"
   },
   "analysis": {
-    "status": "cached",
+    "status": "llm",
     "model": "openai/gpt-5.6-luna",
-    "promptVersion": "6",
+    "promptVersion": "7",
     "inputHash": "5ed09a0b159118f687e73a3627ce30332a392d030a8beae8079a76e26f3ae1e4"
   },
   "approaches": [
     {
       "id": "approach-1",
-      "title": "Generate sequential numbers by length and starting digit",
-      "summary": "Constructs candidates dynamically by tracking the digit length and leading digit, then filters candidates against the bounds.",
+      "title": "Generate sequential-digit candidates dynamically",
+      "summary": "Computes the relevant digit lengths and starting digits, then constructs sequential-digit numbers while filtering them to the requested range.",
       "order": 0,
       "revisions": [
         {
@@ -57,15 +57,15 @@
           "changedLineCounts": null,
           "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial dynamic generation of sequential-digit candidates across valid lengths and starting digits.",
+          "shortChangeSummary": "Introduces a dynamic construction that advances the starting digit and length to enumerate valid sequential-digit candidates within the bounds.",
           "warnings": []
         }
       ]
     },
     {
       "id": "approach-2",
-      "title": "Filter a precomputed list",
-      "summary": "Uses a hardcoded ordered list of every possible sequential-digit number and retains values within the requested range.",
+      "title": "Filter a precomputed candidate list",
+      "summary": "Stores every possible sequential-digit number in a constant array and returns the entries that fall within the requested range.",
       "order": 1,
       "revisions": [
         {
@@ -92,7 +92,7 @@
           },
           "approachId": "approach-2",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Replaces dynamic generation with a precomputed array followed by range filtering.",
+          "shortChangeSummary": "Replaces dynamic generation with a hardcoded ordered list of all sequential-digit values, filtered by low and high.",
           "warnings": []
         }
       ]

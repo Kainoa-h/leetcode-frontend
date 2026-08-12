@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-07-30T10:04:52+08:00"
   },
   "analysis": {
-    "status": "cached",
+    "status": "llm",
     "model": "openai/gpt-5.6-luna",
-    "promptVersion": "6",
+    "promptVersion": "7",
     "inputHash": "e1008c057b75d228bb9e53add415bb08ef6a76bd1e16cd914a2f0f23ba544850"
   },
   "approaches": [
     {
       "id": "approach-1",
-      "title": "Compute push cost by groups of eight positions",
-      "summary": "Calculates the total pushes by assigning increasing push counts to each consecutive block of eight characters. The revisions progress from block-wise iteration,",
+      "title": "Position-based push-cost summation",
+      "summary": "Computes the minimum pushes by assigning each character a cost based on its position in groups of eight. The implementation evolves from grouped iteration to per-character accumulation and finally a closed-form arithmetic sum.",
       "order": 0,
       "revisions": [
         {
@@ -57,7 +57,7 @@
           "changedLineCounts": null,
           "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Uses a while loop to process characters in groups of eight, adding the cost for each push-count tier.",
+          "shortChangeSummary": "Uses a loop over groups of up to eight characters, multiplying each group size by its push depth.",
           "warnings": []
         },
         {
@@ -84,7 +84,7 @@
           },
           "approachId": "approach-1",
           "narrativeIndex": 1,
-          "shortChangeSummary": "Simplifies the same calculation by iterating over character positions and summing i / 8 + 1.",
+          "shortChangeSummary": "Simplifies the calculation to sum each character's push depth directly with integer division.",
           "warnings": []
         },
         {
@@ -111,7 +111,7 @@
           },
           "approachId": "approach-1",
           "narrativeIndex": 2,
-          "shortChangeSummary": "Replaces the per-character loop with a closed-form arithmetic sum over full blocks and the remainder.",
+          "shortChangeSummary": "Replaces iteration with a closed-form formula using complete groups and the remaining characters.",
           "warnings": []
         }
       ]

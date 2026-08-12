@@ -18,22 +18,22 @@
   },
   "statistics": {
     "revisionCount": 3,
-    "approachCount": 1,
+    "approachCount": 2,
     "incorrectRevisionCount": 0,
     "firstCommittedAt": "2026-07-17T11:18:01+08:00",
     "lastCommittedAt": "2026-07-17T11:34:53+08:00"
   },
   "analysis": {
-    "status": "cached",
+    "status": "llm",
     "model": "openai/gpt-5.6-luna",
-    "promptVersion": "6",
+    "promptVersion": "7",
     "inputHash": "48bdaa61faa105eef75cf2e9f85a19c37ef5e0dc2a771e730924d7f1d73f9d27"
   },
   "approaches": [
     {
-      "id": "approach-1",
-      "title": "Greedy interval overlap scanning",
-      "summary": "Sort balloon intervals and greedily track the shared feasible endpoint to count the minimum arrows. Later revisions simplify the representation and sort by end,",
+      "id": "1",
+      "title": "Sort by start and track overlap",
+      "summary": "Sort balloons by starting coordinate and maintain the common overlap endpoint of the current group. Fire an arrow when the next balloon starts beyond that overlap.",
       "order": 0,
       "revisions": [
         {
@@ -55,9 +55,9 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "approach-1",
+          "approachId": "1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial greedy solution sorts by start, tracks the minimum overlap endpoint, and uses a sentinel interval to finalize​​.",
+          "shortChangeSummary": "Initial implementation converts coordinates to i64, sorts by start, tracks the overlap endpoint, and uses a sentinel interval to finalize the count.",
           "warnings": []
         },
         {
@@ -82,11 +82,19 @@
             "additions": 2,
             "deletions": 7
           },
-          "approachId": "approach-1",
+          "approachId": "1",
           "narrativeIndex": 1,
-          "shortChangeSummary": "Simplifies the same greedy scan by retaining the input vector, initializing the arrow count to one, and removing the||||",
+          "shortChangeSummary": "Simplifies the implementation by retaining the input intervals, initializing the arrow count to one, and removing the sentinel interval.",
           "warnings": []
-        },
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Sort by end and greedily fire arrows",
+      "summary": "Sort balloons by ending coordinate and place each arrow at the earliest possible end. Start a new arrow only when a balloon begins after the current arrow position.",
+      "order": 1,
+      "revisions": [
         {
           "sha": "183f64f4432dd4fe090b695120ad1e980f56453a",
           "shortSha": "183f64f",
@@ -109,9 +117,9 @@
             "additions": 4,
             "deletions": 6
           },
-          "approachId": "approach-1",
-          "narrativeIndex": 2,
-          "shortChangeSummary": "Refines the greedy strategy by sorting intervals by end, eliminating the running minimum-overlap calculation.",
+          "approachId": "2",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Changes the greedy ordering to sort by end coordinate, eliminating explicit overlap tracking and the need for a minimum operation.",
           "warnings": []
         }
       ]

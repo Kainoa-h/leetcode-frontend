@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-07-27T10:58:36+08:00"
   },
   "analysis": {
-    "status": "cached",
+    "status": "llm",
     "model": "openai/gpt-5.6-luna",
-    "promptVersion": "6",
+    "promptVersion": "7",
     "inputHash": "adaef9e0f3421f0a9d675a49efea1c58fac684ac3e886c6ad1f6a5c7402d6370"
   },
   "approaches": [
     {
-      "id": "approach-1",
-      "title": "Track the three largest and two smallest values in one pass",
-      "summary": "Maintains the largest three and smallest two numbers while scanning the input, then compares the product of the three largest with the product of the largest, a",
+      "id": "1",
+      "title": "Single-pass tracking of extreme values",
+      "summary": "Track the three largest and two smallest numbers in one pass, then compare the products of the only two candidate combinations. Revision 2 preserves this strategy while expressing the updates with branchless min/max operations.",
       "order": 0,
       "revisions": [
         {
@@ -55,9 +55,9 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "approach-1",
+          "approachId": "1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Implements the one-pass extrema-tracking approach using conditional updates.",
+          "shortChangeSummary": "Maintains the three largest and two smallest values using conditional updates, then returns the larger candidate product.",
           "warnings": []
         },
         {
@@ -82,9 +82,9 @@
             "additions": 6,
             "deletions": 16
           },
-          "approachId": "approach-1",
+          "approachId": "1",
           "narrativeIndex": 1,
-          "shortChangeSummary": "Refactors the same extrema tracking into branchless min/max updates.",
+          "shortChangeSummary": "Replaces conditional updates with equivalent branchless min/max expressions while preserving the single-pass extreme-value strategy.",
           "warnings": []
         }
       ]

@@ -18,22 +18,22 @@
   },
   "statistics": {
     "revisionCount": 2,
-    "approachCount": 1,
+    "approachCount": 2,
     "incorrectRevisionCount": 1,
     "firstCommittedAt": "2026-05-05T20:12:03+08:00",
     "lastCommittedAt": "2026-05-05T20:46:08+08:00"
   },
   "analysis": {
-    "status": "cached",
+    "status": "llm",
     "model": "openai/gpt-5.6-luna",
-    "promptVersion": "6",
+    "promptVersion": "7",
     "inputHash": "402288bfe0fc68b1633bb20372ed7bc07d330bb0bd6c7dca0123af7a6ca6678d"
   },
   "approaches": [
     {
-      "id": "approach-1",
-      "title": "Iterative rotation with recurrence",
-      "summary": "Computes each rotation's weighted sum using a direct quadratic-time nested loop, then replaces it with an O(n)-time recurrence that updates the previous sum in-",
+      "id": "1",
+      "title": "Direct brute-force rotation evaluation",
+      "summary": "Computes each rotation independently with nested loops, summing the weighted elements for every possible starting position. This is marked wrong due to time-limit failure.",
       "order": 0,
       "revisions": [
         {
@@ -55,11 +55,19 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "approach-1",
+          "approachId": "1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Uses a direct nested-loop computation for every rotation; marked wrong and noted as TLE.",
+          "shortChangeSummary": "Implemented direct nested-loop evaluation of every rotation. Marked wrong for timing out.",
           "warnings": []
-        },
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Rotation recurrence",
+      "summary": "Uses the relationship between consecutive rotation sums to update each value in constant time after computing the initial sum. This reduces the algorithm to O(n) time and O(1) auxiliary space.",
+      "order": 1,
+      "revisions": [
         {
           "sha": "5d2cdebb215682a485f84a720b05673f67d78348",
           "shortSha": "5d2cdeb",
@@ -82,9 +90,9 @@
             "additions": 11,
             "deletions": 8
           },
-          "approachId": "approach-1",
-          "narrativeIndex": 1,
-          "shortChangeSummary": "Uses the rotation-sum recurrence to achieve O(n) time and O(1) space.",
+          "approachId": "2",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaced independent rotation evaluation with an O(n) recurrence, using the total element sum to update each rotation in O(1) time. Uses O(1) auxiliary space.",
           "warnings": []
         }
       ]

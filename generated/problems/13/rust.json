@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-01-29T23:00:03+08:00"
   },
   "analysis": {
-    "status": "cached",
+    "status": "llm",
     "model": "openai/gpt-5.6-luna",
-    "promptVersion": "6",
+    "promptVersion": "7",
     "inputHash": "fe0d8bd6e1108d760754e42668ada4505abbc480897c41a4230ca6cce28662ff"
   },
   "approaches": [
     {
-      "id": "approach-1",
+      "id": "1",
       "title": "Single-pass Roman numeral accumulation",
-      "summary": "Iterates through the Roman numeral characters, maps each symbol to its value, and adjusts the running total when a larger value follows a smaller one.",
+      "summary": "Scans the numeral once, maps each symbol to its value, and subtracts twice the previous value when a larger symbol follows. The strategy remains unchanged across revisions; later revisions replace the lookup structure and simplify iteration.",
       "order": 0,
       "revisions": [
         {
@@ -55,9 +55,9 @@
           "commitBody": "time: O(n)\nspace: O(1)",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "approach-1",
+          "approachId": "1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial implementation using a HashMap for Roman symbol lookup and a single-pass subtraction adjustment.",
+          "shortChangeSummary": "Uses a HashMap to convert Roman numeral characters to values during a single pass with previous-value subtraction.",
           "warnings": []
         },
         {
@@ -82,9 +82,9 @@
             "additions": 11,
             "deletions": 15
           },
-          "approachId": "approach-1",
+          "approachId": "1",
           "narrativeIndex": 1,
-          "shortChangeSummary": "Replaced the HashMap with an idiomatic Rust match closure while preserving the same single-pass algorithm.",
+          "shortChangeSummary": "Replaces the HashMap with an idiomatic Rust match closure while preserving the same O(n)-time, O(1)-space algorithm.",
           "warnings": []
         },
         {
@@ -109,9 +109,9 @@
             "additions": 1,
             "deletions": 1
           },
-          "approachId": "approach-1",
+          "approachId": "1",
           "narrativeIndex": 2,
-          "shortChangeSummary": "Replaced char_indices with chars because byte indices are unnecessary, preserving the same algorithm.",
+          "shortChangeSummary": "Uses s.chars() instead of char_indices() because character indices are unnecessary for the calculation.",
           "warnings": []
         }
       ]

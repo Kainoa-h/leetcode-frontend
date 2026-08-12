@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-01-25T14:09:16+08:00"
   },
   "analysis": {
-    "status": "cached",
+    "status": "llm",
     "model": "openai/gpt-5.6-luna",
-    "promptVersion": "6",
+    "promptVersion": "7",
     "inputHash": "439ed212845808d63d39112351fa55f98e077c5d2c11ebe133a80208d3e348d0"
   },
   "approaches": [
     {
-      "id": "approach-1",
-      "title": "Sum positive day-to-day price increases",
-      "summary": "Iterate over adjacent price pairs and add each positive increase, which is equivalent to taking every profitable transaction in the unlimited-transactions stock",
+      "id": "1",
+      "title": "Sum positive consecutive price gains",
+      "summary": "Computes the maximum profit by summing every positive day-to-day price increase, which is optimal when unlimited transactions are allowed. Revision 2 expresses the same window-based calculation with iterator combinators.",
       "order": 0,
       "revisions": [
         {
@@ -55,9 +55,9 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "approach-1",
+          "approachId": "1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Introduced an imperative sliding-window loop that accumulates each positive adjacent price difference.",
+          "shortChangeSummary": "Iterates over consecutive price pairs and accumulates each positive difference into the total profit.",
           "warnings": []
         },
         {
@@ -82,9 +82,9 @@
             "additions": 1,
             "deletions": 5
           },
-          "approachId": "approach-1",
+          "approachId": "1",
           "narrativeIndex": 1,
-          "shortChangeSummary": "Refactored the same adjacent-difference strategy into a concise iterator pipeline using windows, map, and sum.",
+          "shortChangeSummary": "Refactors the same consecutive-gain strategy into a concise iterator pipeline using map and sum.",
           "warnings": []
         }
       ]

@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-06-08T19:07:45+08:00"
   },
   "analysis": {
-    "status": "cached",
+    "status": "llm",
     "model": "openai/gpt-5.6-luna",
-    "promptVersion": "6",
+    "promptVersion": "7",
     "inputHash": "78f55155d96c1be7a4227c32e68a5cf81903ef2acf21d57f5db0325221b05ec0"
   },
   "approaches": [
     {
-      "id": "approach-1",
-      "title": "Group by fixed-length character frequency signature",
-      "summary": "Uses a 26-element character-count array as the hash-map key, placing each string into the bucket shared by its anagrams. Later revisions simplify result сборage",
+      "id": "1",
+      "title": "Frequency-count hash map",
+      "summary": "Groups strings by a 26-letter frequency signature stored in a hash map. Later revisions preserve this algorithm while simplifying the result collection and iteration style.",
       "order": 0,
       "revisions": [
         {
@@ -55,9 +55,9 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "approach-1",
+          "approachId": "1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial implementation using an explicit loop to collect the hash-map values.",
+          "shortChangeSummary": "Builds a [u32; 26] character-frequency signature for each string and groups strings by that signature in a HashMap.",
           "warnings": []
         },
         {
@@ -82,9 +82,9 @@
             "additions": 1,
             "deletions": 6
           },
-          "approachId": "approach-1",
+          "approachId": "1",
           "narrativeIndex": 1,
-          "shortChangeSummary": "Replaces the manual result-building loop with map.into_values().collect().",
+          "shortChangeSummary": "Replaces the explicit result-building loop with map.into_values().collect(), preserving the same grouping algorithm.",
           "warnings": []
         },
         {
@@ -109,9 +109,9 @@
             "additions": 11,
             "deletions": 10
           },
-          "approachId": "approach-1",
+          "approachId": "1",
           "narrativeIndex": 2,
-          "shortChangeSummary": "Refactors the input-processing loop into a functional fold while preserving the same frequency-signature strategy.",
+          "shortChangeSummary": "Rewrites the outer loop as an iterator fold while retaining the same frequency-signature HashMap strategy.",
           "warnings": []
         }
       ]

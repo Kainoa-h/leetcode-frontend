@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-02-11T21:53:05+08:00"
   },
   "analysis": {
-    "status": "cached",
-    "model": null,
-    "promptVersion": "6",
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
     "inputHash": "6a025674345f977df116e8bee8cb2d3eec37d3159e9fb698dfc8401fdc991055"
   },
   "approaches": [
     {
-      "id": "chronological",
-      "title": "Solution history",
-      "summary": "Revisions in chronological order.",
+      "id": "two-pointer-after-sorting",
+      "title": "Sorted array with two pointers",
+      "summary": "Sorts the numbers, then fixes one value and uses left and right pointers to search for complementary pairs. The initial version attempts deduplication with a set, while the revision correctly bounds the fixed index and skips duplicates in-place.",
       "order": 0,
       "revisions": [
         {
@@ -55,9 +55,9 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "chronological",
+          "approachId": "two-pointer-after-sorting",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Updates the solution.",
+          "shortChangeSummary": "Introduces a sorted-array two-pointer search with a hash set for deduplication. Marked wrong; it has incorrect indexing and set usage, and stops after the first match for each fixed value.",
           "warnings": []
         },
         {
@@ -82,9 +82,9 @@
             "additions": 14,
             "deletions": 13
           },
-          "approachId": "chronological",
+          "approachId": "two-pointer-after-sorting",
           "narrativeIndex": 1,
-          "shortChangeSummary": "Updates the solution.",
+          "shortChangeSummary": "Corrects the fixed index and pointer bounds, removes the hash set, and skips duplicate values directly after sorting. Reports O(n^2) time and O(1) auxiliary space.",
           "warnings": []
         }
       ]

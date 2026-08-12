@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-04-20T20:58:49+08:00"
   },
   "analysis": {
-    "status": "cached",
+    "status": "llm",
     "model": "openai/gpt-5.6-luna",
-    "promptVersion": "6",
+    "promptVersion": "7",
     "inputHash": "b5e4a62fb5fd650c10ea29709eb4d34aafd013c3846c351c3b40744217ede4fe"
   },
   "approaches": [
     {
       "id": "1",
-      "title": "Check maximum distance from the array endpoints",
-      "summary": "Uses the fact that an optimal pair includes either the first or last house, scanning candidate distances from largest to smallest and returning the first valid,",
+      "title": "Inward scan from both ends",
+      "summary": "Checks candidate pairs by scanning inward from the array endpoints and returns the greatest distance whose endpoint colors differ. The second revision refactors the same strategy into a more direct distance-based loop.",
       "order": 0,
       "revisions": [
         {
@@ -57,7 +57,7 @@
           "changedLineCounts": null,
           "approachId": "1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial linear-time, constant-space endpoint-based scan.",
+          "shortChangeSummary": "Initial O(n)-time, O(1)-space inward scan comparing the first and last colors against progressively closer houses.",
           "warnings": []
         },
         {
@@ -84,7 +84,7 @@
           },
           "approachId": "1",
           "narrativeIndex": 1,
-          "shortChangeSummary": "Refactors the same scan to iterate directly by decreasing distance and simplifies the condition.",
+          "shortChangeSummary": "Refactors the scan to iterate directly over decreasing distances, combining the two endpoint checks and using a named last index.",
           "warnings": []
         }
       ]

@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-05-24T23:39:45+08:00"
   },
   "analysis": {
-    "status": "cached",
+    "status": "llm",
     "model": "openai/gpt-5.6-luna",
-    "promptVersion": "6",
+    "promptVersion": "7",
     "inputHash": "2e6619cf4171993294cfd7085acd21bce628df5385950a6f723f7137e5eafacb"
   },
   "approaches": [
     {
-      "id": "approach-1",
-      "title": "Top-down memoized dynamic programming",
-      "summary": "Uses recursive depth-first search with memoization to compute the maximum number of jumps from each index, exploring reachable lower-valued positions to the左 or",
+      "id": "1",
+      "title": "Memoized depth-first dynamic programming",
+      "summary": "Uses DFS with memoization to compute the maximum jump path from each index, scanning reachable lower-valued positions on both sides. Revision 1 is marked wrong because it follows only selected maximum-valued candidates rather than evaluating all valid jumps; revision 2 correctly explores every reachable candidate.",
       "order": 0,
       "revisions": [
         {
@@ -55,9 +55,9 @@
           "commitBody": "probably not working due to multiple max_left/right",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "approach-1",
+          "approachId": "1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial memoized recursive DP attempt, but it incorrectly follows only the maximum-valued reachable position on each側;‌",
+          "shortChangeSummary": "Initial memoized DFS attempt, selecting one maximum-valued candidate on each side; marked wrong as noted.",
           "warnings": []
         },
         {
@@ -82,9 +82,9 @@
             "additions": 5,
             "deletions": 21
           },
-          "approachId": "approach-1",
+          "approachId": "1",
           "narrativeIndex": 1,
-          "shortChangeSummary": "Corrects the recurrence by recursively evaluating every reachable lower-valued index on both sides and taking the best结果",
+          "shortChangeSummary": "Corrected the DFS transition to recursively evaluate every valid lower-valued position on both sides and take the best result.",
           "warnings": []
         }
       ]

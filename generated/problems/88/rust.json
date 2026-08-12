@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-01-24T14:55:43+08:00"
   },
   "analysis": {
-    "status": "cached",
+    "status": "llm",
     "model": "openai/gpt-5.6-luna",
-    "promptVersion": "6",
+    "promptVersion": "7",
     "inputHash": "b18fc8e3de553efa738533a871fb97f5ce745bde73782175a91bfffd93a745f8"
   },
   "approaches": [
     {
       "id": "approach-1",
-      "title": "Merge with a copied first array and forward iterators",
-      "summary": "Copies the meaningful portion of nums1, then merges the two sorted sequences from front to back using peekable iterators and writes the result into nums1.",
+      "title": "Forward merge using iterators and a cloned prefix",
+      "summary": "Clones the initialized portion of nums1 and merges it with nums2 from left to right using peekable iterators. Writes the sorted result into nums1.",
       "order": 0,
       "revisions": [
         {
@@ -57,15 +57,15 @@
           "changedLineCounts": null,
           "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial forward merge using a resized clone of nums1 and iterators.",
+          "shortChangeSummary": "Initial solution that clones and resizes nums1's active prefix, then performs a forward iterator-based merge.",
           "warnings": []
         }
       ]
     },
     {
       "id": "approach-2",
-      "title": "In-place backward two-pointer merge",
-      "summary": "Merges from the end of the arrays directly into nums1, avoiding the auxiliary copy and preserving unprocessed nums1 values.",
+      "title": "In-place backward merge",
+      "summary": "Merges from the end of the arrays using three indices, placing the larger remaining value at the back of nums1. This avoids cloning and uses constant auxiliary space.",
       "order": 1,
       "revisions": [
         {
@@ -92,7 +92,7 @@
           },
           "approachId": "approach-2",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Replaced the copied forward merge with an in-place backward merge using three indices.",
+          "shortChangeSummary": "Replaces the cloned forward merge with an in-place backward merge that fills nums1 from the final position.",
           "warnings": []
         }
       ]

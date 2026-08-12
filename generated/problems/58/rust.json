@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-01-29T23:13:29+08:00"
   },
   "analysis": {
-    "status": "cached",
+    "status": "llm",
     "model": "openai/gpt-5.6-luna",
-    "promptVersion": "6",
+    "promptVersion": "7",
     "inputHash": "437a06f2a4b3c3f29d07aa59115c3f941c28f9a8e65abd5d0ff387f58616f821"
   },
   "approaches": [
     {
-      "id": "approach-1",
+      "id": "1",
       "title": "Reverse scan from the end",
-      "summary": "Scan the string backward, ignoring trailing spaces and counting characters in the final word. Revision 2 expresses the same strategy using iterator combinators.",
+      "summary": "Find the last word by processing characters from right to left, skipping trailing spaces and counting until the preceding space. The second revision expresses the same strategy with iterator combinators.",
       "order": 0,
       "revisions": [
         {
@@ -55,9 +55,9 @@
           "commitBody": "time: O(n)\nspace: O(1)",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "approach-1",
+          "approachId": "1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Counts the last word by iterating backward and stopping at the first preceding space.",
+          "shortChangeSummary": "Iterates backward through the string, counting non-space characters after trailing spaces until the last word is complete.",
           "warnings": []
         },
         {
@@ -82,9 +82,9 @@
             "additions": 1,
             "deletions": 10
           },
-          "approachId": "approach-1",
+          "approachId": "1",
           "narrativeIndex": 1,
-          "shortChangeSummary": "Refactors the backward scan into trim_end, rev, and take_while iterator operations.",
+          "shortChangeSummary": "Refactors the reverse scan using trim_end, rev, and take_while to count the final word more idiomatically.",
           "warnings": []
         }
       ]

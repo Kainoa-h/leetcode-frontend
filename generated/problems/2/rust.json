@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-08-05T22:00:13+08:00"
   },
   "analysis": {
-    "status": "cached",
+    "status": "llm",
     "model": "openai/gpt-5.6-luna",
-    "promptVersion": "6",
+    "promptVersion": "7",
     "inputHash": "976cc678d8582f0d5e0ab2685d8e38c7e28a5849e818a38d92cdacd5adce9edf"
   },
   "approaches": [
     {
       "id": "approach-1",
-      "title": "Iterative linked-list digit addition",
-      "summary": "Adds corresponding digits from both reverse-order linked lists in a single iterative traversal, propagating carry and constructing the result with a dummy head.",
+      "title": "Iterative linked-list addition with carry",
+      "summary": "Traverses both reversed linked lists, adds corresponding digits with a carry, and builds a new result list using a dummy head. Later revisions preserve this strategy while simplifying carry handling and node traversal.",
       "order": 0,
       "revisions": [
         {
@@ -57,7 +57,7 @@
           "changedLineCounts": null,
           "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial iterative solution using a dummy head, separate carry handling, and optional-node value extraction.",
+          "shortChangeSummary": "Implements iterative digit-by-digit addition with a dummy head and appends a final carry node after traversal.",
           "warnings": []
         },
         {
@@ -84,7 +84,7 @@
           },
           "approachId": "approach-1",
           "narrativeIndex": 1,
-          "shortChangeSummary": "Refactors carry handling into the loop condition and uses the ListNode constructor and and_then for traversal.",
+          "shortChangeSummary": "Moves the carry condition into the loop, allowing the final carry to be emitted uniformly. Also uses the ListNode constructor and simplifies list advancement.",
           "warnings": []
         },
         {
@@ -111,7 +111,7 @@
           },
           "approachId": "approach-1",
           "narrativeIndex": 2,
-          "shortChangeSummary": "Consumes each optional input node directly with if let, combining value extraction and pointer advancement.",
+          "shortChangeSummary": "Consumes each optional node directly with pattern matching to extract its value and advance its list in one operation.",
           "warnings": []
         }
       ]

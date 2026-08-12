@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-06-19T09:02:56+08:00"
   },
   "analysis": {
-    "status": "cached",
+    "status": "llm",
     "model": "openai/gpt-5.6-luna",
-    "promptVersion": "6",
+    "promptVersion": "7",
     "inputHash": "61fc241f78cbef514f7e608548cb4977e59435b539f83e5925708b6ac2b50e3a"
   },
   "approaches": [
     {
       "id": "approach-1",
-      "title": "Running altitude accumulation",
-      "summary": "Track the cumulative altitude while scanning the gains and retain the maximum altitude reached. Revision 2 expresses the same prefix-sum strategy with iterator,",
+      "title": "Iterative prefix-sum maximum",
+      "summary": "Accumulate altitude changes to compute each prefix altitude and track the highest altitude reached from the initial altitude of zero. The second revision expresses the same computation with iterator combinators.",
       "order": 0,
       "revisions": [
         {
@@ -57,7 +57,7 @@
           "changedLineCounts": null,
           "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Iteratively accumulates altitude and updates the maximum reached.",
+          "shortChangeSummary": "Loops through the gains, maintaining the current altitude and the maximum altitude seen.",
           "warnings": []
         },
         {
@@ -84,7 +84,7 @@
           },
           "approachId": "approach-1",
           "narrativeIndex": 1,
-          "shortChangeSummary": "Refactors the same cumulative-altitude calculation into an iterator pipeline using scan and max.",
+          "shortChangeSummary": "Refactors the prefix-sum and maximum calculation into a functional-style iterator pipeline using scan and max.",
           "warnings": []
         }
       ]

@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-06-14T09:10:31+08:00"
   },
   "analysis": {
-    "status": "cached",
+    "status": "llm",
     "model": "openai/gpt-5.6-luna",
-    "promptVersion": "6",
+    "promptVersion": "7",
     "inputHash": "9886e846d9d5d71321957ee2d77f3d6a2daee7953651e2af358939518f1c68a3"
   },
   "approaches": [
     {
-      "id": "approach-1",
-      "title": "Array-based value collection",
-      "summary": "Traverse the linked list to collect node values in a vector, then compare mirrored positions to compute the maximum twin sum.",
+      "id": "copy-values",
+      "title": "Copy node values into a vector",
+      "summary": "Traverses the linked list and stores values in a vector, then computes twin sums using symmetric indices. This uses linear extra space.",
       "order": 0,
       "revisions": [
         {
@@ -55,9 +55,9 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "approach-1",
+          "approachId": "copy-values",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial vector-based solution that consumes the list while copying values into an array.",
+          "shortChangeSummary": "Initial vector-based solution that consumes the list into a value array and checks symmetric pairs.",
           "warnings": []
         },
         {
@@ -82,17 +82,17 @@
             "additions": 7,
             "deletions": 25
           },
-          "approachId": "approach-1",
+          "approachId": "copy-values",
           "narrativeIndex": 1,
-          "shortChangeSummary": "Returns to the vector-based strategy while traversing by reference, avoiding node ownership movement.",
+          "shortChangeSummary": "Returns to the vector strategy while traversing by reference, avoiding node ownership moves and unnecessary copying.",
           "warnings": []
         }
       ]
     },
     {
-      "id": "approach-2",
-      "title": "Fast/slow split with list reversal",
-      "summary": "Use fast and slow pointers to locate the midpoint, reverse the second half, and compare it with the first half.",
+      "id": "reverse-half",
+      "title": "Reverse and compare linked-list halves",
+      "summary": "Uses fast and slow pointers to locate the midpoint, reverses the second half, and compares it with the first half. This reduces auxiliary storage to constant space aside from list manipulation.",
       "order": 1,
       "revisions": [
         {
@@ -117,9 +117,9 @@
             "additions": 26,
             "deletions": 7
           },
-          "approachId": "approach-2",
+          "approachId": "reverse-half",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Replaces the vector with midpoint detection and reversal of the second half for direct pairwise comparison.",
+          "shortChangeSummary": "Replaces the vector with midpoint detection, in-place reversal of the latter half, and pairwise comparison.",
           "warnings": []
         }
       ]

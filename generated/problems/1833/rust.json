@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-06-22T21:32:00+08:00"
   },
   "analysis": {
-    "status": "cached",
+    "status": "llm",
     "model": "openai/gpt-5.6-luna",
-    "promptVersion": "6",
+    "promptVersion": "7",
     "inputHash": "2fba30585a9617160d50c7525bbb72c0b65af70c9be76fe9719c3673899a1ce9"
   },
   "approaches": [
     {
-      "id": "approach-1",
-      "title": "Sort costs and greedily buy cheapest bars",
-      "summary": "Sorts all costs in ascending order, then purchases bars from cheapest to most expensive until the remaining coins cannot cover the next price.",
+      "id": "1",
+      "title": "Greedy purchase after sorting",
+      "summary": "Sort the ice cream costs in ascending order, then buy each affordable bar until the coin budget is exhausted. This greedy strategy maximizes the number of bars purchased.",
       "order": 0,
       "revisions": [
         {
@@ -55,17 +55,17 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "approach-1",
+          "approachId": "1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial greedy solution using comparison sorting followed by cheapest-first purchasing.",
+          "shortChangeSummary": "Sorts costs with an unstable comparison sort and greedily purchases the cheapest affordable bars.",
           "warnings": []
         }
       ]
     },
     {
-      "id": "approach-2",
-      "title": "Counting sort with greedy purchasing",
-      "summary": "Uses a fixed-size frequency array indexed by cost to process prices in ascending order, then greedily purchases every affordable bar.",
+      "id": "2",
+      "title": "Greedy purchase with counting sort",
+      "summary": "Count the frequency of each possible cost, then process costs in ascending order without comparison sorting. The same greedy purchasing strategy is implemented using a frequency array.",
       "order": 1,
       "revisions": [
         {
@@ -90,9 +90,9 @@
             "additions": 21,
             "deletions": 9
           },
-          "approachId": "approach-2",
+          "approachId": "2",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Replaces comparison sorting with counting sort over the bounded cost range and adds a sample assertion.",
+          "shortChangeSummary": "Replaces comparison sorting with a counting array and iterates through costs in ascending order while greedily spending coins.",
           "warnings": []
         }
       ]

@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const SCHEMA_VERSION = 1;
 export const PARSER_VERSION = '1';
-export const PROMPT_VERSION = '6';
+export const PROMPT_VERSION = '7';
 export const analysisStatusSchema = z.enum([
   'llm',
   'cached',
@@ -66,14 +66,14 @@ export const revisionSchema = z.object({
     .nullable(),
   approachId: z.string(),
   narrativeIndex: z.number().int().nonnegative(),
-  shortChangeSummary: z.string().max(120),
+  shortChangeSummary: z.string(),
   warnings: z.array(warningSchema),
 });
 export type SolutionRevision = z.infer<typeof revisionSchema>;
 export const approachSchema = z.object({
   id: z.string(),
   title: z.string().min(1).max(60),
-  summary: z.string().max(160),
+  summary: z.string(),
   order: z.number().int().nonnegative(),
   revisions: z.array(revisionSchema).min(1),
 });
@@ -196,14 +196,14 @@ export const narrativeResultSchema = z.object({
       z.object({
         id: z.string().min(1),
         title: z.string().min(1).max(60),
-        summary: z.string().max(160),
+        summary: z.string(),
         order: z.number().int(),
         revisions: z
           .array(
             z.object({
               sha: z.string(),
               order: z.number().int(),
-              shortChange: z.string().min(1).max(120),
+              shortChange: z.string().min(1),
             }),
           )
           .min(1),
@@ -218,14 +218,14 @@ export const llmNarrativeResultSchema = z.object({
       z.object({
         id: z.string().min(1),
         title: z.string().min(1).max(60),
-        summary: z.string().max(160),
+        summary: z.string(),
         order: z.number().int(),
         revisions: z
           .array(
             z.object({
               revisionId: z.number().int().positive(),
               order: z.number().int(),
-              shortChange: z.string().min(1).max(120),
+              shortChange: z.string().min(1),
             }),
           )
           .min(1),

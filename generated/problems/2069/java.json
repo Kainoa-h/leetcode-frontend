@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-04-07T21:30:14+08:00"
   },
   "analysis": {
-    "status": "cached",
+    "status": "llm",
     "model": "openai/gpt-5.6-luna",
-    "promptVersion": "6",
+    "promptVersion": "7",
     "inputHash": "3cf0c8144f28b2ce3efab2b0add57c285a0346255b9363b1ce9241c7dc44b9bd"
   },
   "approaches": [
     {
       "id": "approach-1",
-      "title": "Perimeter-based boundary simulation",
-      "summary": "Simulates the robot moving around the rectangle by tracking its position and direction, recursively handling turns at boundaries. Revision 2 preserves this core",
+      "title": "Perimeter-based recursive boundary simulation",
+      "summary": "Simulates movement along the rectangle boundary using direction vectors and recursive handling when a step reaches or crosses an edge. The second revision preserves this strategy while reducing steps modulo the perimeter and handling the origin-direction cycle.",
       "order": 0,
       "revisions": [
         {
@@ -57,7 +57,7 @@
           "changedLineCounts": null,
           "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial recursive boundary simulation; marked wrong and noted as time exceeded.",
+          "shortChangeSummary": "Initial recursive boundary simulation that updates position and direction as movement crosses rectangle edges. It was marked wrong for exceeding the time limit.",
           "warnings": []
         },
         {
@@ -84,7 +84,7 @@
           },
           "approachId": "approach-1",
           "narrativeIndex": 1,
-          "shortChangeSummary": "Keeps the same simulation strategy while reducing steps modulo the perimeter and handling the origin wraparound case; un",
+          "shortChangeSummary": "Keeps the recursive boundary simulation but reduces each step count modulo the rectangle perimeter, yielding O(1) time and space. It also handles the special case of returning to the origin with zero effective movement.",
           "warnings": []
         }
       ]

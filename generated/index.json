@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-12T02:04:07.584Z",
+  "generatedAt": "2026-08-12T13:39:54.988Z",
   "sourceHeadSha": "78fc73184dd372a0d475990c55b5fade40dbcacd",
   "questions": [
     {
@@ -553,7 +553,7 @@
           "label": "Rust",
           "route": "/problems/80/rust/",
           "revisionCount": 2,
-          "approachCount": 2,
+          "approachCount": 1,
           "incorrectRevisionCount": 0,
           "lastCommittedAt": "2026-01-24T20:51:37+08:00"
         }
@@ -670,7 +670,7 @@
           "label": "Rust",
           "route": "/problems/134/rust/",
           "revisionCount": 2,
-          "approachCount": 1,
+          "approachCount": 2,
           "incorrectRevisionCount": 1,
           "lastCommittedAt": "2026-01-28T00:13:55+08:00"
         }
@@ -1084,7 +1084,7 @@
           "label": "Rust",
           "route": "/problems/396/rust/",
           "revisionCount": 2,
-          "approachCount": 1,
+          "approachCount": 2,
           "incorrectRevisionCount": 1,
           "lastCommittedAt": "2026-05-05T20:46:08+08:00"
         }
@@ -1102,7 +1102,7 @@
           "label": "Rust",
           "route": "/problems/452/rust/",
           "revisionCount": 3,
-          "approachCount": 1,
+          "approachCount": 2,
           "incorrectRevisionCount": 0,
           "lastCommittedAt": "2026-07-17T11:34:53+08:00"
         }
@@ -2281,7 +2281,7 @@
           "label": "Rust",
           "route": "/problems/3558/rust/",
           "revisionCount": 6,
-          "approachCount": 1,
+          "approachCount": 2,
           "incorrectRevisionCount": 4,
           "lastCommittedAt": "2026-06-11T20:03:19+08:00"
         }
@@ -2425,7 +2425,7 @@
           "label": "Rust",
           "route": "/problems/3737/rust/",
           "revisionCount": 2,
-          "approachCount": 2,
+          "approachCount": 1,
           "incorrectRevisionCount": 0,
           "lastCommittedAt": "2026-06-25T11:07:36+08:00"
         }

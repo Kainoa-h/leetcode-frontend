@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-07-17T16:35:44+08:00"
   },
   "analysis": {
-    "status": "cached",
+    "status": "llm",
     "model": "openai/gpt-5.6-luna",
-    "promptVersion": "6",
+    "promptVersion": "7",
     "inputHash": "eb08d5e10da9628ec9957fd2a89115b48766f46bbe887d43ed95bfcc5299e8da"
   },
   "approaches": [
     {
-      "id": "recursive-depth-first-search",
-      "title": "Recursive depth-first computation",
-      "summary": "Computes the maximum binary-tree depth recursively by taking one plus the maximum depth of the left and right subtrees. Revision 2 expresses the same strategy, ",
+      "id": "approach-1",
+      "title": "Recursive depth-first traversal",
+      "summary": "Recursively explores both subtrees and returns the maximum root-to-leaf depth. The second revision expresses the same strategy as bottom-up recursion with a more idiomatic base case.",
       "order": 0,
       "revisions": [
         {
@@ -55,9 +55,9 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "recursive-depth-first-search",
+          "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Uses a nested recursive DFS with an explicit depth parameter and returns the maximum depth reached.",
+          "shortChangeSummary": "Computes maximum depth using recursive depth-first search with an explicit depth accumulator.",
           "warnings": []
         },
         {
@@ -82,9 +82,9 @@
             "additions": 5,
             "deletions": 7
           },
-          "approachId": "recursive-depth-first-search",
+          "approachId": "approach-1",
           "narrativeIndex": 1,
-          "shortChangeSummary": "Refactors to idiomatic bottom-up recursion: the empty tree has depth 0, otherwise returns 1 plus the maximum recursive06",
+          "shortChangeSummary": "Refactors to bottom-up recursion, returning zero for an empty tree and one plus the larger subtree depth.",
           "warnings": []
         }
       ]

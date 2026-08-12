@@ -18,22 +18,22 @@
   },
   "statistics": {
     "revisionCount": 2,
-    "approachCount": 1,
+    "approachCount": 2,
     "incorrectRevisionCount": 1,
     "firstCommittedAt": "2026-01-27T23:57:28+08:00",
     "lastCommittedAt": "2026-01-28T00:13:55+08:00"
   },
   "analysis": {
-    "status": "cached",
+    "status": "llm",
     "model": "openai/gpt-5.6-luna",
-    "promptVersion": "6",
+    "promptVersion": "7",
     "inputHash": "83bfc6c5e6c95629edebadc6f509079316f34ee380a95cbdf36b1eebb9f777e1"
   },
   "approaches": [
     {
       "id": "approach-1",
-      "title": "Greedy cumulative fuel tracking",
-      "summary": "Tracks the total net fuel to determine feasibility and resets the candidate start whenever the running tank becomes negative. Revision 1 uses an incorrect best-",
+      "title": "Maximum edge heuristic",
+      "summary": "Attempts to identify a valid starting station by selecting the station with the largest gas surplus on the circular edge. This heuristic does not correctly guarantee a complete circuit.",
       "order": 0,
       "revisions": [
         {
@@ -57,9 +57,17 @@
           "changedLineCounts": null,
           "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Incorrect attempt that computes edge differences and selects the station with the largest local excess as the start.",
+          "shortChangeSummary": "Introduced an incorrect heuristic that tracks the largest single edge surplus and returns its station after checking total surplus. It was marked wrong because the largest local surplus does not necessarily produce a valid starting point.",
           "warnings": []
-        },
+        }
+      ]
+    },
+    {
+      "id": "approach-2",
+      "title": "Greedy cumulative-surplus scan",
+      "summary": "Scans the stations once while tracking total surplus and the current tank balance. Whenever the balance becomes negative, it moves the candidate start past that station; total negative surplus proves no solution exists.",
+      "order": 1,
+      "revisions": [
         {
           "sha": "78cf28b7db0145540d77f7f9e86a902ba3309712",
           "shortSha": "78cf28b",
@@ -82,9 +90,9 @@
             "additions": 15,
             "deletions": 17
           },
-          "approachId": "approach-1",
-          "narrativeIndex": 1,
-          "shortChangeSummary": "Replaces the incorrect selection with the standard O(n) greedy scan using total excess fuel and a resettable running-tンク",
+          "approachId": "approach-2",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaced the local-maximum heuristic with the standard greedy O(n)-time, O(1)-space scan. It resets the candidate start whenever the running fuel becomes negative and validates feasibility using total surplus.",
           "warnings": []
         }
       ]

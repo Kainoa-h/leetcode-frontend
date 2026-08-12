@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-06-01T21:52:08+08:00"
   },
   "analysis": {
-    "status": "cached",
+    "status": "llm",
     "model": "openai/gpt-5.6-luna",
-    "promptVersion": "6",
+    "promptVersion": "7",
     "inputHash": "d87fecf1aae472f1457ee4bb7f18b630ab6dd4b2257136c8b09a8e88ffe73ef4"
   },
   "approaches": [
     {
       "id": "approach-1",
-      "title": "Sort candies descending and pay for the two most expensiveик",
-      "summary": "Sort prices from highest to lowest, then pay for two candies in each group of three while taking the third as free. Revision 2 expresses the same greedy rule in",
+      "title": "Greedy sorting with every third candy free",
+      "summary": "Sort candy costs in descending order, then pay for the two most expensive candies in each group of three while receiving the third for free. This greedy strategy minimizes the total cost.",
       "order": 0,
       "revisions": [
         {
@@ -57,7 +57,7 @@
           "changedLineCounts": null,
           "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Uses a stateful loop after descending sort to pay for two candies and skip every third candy.",
+          "shortChangeSummary": "Implemented the greedy solution with descending sort and a state counter that skips every third candy.",
           "warnings": []
         },
         {
@@ -84,7 +84,7 @@
           },
           "approachId": "approach-1",
           "narrativeIndex": 1,
-          "shortChangeSummary": "Refactors the same greedy strategy into chunks of three and sums the first two prices in each chunk.",
+          "shortChangeSummary": "Refactored the same greedy strategy into a functional chunks-based implementation, summing the first two candies from each group of three.",
           "warnings": []
         }
       ]

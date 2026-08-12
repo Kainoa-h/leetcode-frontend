@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-07-31T10:13:24+08:00"
   },
   "analysis": {
-    "status": "cached",
+    "status": "llm",
     "model": "openai/gpt-5.6-luna",
-    "promptVersion": "6",
+    "promptVersion": "7",
     "inputHash": "127e3d0b488df1bcfd3d6f43cad88cd9df8c5baa9bdeed11c92bf2bbf0ee6cc0"
   },
   "approaches": [
     {
-      "id": "approach-1",
-      "title": "Frequency counting with sorted keypress tiers",
-      "summary": "Counts occurrences of each letter, sorts frequencies in descending order, and assigns groups of eight letters increasing keypress costs from 1 through 4. The [2",
+      "id": "frequency-sorting-and-weighted-groups",
+      "title": "Frequency Sorting with Grouped Push Costs",
+      "summary": "Counts each letter's frequency, sorts frequencies in descending order, and assigns groups of eight letters increasing push costs. The total is the sum of each group's frequency multiplied by its cost.",
       "order": 0,
       "revisions": [
         {
@@ -55,9 +55,9 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "approach-1",
+          "approachId": "frequency-sorting-and-weighted-groups",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial implementation using a vector of 26 frequency counts, sorting them, and applying explicit index-based keypress\\n",
+          "shortChangeSummary": "Initial implementation uses a frequency vector, descending sort, and explicit index ranges to apply push costs from one to four.",
           "warnings": []
         },
         {
@@ -82,9 +82,9 @@
             "additions": 6,
             "deletions": 9
           },
-          "approachId": "approach-1",
+          "approachId": "frequency-sorting-and-weighted-groups",
           "narrativeIndex": 1,
-          "shortChangeSummary": "Refactors the frequency storage to a fixed-size array and computes tier costs by iterating over chunks of eight instead\\",
+          "shortChangeSummary": "Refactors the frequency storage to a fixed-size array and replaces explicit cost ranges with eight-element chunks and their group indices.",
           "warnings": []
         }
       ]

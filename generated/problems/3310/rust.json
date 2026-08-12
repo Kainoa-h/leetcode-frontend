@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-08-05T11:16:20+08:00"
   },
   "analysis": {
-    "status": "cached",
+    "status": "llm",
     "model": "openai/gpt-5.6-luna",
-    "promptVersion": "6",
+    "promptVersion": "7",
     "inputHash": "e6e44c46fe43c8b4563bc85404f38093642a54dc429f4215b6a0bbf3fadae75c"
   },
   "approaches": [
     {
       "id": "approach-1",
-      "title": "Graph traversal with suspicious-method reachability",
-      "summary": "Builds a call graph, traverses methods reachable from the suspicious starting method using an iterative DFS, then checks whether any non-suspicious method calls",
+      "title": "Graph reachability with invocation-boundary validation",
+      "summary": "Build a directed call graph, find all methods reachable from the suspicious method using iterative DFS, then verify that no non-suspicious method invokes a suspicious one. Return either all methods or only the non-suspicious methods.",
       "order": 0,
       "revisions": [
         {
@@ -57,7 +57,7 @@
           "changedLineCounts": null,
           "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial iterative DFS using a call graph and post-traversal validation.",
+          "shortChangeSummary": "Initial iterative graph traversal marks methods reachable from k, then scans non-suspicious methods for calls into the suspicious set.",
           "warnings": []
         },
         {
@@ -84,7 +84,7 @@
           },
           "approachId": "approach-1",
           "narrativeIndex": 1,
-          "shortChangeSummary": "Marks the starting method immediately and avoids reprocessing already visited methods during DFS.",
+          "shortChangeSummary": "Improves the DFS by marking k before traversal and marking each neighbor when pushed, avoiding duplicate stack processing.",
           "warnings": []
         },
         {
@@ -111,7 +111,7 @@
           },
           "approachId": "approach-1",
           "narrativeIndex": 2,
-          "shortChangeSummary": "Combines result construction with the validation loop to eliminate a separate filtering pass.",
+          "shortChangeSummary": "Combines result construction with the validation scan, eliminating a separate filtering pass.",
           "warnings": []
         },
         {
@@ -138,7 +138,7 @@
           },
           "approachId": "approach-1",
           "narrativeIndex": 3,
-          "shortChangeSummary": "Stores flattened edges and checks invalid incoming calls with one linear edge scan; also cleans up stack insertion.",
+          "shortChangeSummary": "Stores flattened invocation edges and uses one global edge scan for the invalid boundary check, while retaining the same reachability strategy.",
           "warnings": []
         }
       ]

@@ -16,7 +16,7 @@ const responseSchema = {
         properties: {
           id: { type: 'string' },
           title: { type: 'string', maxLength: 60 },
-          summary: { type: 'string', maxLength: 160 },
+          summary: { type: 'string' },
           order: { type: 'integer' },
           revisions: {
             type: 'array',
@@ -27,7 +27,7 @@ const responseSchema = {
               properties: {
                 revisionId: { type: 'integer', minimum: 1 },
                 order: { type: 'integer' },
-                shortChange: { type: 'string', maxLength: 120 },
+                shortChange: { type: 'string' },
               },
             },
           },
@@ -36,6 +36,9 @@ const responseSchema = {
     },
   },
 } as const;
+export function reasoningEffortForAttempt(attempt: number): 'medium' | 'high' {
+  return attempt === 0 ? 'medium' : 'high';
+}
 export class OpenRouterClient {
   readonly calls = { count: 0 };
   constructor(private readonly env: NodeJS.ProcessEnv = process.env) {}
@@ -66,7 +69,7 @@ export class OpenRouterClient {
           body: JSON.stringify({
             model,
             temperature: 0.1,
-            reasoning: { effort: 'low' },
+            reasoning: { effort: reasoningEffortForAttempt(attempt) },
             messages: [
               {
                 role: 'system',
@@ -87,7 +90,8 @@ export class OpenRouterClient {
         });
         if (!res.ok) {
           last = `HTTP ${res.status}`;
-          if (res.status !== 429 && res.status < 500) break;
+          // Always let a failed medium-effort request retry once at high effort.
+          if (attempt > 0 && res.status !== 429 && res.status < 500) break;
         } else {
           const body: unknown = await res.json();
           const content = (

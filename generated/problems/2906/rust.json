@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-03-24T22:44:17+08:00"
   },
   "analysis": {
-    "status": "cached",
+    "status": "llm",
     "model": "openai/gpt-5.6-luna",
-    "promptVersion": "6",
+    "promptVersion": "7",
     "inputHash": "011aa9fa411ee63467c80aeb0fc02175a7fb46d651efd51e3b6e16aa329446db"
   },
   "approaches": [
     {
       "id": "approach-1",
-      "title": "Prefix and suffix products over a flattened grid",
-      "summary": "Computes the product of all elements before and after each cell modulo 12345, then combines the two values to construct the product matrix. Later revisions ref;",
+      "title": "Prefix and suffix products over flattened grid",
+      "summary": "Computes each cell's product excluding itself by multiplying its prefix and suffix products modulo 12345. Later revisions refactor the same strategy into more functional Rust iterator pipelines and reconstruct the matrix from a flat result.",
       "order": 0,
       "revisions": [
         {
@@ -57,7 +57,7 @@
           "changedLineCounts": null,
           "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial implementation using explicit nested loops and prefix/postfix arrays.",
+          "shortChangeSummary": "Introduces explicit prefix and suffix product arrays while iterating through the grid in row-major order, then combines corresponding values for each output cell.",
           "warnings": []
         },
         {
@@ -84,7 +84,7 @@
           },
           "approachId": "approach-1",
           "narrativeIndex": 1,
-          "shortChangeSummary": "Refactors traversal to iterator-based scan and flatten operations while preserving the same prefix/postfix strategy.",
+          "shortChangeSummary": "Refactors the prefix and suffix scans and result traversal to use Rust iterator combinators and flattened grid iteration without changing the algorithm.",
           "warnings": []
         },
         {
@@ -111,7 +111,7 @@
           },
           "approachId": "approach-1",
           "narrativeIndex": 2,
-          "shortChangeSummary": "Further functional refactor that maps combined prefix/postfix values into a flat result and chunks it back into rows.",
+          "shortChangeSummary": "Builds the output with a functional zip-and-map pipeline over the prefix and suffix arrays, then reshapes the flat result into rows.",
           "warnings": []
         }
       ]

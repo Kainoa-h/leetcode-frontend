@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-03-29T19:04:21+08:00"
   },
   "analysis": {
-    "status": "cached",
+    "status": "llm",
     "model": "openai/gpt-5.6-luna",
-    "promptVersion": "6",
+    "promptVersion": "7",
     "inputHash": "f0e01eef2f0556c99a3e7b14978fc6f50875710765a16bbbea743c7a5299eade"
   },
   "approaches": [
     {
       "id": "approach-1",
-      "title": "Mark matches and replace them from the end",
-      "summary": "Identifies matching elements, records their positions, and fills those positions using non-matching elements found from the back.",
+      "title": "Stack-based removal and backfill",
+      "summary": "Marks matching elements, records their positions, and fills those positions by scanning backward for nonmatching values. Uses additional stack space to track removals.",
       "order": 0,
       "revisions": [
         {
@@ -57,15 +57,15 @@
           "changedLineCounts": null,
           "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial stack-based replacement strategy.",
+          "shortChangeSummary": "Initial stack-based implementation that marks matching values and backfills them from later nonmatching elements.",
           "warnings": []
         }
       ]
     },
     {
       "id": "approach-2",
-      "title": "Compact non-matching elements in place",
-      "summary": "Removes matching values by compacting retained elements toward the front of the vector, first with explicit indexing and then with Rust's retain method.",
+      "title": "In-place filtering",
+      "summary": "Compacts all nonmatching elements toward the front using a write index, requiring constant auxiliary space. The later revision delegates this same filtering strategy to Vec::retain.",
       "order": 1,
       "revisions": [
         {
@@ -92,7 +92,7 @@
           },
           "approachId": "approach-2",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Replaced the stack-based method with direct in-place compaction using a write index.",
+          "shortChangeSummary": "Replaces the stack and backfill logic with a direct two-index overwrite pass, achieving O(n) time and O(1) extra space.",
           "warnings": []
         },
         {
@@ -119,7 +119,7 @@
           },
           "approachId": "approach-2",
           "narrativeIndex": 1,
-          "shortChangeSummary": "Refactored explicit compaction to use Vec::retain and return the resulting length.",
+          "shortChangeSummary": "Simplifies the in-place filtering implementation by using Rust’s Vec::retain method and returning the resulting length.",
           "warnings": []
         }
       ]

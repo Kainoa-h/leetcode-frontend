@@ -16,6 +16,8 @@ export const NARRATIVE_INSTRUCTIONS = [
   'Never duplicate a revision ID, omit a required revision ID, or return an ID that is not in requiredRevisionIds.',
   'Narrative order is presentation only; chronology remains separate.',
   'Keep incorrect markers; do not invent failures or complexity claims unsupported by the code.',
+  'Keep each approach summary concise and complete, using no more than three short sentences.',
+  'Keep each revision shortChange concise and complete, using one or two brief sentences.',
   'Return only data satisfying the supplied schema.',
 ] as const;
 export function fallbackNarrative(
@@ -31,10 +33,7 @@ export function fallbackNarrative(
         revisions: revisions.map((r, i) => ({
           sha: r.sha,
           order: i,
-          shortChange: (r.commitComment || 'Updates the solution.').slice(
-            0,
-            120,
-          ),
+          shortChange: r.commitComment || 'Updates the solution.',
         })),
       },
     ],

@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-06-21T10:26:44+08:00"
   },
   "analysis": {
-    "status": "cached",
-    "model": null,
-    "promptVersion": "6",
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
     "inputHash": "d4739c231b4f8339f09bfd90a9ac08e87facdd0198d3dbeb3a2b0db7d11028e2"
   },
   "approaches": [
     {
-      "id": "chronological",
-      "title": "Solution history",
-      "summary": "Revisions in chronological order.",
+      "id": "1",
+      "title": "Bidirectional restriction propagation with peak evaluation",
+      "summary": "Adds endpoint restrictions, sorts them, propagates height limits in both directions, and computes the maximum achievable height between adjacent restrictions. The second revision combines the forward propagation and peak evaluation into one pass after the backward pass.",
       "order": 0,
       "revisions": [
         {
@@ -55,9 +55,9 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "chronological",
+          "approachId": "1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "had a peek at hints",
+          "shortChangeSummary": "Introduces the standard sorted-restriction solution with forward and backward height propagation, then evaluates each interval's maximum possible height.",
           "warnings": []
         },
         {
@@ -82,9 +82,9 @@
             "additions": 6,
             "deletions": 12
           },
-          "approachId": "chronological",
+          "approachId": "1",
           "narrativeIndex": 1,
-          "shortChangeSummary": "one less interation",
+          "shortChangeSummary": "Combines the forward propagation and interval peak evaluation into one loop, removing a separate traversal while preserving the same algorithm.",
           "warnings": []
         }
       ]

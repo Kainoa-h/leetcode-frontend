@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-01-28T08:08:45+08:00"
   },
   "analysis": {
-    "status": "cached",
+    "status": "llm",
     "model": "openai/gpt-5.6-luna",
-    "promptVersion": "6",
+    "promptVersion": "7",
     "inputHash": "c33274f7f606b5505dbad3fa5a44667e1cc4170770f56738c77975c2004dcda4"
   },
   "approaches": [
     {
       "id": "approach-1",
       "title": "Two-pass candy assignment",
-      "summary": "Assigns one candy to every child, scans left to right to satisfy increasing sequences, then scans right to left and takes the maximum needed for decreasing-se列u",
+      "summary": "Assign one candy initially, then scan left to right and right to left to satisfy increasing-rating constraints. The second revision simplifies the checks while preserving the same O(n) time and O(n) space strategy.",
       "order": 0,
       "revisions": [
         {
@@ -57,7 +57,7 @@
           "changedLineCounts": null,
           "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial O(n) time, O(n) space two-pass solution with conditional checks in both scans.",
+          "shortChangeSummary": "Implements a two-pass solution using an auxiliary candy array, handling increasing runs from both directions.",
           "warnings": []
         },
         {
@@ -84,7 +84,7 @@
           },
           "approachId": "approach-1",
           "narrativeIndex": 1,
-          "shortChangeSummary": "Simplifies the scan conditions by removing redundant candy comparisons and uses max during the reverse pass.",
+          "shortChangeSummary": "Removes redundant candy comparisons and uses max during the backward pass, preserving the same algorithm and complexity.",
           "warnings": []
         }
       ]

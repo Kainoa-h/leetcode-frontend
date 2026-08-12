@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-01-28T20:54:43+08:00"
   },
   "analysis": {
-    "status": "cached",
+    "status": "llm",
     "model": "openai/gpt-5.6-luna",
-    "promptVersion": "6",
+    "promptVersion": "7",
     "inputHash": "a460510f953839849a5869052f5f1b233d4f1c1c82e0a3c2c7cb90255bc2890b"
   },
   "approaches": [
     {
       "id": "approach-1",
-      "title": "Greedy basin scanning with prefix sums",
-      "summary": "Scans from left to right, using prefix sums and fallback right boundaries to calculate trapped water between progressively selected bars.",
+      "title": "Prefix-sum basin scanning",
+      "summary": "Scans from a left boundary to find enclosing or fallback right boundaries, then computes trapped volume using prefix sums. This implementation has O(n^2) time and O(n) space.",
       "order": 0,
       "revisions": [
         {
@@ -57,7 +57,7 @@
           "changedLineCounts": null,
           "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial O(n^2)-time, O(n)-space basin-scanning solution using prefix sums.",
+          "shortChangeSummary": "Initial basin-scanning solution using prefix sums to calculate trapped water between selected boundaries.",
           "warnings": []
         }
       ]
@@ -65,7 +65,7 @@
     {
       "id": "approach-2",
       "title": "Two-pointer traversal",
-      "summary": "Uses left and right pointers with running maximum heights to compute trapped water in a single linear pass with constant extra space.",
+      "summary": "Uses left and right pointers with running maximum heights to accumulate trapped water in one pass. This changes the core strategy to O(n) time and O(1) space.",
       "order": 1,
       "revisions": [
         {
@@ -92,7 +92,7 @@
           },
           "approachId": "approach-2",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Replaced basin scanning with an O(n)-time, O(1)-space two-pointer algorithm.",
+          "shortChangeSummary": "Replaces basin scanning with a two-pointer algorithm that tracks left and right maxima while traversing inward.",
           "warnings": []
         }
       ]

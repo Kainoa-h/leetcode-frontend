@@ -5,6 +5,7 @@ import {
   shouldRequestLlm,
   validateRevisionIdNarrative,
 } from '../scripts/lib/narrative';
+import { reasoningEffortForAttempt } from '../scripts/lib/openrouter';
 const rev = (sha: string, order = 0) => ({
   sha,
   order,
@@ -26,9 +27,7 @@ describe('narrative validation', () => {
               title: 'Approach',
               summary: 'Summary',
               order: 0,
-              revisions: [
-                { revisionId: 1, order: 0, shortChange: 'Changed.' },
-              ],
+              revisions: [{ revisionId: 1, order: 0, shortChange: 'Changed.' }],
             },
           ],
         },
@@ -67,6 +66,23 @@ describe('narrative validation', () => {
     expect(() =>
       validateNarrative(result([rev('a'), rev('b')]), ['a', 'b']),
     ).toThrow('Duplicate revision order'));
+
+  it('does not impose a hard character cap on approach summaries', () => {
+    const narrative = result([rev('a')]);
+    narrative.approaches[0]!.summary = 'a'.repeat(500);
+    expect(
+      validateNarrative(narrative, ['a']).approaches[0]?.summary,
+    ).toHaveLength(500);
+  });
+
+  it('does not impose a hard character cap on revision descriptions', () => {
+    const narrative = result([rev('a')]);
+    narrative.approaches[0]!.revisions[0]!.shortChange = 'a'.repeat(500);
+    expect(
+      validateNarrative(narrative, ['a']).approaches[0]?.revisions[0]
+        ?.shortChange,
+    ).toHaveLength(500);
+  });
 });
 
 describe('LLM request policy', () => {
@@ -76,6 +92,12 @@ describe('LLM request policy', () => {
 
   it('analyzes groups with multiple revisions', () => {
     expect(shouldRequestLlm(2)).toBe(true);
+  });
+
+  it('uses medium reasoning initially and high reasoning for retries', () => {
+    expect(reasoningEffortForAttempt(0)).toBe('medium');
+    expect(reasoningEffortForAttempt(1)).toBe('high');
+    expect(reasoningEffortForAttempt(2)).toBe('high');
   });
 });
 
@@ -100,5 +122,10 @@ describe('narrative prompt policy', () => {
   it('requires exactly one entry for every revision ID', () => {
     expect(instructions).toContain('exactly once');
     expect(instructions).toContain('Never duplicate a revision ID');
+  });
+
+  it('asks for concise, complete narrative text without character caps', () => {
+    expect(instructions).toContain('no more than three short sentences');
+    expect(instructions).toContain('one or two brief sentences');
   });
 });

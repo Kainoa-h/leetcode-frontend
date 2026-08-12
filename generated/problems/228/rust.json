@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-06-19T09:15:32+08:00"
   },
   "analysis": {
-    "status": "cached",
+    "status": "llm",
     "model": "openai/gpt-5.6-luna",
-    "promptVersion": "6",
+    "promptVersion": "7",
     "inputHash": "87d733e661dc8fd48681efc77c8f8a393a01d2bf23343636a2718b097fceb862"
   },
   "approaches": [
     {
       "id": "1",
       "title": "Single-pass range aggregation",
-      "summary": "Tracks the start and previous value of each range in one pass, emitting a formatted range whenever a gap is found. Revision 2 cleans up the control flow and idi",
+      "summary": "Scans the sorted numbers once, tracking the current range boundaries and emitting a single value or interval whenever a gap appears. Duplicate values are ignored as part of the same range.",
       "order": 0,
       "revisions": [
         {
@@ -57,7 +57,7 @@
           "changedLineCounts": null,
           "approachId": "1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial single-pass implementation that handles duplicates, consecutive values, gaps, and final range emission.",
+          "shortChangeSummary": "Initial implementation using a single pass with explicit handling for duplicates, consecutive values, and range formatting.",
           "warnings": []
         },
         {
@@ -84,7 +84,7 @@
           },
           "approachId": "1",
           "narrativeIndex": 1,
-          "shortChangeSummary": "Refactors range formatting and combines duplicate/consecutive checks while preserving the same single-pass strategy.",
+          "shortChangeSummary": "Refactors the same scan and output logic into more concise conditional formatting without changing the algorithm.",
           "warnings": []
         }
       ]

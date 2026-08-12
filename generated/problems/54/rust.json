@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-03-23T22:36:26+08:00"
   },
   "analysis": {
-    "status": "cached",
+    "status": "llm",
     "model": "openai/gpt-5.6-luna",
-    "promptVersion": "6",
+    "promptVersion": "7",
     "inputHash": "2c402b45bb6d1919f63bef7988557bac60e1d68618f5cd3c90219c2143ad0d65"
   },
   "approaches": [
     {
       "id": "approach-1",
-      "title": "Boundary-based layer traversal",
-      "summary": "Traverses the matrix in repeated right, down, left, and up segments while tracking shrinking boundary offsets. Revision 1 is marked incorrect; revision 2 refits",
+      "title": "Layered boundary traversal",
+      "summary": "Traverses the matrix in repeated right, down, left, and up passes while tracking offsets for each boundary. Revision 2 improves termination by counting remaining cells instead of relying on directional progress checks.",
       "order": 0,
       "revisions": [
         {
@@ -57,7 +57,7 @@
           "changedLineCounts": null,
           "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial boundary-offset spiral traversal; marked wrong.",
+          "shortChangeSummary": "Initial boundary-offset implementation performing four directional passes. Marked wrong.",
           "warnings": []
         },
         {
@@ -84,15 +84,15 @@
           },
           "approachId": "approach-1",
           "narrativeIndex": 1,
-          "shortChangeSummary": "Reworked the same boundary traversal to track remaining cells and improve termination handling.",
+          "shortChangeSummary": "Reworked the same boundary traversal with remaining-cell counting and explicit stopping checks, preserving O(n*m) time and O(1) auxiliary space.",
           "warnings": []
         }
       ]
     },
     {
       "id": "approach-2",
-      "title": "Direction-based traversal with visited cells",
-      "summary": "Walks in the current direction and rotates clockwise whenever the next cell is outside the matrix or already visited, marking visited cells in place.",
+      "title": "Directional traversal with visited marking",
+      "summary": "Walks cell by cell in the current direction and rotates clockwise whenever the next position is outside the matrix or already visited. It mutates visited cells to mark traversal state.",
       "order": 1,
       "revisions": [
         {
@@ -119,7 +119,7 @@
           },
           "approachId": "approach-2",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Replaced shrinking-boundary traversal with in-place visited-cell direction simulation.",
+          "shortChangeSummary": "Replaced boundary tracking with direction vectors and in-place sentinel marking of visited cells.",
           "warnings": []
         }
       ]

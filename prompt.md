@@ -586,7 +586,7 @@ Validation rules:
 * Approach ordering values must be unique or normalized deterministically.
 * Revision ordering within an approach must be unique or normalized deterministically.
 * `shortChange` must be extremely short, ideally one brief clause or sentence.
-* Cap summary lengths in the schema.
+* Do not impose hard character caps on narrative text; prompt the model for concise, complete prose instead.
 * Empty approach groups are invalid.
 * Every revision must belong to exactly one approach.
 
@@ -594,8 +594,8 @@ Suggested limits:
 
 ```text
 Approach title: at most 60 characters
-Approach summary: at most 160 characters
-Revision shortChange: at most 120 characters
+Approach summary: no more than three short sentences
+Revision shortChange: one brief sentence
 ```
 
 The LLM prompt must instruct the model:

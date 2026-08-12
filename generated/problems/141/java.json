@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-08-05T17:38:35+08:00"
   },
   "analysis": {
-    "status": "cached",
+    "status": "llm",
     "model": "openai/gpt-5.6-luna",
-    "promptVersion": "6",
+    "promptVersion": "7",
     "inputHash": "9dd44a9a37fc12fbfae4fdb9973e9b07ef08aa391999a4099537d8ac3023005c"
   },
   "approaches": [
     {
-      "id": "approach-1",
+      "id": "destructive-marking",
       "title": "Destructive node-value marking",
-      "summary": "Traverses the list while overwriting each visited node's value with a sentinel; encountering the sentinel indicates a cycle. This approach mutates the list and,",
+      "summary": "Traverses the list while overwriting each visited node's value with Integer.MAX_VALUE. A repeated marker indicates a cycle, but this mutates the list and can conflict with an existing maximum value.",
       "order": 0,
       "revisions": [
         {
@@ -55,17 +55,17 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "approach-1",
+          "approachId": "destructive-marking",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Checks for a cycle by marking visited node values with Integer.MAX_VALUE, destructively modifying the list.",
+          "shortChangeSummary": "Marks visited nodes by changing their values to Integer.MAX_VALUE and detects a cycle when that value is encountered again.",
           "warnings": []
         }
       ]
     },
     {
-      "id": "approach-2",
-      "title": "Floyd’s tortoise-and-hare algorithm",
-      "summary": "Uses slow and fast pointers that advance at different rates; if they meet, the list contains a cycle, otherwise the fast pointer reaches the end.",
+      "id": "floyd-cycle-detection",
+      "title": "Floyd's tortoise-and-hare algorithm",
+      "summary": "Uses two pointers moving at different speeds to detect whether they meet within the list. This determines cycle presence without modifying node data or requiring extra storage.",
       "order": 1,
       "revisions": [
         {
@@ -90,9 +90,9 @@
             "additions": 6,
             "deletions": 4
           },
-          "approachId": "approach-2",
+          "approachId": "floyd-cycle-detection",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Replaces destructive value marking with Floyd’s constant-space slow/fast pointer cycle detection.",
+          "shortChangeSummary": "Replaces destructive marking with slow and fast pointers; their meeting indicates a cycle.",
           "warnings": []
         }
       ]

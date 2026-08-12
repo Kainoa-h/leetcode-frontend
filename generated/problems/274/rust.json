@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-01-26T01:45:37+08:00"
   },
   "analysis": {
-    "status": "cached",
+    "status": "llm",
     "model": "openai/gpt-5.6-luna",
-    "promptVersion": "6",
+    "promptVersion": "7",
     "inputHash": "9ab5ca10e9331b6c53ad349012e2cc1b1a84139e2d7da6f962c8fba5b742158c"
   },
   "approaches": [
     {
-      "id": "sorting",
+      "id": "approach-1",
       "title": "Descending sort and scan",
-      "summary": "Sort citations in descending order, then scan the sorted values to determine the largest h-index.",
+      "summary": "Sort citations in descending order, then determine the largest prefix whose citation counts meet its size. Revision 2 refines the same strategy with in-place unstable sorting and an iterator-based scan.",
       "order": 0,
       "revisions": [
         {
@@ -55,9 +55,9 @@
           "commitBody": "time: O(nlogn)\nspace: O(n) # should have used mut and unstable sort",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "sorting",
+          "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial descending-sort solution using a cloned vector and explicit scanning logic.",
+          "shortChangeSummary": "Introduces descending sorting by cloning the input, followed by a manual scan to compute the H-index.",
           "warnings": []
         },
         {
@@ -82,17 +82,17 @@
             "additions": 9,
             "deletions": 17
           },
-          "approachId": "sorting",
+          "approachId": "approach-1",
           "narrativeIndex": 1,
-          "shortChangeSummary": "Refactored the same sorting strategy to sort the input directly with unstable sort and use an iterator-based scan.",
+          "shortChangeSummary": "Keeps the sorting strategy while using in-place unstable sorting and a concise iterator-based prefix scan.",
           "warnings": []
         }
       ]
     },
     {
-      "id": "bucket-sort",
+      "id": "approach-2",
       "title": "Bucket counting",
-      "summary": "Use citation-count buckets capped at the number of papers, then accumulate counts from high citation levels downward.",
+      "summary": "Counts papers into citation-count buckets, capping citations at the number of papers, then scans buckets from high to low while accumulating counts. This changes the core strategy from sorting to frequency counting.",
       "order": 1,
       "revisions": [
         {
@@ -117,9 +117,9 @@
             "additions": 41,
             "deletions": 23
           },
-          "approachId": "bucket-sort",
+          "approachId": "approach-2",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Replaced sorting with a linear-time bucket-counting strategy and reverse cumulative scan.",
+          "shortChangeSummary": "Replaces sorting with O(n) bucket counting and a reverse cumulative scan to find the H-index.",
           "warnings": []
         }
       ]

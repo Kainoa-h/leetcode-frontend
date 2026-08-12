@@ -18,22 +18,22 @@
   },
   "statistics": {
     "revisionCount": 2,
-    "approachCount": 2,
+    "approachCount": 1,
     "incorrectRevisionCount": 0,
     "firstCommittedAt": "2026-01-24T20:41:58+08:00",
     "lastCommittedAt": "2026-01-24T20:51:37+08:00"
   },
   "analysis": {
-    "status": "cached",
+    "status": "llm",
     "model": "openai/gpt-5.6-luna",
-    "promptVersion": "6",
+    "promptVersion": "7",
     "inputHash": "239281a9b3664d6ccaa8eb67c7c1e49d0d7024f0f0f9d88b14c7b69360329340"
   },
   "approaches": [
     {
-      "id": "count-and-track-duplicates",
-      "title": "Track previous value and occurrence count",
-      "summary": "Iterates through the sorted array while tracking the previous value and how many times it has been seen, copying each value at most twice.",
+      "id": "approach-1",
+      "title": "In-place two-pointer filtering",
+      "summary": "Scans the sorted array while writing accepted values in place, allowing each value to appear at most twice. Revision 2 simplifies the state tracking by comparing each candidate with the value two positions behind the write pointer.",
       "order": 0,
       "revisions": [
         {
@@ -55,19 +55,11 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "count-and-track-duplicates",
+          "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Initial in-place solution using previous-value and occurrence-count state.",
+          "shortChangeSummary": "Tracks the previous value and its occurrence count while compacting allowed elements in place. Handles duplicate runs by retaining at most two copies.",
           "warnings": []
-        }
-      ]
-    },
-    {
-      "id": "compare-with-output-two-positions-back",
-      "title": "Allow a value when it differs from the retained value two-1?",
-      "summary": "Uses the fact that a candidate can be retained exactly when it differs from the element two positions earlier in the compacted output, eliminating explicit run-",
-      "order": 1,
-      "revisions": [
+        },
         {
           "sha": "1bc79f635a54cf9038a07880d6235a7fe8aa4553",
           "shortSha": "1bc79f6",
@@ -90,9 +82,9 @@
             "additions": 8,
             "deletions": 11
           },
-          "approachId": "compare-with-output-two-positions-back",
-          "narrativeIndex": 0,
-          "shortChangeSummary": "Replaced explicit duplicate counting with a two-positions-back comparison and added a short-array guard.",
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Refactors the same in-place strategy to compare each candidate with the element two output positions earlier, eliminating explicit count and previous-value state. Adds an early return for arrays shorter than three elements.",
           "warnings": []
         }
       ]

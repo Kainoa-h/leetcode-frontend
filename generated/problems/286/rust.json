@@ -24,16 +24,16 @@
     "lastCommittedAt": "2026-03-28T01:01:04+08:00"
   },
   "analysis": {
-    "status": "cached",
+    "status": "llm",
     "model": "openai/gpt-5.6-luna",
-    "promptVersion": "6",
+    "promptVersion": "7",
     "inputHash": "b30a925bf447d92650fff212dc0b08ecbaf5f891581526d8d381857dc54c845a"
   },
   "approaches": [
     {
       "id": "approach-1",
-      "title": "Two-phase update using change lists",
-      "summary": "Computes each cell’s next state from the original board, storing cells to kill and spawn before applying all changes.",
+      "title": "Two-phase update with change lists",
+      "summary": "Scans the board using the original state, records cells that die or spawn in separate lists, then applies all changes after the scan. This preserves neighbor correctness but uses O(n*m) auxiliary space.",
       "order": 0,
       "revisions": [
         {
@@ -57,7 +57,7 @@
           "changedLineCounts": null,
           "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Implemented Game of Life with separate dead-cell and spawn-cell lists, using O(n*m) auxiliary space.",
+          "shortChangeSummary": "Implemented Game of Life by counting neighbors for every cell, collecting deaths and births, and applying them after the scan.",
           "warnings": []
         }
       ]
@@ -65,7 +65,7 @@
     {
       "id": "approach-2",
       "title": "In-place state encoding with bit manipulation",
-      "summary": "Encodes each cell’s next state in a spare bit while preserving the current state in the low bit, then shifts all cells to finalize the update.",
+      "summary": "Encodes each cell’s next state in a second bit while retaining its original state in the lowest bit. Neighbor counts read only the original-state bit, allowing an O(1)-extra-space update.",
       "order": 1,
       "revisions": [
         {
@@ -92,7 +92,7 @@
           },
           "approachId": "approach-2",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Replaced auxiliary change lists with in-place bit marking, reducing auxiliary space to O(1) while retaining O(n*m) time.",
+          "shortChangeSummary": "Replaced auxiliary change lists with in-place bit marking, then shifted every cell to finalize the next generation.",
           "warnings": []
         }
       ]
