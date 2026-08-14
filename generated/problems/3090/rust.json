@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3090,
+    "title": "Maximum Length Substring With Two Occurances",
+    "slug": "maximum-length-substring-with-two-occurances"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3090_maximum_length_substring_with_two_occurances.rs",
+    "latestSha": "f373ddf61b14fb48eeb555beaade2f4637de31df",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-08-14T09:47:05+08:00",
+    "lastCommittedAt": "2026-08-14T09:47:05+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "7",
+    "inputHash": "54ee385f18f0d93a56210579bd7ea4616065e2ed4063a3efad3359ed4f55125f"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "f373ddf61b14fb48eeb555beaade2f4637de31df",
+          "shortSha": "f373ddf",
+          "parentSha": "adb783b3d5990f6e238d690a42149c16315a63fa",
+          "authoredAt": "2026-08-14T09:46:01+08:00",
+          "committedAt": "2026-08-14T09:47:05+08:00",
+          "chronologicalIndex": 267,
+          "problemId": 3090,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3090_maximum_length_substring_with_two_occurances.rs",
+          "sourceFilename": "3090_maximum_length_substring_with_two_occurances.rs",
+          "code": "impl Solution {\n    pub fn maximum_length_substring(s: String) -> i32 {\n        let s = s.as_bytes();\n        let mut buckets = [0;256];\n        let mut start = 0;\n        let mut max = 0;\n        for (end, &c) in s.iter().enumerate() {\n            let c = c as usize;\n            buckets[c] += 1;\n            while buckets[c] > 2 {\n                buckets[s[start] as usize] -= 1;\n                start += 1;\n            }\n            max = max.max(end - start + 1);\n        }\n        max as i32\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "f36085bb770a6b2d36937c7eada9246de3bd9fb09be2e46010a9b77e2c65ac9f",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 3090",
+          "commitBody": ".",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "f373ddf61b14fb48eeb555beaade2f4637de31df"
+  ],
+  "warnings": []
+}

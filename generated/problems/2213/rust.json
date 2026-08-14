@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2213,
+    "title": "Longest Substring of One Repeating Character",
+    "slug": "longest-substring-of-one-repeating-character"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/2213_longest_substring_of_one_repeating_character.rs",
+    "latestSha": "adb783b3d5990f6e238d690a42149c16315a63fa",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 1,
+    "firstCommittedAt": "2026-08-13T15:49:00+08:00",
+    "lastCommittedAt": "2026-08-13T15:49:00+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "7",
+    "inputHash": "49fff2c5ce9e5faf5eb31c59baf65a6bf0b6b5ce2a556635e96a68097ea12bfa"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "adb783b3d5990f6e238d690a42149c16315a63fa",
+          "shortSha": "adb783b",
+          "parentSha": "82ad6f657cf988b12f028ff54b1a13a9d88a1d8f",
+          "authoredAt": "2026-08-13T15:49:00+08:00",
+          "committedAt": "2026-08-13T15:49:00+08:00",
+          "chronologicalIndex": 266,
+          "problemId": 2213,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2213_longest_substring_of_one_repeating_character.rs",
+          "sourceFilename": "2213_longest_substring_of_one_repeating_character.rs",
+          "code": "use std::iter;\n\nimpl Solution {\n    pub fn longest_repeating(\n        s: String,\n        query_characters: String,\n        query_indices: Vec<i32>,\n    ) -> Vec<i32> {\n        let mut sb = s.into_bytes();\n        let mut dep_list = (0..sb.len())\n            .zip(iter::repeat(1))\n            .collect::<Vec<(usize, i32)>>();\n\n        for (idx, w) in sb.windows(2).enumerate() {\n            if w[0] == w[1] {\n                dep_list[idx + 1].0 = idx;\n            }\n        }\n\n        for i in (1..dep_list.len()).rev() {\n            let right = dep_list[i];\n            if right.0 == i - 1 {\n                dep_list[i - 1].1 += right.1;\n            }\n        }\n\n        let mut max_list = Vec::with_capacity(query_characters.len());\n        for (&c, i) in query_characters.as_bytes().iter().zip(query_indices) {\n            let idx = i as usize;\n\n            if c == sb[idx] {\n                max_list.push(if let Some(&p) = max_list.last() {\n                    p\n                } else {\n                    dep_list.iter().map(|x| x.1).max().unwrap_or(0)\n                });\n                continue;\n            }\n\n            if dep_list[idx].0 == idx {\n                dep_list[idx].1 = 1;\n                if let Some(next) = dep_list.get_mut(idx + 1) {\n                    next.0 = idx + 1;\n                }\n            } else {\n                let len = dep_list[idx].1;\n                dep_list[idx].0 = idx;\n                dep_list[idx].1 = 1;\n                if let Some(next) = dep_list.get_mut(idx + 1) {\n                    next.0 = idx + 1;\n                }\n\n                let mut prev_idx = idx - 1;\n                while let Some(prev) = dep_list.get_mut(prev_idx) {\n                    prev.1 -= len;\n                    if prev.0 == prev_idx {\n                        break;\n                    }\n                    prev_idx -= 1;\n                }\n            }\n\n            sb[idx] = c;\n            if let Some(&next_char) = sb.get(idx + 1)\n                && next_char == c\n            {\n                let next_dep = &mut dep_list[idx + 1];\n                next_dep.0 = idx;\n                dep_list[idx].1 += next_dep.1;\n            }\n\n            if idx != 0\n                && let Some(&prev_char) = sb.get(idx - 1)\n                && prev_char == c\n            {\n                dep_list[idx].0 = idx - 1;\n                let len = dep_list[idx].1;\n                let mut prev_idx = idx - 1;\n                while let Some(prev_dep) = dep_list.get_mut(prev_idx) {\n                    prev_dep.1 += len;\n                    if prev_dep.0 == prev_idx {\n                        break;\n                    }\n                    prev_idx -= 1;\n                }\n            }\n\n            max_list.push(dep_list.iter().max_by_key(|x| x.1).unwrap().1);\n        }\n\n        max_list\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "38649201be9cd06bc6a2fb79e37bf44085eb136b95db48246cf0cd744bcdf175",
+          "markedWrong": true,
+          "commitComment": "TLE",
+          "rawCommitSubject": "rust 2213!: TLE",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "TLE",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "adb783b3d5990f6e238d690a42149c16315a63fa"
+  ],
+  "warnings": []
+}
