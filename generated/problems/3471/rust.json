@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3471,
+    "title": "Find the Largest Almost Missing Integer",
+    "slug": "find-the-largest-almost-missing-integer"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3471_find_the_largest_almost_missing_integer.rs",
+    "latestSha": "8130821c4364ad1add1634172dc5f7148bf39eec",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-08-18T11:57:38+08:00",
+    "lastCommittedAt": "2026-08-18T11:57:38+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "7",
+    "inputHash": "3bbdc4f95e1ab804356e7f6a003c13fdcb6c07595956832eb4dfd8ae37d88844"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "8130821c4364ad1add1634172dc5f7148bf39eec",
+          "shortSha": "8130821",
+          "parentSha": "f373ddf61b14fb48eeb555beaade2f4637de31df",
+          "authoredAt": "2026-08-18T11:57:38+08:00",
+          "committedAt": "2026-08-18T11:57:38+08:00",
+          "chronologicalIndex": 268,
+          "problemId": 3471,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3471_find_the_largest_almost_missing_integer.rs",
+          "sourceFilename": "3471_find_the_largest_almost_missing_integer.rs",
+          "code": "impl Solution {\n    pub fn largest_integer(nums: Vec<i32>, k: i32) -> i32 {\n        if k == 1 {\n            let mut bucket = [0; 51];\n            for n in nums {\n                bucket[n as usize] += 1;\n            }\n            bucket\n                .iter()\n                .enumerate()\n                .filter(|&(_, &c)| c == 1)\n                .map(|(n, _)| n as i32)\n                .max()\n                .unwrap_or(-1)\n        } else if k == nums.len() as i32 {\n            *nums.iter().max().unwrap_or(&-1)\n        } else {\n            let first = nums[0];\n            let last = *nums.last().unwrap();\n            if first == last {\n                -1\n            } else {\n                let mut is_first = true;\n                let mut is_last = true;\n\n                for &n in &nums[1..nums.len() - 1] {\n                    if n == first {\n                        is_first = false;\n                    } else if n == last {\n                        is_last = false;\n                    }\n                }\n\n                let first = if is_first { first } else { -1 };\n                let last = if is_last { last } else { -1 };\n                first.max(last)\n            }\n        }\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        -1,\n        Solution::largest_integer(vec![4, 4, 2, 2, 2, 0, 5, 3, 4, 4], 3)\n    );\n}\n",
+          "codeHash": "2865ade96807e430b452398fb66a592b1bcd5fbea56fbb9dd315f64da77b42a0",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 3471",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "8130821c4364ad1add1634172dc5f7148bf39eec"
+  ],
+  "warnings": []
+}

@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3471,
+    "title": "Find the Largest Almost Missing Integer",
+    "slug": "find-the-largest-almost-missing-integer"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/3471_find_the_largest_almost_missing_integer.java",
+    "latestSha": "295812d6eb81b2bbc6130394a32f5c5a692067a1",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-08-18T11:57:44+08:00",
+    "lastCommittedAt": "2026-08-18T11:57:44+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "7",
+    "inputHash": "d74a63d06e79b187dbf8d516830a7cc9e203781209402d8386a462349cfd4d09"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "295812d6eb81b2bbc6130394a32f5c5a692067a1",
+          "shortSha": "295812d",
+          "parentSha": "8130821c4364ad1add1634172dc5f7148bf39eec",
+          "authoredAt": "2026-08-18T11:57:44+08:00",
+          "committedAt": "2026-08-18T11:57:44+08:00",
+          "chronologicalIndex": 269,
+          "problemId": 3471,
+          "language": "java",
+          "sourcePath": "java/src/solutions/3471_find_the_largest_almost_missing_integer.java",
+          "sourceFilename": "3471_find_the_largest_almost_missing_integer.java",
+          "code": "class Solution {\n    public int largestInteger(int[] nums, int k) {\n        if (k == 1) {\n            var bucket = new int[51];\n            for (int n : nums) {\n                bucket[n]++;\n            }\n            int max = -1;\n            for (int i = 0; i < bucket.length; i++) {\n                if (bucket[i] == 1) {\n                    max = Integer.max(max, i);\n                }\n            }\n            return max;\n        } else if (k == nums.length) {\n            int max = -1;\n            for (int n : nums) {\n                max = Integer.max(max, n);\n            }\n            return max;\n        } else {\n            var first = nums[0];\n            var last = nums[nums.length - 1];\n            if (first == last) {\n                return -1;\n            }\n            var is_first = true;\n            var is_last = true;\n            for (int i = 1; i < nums.length - 1; i++) {\n                if (nums[i] == first) {\n                    is_first = false;\n                } else if (nums[i] == last) {\n                    is_last = false;\n                }\n            }\n            first = is_first ? first : -1;\n            last = is_last ? last : -1;\n            return Integer.max(first, last);\n        }\n    }\n}\n",
+          "codeHash": "c60af70682a13247e9f31fd7545a0ed0576240b674fe021b35959b59b3d2fb24",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "java 3471",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "295812d6eb81b2bbc6130394a32f5c5a692067a1"
+  ],
+  "warnings": []
+}
