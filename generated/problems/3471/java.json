@@ -13,27 +13,27 @@
   "source": {
     "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
     "latestPath": "java/src/solutions/3471_find_the_largest_almost_missing_integer.java",
-    "latestSha": "295812d6eb81b2bbc6130394a32f5c5a692067a1",
+    "latestSha": "2c48aa46e2d5c64b95909fd4941aeccc956d7c9d",
     "deleted": false
   },
   "statistics": {
-    "revisionCount": 1,
+    "revisionCount": 2,
     "approachCount": 1,
     "incorrectRevisionCount": 0,
     "firstCommittedAt": "2026-08-18T11:57:44+08:00",
-    "lastCommittedAt": "2026-08-18T11:57:44+08:00"
+    "lastCommittedAt": "2026-08-18T13:41:47+08:00"
   },
   "analysis": {
-    "status": "fallback",
-    "model": null,
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
     "promptVersion": "7",
-    "inputHash": "d74a63d06e79b187dbf8d516830a7cc9e203781209402d8386a462349cfd4d09"
+    "inputHash": "586614a4ee7083dc4509a58ae31332b236d2b19bcf436cf96af84e6beda6af96"
   },
   "approaches": [
     {
-      "id": "chronological",
-      "title": "Solution history",
-      "summary": "Revisions in chronological order.",
+      "id": "approach-1",
+      "title": "Case-based counting and endpoint analysis",
+      "summary": "Handles k == 1 by counting frequencies, k == nums.length by finding the overall maximum, and intermediate k by checking whether the endpoint values occur only once across valid subarrays. Revision 2 preserves this strategy while simplifying control flow and adding early exits.",
       "order": 0,
       "revisions": [
         {
@@ -55,16 +55,44 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "chronological",
+          "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Updates the solution.",
+          "shortChangeSummary": "Implements the case-based solution using a frequency bucket for k == 1, a maximum scan when k covers the full array, and endpoint uniqueness checks otherwise.",
+          "warnings": []
+        },
+        {
+          "sha": "2c48aa46e2d5c64b95909fd4941aeccc956d7c9d",
+          "shortSha": "2c48aa4",
+          "parentSha": "f8bb44de4209cc3da270c3d7069a3447d281cb23",
+          "authoredAt": "2026-08-18T13:29:53+08:00",
+          "committedAt": "2026-08-18T13:41:47+08:00",
+          "chronologicalIndex": 271,
+          "problemId": 3471,
+          "language": "java",
+          "sourcePath": "java/src/solutions/3471_find_the_largest_almost_missing_integer.java",
+          "sourceFilename": "3471_find_the_largest_almost_missing_integer.java",
+          "code": "class Solution {\n    public int largestInteger(int[] nums, int k) {\n        var len = nums.length;\n        if (k == 1) {\n            var bucket = new int[51];\n            for (int n : nums) {\n                bucket[n]++;\n            }\n            for (int i = 50; i > 0; i--) {\n                if (bucket[i] == 1) {\n                    return i;\n                }\n            }\n            return -1;\n        }\n        if (k == len) {\n            int max = -1;\n            for (int n : nums) {\n                max = Integer.max(max, n);\n            }\n            return max;\n        }\n\n        var first = nums[0];\n        var last = nums[len - 1];\n        if (first == last) {\n            return -1;\n        }\n        var seen_first = false;\n        var seen_last = false;\n        for (int i = 1; i < len - 1; i++) {\n            if (nums[i] == first) seen_first = true;\n            else if (nums[i] == last) seen_last = true;\n            if (seen_first && seen_last) return -1;\n        }\n        first = seen_first ? -1 : first;\n        last = seen_last ? -1 : last;\n        return Integer.max(first, last);\n    }\n}\n",
+          "codeHash": "4e6f42b81501ea1c4a301569a4079bbfd70578ee80f29d0f5d56eb37ec17f593",
+          "markedWrong": false,
+          "commitComment": "better code formatting and early escape with no max tracking for case 1",
+          "rawCommitSubject": "java 3471: better code formatting and early escape with no max tracking for case 1",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/java/src/solutions/3471_find_the_largest_almost_missing_integer.java b/java/src/solutions/3471_find_the_largest_almost_missing_integer.java\nindex 9a207b8..fc237c6 100644\n--- a/java/src/solutions/3471_find_the_largest_almost_missing_integer.java\n+++ b/java/src/solutions/3471_find_the_largest_almost_missing_integer.java\n@@ -1,41 +1,40 @@\n class Solution {\n     public int largestInteger(int[] nums, int k) {\n+        var len = nums.length;\n         if (k == 1) {\n             var bucket = new int[51];\n             for (int n : nums) {\n                 bucket[n]++;\n             }\n-            int max = -1;\n-            for (int i = 0; i < bucket.length; i++) {\n+            for (int i = 50; i > 0; i--) {\n                 if (bucket[i] == 1) {\n-                    max = Integer.max(max, i);\n+                    return i;\n                 }\n             }\n-            return max;\n-        } else if (k == nums.length) {\n+            return -1;\n+        }\n+        if (k == len) {\n             int max = -1;\n             for (int n : nums) {\n                 max = Integer.max(max, n);\n             }\n             return max;\n-        } else {\n-            var first = nums[0];\n-            var last = nums[nums.length - 1];\n-            if (first == last) {\n-                return -1;\n-            }\n-            var is_first = true;\n-            var is_last = true;\n-            for (int i = 1; i < nums.length - 1; i++) {\n-                if (nums[i] == first) {\n-                    is_first = false;\n-                } else if (nums[i] == last) {\n-                    is_last = false;\n-                }\n-            }\n-            first = is_first ? first : -1;\n-            last = is_last ? last : -1;\n-            return Integer.max(first, last);\n         }\n+\n+        var first = nums[0];\n+        var last = nums[len - 1];\n+        if (first == last) {\n+            return -1;\n+        }\n+        var seen_first = false;\n+        var seen_last = false;\n+        for (int i = 1; i < len - 1; i++) {\n+            if (nums[i] == first) seen_first = true;\n+            else if (nums[i] == last) seen_last = true;\n+            if (seen_first && seen_last) return -1;\n+        }\n+        first = seen_first ? -1 : first;\n+        last = seen_last ? -1 : last;\n+        return Integer.max(first, last);\n     }\n }\n",
+          "changedLineCounts": {
+            "additions": 22,
+            "deletions": 23
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Refactors the same case-based strategy with flatter conditionals, reverse bucket scanning for an early return, cached array length, and an early exit when both endpoint candidates are disqualified.",
           "warnings": []
         }
       ]
     }
   ],
   "chronologicalRevisionShas": [
-    "295812d6eb81b2bbc6130394a32f5c5a692067a1"
+    "295812d6eb81b2bbc6130394a32f5c5a692067a1",
+    "2c48aa46e2d5c64b95909fd4941aeccc956d7c9d"
   ],
   "warnings": []
 }

@@ -13,27 +13,27 @@
   "source": {
     "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
     "latestPath": "rust/src/bin/3471_find_the_largest_almost_missing_integer.rs",
-    "latestSha": "8130821c4364ad1add1634172dc5f7148bf39eec",
+    "latestSha": "d429e5dec7278fc4fae2792a8ed998f8d2e25a09",
     "deleted": false
   },
   "statistics": {
-    "revisionCount": 1,
+    "revisionCount": 3,
     "approachCount": 1,
     "incorrectRevisionCount": 0,
     "firstCommittedAt": "2026-08-18T11:57:38+08:00",
-    "lastCommittedAt": "2026-08-18T11:57:38+08:00"
+    "lastCommittedAt": "2026-08-18T13:41:53+08:00"
   },
   "analysis": {
-    "status": "fallback",
-    "model": null,
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
     "promptVersion": "7",
-    "inputHash": "3bbdc4f95e1ab804356e7f6a003c13fdcb6c07595956832eb4dfd8ae37d88844"
+    "inputHash": "c39404b57274df61d1f9f351e12027e6673bffb09ba3bc30bc26ce64ea2ad6b2"
   },
   "approaches": [
     {
-      "id": "chronological",
-      "title": "Solution history",
-      "summary": "Revisions in chronological order.",
+      "id": "approach-1",
+      "title": "Case-based frequency and endpoint analysis",
+      "summary": "Handles k == 1 by counting frequencies, k == n by taking the maximum, and intermediate k by checking whether the first or last values are unique to their respective windows. Later revisions streamline iteration and find the largest unique value directly from the frequency bucket.",
       "order": 0,
       "revisions": [
         {
@@ -55,16 +55,72 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "chronological",
+          "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Updates the solution.",
+          "shortChangeSummary": "Introduced the case-based solution using a frequency bucket for k == 1, a global maximum for k == n, and endpoint uniqueness checks otherwise.",
+          "warnings": []
+        },
+        {
+          "sha": "f8bb44de4209cc3da270c3d7069a3447d281cb23",
+          "shortSha": "f8bb44d",
+          "parentSha": "295812d6eb81b2bbc6130394a32f5c5a692067a1",
+          "authoredAt": "2026-08-18T13:15:38+08:00",
+          "committedAt": "2026-08-18T13:15:38+08:00",
+          "chronologicalIndex": 270,
+          "problemId": 3471,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3471_find_the_largest_almost_missing_integer.rs",
+          "sourceFilename": "3471_find_the_largest_almost_missing_integer.rs",
+          "code": "impl Solution {\n    pub fn largest_integer(nums: Vec<i32>, k: i32) -> i32 {\n        if k == 1 {\n            let mut bucket = [0; 51];\n            for &n in &nums {\n                bucket[n as usize] += 1;\n            }\n            nums.into_iter()\n                .filter(|&x| bucket[x as usize] == 1)\n                .max()\n                .unwrap_or(-1)\n        } else if k == nums.len() as i32 {\n            nums.into_iter().max().unwrap_or(-1)\n        } else {\n            let first = nums[0];\n            let last = *nums.last().unwrap();\n            if first == last {\n                return -1;\n            }\n            let (seen_first, seen_last) = nums[1..nums.len()-1].iter().fold((false, false), |(sf, sl), &x|{\n                (sf || x == first, sl || x == last)\n            });\n\n            let first = if seen_first { -1 } else { first };\n            let last = if seen_last { -1 } else { last };\n            first.max(last)\n        }\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        -1,\n        Solution::largest_integer(vec![4, 4, 2, 2, 2, 0, 5, 3, 4, 4], 3)\n    );\n}\n",
+          "codeHash": "1d2f5149ffc3b175ef22c8b178771256dbcd53656e813667d7d62a2507a6b593",
+          "markedWrong": false,
+          "commitComment": "simplified code with better use of iterators",
+          "rawCommitSubject": "rust 3471: simplified code with better use of iterators",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3471_find_the_largest_almost_missing_integer.rs b/rust/src/bin/3471_find_the_largest_almost_missing_integer.rs\nindex 526ed4e..38116a4 100644\n--- a/rust/src/bin/3471_find_the_largest_almost_missing_integer.rs\n+++ b/rust/src/bin/3471_find_the_largest_almost_missing_integer.rs\n@@ -2,39 +2,28 @@ impl Solution {\n     pub fn largest_integer(nums: Vec<i32>, k: i32) -> i32 {\n         if k == 1 {\n             let mut bucket = [0; 51];\n-            for n in nums {\n+            for &n in &nums {\n                 bucket[n as usize] += 1;\n             }\n-            bucket\n-                .iter()\n-                .enumerate()\n-                .filter(|&(_, &c)| c == 1)\n-                .map(|(n, _)| n as i32)\n+            nums.into_iter()\n+                .filter(|&x| bucket[x as usize] == 1)\n                 .max()\n                 .unwrap_or(-1)\n         } else if k == nums.len() as i32 {\n-            *nums.iter().max().unwrap_or(&-1)\n+            nums.into_iter().max().unwrap_or(-1)\n         } else {\n             let first = nums[0];\n             let last = *nums.last().unwrap();\n             if first == last {\n-                -1\n-            } else {\n-                let mut is_first = true;\n-                let mut is_last = true;\n-\n-                for &n in &nums[1..nums.len() - 1] {\n-                    if n == first {\n-                        is_first = false;\n-                    } else if n == last {\n-                        is_last = false;\n-                    }\n-                }\n-\n-                let first = if is_first { first } else { -1 };\n-                let last = if is_last { last } else { -1 };\n-                first.max(last)\n+                return -1;\n             }\n+            let (seen_first, seen_last) = nums[1..nums.len()-1].iter().fold((false, false), |(sf, sl), &x|{\n+                (sf || x == first, sl || x == last)\n+            });\n+\n+            let first = if seen_first { -1 } else { first };\n+            let last = if seen_last { -1 } else { last };\n+            first.max(last)\n         }\n     }\n }\n",
+          "changedLineCounts": {
+            "additions": 12,
+            "deletions": 23
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Refactored the same strategy with iterator-based maximum and fold operations, while simplifying ownership and early-return handling.",
+          "warnings": []
+        },
+        {
+          "sha": "d429e5dec7278fc4fae2792a8ed998f8d2e25a09",
+          "shortSha": "d429e5d",
+          "parentSha": "2c48aa46e2d5c64b95909fd4941aeccc956d7c9d",
+          "authoredAt": "2026-08-18T13:41:32+08:00",
+          "committedAt": "2026-08-18T13:41:53+08:00",
+          "chronologicalIndex": 272,
+          "problemId": 3471,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3471_find_the_largest_almost_missing_integer.rs",
+          "sourceFilename": "3471_find_the_largest_almost_missing_integer.rs",
+          "code": "impl Solution {\n    pub fn largest_integer(nums: Vec<i32>, k: i32) -> i32 {\n        let len = nums.len();\n        if k == 1 {\n            let mut bucket = [0; 51];\n            for &n in &nums {\n                bucket[n as usize] += 1;\n            }\n            bucket\n                .into_iter()\n                .enumerate()\n                .rev()\n                .find_map(|(n, c)|\n                    (c == 1).then_some(n as i32)\n                )\n                .unwrap_or(-1)\n        } else if k == len as i32 {\n            nums.into_iter().max().unwrap_or(-1)\n        } else {\n            let first = nums[0];\n            let last = nums[len-1];\n            if first == last {\n                return -1;\n            }\n            let (seen_first, seen_last) = nums[1..len - 1].iter().fold((false, false), |(sf, sl), &x| {\n                (sf || x == first, sl || x == last)\n            });\n\n            let first = if seen_first { -1 } else { first };\n            let last = if seen_last { -1 } else { last };\n            first.max(last)\n        }\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        -1,\n        Solution::largest_integer(vec![4, 4, 2, 2, 2, 0, 5, 3, 4, 4], 3)\n    );\n}\n",
+          "codeHash": "234ded93b529cb8b5cfc3f05c08546499d51026735b097877c112363726b36ef",
+          "markedWrong": false,
+          "commitComment": "early escape with no max tracking for case 1",
+          "rawCommitSubject": "rust 3471: early escape with no max tracking for case 1",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3471_find_the_largest_almost_missing_integer.rs b/rust/src/bin/3471_find_the_largest_almost_missing_integer.rs\nindex 38116a4..df55d53 100644\n--- a/rust/src/bin/3471_find_the_largest_almost_missing_integer.rs\n+++ b/rust/src/bin/3471_find_the_largest_almost_missing_integer.rs\n@@ -1,23 +1,28 @@\n impl Solution {\n     pub fn largest_integer(nums: Vec<i32>, k: i32) -> i32 {\n+        let len = nums.len();\n         if k == 1 {\n             let mut bucket = [0; 51];\n             for &n in &nums {\n                 bucket[n as usize] += 1;\n             }\n-            nums.into_iter()\n-                .filter(|&x| bucket[x as usize] == 1)\n-                .max()\n+            bucket\n+                .into_iter()\n+                .enumerate()\n+                .rev()\n+                .find_map(|(n, c)|\n+                    (c == 1).then_some(n as i32)\n+                )\n                 .unwrap_or(-1)\n-        } else if k == nums.len() as i32 {\n+        } else if k == len as i32 {\n             nums.into_iter().max().unwrap_or(-1)\n         } else {\n             let first = nums[0];\n-            let last = *nums.last().unwrap();\n+            let last = nums[len-1];\n             if first == last {\n                 return -1;\n             }\n-            let (seen_first, seen_last) = nums[1..nums.len()-1].iter().fold((false, false), |(sf, sl), &x|{\n+            let (seen_first, seen_last) = nums[1..len - 1].iter().fold((false, false), |(sf, sl), &x| {\n                 (sf || x == first, sl || x == last)\n             });\n \n",
+          "changedLineCounts": {
+            "additions": 11,
+            "deletions": 6
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 2,
+          "shortChangeSummary": "Cached the array length and searched the frequency bucket in reverse to find the largest unique value without tracking a maximum over the input.",
           "warnings": []
         }
       ]
     }
   ],
   "chronologicalRevisionShas": [
-    "8130821c4364ad1add1634172dc5f7148bf39eec"
+    "8130821c4364ad1add1634172dc5f7148bf39eec",
+    "f8bb44de4209cc3da270c3d7069a3447d281cb23",
+    "d429e5dec7278fc4fae2792a8ed998f8d2e25a09"
   ],
   "warnings": []
 }

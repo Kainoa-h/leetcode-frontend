@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-18T03:58:29.672Z",
-  "sourceHeadSha": "295812d6eb81b2bbc6130394a32f5c5a692067a1",
+  "generatedAt": "2026-08-18T05:44:04.182Z",
+  "sourceHeadSha": "d429e5dec7278fc4fae2792a8ed998f8d2e25a09",
   "questions": [
     {
       "id": 1,
@@ -2244,23 +2244,23 @@
           "id": "java",
           "label": "Java",
           "route": "/problems/3471/java/",
-          "revisionCount": 1,
+          "revisionCount": 2,
           "approachCount": 1,
           "incorrectRevisionCount": 0,
-          "lastCommittedAt": "2026-08-18T11:57:44+08:00"
+          "lastCommittedAt": "2026-08-18T13:41:47+08:00"
         },
         {
           "id": "rust",
           "label": "Rust",
           "route": "/problems/3471/rust/",
-          "revisionCount": 1,
+          "revisionCount": 3,
           "approachCount": 1,
           "incorrectRevisionCount": 0,
-          "lastCommittedAt": "2026-08-18T11:57:38+08:00"
+          "lastCommittedAt": "2026-08-18T13:41:53+08:00"
         }
       ],
       "firstCommittedAt": "2026-08-18T11:57:38+08:00",
-      "lastCommittedAt": "2026-08-18T11:57:44+08:00"
+      "lastCommittedAt": "2026-08-18T13:41:53+08:00"
     },
     {
       "id": 3488,
