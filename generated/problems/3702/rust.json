@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3702,
+    "title": "Longest Subsequence With Non Zero Bitwise Xor",
+    "slug": "longest-subsequence-with-non-zero-bitwise-xor"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3702_longest_subsequence_with_non_zero_bitwise_xor.rs",
+    "latestSha": "8b2fae5c7cef0d1b1cb478bd44e8e3be3b550789",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-08-19T23:58:32+08:00",
+    "lastCommittedAt": "2026-08-19T23:58:32+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "7",
+    "inputHash": "9d64725cda3d8f6255f4425164f64057b3df552eaf5ba9fe5670d5518a993c10"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "8b2fae5c7cef0d1b1cb478bd44e8e3be3b550789",
+          "shortSha": "8b2fae5",
+          "parentSha": "f7e30162d7fc3566058307a6c988fa2e164d9ff9",
+          "authoredAt": "2026-08-16T01:49:12+08:00",
+          "committedAt": "2026-08-19T23:58:32+08:00",
+          "chronologicalIndex": 278,
+          "problemId": 3702,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3702_longest_subsequence_with_non_zero_bitwise_xor.rs",
+          "sourceFilename": "3702_longest_subsequence_with_non_zero_bitwise_xor.rs",
+          "code": "impl Solution {\n    pub fn longest_subsequence(nums: Vec<i32>) -> i32 {\n        let mut seen_non_zero = false;\n        let xor = nums.iter().filter(|&&x| x != 0).fold(0, |acc, x| {\n            seen_non_zero = true;\n            acc ^ x\n        });\n\n        if !seen_non_zero {\n            0\n        } else if xor == 0 {\n            nums.len() as i32 - 1\n        } else {\n            nums.len() as i32\n        }\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(Solution::longest_subsequence(vec![1, 2, 3]), 2);\n    assert_eq!(Solution::longest_subsequence(vec![0, 7]), 2);\n    assert_eq!(Solution::longest_subsequence(vec![0, 0, 7]), 3);\n    assert_eq!(Solution::longest_subsequence(vec![7, 6, 1, 9]), 4);\n    assert_eq!(Solution::longest_subsequence(vec![7, 0]), 2);\n}\n",
+          "codeHash": "0ea59f47aa4c22d5f61cb8348992b6a1a766eb7c387ab381379af8bbd7b4297d",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 3702",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "8b2fae5c7cef0d1b1cb478bd44e8e3be3b550789"
+  ],
+  "warnings": []
+}

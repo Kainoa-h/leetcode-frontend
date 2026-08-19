@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-19T08:25:55.901Z",
-  "sourceHeadSha": "f7e30162d7fc3566058307a6c988fa2e164d9ff9",
+  "generatedAt": "2026-08-19T15:59:30.625Z",
+  "sourceHeadSha": "8b2fae5c7cef0d1b1cb478bd44e8e3be3b550789",
   "questions": [
     {
       "id": 1,
@@ -2486,6 +2486,24 @@
       ],
       "firstCommittedAt": "2026-06-11T00:30:13+08:00",
       "lastCommittedAt": "2026-06-11T00:30:13+08:00"
+    },
+    {
+      "id": 3702,
+      "title": "Longest Subsequence With Non Zero Bitwise Xor",
+      "slug": "longest-subsequence-with-non-zero-bitwise-xor",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3702/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-08-19T23:58:32+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-08-19T23:58:32+08:00",
+      "lastCommittedAt": "2026-08-19T23:58:32+08:00"
     },
     {
       "id": 3731,
