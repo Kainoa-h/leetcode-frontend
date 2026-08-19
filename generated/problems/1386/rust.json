@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1386,
+    "title": "Cinema Seat Allocation",
+    "slug": "cinema-seat-allocation"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/1386_cinema_seat_allocation.rs",
+    "latestSha": "e7c519ff5c8929c8295a0c62dfd4add4476a0e23",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 2,
+    "incorrectRevisionCount": 1,
+    "firstCommittedAt": "2026-08-19T12:46:41+08:00",
+    "lastCommittedAt": "2026-08-19T13:49:43+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "1ff9cbf4802e372f67a595a30fe2fc94b3cb7aeda4718cb6ed495e6d026d79c2"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "Dense seat-grid simulation",
+      "summary": "Allocates a full seat-availability grid for every cinema row, marks reserved seats, and counts non-overlapping four-seat family blocks row by row. This revision is marked wrong due to out-of-memory behavior for large n.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "001178fc04527adc3f118df86eaba7d399410a0d",
+          "shortSha": "001178f",
+          "parentSha": "d429e5dec7278fc4fae2792a8ed998f8d2e25a09",
+          "authoredAt": "2026-08-19T12:46:41+08:00",
+          "committedAt": "2026-08-19T12:46:41+08:00",
+          "chronologicalIndex": 273,
+          "problemId": 1386,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1386_cinema_seat_allocation.rs",
+          "sourceFilename": "1386_cinema_seat_allocation.rs",
+          "code": "impl Solution {\n    pub fn max_number_of_families(n: i32, reserved_seats: Vec<Vec<i32>>) -> i32 {\n        let mut seats = vec![vec![true; 10]; n as usize];\n        for v in reserved_seats {\n            let (row, col) = (v[0] as usize - 1, v[1] as usize - 1);\n            seats[row][col] = false;\n        }\n\n        let mut sum = 0;\n        for row in seats.iter_mut() {\n            let avail = row[1] && row[2] && row[3] && row[4];\n            sum += avail as usize;\n            row[4] &= !avail;\n            let avail = row[3] && row[4] && row[5] && row[6];\n            sum += avail as usize;\n            row[6] &= !avail;\n            sum += (row[5] && row[6] && row[7] && row[8]) as usize;\n            println!(\"row {:?}\", row);\n            println!(\"sum {}\", sum);\n        }\n\n\n        sum as i32\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        4,\n        Solution::max_number_of_families(\n            3,\n            vec![\n                vec![1, 2],\n                vec![1, 3],\n                vec![1, 8],\n                vec![2, 6],\n                vec![3, 1],\n                vec![3, 10]\n            ]\n        )\n    );\n}\n",
+          "codeHash": "b8d7bea67a022d0ec5f5702ac8ea9909392b4ce7605e519e909422ae04e72ebb",
+          "markedWrong": true,
+          "commitComment": "OOM",
+          "rawCommitSubject": "rust 1386!: OOM",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Builds an n-by-10 boolean seat grid and evaluates each row’s possible family blocks. Marked wrong for OOM, with debug output also present.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "approach-2",
+      "title": "Sparse sorted reserved-row processing",
+      "summary": "Sorts reservations by row, processes only rows containing reserved seats, and adds two families for each untouched row. It retains the same block-availability checks while avoiding allocation proportional to n.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "e7c519ff5c8929c8295a0c62dfd4add4476a0e23",
+          "shortSha": "e7c519f",
+          "parentSha": "001178fc04527adc3f118df86eaba7d399410a0d",
+          "authoredAt": "2026-08-19T13:49:43+08:00",
+          "committedAt": "2026-08-19T13:49:43+08:00",
+          "chronologicalIndex": 274,
+          "problemId": 1386,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1386_cinema_seat_allocation.rs",
+          "sourceFilename": "1386_cinema_seat_allocation.rs",
+          "code": "impl Solution {\n    pub fn max_number_of_families(mut n: i32, mut reserved_seats: Vec<Vec<i32>>) -> i32 {\n        reserved_seats.sort_unstable_by_key(|v| (v[0], v[1]));\n\n        let mut sum = 0;\n        for chunk in reserved_seats.chunk_by(|a, b| a[0] == b[0]) {\n            let mut row = [true; 10];\n            for c in chunk {\n                row[c[1] as usize - 1] = false;\n            }\n            let avail = row[1] && row[2] && row[3] && row[4];\n            sum += avail as usize;\n            row[4] &= !avail;\n            let avail = row[3] && row[4] && row[5] && row[6];\n            sum += avail as usize;\n            row[6] &= !avail;\n            sum += (row[5] && row[6] && row[7] && row[8]) as usize;\n\n            n -= 1;\n        }\n        sum as i32 + n * 2\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        4,\n        Solution::max_number_of_families(\n            3,\n            vec![\n                vec![1, 2],\n                vec![1, 3],\n                vec![1, 8],\n                vec![2, 6],\n                vec![3, 1],\n                vec![3, 10]\n            ]\n        )\n    );\n}\n",
+          "codeHash": "7b64bac94e3aea8232d1ab9bcda28cd684c22473e3b7faae0c1e1c57cedf25ac",
+          "markedWrong": false,
+          "commitComment": "sort and chunk",
+          "rawCommitSubject": "rust 1386: sort and chunk",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/1386_cinema_seat_allocation.rs b/rust/src/bin/1386_cinema_seat_allocation.rs\nindex 55839e4..7e5ef80 100644\n--- a/rust/src/bin/1386_cinema_seat_allocation.rs\n+++ b/rust/src/bin/1386_cinema_seat_allocation.rs\n@@ -1,13 +1,13 @@\n impl Solution {\n-    pub fn max_number_of_families(n: i32, reserved_seats: Vec<Vec<i32>>) -> i32 {\n-        let mut seats = vec![vec![true; 10]; n as usize];\n-        for v in reserved_seats {\n-            let (row, col) = (v[0] as usize - 1, v[1] as usize - 1);\n-            seats[row][col] = false;\n-        }\n+    pub fn max_number_of_families(mut n: i32, mut reserved_seats: Vec<Vec<i32>>) -> i32 {\n+        reserved_seats.sort_unstable_by_key(|v| (v[0], v[1]));\n \n         let mut sum = 0;\n-        for row in seats.iter_mut() {\n+        for chunk in reserved_seats.chunk_by(|a, b| a[0] == b[0]) {\n+            let mut row = [true; 10];\n+            for c in chunk {\n+                row[c[1] as usize - 1] = false;\n+            }\n             let avail = row[1] && row[2] && row[3] && row[4];\n             sum += avail as usize;\n             row[4] &= !avail;\n@@ -15,12 +15,10 @@ impl Solution {\n             sum += avail as usize;\n             row[6] &= !avail;\n             sum += (row[5] && row[6] && row[7] && row[8]) as usize;\n-            println!(\"row {:?}\", row);\n-            println!(\"sum {}\", sum);\n-        }\n \n-\n-        sum as i32\n+            n -= 1;\n+        }\n+        sum as i32 + n * 2\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 10,
+            "deletions": 12
+          },
+          "approachId": "approach-2",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaces the full seat grid with sorted reservation chunks and a temporary ten-seat row model, then accounts for unreserved rows with n * 2. Removes debug output and is marked correct.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "001178fc04527adc3f118df86eaba7d399410a0d",
+    "e7c519ff5c8929c8295a0c62dfd4add4476a0e23"
+  ],
+  "warnings": []
+}
