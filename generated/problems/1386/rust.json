@@ -13,27 +13,27 @@
   "source": {
     "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
     "latestPath": "rust/src/bin/1386_cinema_seat_allocation.rs",
-    "latestSha": "e7c519ff5c8929c8295a0c62dfd4add4476a0e23",
+    "latestSha": "f7e30162d7fc3566058307a6c988fa2e164d9ff9",
     "deleted": false
   },
   "statistics": {
-    "revisionCount": 2,
-    "approachCount": 2,
+    "revisionCount": 5,
+    "approachCount": 3,
     "incorrectRevisionCount": 1,
     "firstCommittedAt": "2026-08-19T12:46:41+08:00",
-    "lastCommittedAt": "2026-08-19T13:49:43+08:00"
+    "lastCommittedAt": "2026-08-19T16:25:04+08:00"
   },
   "analysis": {
     "status": "llm",
     "model": "openai/gpt-5.6-luna",
     "promptVersion": "7",
-    "inputHash": "1ff9cbf4802e372f67a595a30fe2fc94b3cb7aeda4718cb6ed495e6d026d79c2"
+    "inputHash": "dae74c70a175de285b608a676fe514e20f784c3e1698e3c0680f68ff2586ce80"
   },
   "approaches": [
     {
       "id": "approach-1",
-      "title": "Dense seat-grid simulation",
-      "summary": "Allocates a full seat-availability grid for every cinema row, marks reserved seats, and counts non-overlapping four-seat family blocks row by row. This revision is marked wrong due to out-of-memory behavior for large n.",
+      "title": "Full seat-matrix simulation",
+      "summary": "Allocates a boolean seat array for every cinema row, marks reservations, and greedily checks the three possible family blocks in each row. This version is marked wrong and can run out of memory for large n.",
       "order": 0,
       "revisions": [
         {
@@ -57,15 +57,15 @@
           "changedLineCounts": null,
           "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Builds an n-by-10 boolean seat grid and evaluates each row’s possible family blocks. Marked wrong for OOM, with debug output also present.",
+          "shortChangeSummary": "Initial implementation using a full n-by-10 seat matrix and greedy placement of family blocks, with debug output. It is marked wrong due to OOM.",
           "warnings": []
         }
       ]
     },
     {
       "id": "approach-2",
-      "title": "Sparse sorted reserved-row processing",
-      "summary": "Sorts reservations by row, processes only rows containing reserved seats, and adds two families for each untouched row. It retains the same block-availability checks while avoiding allocation proportional to n.",
+      "title": "Sort and process reserved rows",
+      "summary": "Sorts reservations by row, groups reservations belonging to the same row, and processes each group with a local ten-seat boolean array. Unreserved rows contribute two families directly.",
       "order": 1,
       "revisions": [
         {
@@ -92,7 +92,96 @@
           },
           "approachId": "approach-2",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Replaces the full seat grid with sorted reservation chunks and a temporary ten-seat row model, then accounts for unreserved rows with n * 2. Removes debug output and is marked correct.",
+          "shortChangeSummary": "Replaces the full seat matrix with sorted row groups, tracking only rows containing reservations and adding two families for each untouched row.",
+          "warnings": []
+        },
+        {
+          "sha": "42df520529df79744a137cda849ac79a43cc0727",
+          "shortSha": "42df520",
+          "parentSha": "e7c519ff5c8929c8295a0c62dfd4add4476a0e23",
+          "authoredAt": "2026-08-19T15:36:19+08:00",
+          "committedAt": "2026-08-19T15:37:42+08:00",
+          "chronologicalIndex": 275,
+          "problemId": 1386,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1386_cinema_seat_allocation.rs",
+          "sourceFilename": "1386_cinema_seat_allocation.rs",
+          "code": "impl Solution {\n    pub fn max_number_of_families(mut n: i32, mut reserved_seats: Vec<Vec<i32>>) -> i32 {\n        const SEATS_MASK_1: u16 = 0b0111100000;\n        const SEATS_MASK_2: u16 = 0b0001111000;\n        const SEATS_MASK_3: u16 = 0b0000011110;\n\n        reserved_seats.sort_unstable_by_key(|v| v[0]);\n\n        let mut sum = 0;\n        for chunk in reserved_seats.chunk_by(|a, b| a[0] == b[0]) {\n            let mut row = 0_u16;\n            for c in chunk {\n                row |= 1 << (c[1] - 1);\n            }\n            let left = row & SEATS_MASK_1 == 0;\n            let mid = row & SEATS_MASK_2 == 0;\n            let right = row & SEATS_MASK_3 == 0;\n\n            if left && right {\n                sum += 2;\n            }\n            else if left || mid || right {\n                sum += 1;\n            }\n\n            n -= 1;\n        }\n        sum + n * 2\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        4,\n        Solution::max_number_of_families(\n            3,\n            vec![\n                vec![1, 2],\n                vec![1, 3],\n                vec![1, 8],\n                vec![2, 6],\n                vec![3, 1],\n                vec![3, 10]\n            ]\n        )\n    );\n}\n",
+          "codeHash": "4c146327ce45970b70f024be9a378fea5567b6811e0fee350844831d148441ed",
+          "markedWrong": false,
+          "commitComment": "bit masks & unnecessary secondary sorting",
+          "rawCommitSubject": "rust 1386: bit masks & unnecessary secondary sorting",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/1386_cinema_seat_allocation.rs b/rust/src/bin/1386_cinema_seat_allocation.rs\nindex 7e5ef80..bc8c6bb 100644\n--- a/rust/src/bin/1386_cinema_seat_allocation.rs\n+++ b/rust/src/bin/1386_cinema_seat_allocation.rs\n@@ -1,24 +1,31 @@\n impl Solution {\n     pub fn max_number_of_families(mut n: i32, mut reserved_seats: Vec<Vec<i32>>) -> i32 {\n-        reserved_seats.sort_unstable_by_key(|v| (v[0], v[1]));\n+        const SEATS_MASK_1: u16 = 0b0111100000;\n+        const SEATS_MASK_2: u16 = 0b0001111000;\n+        const SEATS_MASK_3: u16 = 0b0000011110;\n+\n+        reserved_seats.sort_unstable_by_key(|v| v[0]);\n \n         let mut sum = 0;\n         for chunk in reserved_seats.chunk_by(|a, b| a[0] == b[0]) {\n-            let mut row = [true; 10];\n+            let mut row = 0_u16;\n             for c in chunk {\n-                row[c[1] as usize - 1] = false;\n+                row |= 1 << (c[1] - 1);\n+            }\n+            let left = row & SEATS_MASK_1 == 0;\n+            let mid = row & SEATS_MASK_2 == 0;\n+            let right = row & SEATS_MASK_3 == 0;\n+\n+            if left && right {\n+                sum += 2;\n+            }\n+            else if left || mid || right {\n+                sum += 1;\n             }\n-            let avail = row[1] && row[2] && row[3] && row[4];\n-            sum += avail as usize;\n-            row[4] &= !avail;\n-            let avail = row[3] && row[4] && row[5] && row[6];\n-            sum += avail as usize;\n-            row[6] &= !avail;\n-            sum += (row[5] && row[6] && row[7] && row[8]) as usize;\n \n             n -= 1;\n         }\n-        sum as i32 + n * 2\n+        sum + n * 2\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 18,
+            "deletions": 11
+          },
+          "approachId": "approach-2",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Keeps the sorted/grouped strategy but represents reserved seats with bitmasks and evaluates the three family intervals using bit operations.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "approach-3",
+      "title": "HashMap of reserved-row bitmasks",
+      "summary": "Builds a hash map from row numbers to reserved-seat bitmasks without sorting the reservations. It counts two families for rows with no relevant reservations and evaluates each affected row with interval masks.",
+      "order": 2,
+      "revisions": [
+        {
+          "sha": "de384f7854e1726476f2d99387770e093d11b175",
+          "shortSha": "de384f7",
+          "parentSha": "42df520529df79744a137cda849ac79a43cc0727",
+          "authoredAt": "2026-08-19T16:08:57+08:00",
+          "committedAt": "2026-08-19T16:08:57+08:00",
+          "chronologicalIndex": 276,
+          "problemId": 1386,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1386_cinema_seat_allocation.rs",
+          "sourceFilename": "1386_cinema_seat_allocation.rs",
+          "code": "use std::collections::HashMap;\n\nimpl Solution {\n    pub fn max_number_of_families(n: i32, reserved_seats: Vec<Vec<i32>>) -> i32 {\n        const SEATS_MASK_1: u16 = 0b01111000000;\n        const SEATS_MASK_2: u16 = 0b00011110000;\n        const SEATS_MASK_3: u16 = 0b00000111100;\n        let mut row_mask_map = HashMap::<i32, u16>::new();\n        for v in reserved_seats {\n            let (row, col) = (v[0], v[1]);\n            if (2..=9).contains(&col) {\n                *row_mask_map.entry(row).or_insert(0) |= 1 << col;\n            }\n        }\n\n        let mut sum = (n - row_mask_map.len() as i32) * 2;\n        for &row in row_mask_map.values() {\n            let left = (row & SEATS_MASK_3) == 0;\n            let mid = (row & SEATS_MASK_2) == 0;\n            let right = (row & SEATS_MASK_1) == 0;\n\n            if left && right {\n                sum += 2;\n            } else if left || mid || right {\n                sum += 1;\n            }\n        }\n\n        sum   \n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        4,\n        Solution::max_number_of_families(\n            3,\n            vec![\n                vec![1, 2],\n                vec![1, 3],\n                vec![1, 8],\n                vec![2, 6],\n                vec![3, 1],\n                vec![3, 10]\n            ]\n        )\n    );\n}\n",
+          "codeHash": "690cf1beaa605f780ab7cafbb545405cf33fd6b80e71f4dfe5b14dfca6e7316d",
+          "markedWrong": false,
+          "commitComment": "hashmap w/ bitmasking",
+          "rawCommitSubject": "rust 1386: hashmap w/ bitmasking",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/1386_cinema_seat_allocation.rs b/rust/src/bin/1386_cinema_seat_allocation.rs\nindex bc8c6bb..731bb86 100644\n--- a/rust/src/bin/1386_cinema_seat_allocation.rs\n+++ b/rust/src/bin/1386_cinema_seat_allocation.rs\n@@ -1,31 +1,32 @@\n-impl Solution {\n-    pub fn max_number_of_families(mut n: i32, mut reserved_seats: Vec<Vec<i32>>) -> i32 {\n-        const SEATS_MASK_1: u16 = 0b0111100000;\n-        const SEATS_MASK_2: u16 = 0b0001111000;\n-        const SEATS_MASK_3: u16 = 0b0000011110;\n-\n-        reserved_seats.sort_unstable_by_key(|v| v[0]);\n+use std::collections::HashMap;\n \n-        let mut sum = 0;\n-        for chunk in reserved_seats.chunk_by(|a, b| a[0] == b[0]) {\n-            let mut row = 0_u16;\n-            for c in chunk {\n-                row |= 1 << (c[1] - 1);\n+impl Solution {\n+    pub fn max_number_of_families(n: i32, reserved_seats: Vec<Vec<i32>>) -> i32 {\n+        const SEATS_MASK_1: u16 = 0b01111000000;\n+        const SEATS_MASK_2: u16 = 0b00011110000;\n+        const SEATS_MASK_3: u16 = 0b00000111100;\n+        let mut row_mask_map = HashMap::<i32, u16>::new();\n+        for v in reserved_seats {\n+            let (row, col) = (v[0], v[1]);\n+            if (2..=9).contains(&col) {\n+                *row_mask_map.entry(row).or_insert(0) |= 1 << col;\n             }\n-            let left = row & SEATS_MASK_1 == 0;\n-            let mid = row & SEATS_MASK_2 == 0;\n-            let right = row & SEATS_MASK_3 == 0;\n+        }\n+\n+        let mut sum = (n - row_mask_map.len() as i32) * 2;\n+        for &row in row_mask_map.values() {\n+            let left = (row & SEATS_MASK_3) == 0;\n+            let mid = (row & SEATS_MASK_2) == 0;\n+            let right = (row & SEATS_MASK_1) == 0;\n \n             if left && right {\n                 sum += 2;\n-            }\n-            else if left || mid || right {\n+            } else if left || mid || right {\n                 sum += 1;\n             }\n-\n-            n -= 1;\n         }\n-        sum + n * 2\n+\n+        sum   \n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 21,
+            "deletions": 20
+          },
+          "approachId": "approach-3",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Changes from sorting and contiguous grouping to a HashMap that aggregates reservation masks by row, while retaining bitmask-based interval checks.",
+          "warnings": []
+        },
+        {
+          "sha": "f7e30162d7fc3566058307a6c988fa2e164d9ff9",
+          "shortSha": "f7e3016",
+          "parentSha": "de384f7854e1726476f2d99387770e093d11b175",
+          "authoredAt": "2026-08-19T16:17:03+08:00",
+          "committedAt": "2026-08-19T16:25:04+08:00",
+          "chronologicalIndex": 277,
+          "problemId": 1386,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1386_cinema_seat_allocation.rs",
+          "sourceFilename": "1386_cinema_seat_allocation.rs",
+          "code": "use std::collections::HashMap;\n\nimpl Solution {\n    pub fn max_number_of_families(n: i32, reserved_seats: Vec<Vec<i32>>) -> i32 {\n        const SEATS_MASK_1: u16 = 0b01111000000;\n        const SEATS_MASK_2: u16 = 0b00011110000;\n        const SEATS_MASK_3: u16 = 0b00000111100;\n        let mut row_mask_map = HashMap::<i32, u16>::new();\n        for v in reserved_seats {\n            let (row, col) = (v[0], v[1]);\n            if (2..=9).contains(&col) {\n                *row_mask_map.entry(row).or_insert(0) |= 1 << col;\n            }\n        }\n\n        let sum = (n - row_mask_map.len() as i32) * 2;\n        sum + row_mask_map\n            .values()\n            .filter(|&&row| {\n                (row & SEATS_MASK_3) == 0 || (row & SEATS_MASK_2) == 0 || (row & SEATS_MASK_1) == 0\n            })\n            .count() as i32\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        4,\n        Solution::max_number_of_families(\n            3,\n            vec![\n                vec![1, 2],\n                vec![1, 3],\n                vec![1, 8],\n                vec![2, 6],\n                vec![3, 1],\n                vec![3, 10]\n            ]\n        )\n    );\n}\n",
+          "codeHash": "10a901a0031715e0c3866b61ccca077b3baff6cbe2de0798920285e37b171e9e",
+          "markedWrong": false,
+          "commitComment": "range limit already causes hashmap to only contain single 4 seat",
+          "rawCommitSubject": "rust 1386: range limit already causes hashmap to only contain single 4 seat",
+          "commitBody": "- range limit guarantees that if the entry exists either ends of the row\nis not free. Meaning, only 1 family of 4 can seat.\n\n- since it's only ever +1, we can just use a simple iterator to filter\nand count",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/1386_cinema_seat_allocation.rs b/rust/src/bin/1386_cinema_seat_allocation.rs\nindex 731bb86..e325f9d 100644\n--- a/rust/src/bin/1386_cinema_seat_allocation.rs\n+++ b/rust/src/bin/1386_cinema_seat_allocation.rs\n@@ -13,20 +13,13 @@ impl Solution {\n             }\n         }\n \n-        let mut sum = (n - row_mask_map.len() as i32) * 2;\n-        for &row in row_mask_map.values() {\n-            let left = (row & SEATS_MASK_3) == 0;\n-            let mid = (row & SEATS_MASK_2) == 0;\n-            let right = (row & SEATS_MASK_1) == 0;\n-\n-            if left && right {\n-                sum += 2;\n-            } else if left || mid || right {\n-                sum += 1;\n-            }\n-        }\n-\n-        sum   \n+        let sum = (n - row_mask_map.len() as i32) * 2;\n+        sum + row_mask_map\n+            .values()\n+            .filter(|&&row| {\n+                (row & SEATS_MASK_3) == 0 || (row & SEATS_MASK_2) == 0 || (row & SEATS_MASK_1) == 0\n+            })\n+            .count() as i32\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 7,
+            "deletions": 14
+          },
+          "approachId": "approach-3",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Simplifies affected-row handling: because only seats 2 through 9 create map entries, each affected row contributes at most one family. Counts rows with any available family interval instead of branching over the three cases.",
           "warnings": []
         }
       ]
@@ -100,7 +189,10 @@
   ],
   "chronologicalRevisionShas": [
     "001178fc04527adc3f118df86eaba7d399410a0d",
-    "e7c519ff5c8929c8295a0c62dfd4add4476a0e23"
+    "e7c519ff5c8929c8295a0c62dfd4add4476a0e23",
+    "42df520529df79744a137cda849ac79a43cc0727",
+    "de384f7854e1726476f2d99387770e093d11b175",
+    "f7e30162d7fc3566058307a6c988fa2e164d9ff9"
   ],
   "warnings": []
 }
