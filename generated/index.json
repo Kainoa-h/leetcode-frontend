@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-19T15:59:30.625Z",
-  "sourceHeadSha": "8b2fae5c7cef0d1b1cb478bd44e8e3be3b550789",
+  "generatedAt": "2026-08-20T07:59:11.787Z",
+  "sourceHeadSha": "de17bc67800fb96f534cea0f200327d776245d9e",
   "questions": [
     {
       "id": 1,
@@ -2099,6 +2099,24 @@
       ],
       "firstCommittedAt": "2026-05-21T23:20:18+08:00",
       "lastCommittedAt": "2026-05-21T23:32:23+08:00"
+    },
+    {
+      "id": 3069,
+      "title": "Distribute Elements Into Two Arrays I",
+      "slug": "distribute-elements-into-two-arrays-i",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3069/rust/",
+          "revisionCount": 3,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-08-20T15:58:25+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-08-20T15:58:25+08:00",
+      "lastCommittedAt": "2026-08-20T15:58:25+08:00"
     },
     {
       "id": 3090,

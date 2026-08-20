@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3069,
+    "title": "Distribute Elements Into Two Arrays I",
+    "slug": "distribute-elements-into-two-arrays-i"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3069_distribute_elements_into_two_arrays_I.rs",
+    "latestSha": "de17bc67800fb96f534cea0f200327d776245d9e",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-08-20T15:58:25+08:00",
+    "lastCommittedAt": "2026-08-20T15:58:25+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "806a9320b1eccc8263f453dfb775ee3550539c2fcd89876dcb67b4a308370e0c"
+  },
+  "approaches": [
+    {
+      "id": "1",
+      "title": "Greedy distribution using the latest elements of two arrays",
+      "summary": "Maintain two arrays, placing each remaining element into the array whose latest element is smaller, then concatenate them. Later revisions reduce access indirection and reuse the input buffer for storage efficiency without changing the greedy strategy.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "40edb9b6465c62053ff3391779ae3dd4280c8ede",
+          "shortSha": "40edb9b",
+          "parentSha": "8b2fae5c7cef0d1b1cb478bd44e8e3be3b550789",
+          "authoredAt": "2026-08-20T15:43:24+08:00",
+          "committedAt": "2026-08-20T15:58:25+08:00",
+          "chronologicalIndex": 279,
+          "problemId": 3069,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3069_distribute_elements_into_two_arrays_I.rs",
+          "sourceFilename": "3069_distribute_elements_into_two_arrays_I.rs",
+          "code": "impl Solution {\n    pub fn result_array(nums: Vec<i32>) -> Vec<i32> {\n        let mut v1 = Vec::with_capacity(nums.len());\n        let mut v2 = Vec::new();\n\n        v1.push(nums[0]);\n        v2.push(nums[1]);\n\n        for r in nums.into_iter().skip(2) {\n            if v1.last().unwrap() > v2.last().unwrap() {\n                v1.push(r)\n            } else {\n                v2.push(r)\n            }\n        }\n\n        v1.append(&mut v2);\n        v1\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "bd53200273fef6cbfc93b8a2822961f3122a8418a9993be958429d8e2774b87d",
+          "markedWrong": false,
+          "commitComment": "first pass",
+          "rawCommitSubject": "rust 3069: first pass",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation stores the two subsequences separately and compares their last elements for each incoming value.",
+          "warnings": []
+        },
+        {
+          "sha": "3405c1cb788495d710ef250626873470dce8c681",
+          "shortSha": "3405c1c",
+          "parentSha": "40edb9b6465c62053ff3391779ae3dd4280c8ede",
+          "authoredAt": "2026-08-20T15:48:50+08:00",
+          "committedAt": "2026-08-20T15:58:25+08:00",
+          "chronologicalIndex": 280,
+          "problemId": 3069,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3069_distribute_elements_into_two_arrays_I.rs",
+          "sourceFilename": "3069_distribute_elements_into_two_arrays_I.rs",
+          "code": "impl Solution {\n    pub fn result_array(nums: Vec<i32>) -> Vec<i32> {\n        let mut v1 = Vec::with_capacity(nums.len());\n        let mut v2 = Vec::new();\n\n        let mut l1 = nums[0];\n        let mut l2 = nums[1];\n\n        v1.push(l1);\n        v2.push(l2);\n\n        for r in nums.into_iter().skip(2) {\n            if l1 > l2 {\n                l1 = r;\n                v1.push(r);\n            } else {\n                l2 = r;\n                v2.push(r);\n            }\n        }\n\n        v1.append(&mut v2);\n        v1\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "2ff4d96e570870180da0f52c4984a03070e9a7655475461537b05d3a8837aab1",
+          "markedWrong": false,
+          "commitComment": "less indirection",
+          "rawCommitSubject": "rust 3069: less indirection",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3069_distribute_elements_into_two_arrays_I.rs b/rust/src/bin/3069_distribute_elements_into_two_arrays_I.rs\nindex 083f68b..073404d 100644\n--- a/rust/src/bin/3069_distribute_elements_into_two_arrays_I.rs\n+++ b/rust/src/bin/3069_distribute_elements_into_two_arrays_I.rs\n@@ -3,14 +3,19 @@ impl Solution {\n         let mut v1 = Vec::with_capacity(nums.len());\n         let mut v2 = Vec::new();\n \n-        v1.push(nums[0]);\n-        v2.push(nums[1]);\n+        let mut l1 = nums[0];\n+        let mut l2 = nums[1];\n+\n+        v1.push(l1);\n+        v2.push(l2);\n \n         for r in nums.into_iter().skip(2) {\n-            if v1.last().unwrap() > v2.last().unwrap() {\n-                v1.push(r)\n+            if l1 > l2 {\n+                l1 = r;\n+                v1.push(r);\n             } else {\n-                v2.push(r)\n+                l2 = r;\n+                v2.push(r);\n             }\n         }\n \n",
+          "changedLineCounts": {
+            "additions": 10,
+            "deletions": 5
+          },
+          "approachId": "1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Caches the latest element of each subsequence in scalar variables, avoiding repeated last-element lookups while preserving the same strategy.",
+          "warnings": []
+        },
+        {
+          "sha": "de17bc67800fb96f534cea0f200327d776245d9e",
+          "shortSha": "de17bc6",
+          "parentSha": "3405c1cb788495d710ef250626873470dce8c681",
+          "authoredAt": "2026-08-20T15:57:49+08:00",
+          "committedAt": "2026-08-20T15:58:25+08:00",
+          "chronologicalIndex": 281,
+          "problemId": 3069,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3069_distribute_elements_into_two_arrays_I.rs",
+          "sourceFilename": "3069_distribute_elements_into_two_arrays_I.rs",
+          "code": "impl Solution {\n    pub fn result_array(mut nums: Vec<i32>) -> Vec<i32> {\n        let n = nums.len();\n        let mut v2 = Vec::with_capacity(n);\n\n        let mut l1 = nums[0];\n        let mut l2 = nums[1];\n\n        v2.push(l2);\n        let mut v1_len = 1;\n\n        for i in 2..n {\n            let x = nums[i];\n            if l1 > l2 {\n                nums[v1_len] = x;\n                v1_len += 1;\n                l1 = x;\n            }\n            else {\n                v2.push(x);\n                l2 = x;\n            }\n        }\n\n        nums.truncate(v1_len);\n        nums.append(&mut v2);\n        nums\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "cab51227e2e28ceb8668319fdfd5c8456084ed5d3978002803ef378de2f1b752",
+          "markedWrong": false,
+          "commitComment": "reuse nums for less heap allocation",
+          "rawCommitSubject": "rust 3069: reuse nums for less heap allocation",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3069_distribute_elements_into_two_arrays_I.rs b/rust/src/bin/3069_distribute_elements_into_two_arrays_I.rs\nindex 073404d..2ff103d 100644\n--- a/rust/src/bin/3069_distribute_elements_into_two_arrays_I.rs\n+++ b/rust/src/bin/3069_distribute_elements_into_two_arrays_I.rs\n@@ -1,26 +1,30 @@\n impl Solution {\n-    pub fn result_array(nums: Vec<i32>) -> Vec<i32> {\n-        let mut v1 = Vec::with_capacity(nums.len());\n-        let mut v2 = Vec::new();\n+    pub fn result_array(mut nums: Vec<i32>) -> Vec<i32> {\n+        let n = nums.len();\n+        let mut v2 = Vec::with_capacity(n);\n \n         let mut l1 = nums[0];\n         let mut l2 = nums[1];\n \n-        v1.push(l1);\n         v2.push(l2);\n+        let mut v1_len = 1;\n \n-        for r in nums.into_iter().skip(2) {\n+        for i in 2..n {\n+            let x = nums[i];\n             if l1 > l2 {\n-                l1 = r;\n-                v1.push(r);\n-            } else {\n-                l2 = r;\n-                v2.push(r);\n+                nums[v1_len] = x;\n+                v1_len += 1;\n+                l1 = x;\n+            }\n+            else {\n+                v2.push(x);\n+                l2 = x;\n             }\n         }\n \n-        v1.append(&mut v2);\n-        v1\n+        nums.truncate(v1_len);\n+        nums.append(&mut v2);\n+        nums\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 16,
+            "deletions": 12
+          },
+          "approachId": "1",
+          "narrativeIndex": 2,
+          "shortChangeSummary": "Reuses the input vector for the first subsequence and stores only the second subsequence separately, reducing extra heap allocation.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "40edb9b6465c62053ff3391779ae3dd4280c8ede",
+    "3405c1cb788495d710ef250626873470dce8c681",
+    "de17bc67800fb96f534cea0f200327d776245d9e"
+  ],
+  "warnings": []
+}
