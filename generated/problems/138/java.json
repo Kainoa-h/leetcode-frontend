@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 138,
+    "title": "Copy List With Random Pointer",
+    "slug": "copy-list-with-random-pointer"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/138_copy_list_with_random_pointer.java",
+    "latestSha": "7fa4d851d12a7877d91b36b1303aff1d8b175ea2",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-08-21T14:01:14+08:00",
+    "lastCommittedAt": "2026-08-21T14:44:55+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "ae52fc1341ebd0e74297d6c294313ff8ed416ccd9d6fa7d8b81075530e2bb98e"
+  },
+  "approaches": [
+    {
+      "id": "1",
+      "title": "Hash map with separate clone construction",
+      "summary": "Maps each original list node to its corresponding clone information, then connects next and random pointers in later passes. Revision 2 simplifies the representation to a direct original-node-to-clone-node map.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "ee50750550c1975c3f16a6df23d047cc42de4d69",
+          "shortSha": "ee50750",
+          "parentSha": "de17bc67800fb96f534cea0f200327d776245d9e",
+          "authoredAt": "2026-08-21T14:01:14+08:00",
+          "committedAt": "2026-08-21T14:01:14+08:00",
+          "chronologicalIndex": 282,
+          "problemId": 138,
+          "language": "java",
+          "sourcePath": "java/src/solutions/138_copy_list_with_random_pointer.java",
+          "sourceFilename": "138_copy_list_with_random_pointer.java",
+          "code": "import java.util.ArrayList;\nimport java.util.HashMap;\nimport java.util.List;\nimport java.util.Map;\n\nclass Solution {\n  static class Depo {\n    public int index;\n    public int value;\n    public int hashcode;\n    public int nextRandHashcode;\n    public int nextRandIndex;\n\n    public Depo(int index, int value, int hashcode, int nextRandHashcode, int nextRandIndex) {\n      this.index = index;\n      this.value = value;\n      this.hashcode = hashcode;\n      this.nextRandHashcode = nextRandHashcode;\n      this.nextRandIndex = nextRandIndex;\n    }\n  }\n\n  public Node copyRandomList(Node head) {\n    if (head == null) {\n      return null;\n    }\n    \n    Map<Integer, Integer> map = new HashMap<>();\n    List<Depo> depoList = new ArrayList<>();\n\n    while (head != null) {\n      map.put(head.hashCode(), depoList.size());\n      depoList.add(new Depo(depoList.size(), head.val, head.hashCode(), head.random != null ? head.random.hashCode() : -1, -1));\n      head = head.next;\n    }\n\n    List<Node> nodeList = new ArrayList<>();\n    nodeList.add(new Node(-1));\n    for (var x : depoList) {\n      x.nextRandIndex = x.nextRandHashcode == -1 ? -1 : map.get(x.nextRandHashcode);\n      var node = new Node(x.value);\n      nodeList.getLast().next = node;\n      nodeList.add(node);\n    }\n\n    for (int i = 0; i < depoList.size(); i++) {\n      nodeList.get(i + 1).random = depoList.get(i).nextRandIndex == -1 ? null : nodeList.get(depoList.get(i).nextRandIndex + 1);\n    }\n\n    return nodeList.get(1);\n  }\n}\n\nclass Node {\n  int val;\n  Node next;\n  Node random;\n\n  public Node(int val) {\n    this.val = val;\n    this.next = null;\n    this.random = null;\n  }\n}\n",
+          "codeHash": "02a1d1a6995e07a9acc0209a377da0c968bed6b096ca4537371d4e8b26e36f33",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "java 138",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Builds an index-based intermediate representation using node hash codes, then constructs the cloned list and assigns random pointers.",
+          "warnings": []
+        },
+        {
+          "sha": "9d54b76693ac32e465ff31a0a7dfa920e084a482",
+          "shortSha": "9d54b76",
+          "parentSha": "ee50750550c1975c3f16a6df23d047cc42de4d69",
+          "authoredAt": "2026-08-21T14:06:13+08:00",
+          "committedAt": "2026-08-21T14:06:49+08:00",
+          "chronologicalIndex": 283,
+          "problemId": 138,
+          "language": "java",
+          "sourcePath": "java/src/solutions/138_copy_list_with_random_pointer.java",
+          "sourceFilename": "138_copy_list_with_random_pointer.java",
+          "code": "import java.util.HashMap;\nimport java.util.Map;\n\nclass Solution {\n  public Node copyRandomList(Node head) {\n    Map<Node, Node> map = new HashMap<>();\n    var current = head;\n    while (current != null) {\n      map.put(current, new Node(current.val));\n      current = current.next;\n    }\n\n    current = head;\n    while (current != null) {\n      map.get(current).next = map.get(current.next);\n      map.get(current).random = map.get(current.random);\n      current = current.next;\n    }\n\n    return map.get(head);\n  }\n}\n\nclass Node {\n  int val;\n  Node next;\n  Node random;\n\n  public Node(int val) {\n    this.val = val;\n    this.next = null;\n    this.random = null;\n  }\n}\n",
+          "codeHash": "7ca3631842c93cb98ad7af8b6065bfb6ca44ba71fa2b386dea1a01c14f39edd2",
+          "markedWrong": false,
+          "commitComment": "much simpler direct node to node map",
+          "rawCommitSubject": "java 138: much simpler direct node to node map",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/java/src/solutions/138_copy_list_with_random_pointer.java b/java/src/solutions/138_copy_list_with_random_pointer.java\nindex be2f001..9f215d9 100644\n--- a/java/src/solutions/138_copy_list_with_random_pointer.java\n+++ b/java/src/solutions/138_copy_list_with_random_pointer.java\n@@ -1,53 +1,23 @@\n-import java.util.ArrayList;\n import java.util.HashMap;\n-import java.util.List;\n import java.util.Map;\n \n class Solution {\n-  static class Depo {\n-    public int index;\n-    public int value;\n-    public int hashcode;\n-    public int nextRandHashcode;\n-    public int nextRandIndex;\n-\n-    public Depo(int index, int value, int hashcode, int nextRandHashcode, int nextRandIndex) {\n-      this.index = index;\n-      this.value = value;\n-      this.hashcode = hashcode;\n-      this.nextRandHashcode = nextRandHashcode;\n-      this.nextRandIndex = nextRandIndex;\n-    }\n-  }\n-\n   public Node copyRandomList(Node head) {\n-    if (head == null) {\n-      return null;\n-    }\n-    \n-    Map<Integer, Integer> map = new HashMap<>();\n-    List<Depo> depoList = new ArrayList<>();\n-\n-    while (head != null) {\n-      map.put(head.hashCode(), depoList.size());\n-      depoList.add(new Depo(depoList.size(), head.val, head.hashCode(), head.random != null ? head.random.hashCode() : -1, -1));\n-      head = head.next;\n-    }\n-\n-    List<Node> nodeList = new ArrayList<>();\n-    nodeList.add(new Node(-1));\n-    for (var x : depoList) {\n-      x.nextRandIndex = x.nextRandHashcode == -1 ? -1 : map.get(x.nextRandHashcode);\n-      var node = new Node(x.value);\n-      nodeList.getLast().next = node;\n-      nodeList.add(node);\n+    Map<Node, Node> map = new HashMap<>();\n+    var current = head;\n+    while (current != null) {\n+      map.put(current, new Node(current.val));\n+      current = current.next;\n     }\n \n-    for (int i = 0; i < depoList.size(); i++) {\n-      nodeList.get(i + 1).random = depoList.get(i).nextRandIndex == -1 ? null : nodeList.get(depoList.get(i).nextRandIndex + 1);\n+    current = head;\n+    while (current != null) {\n+      map.get(current).next = map.get(current.next);\n+      map.get(current).random = map.get(current.random);\n+      current = current.next;\n     }\n \n-    return nodeList.get(1);\n+    return map.get(head);\n   }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 11,
+            "deletions": 41
+          },
+          "approachId": "1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Replaces the hash-code and index structures with a direct Map<Node, Node>, using two passes to create clones and connect both pointers.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Interleaved clone nodes",
+      "summary": "Inserts each clone immediately after its original node, allowing random pointers to be resolved without a map. It then separates the interleaved list into the original and copied lists using constant auxiliary space.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "7fa4d851d12a7877d91b36b1303aff1d8b175ea2",
+          "shortSha": "7fa4d85",
+          "parentSha": "9d54b76693ac32e465ff31a0a7dfa920e084a482",
+          "authoredAt": "2026-08-21T14:43:48+08:00",
+          "committedAt": "2026-08-21T14:44:55+08:00",
+          "chronologicalIndex": 284,
+          "problemId": 138,
+          "language": "java",
+          "sourcePath": "java/src/solutions/138_copy_list_with_random_pointer.java",
+          "sourceFilename": "138_copy_list_with_random_pointer.java",
+          "code": "class Solution {\n  public Node copyRandomList(Node head) {\n    if (head == null) return null;\n\n    var current = head;\n    while (current != null) {\n      var clone = new Node(current.val);\n      clone.next = current.next;\n      current.next = clone;\n      current = clone.next;\n    }\n\n    current = head;\n    while (current != null) {\n      var clone = current.next;\n      clone.random = current.random == null ? null : current.random.next;\n      current = clone.next;\n    }\n\n    current = head;\n    var copyHead = head.next;\n    while (current != null) {\n      var copyNext = current.next;\n      current.next = copyNext.next;\n      copyNext.next = current.next == null ? null : current.next.next;\n      current = current.next;\n    }\n\n    return copyHead;\n  }\n}\n\nclass Node {\n  int val;\n  Node next;\n  Node random;\n\n  public Node(int val) {\n    this.val = val;\n    this.next = null;\n    this.random = null;\n  }\n}\n",
+          "codeHash": "c1366fb5458687a27e0319fb5eb0ac4f6bd1ee990392201dcf0585d104a04461",
+          "markedWrong": false,
+          "commitComment": "store cloned nodes by interleaving them in the linked list",
+          "rawCommitSubject": "java 138: store cloned nodes by interleaving them in the linked list",
+          "commitBody": "- node1 -> node1_clone -> node2 -> node2_clone -> node3 ...\n\n1. create clones & interleave them\n\n2. iterate through linked list to update the random pointer (clone is\nalways contained in it's original's .next)\n\n3. seperate the interleaved linkedlist at the end\n\nno hashmap needed. O(1) auxiliary space",
+          "diffFromPreviousRelevantRevision": "diff --git a/java/src/solutions/138_copy_list_with_random_pointer.java b/java/src/solutions/138_copy_list_with_random_pointer.java\nindex 9f215d9..d638c7d 100644\n--- a/java/src/solutions/138_copy_list_with_random_pointer.java\n+++ b/java/src/solutions/138_copy_list_with_random_pointer.java\n@@ -1,23 +1,32 @@\n-import java.util.HashMap;\n-import java.util.Map;\n-\n class Solution {\n   public Node copyRandomList(Node head) {\n-    Map<Node, Node> map = new HashMap<>();\n+    if (head == null) return null;\n+\n     var current = head;\n     while (current != null) {\n-      map.put(current, new Node(current.val));\n-      current = current.next;\n+      var clone = new Node(current.val);\n+      clone.next = current.next;\n+      current.next = clone;\n+      current = clone.next;\n+    }\n+\n+    current = head;\n+    while (current != null) {\n+      var clone = current.next;\n+      clone.random = current.random == null ? null : current.random.next;\n+      current = clone.next;\n     }\n \n     current = head;\n+    var copyHead = head.next;\n     while (current != null) {\n-      map.get(current).next = map.get(current.next);\n-      map.get(current).random = map.get(current.random);\n+      var copyNext = current.next;\n+      current.next = copyNext.next;\n+      copyNext.next = current.next == null ? null : current.next.next;\n       current = current.next;\n     }\n \n-    return map.get(head);\n+    return copyHead;\n   }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 18,
+            "deletions": 9
+          },
+          "approachId": "2",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Creates and interleaves clones, assigns random pointers through each original's next node, and then separates the two lists without a hashmap.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "ee50750550c1975c3f16a6df23d047cc42de4d69",
+    "9d54b76693ac32e465ff31a0a7dfa920e084a482",
+    "7fa4d851d12a7877d91b36b1303aff1d8b175ea2"
+  ],
+  "warnings": []
+}

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-20T07:59:11.787Z",
-  "sourceHeadSha": "de17bc67800fb96f534cea0f200327d776245d9e",
+  "generatedAt": "2026-08-21T06:45:45.549Z",
+  "sourceHeadSha": "7fa4d851d12a7877d91b36b1303aff1d8b175ea2",
   "questions": [
     {
       "id": 1,
@@ -713,6 +713,24 @@
       ],
       "firstCommittedAt": "2026-01-28T08:04:56+08:00",
       "lastCommittedAt": "2026-01-28T08:08:45+08:00"
+    },
+    {
+      "id": 138,
+      "title": "Copy List With Random Pointer",
+      "slug": "copy-list-with-random-pointer",
+      "languages": [
+        {
+          "id": "java",
+          "label": "Java",
+          "route": "/problems/138/java/",
+          "revisionCount": 3,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-08-21T14:44:55+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-08-21T14:01:14+08:00",
+      "lastCommittedAt": "2026-08-21T14:44:55+08:00"
     },
     {
       "id": 141,
