@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-21T06:45:45.549Z",
-  "sourceHeadSha": "7fa4d851d12a7877d91b36b1303aff1d8b175ea2",
+  "generatedAt": "2026-08-22T05:32:56.406Z",
+  "sourceHeadSha": "0cdac6b724edb5b3e5b8203b3f4392ef55db1cb8",
   "questions": [
     {
       "id": 1,
@@ -2450,6 +2450,24 @@
       ],
       "firstCommittedAt": "2026-06-16T10:50:52+08:00",
       "lastCommittedAt": "2026-06-17T17:46:06+08:00"
+    },
+    {
+      "id": 3622,
+      "title": "Check Divisibility By Digit Sum and Product",
+      "slug": "check-divisibility-by-digit-sum-and-product",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3622/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-08-22T13:32:24+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-08-22T13:32:24+08:00",
+      "lastCommittedAt": "2026-08-22T13:32:24+08:00"
     },
     {
       "id": 3635,

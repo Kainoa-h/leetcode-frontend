@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3622,
+    "title": "Check Divisibility By Digit Sum and Product",
+    "slug": "check-divisibility-by-digit-sum-and-product"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3622_check_divisibility_by_digit_sum_and_product.rs",
+    "latestSha": "0cdac6b724edb5b3e5b8203b3f4392ef55db1cb8",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-08-22T13:32:24+08:00",
+    "lastCommittedAt": "2026-08-22T13:32:24+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "7",
+    "inputHash": "50dd4b92ec182c1d19b2907c924de2a17cf3ca30c8f33379ed4358094fff5475"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "0cdac6b724edb5b3e5b8203b3f4392ef55db1cb8",
+          "shortSha": "0cdac6b",
+          "parentSha": "7fa4d851d12a7877d91b36b1303aff1d8b175ea2",
+          "authoredAt": "2026-08-22T13:32:18+08:00",
+          "committedAt": "2026-08-22T13:32:24+08:00",
+          "chronologicalIndex": 285,
+          "problemId": 3622,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3622_check_divisibility_by_digit_sum_and_product.rs",
+          "sourceFilename": "3622_check_divisibility_by_digit_sum_and_product.rs",
+          "code": "impl Solution {\n    pub fn check_divisibility(n: i32) -> bool {\n        let mut x = n;\n        let mut sum = 0;\n        let mut prod = 1;\n        while x > 0 {\n            let d = x % 10;\n            x /= 10;\n            sum += d;\n            prod *= d;\n        }\n        n % (sum + prod) == 0\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "14a04d063631ec631efa8922498065a8d21f6c4773134733796f0f0868070fa1",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 3622",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "0cdac6b724edb5b3e5b8203b3f4392ef55db1cb8"
+  ],
+  "warnings": []
+}
