@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1927,
+    "title": "Sum Game",
+    "slug": "sum-game"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/1927_sum_game.rs",
+    "latestSha": "a22ffa3bf3cfae16b72a21ab00e7827d41d523da",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-08-23T18:22:22+08:00",
+    "lastCommittedAt": "2026-08-23T18:22:22+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "7",
+    "inputHash": "7f06c61ef6e4613166cb5d038e171ece3d3b7310489f6d69db6d50b6a39fa81a"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "a22ffa3bf3cfae16b72a21ab00e7827d41d523da",
+          "shortSha": "a22ffa3",
+          "parentSha": "0cdac6b724edb5b3e5b8203b3f4392ef55db1cb8",
+          "authoredAt": "2026-08-23T18:22:11+08:00",
+          "committedAt": "2026-08-23T18:22:22+08:00",
+          "chronologicalIndex": 286,
+          "problemId": 1927,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1927_sum_game.rs",
+          "sourceFilename": "1927_sum_game.rs",
+          "code": "impl Solution {\n    pub fn sum_game(num: String) -> bool {\n        let mid = num.len() / 2;\n        let digits = num.as_bytes();\n\n        let foo = |span: &[u8]| -> (i32,i32) {\n            span.iter().fold((0,0), |acc, &x| {\n                if x == b'?' {\n                    (acc.0 + 1, acc.1)\n                } else {\n                    (acc.0, acc.1 + (x - b'0') as i32)\n                }\n            })\n        };\n\n        let (left_q, left_sum) = foo(&digits[..mid]);\n        let (right_q, right_sum) = foo(&digits[mid..]);\n\n        (left_q + right_q) % 2 == 1 || left_sum - right_sum != ((right_q - left_q) * 9) / 2\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "498d7b0b24ce3f5a67bc9a34c2ad5101a5a5c9c689e3657a2c14012ca3ca9895",
+          "markedWrong": false,
+          "commitComment": "copied from editorial. i don't really understand it",
+          "rawCommitSubject": "rust 1927: copied from editorial. i don't really understand it",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "copied from editorial. i don't really understand it",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "a22ffa3bf3cfae16b72a21ab00e7827d41d523da"
+  ],
+  "warnings": []
+}

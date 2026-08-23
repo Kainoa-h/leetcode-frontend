@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-22T05:32:56.406Z",
-  "sourceHeadSha": "0cdac6b724edb5b3e5b8203b3f4392ef55db1cb8",
+  "generatedAt": "2026-08-23T10:23:10.295Z",
+  "sourceHeadSha": "a22ffa3bf3cfae16b72a21ab00e7827d41d523da",
   "questions": [
     {
       "id": 1,
@@ -1604,6 +1604,24 @@
       ],
       "firstCommittedAt": "2026-04-13T20:14:55+08:00",
       "lastCommittedAt": "2026-04-13T20:14:55+08:00"
+    },
+    {
+      "id": 1927,
+      "title": "Sum Game",
+      "slug": "sum-game",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/1927/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-08-23T18:22:22+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-08-23T18:22:22+08:00",
+      "lastCommittedAt": "2026-08-23T18:22:22+08:00"
     },
     {
       "id": 1967,
