@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 100,
+    "title": "Same Tree",
+    "slug": "same-tree"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/100_same_tree.rs",
+    "latestSha": "44eac957f0f6be6e795c0adb3288816ab79b295e",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-08-25T17:08:53+08:00",
+    "lastCommittedAt": "2026-08-25T18:00:08+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "30b300e22171bcb3b8c064f783ed5c8ceff9c71327f1694c6e6bee682c10d958"
+  },
+  "approaches": [
+    {
+      "id": "iterative-paired-stack",
+      "title": "Iterative paired-stack traversal",
+      "summary": "Traverses both trees iteratively while pairing corresponding nodes on a stack. It checks null structure and node values together.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "242827d72f3bb46e8962e3d2ce3a7f7cb0e65c9c",
+          "shortSha": "242827d",
+          "parentSha": "e3769a75c14cab11ed2250b94133cfc1d032d61b",
+          "authoredAt": "2026-08-25T17:08:53+08:00",
+          "committedAt": "2026-08-25T17:08:53+08:00",
+          "chronologicalIndex": 290,
+          "problemId": 100,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/100_same_tree.rs",
+          "sourceFilename": "100_same_tree.rs",
+          "code": "#[derive(Debug, PartialEq, Eq)]\npub struct TreeNode {\n    pub val: i32,\n    pub left: Option<Rc<RefCell<TreeNode>>>,\n    pub right: Option<Rc<RefCell<TreeNode>>>,\n}\n\nimpl TreeNode {\n    #[inline]\n    pub fn new(val: i32) -> Self {\n        TreeNode {\n            val,\n            left: None,\n            right: None,\n        }\n    }\n}\n\nuse std::cell::RefCell;\nuse std::rc::Rc;\nimpl Solution {\n    pub fn is_same_tree(\n        p: Option<Rc<RefCell<TreeNode>>>,\n        q: Option<Rc<RefCell<TreeNode>>>,\n    ) -> bool {\n        let mut p_stack = vec![p];\n        let mut q_stack = vec![q];\n\n        while p_stack.len() > 0 || q_stack.len() > 0 {\n            let (Some(po), Some(qo)) = (p_stack.pop(), q_stack.pop()) else {\n                return false;\n            };\n            if po.is_some() != qo.is_some() {\n                return false;\n            }\n            if let (Some(p), Some(q)) = (po, qo) {\n                if p.borrow().val != q.borrow().val {\n                    return false;\n                }\n                p_stack.push(p.borrow().left.clone());\n                p_stack.push(p.borrow().right.clone());\n                q_stack.push(q.borrow().left.clone());\n                q_stack.push(q.borrow().right.clone());\n            }\n        }\n\n        true\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "97f1b5ac008b420243c4f0cd643b1d1c11bfc1cc204653d4b979cdc3e8387481",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 100",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "iterative-paired-stack",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Uses separate stacks for the two trees and compares corresponding nodes during traversal.",
+          "warnings": []
+        },
+        {
+          "sha": "4fb8135dbcfb226179c1ab037074456067add472",
+          "shortSha": "4fb8135",
+          "parentSha": "242827d72f3bb46e8962e3d2ce3a7f7cb0e65c9c",
+          "authoredAt": "2026-08-25T17:19:44+08:00",
+          "committedAt": "2026-08-25T17:19:44+08:00",
+          "chronologicalIndex": 291,
+          "problemId": 100,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/100_same_tree.rs",
+          "sourceFilename": "100_same_tree.rs",
+          "code": "#[derive(Debug, PartialEq, Eq)]\npub struct TreeNode {\n    pub val: i32,\n    pub left: Option<Rc<RefCell<TreeNode>>>,\n    pub right: Option<Rc<RefCell<TreeNode>>>,\n}\n\nimpl TreeNode {\n    #[inline]\n    pub fn new(val: i32) -> Self {\n        TreeNode {\n            val,\n            left: None,\n            right: None,\n        }\n    }\n}\n\nuse std::cell::RefCell;\nuse std::rc::Rc;\nimpl Solution {\n    pub fn is_same_tree(\n        p: Option<Rc<RefCell<TreeNode>>>,\n        q: Option<Rc<RefCell<TreeNode>>>,\n    ) -> bool {\n        let mut stack = vec![(p,q)];\n\n        while let Some((po,qo)) = stack.pop() {\n            match (po,qo) {\n                (None, None) => continue,\n                (Some(p), Some(q)) => {\n                    let (p, q) = (p.borrow(), q.borrow());\n                    if p.val != q.val {\n                        return false;\n                    }\n                    stack.push((p.left.clone(), q.left.clone()));\n                    stack.push((p.right.clone(), q.right.clone()));\n                }\n                _ => return false\n            }\n        }\n\n        true\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "9476f900c82d92218d5be73fecc89784ed0c40d77825b8b85ee7ebf7184622c7",
+          "markedWrong": false,
+          "commitComment": "single stack & better pattern matching",
+          "rawCommitSubject": "rust 100: single stack & better pattern matching",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/100_same_tree.rs b/rust/src/bin/100_same_tree.rs\nindex 357b94c..111c8de 100644\n--- a/rust/src/bin/100_same_tree.rs\n+++ b/rust/src/bin/100_same_tree.rs\n@@ -23,24 +23,20 @@ impl Solution {\n         p: Option<Rc<RefCell<TreeNode>>>,\n         q: Option<Rc<RefCell<TreeNode>>>,\n     ) -> bool {\n-        let mut p_stack = vec![p];\n-        let mut q_stack = vec![q];\n+        let mut stack = vec![(p,q)];\n \n-        while p_stack.len() > 0 || q_stack.len() > 0 {\n-            let (Some(po), Some(qo)) = (p_stack.pop(), q_stack.pop()) else {\n-                return false;\n-            };\n-            if po.is_some() != qo.is_some() {\n-                return false;\n-            }\n-            if let (Some(p), Some(q)) = (po, qo) {\n-                if p.borrow().val != q.borrow().val {\n-                    return false;\n+        while let Some((po,qo)) = stack.pop() {\n+            match (po,qo) {\n+                (None, None) => continue,\n+                (Some(p), Some(q)) => {\n+                    let (p, q) = (p.borrow(), q.borrow());\n+                    if p.val != q.val {\n+                        return false;\n+                    }\n+                    stack.push((p.left.clone(), q.left.clone()));\n+                    stack.push((p.right.clone(), q.right.clone()));\n                 }\n-                p_stack.push(p.borrow().left.clone());\n-                p_stack.push(p.borrow().right.clone());\n-                q_stack.push(q.borrow().left.clone());\n-                q_stack.push(q.borrow().right.clone());\n+                _ => return false\n             }\n         }\n \n",
+          "changedLineCounts": {
+            "additions": 12,
+            "deletions": 16
+          },
+          "approachId": "iterative-paired-stack",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Refactors to one stack of paired nodes and uses pattern matching to handle null and non-null cases.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "recursive-traversal",
+      "title": "Recursive tree comparison",
+      "summary": "Recursively compares corresponding nodes and their left and right subtrees. It passes references to the existing reference-counted node handles instead of cloning them for traversal.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "44eac957f0f6be6e795c0adb3288816ab79b295e",
+          "shortSha": "44eac95",
+          "parentSha": "4fb8135dbcfb226179c1ab037074456067add472",
+          "authoredAt": "2026-08-25T17:31:43+08:00",
+          "committedAt": "2026-08-25T18:00:08+08:00",
+          "chronologicalIndex": 292,
+          "problemId": 100,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/100_same_tree.rs",
+          "sourceFilename": "100_same_tree.rs",
+          "code": "#[derive(Debug, PartialEq, Eq)]\npub struct TreeNode {\n    pub val: i32,\n    pub left: Option<Rc<RefCell<TreeNode>>>,\n    pub right: Option<Rc<RefCell<TreeNode>>>,\n}\n\nimpl TreeNode {\n    #[inline]\n    pub fn new(val: i32) -> Self {\n        TreeNode {\n            val,\n            left: None,\n            right: None,\n        }\n    }\n}\n\nuse std::cell::RefCell;\nuse std::rc::Rc;\nimpl Solution {\n    pub fn is_same_tree(\n        p: Option<Rc<RefCell<TreeNode>>>,\n        q: Option<Rc<RefCell<TreeNode>>>,\n    ) -> bool {\n\n        fn check (p: Option<&Rc<RefCell<TreeNode>>>, q: Option<&Rc<RefCell<TreeNode>>>) -> bool {\n            match (p, q) {\n                (None, None) => true,\n                (Some(p_node), Some(q_node)) => {\n                    let (p_ref, q_ref) = (p_node.borrow(), q_node.borrow());\n                    p_ref.val == q_ref.val \n                        && check(p_ref.left.as_ref(), q_ref.left.as_ref())\n                        && check(p_ref.right.as_ref(), q_ref.right.as_ref())\n                },\n                _ => false\n            }\n        }\n\n        check(p.as_ref(), q.as_ref())\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "3d248917ba6eeab9a41b5652dbbd5d9e073fa5deb0ab836e7167feefc29905a6",
+          "markedWrong": false,
+          "commitComment": "recursive is cleaner and makes no heap allocations & no reference counting",
+          "rawCommitSubject": "rust 100: recursive is cleaner and makes no heap allocations & no reference counting",
+          "commitBody": "- recursion operates on the call stack, thus not requiring a heap\nallocated vector to track the node stack\n\n- recursion preserves the lifetime of the owning nodes, allowing\nchildren nodes to be passed down by a reference to their reference\nhandle (Rc) rather than cloning the reference handle which incurs\ncounting overhead and the Rc destructor checking if the strong_count is\n0 to clean up the underlying heap node",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/100_same_tree.rs b/rust/src/bin/100_same_tree.rs\nindex 111c8de..4591ded 100644\n--- a/rust/src/bin/100_same_tree.rs\n+++ b/rust/src/bin/100_same_tree.rs\n@@ -23,24 +23,21 @@ impl Solution {\n         p: Option<Rc<RefCell<TreeNode>>>,\n         q: Option<Rc<RefCell<TreeNode>>>,\n     ) -> bool {\n-        let mut stack = vec![(p,q)];\n \n-        while let Some((po,qo)) = stack.pop() {\n-            match (po,qo) {\n-                (None, None) => continue,\n-                (Some(p), Some(q)) => {\n-                    let (p, q) = (p.borrow(), q.borrow());\n-                    if p.val != q.val {\n-                        return false;\n-                    }\n-                    stack.push((p.left.clone(), q.left.clone()));\n-                    stack.push((p.right.clone(), q.right.clone()));\n-                }\n-                _ => return false\n+        fn check (p: Option<&Rc<RefCell<TreeNode>>>, q: Option<&Rc<RefCell<TreeNode>>>) -> bool {\n+            match (p, q) {\n+                (None, None) => true,\n+                (Some(p_node), Some(q_node)) => {\n+                    let (p_ref, q_ref) = (p_node.borrow(), q_node.borrow());\n+                    p_ref.val == q_ref.val \n+                        && check(p_ref.left.as_ref(), q_ref.left.as_ref())\n+                        && check(p_ref.right.as_ref(), q_ref.right.as_ref())\n+                },\n+                _ => false\n             }\n         }\n \n-        true\n+        check(p.as_ref(), q.as_ref())\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 11,
+            "deletions": 14
+          },
+          "approachId": "recursive-traversal",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaces the explicit stack with a recursive helper that compares values and recursively checks both child pairs.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "242827d72f3bb46e8962e3d2ce3a7f7cb0e65c9c",
+    "4fb8135dbcfb226179c1ab037074456067add472",
+    "44eac957f0f6be6e795c0adb3288816ab79b295e"
+  ],
+  "warnings": []
+}

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-25T08:50:42.428Z",
-  "sourceHeadSha": "e3769a75c14cab11ed2250b94133cfc1d032d61b",
+  "generatedAt": "2026-08-25T10:00:49.128Z",
+  "sourceHeadSha": "44eac957f0f6be6e795c0adb3288816ab79b295e",
   "questions": [
     {
       "id": 1,
@@ -605,6 +605,24 @@
       ],
       "firstCommittedAt": "2026-01-24T14:39:10+08:00",
       "lastCommittedAt": "2026-03-29T18:39:08+08:00"
+    },
+    {
+      "id": 100,
+      "title": "Same Tree",
+      "slug": "same-tree",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/100/rust/",
+          "revisionCount": 3,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-08-25T18:00:08+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-08-25T17:08:53+08:00",
+      "lastCommittedAt": "2026-08-25T18:00:08+08:00"
     },
     {
       "id": 104,
