@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-23T10:23:10.295Z",
-  "sourceHeadSha": "a22ffa3bf3cfae16b72a21ab00e7827d41d523da",
+  "generatedAt": "2026-08-25T03:07:37.183Z",
+  "sourceHeadSha": "e533ff030b217068354dc5f254cfc92ce4b9303a",
   "questions": [
     {
       "id": 1,
@@ -2576,6 +2576,24 @@
       ],
       "firstCommittedAt": "2026-08-19T23:58:32+08:00",
       "lastCommittedAt": "2026-08-19T23:58:32+08:00"
+    },
+    {
+      "id": 3715,
+      "title": "Smallest Missing Multiple of K",
+      "slug": "smallest-missing-multiple-of-k",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3715/rust/",
+          "revisionCount": 3,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-08-25T11:07:01+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-08-25T11:07:01+08:00",
+      "lastCommittedAt": "2026-08-25T11:07:01+08:00"
     },
     {
       "id": 3731,
