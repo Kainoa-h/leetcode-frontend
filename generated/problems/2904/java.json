@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2904,
+    "title": "Shortest and Lexicographically Smallest Beautiful String",
+    "slug": "shortest-and-lexicographically-smallest-beautiful-string"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/2904_shortest_and_lexicographically_smallest_beautiful_string.java",
+    "latestSha": "eb9431d73b9ff87b77928e220f4256c0f7a37178",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-08-26T14:43:33+08:00",
+    "lastCommittedAt": "2026-08-26T14:48:27+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "e67f98eb83a77c00276b196ea46fa6a0bdbaa9f6032dc7170a5d0687afcfe9e7"
+  },
+  "approaches": [
+    {
+      "id": "1",
+      "title": "Sliding window over substrings containing k ones",
+      "summary": "Uses a sliding window to enumerate candidate substrings containing exactly k ones, trimming leading zeroes and retaining the shortest, lexicographically smallest candidate.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "ab4f7fcea0d3a771c984ef994c18918b7e9d6395",
+          "shortSha": "ab4f7fc",
+          "parentSha": "01b50dfe05222477b8738a684c6e6f3461f0e171",
+          "authoredAt": "2026-08-26T14:43:33+08:00",
+          "committedAt": "2026-08-26T14:43:33+08:00",
+          "chronologicalIndex": 296,
+          "problemId": 2904,
+          "language": "java",
+          "sourcePath": "java/src/solutions/2904_shortest_and_lexicographically_smallest_beautiful_string.java",
+          "sourceFilename": "2904_shortest_and_lexicographically_smallest_beautiful_string.java",
+          "code": "class Solution {\n    public String shortestBeautifulSubstring(String s, int k) {\n        String best = null;\n        var left = 0;\n        var ones = 0;\n\n        for (var right = 0; right < s.length(); right++) {\n            ones += '1' == s.charAt(right) ? 1 : 0;\n            if (ones == k) {\n                while (s.charAt(left) == '0') {\n                    left += 1;\n                }\n                var candidate = s.substring(left, right + 1);\n                if (best == null\n                        || candidate.length() < best.length()\n                        || (candidate.length() == best.length() && candidate.compareTo(best) < 0)) {\n                    best = candidate;\n                }\n                left += 1;\n                ones -= 1;\n            }\n        }\n        return best == null ? \"\" : best;\n    }\n}\n",
+          "codeHash": "cbac3a4aa4d73472073f2c773d22a9d15d421d460f80aca2566c8e05d09d1d03",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "java 2904",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Implemented the sliding-window solution with null-based tracking for the best candidate and explicit empty-string fallback.",
+          "warnings": []
+        },
+        {
+          "sha": "eb9431d73b9ff87b77928e220f4256c0f7a37178",
+          "shortSha": "eb9431d",
+          "parentSha": "ab4f7fcea0d3a771c984ef994c18918b7e9d6395",
+          "authoredAt": "2026-08-26T14:48:27+08:00",
+          "committedAt": "2026-08-26T14:48:27+08:00",
+          "chronologicalIndex": 297,
+          "problemId": 2904,
+          "language": "java",
+          "sourcePath": "java/src/solutions/2904_shortest_and_lexicographically_smallest_beautiful_string.java",
+          "sourceFilename": "2904_shortest_and_lexicographically_smallest_beautiful_string.java",
+          "code": "class Solution {\n    public String shortestBeautifulSubstring(String s, int k) {\n        String best = \"\";\n        var left = 0;\n        var ones = 0;\n\n        for (var right = 0; right < s.length(); right++) {\n            ones += '1' == s.charAt(right) ? 1 : 0;\n            if (ones == k) {\n                while (s.charAt(left) == '0') {\n                    left++;\n                }\n                var candidate = s.substring(left, right + 1);\n                if (best.isEmpty()\n                        || candidate.length() < best.length()\n                        || (candidate.length() == best.length() && candidate.compareTo(best) < 0)) {\n                    best = candidate;\n                }\n                left++;\n                ones--;\n            }\n        }\n        return best;\n    }\n}\n",
+          "codeHash": "dc52ab0842c6040e5a58f2cfc4bd64f18a60e2d93e2910a70c6c7d7e001e1235",
+          "markedWrong": false,
+          "commitComment": "more idomatic java",
+          "rawCommitSubject": "java 2904: more idomatic java",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/java/src/solutions/2904_shortest_and_lexicographically_smallest_beautiful_string.java b/java/src/solutions/2904_shortest_and_lexicographically_smallest_beautiful_string.java\nindex 5f868d6..24dcd1d 100644\n--- a/java/src/solutions/2904_shortest_and_lexicographically_smallest_beautiful_string.java\n+++ b/java/src/solutions/2904_shortest_and_lexicographically_smallest_beautiful_string.java\n@@ -1,6 +1,6 @@\n class Solution {\n     public String shortestBeautifulSubstring(String s, int k) {\n-        String best = null;\n+        String best = \"\";\n         var left = 0;\n         var ones = 0;\n \n@@ -8,18 +8,18 @@ class Solution {\n             ones += '1' == s.charAt(right) ? 1 : 0;\n             if (ones == k) {\n                 while (s.charAt(left) == '0') {\n-                    left += 1;\n+                    left++;\n                 }\n                 var candidate = s.substring(left, right + 1);\n-                if (best == null\n+                if (best.isEmpty()\n                         || candidate.length() < best.length()\n                         || (candidate.length() == best.length() && candidate.compareTo(best) < 0)) {\n                     best = candidate;\n                 }\n-                left += 1;\n-                ones -= 1;\n+                left++;\n+                ones--;\n             }\n         }\n-        return best == null ? \"\" : best;\n+        return best;\n     }\n }\n",
+          "changedLineCounts": {
+            "additions": 6,
+            "deletions": 6
+          },
+          "approachId": "1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Refactored the same sliding-window strategy to use an empty string sentinel and more idiomatic increment and decrement operators.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "ab4f7fcea0d3a771c984ef994c18918b7e9d6395",
+    "eb9431d73b9ff87b77928e220f4256c0f7a37178"
+  ],
+  "warnings": []
+}

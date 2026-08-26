@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-26T06:14:58.996Z",
-  "sourceHeadSha": "01b50dfe05222477b8738a684c6e6f3461f0e171",
+  "generatedAt": "2026-08-26T06:49:08.034Z",
+  "sourceHeadSha": "eb9431d73b9ff87b77928e220f4256c0f7a37178",
   "questions": [
     {
       "id": 1,
@@ -2034,6 +2034,15 @@
       "slug": "shortest-and-lexicographically-smallest-beautiful-string",
       "languages": [
         {
+          "id": "java",
+          "label": "Java",
+          "route": "/problems/2904/java/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-08-26T14:48:27+08:00"
+        },
+        {
           "id": "rust",
           "label": "Rust",
           "route": "/problems/2904/rust/",
@@ -2044,7 +2053,7 @@
         }
       ],
       "firstCommittedAt": "2026-08-26T13:15:50+08:00",
-      "lastCommittedAt": "2026-08-26T14:14:10+08:00"
+      "lastCommittedAt": "2026-08-26T14:48:27+08:00"
     },
     {
       "id": 2906,
