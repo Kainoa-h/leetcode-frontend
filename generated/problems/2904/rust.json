@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2904,
+    "title": "Shortest and Lexicographically Smallest Beautiful String",
+    "slug": "shortest-and-lexicographically-smallest-beautiful-string"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/2904_shortest_and_lexicographically_smallest_beautiful_string.rs",
+    "latestSha": "01b50dfe05222477b8738a684c6e6f3461f0e171",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 1,
+    "incorrectRevisionCount": 1,
+    "firstCommittedAt": "2026-08-26T13:15:50+08:00",
+    "lastCommittedAt": "2026-08-26T14:14:10+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "39cc08d7b734ea94018817b9d6fdde7dd44fd91b2e6873ae332b911edbca1e5b"
+  },
+  "approaches": [
+    {
+      "id": "1",
+      "title": "Sliding window over substrings containing exactly k ones",
+      "summary": "Maintains a two-pointer window and tracks the number of ones to examine candidate substrings. The initial version additionally tracked a numeric binary value, while later revisions directly compared substring length and lexicographic order and trimmed leading zeros more efficiently.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "9238a0b852c67918af08442bd324a7eb14b4ddbb",
+          "shortSha": "9238a0b",
+          "parentSha": "44eac957f0f6be6e795c0adb3288816ab79b295e",
+          "authoredAt": "2026-08-26T13:15:50+08:00",
+          "committedAt": "2026-08-26T13:15:50+08:00",
+          "chronologicalIndex": 293,
+          "problemId": 2904,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2904_shortest_and_lexicographically_smallest_beautiful_string.rs",
+          "sourceFilename": "2904_shortest_and_lexicographically_smallest_beautiful_string.rs",
+          "code": "impl Solution {\n    pub fn shortest_beautiful_substring(s: String, k: i32) -> String {\n        let bytes = s.as_bytes();\n        let mut start = 0;\n        let mut end = 0;\n        let mut ones = 0;\n        let mut substring = &s[..];\n        let mut substring_binary_value = i64::MAX;\n        let mut curr_binary_value = 0;\n        while end <= bytes.len() {\n            println!();\n            if ones < k {\n                if end == bytes.len() {\n                    break;\n                }\n                let x = (b'1' == bytes[end]) as i64;\n                curr_binary_value <<= 1;\n                curr_binary_value += x;\n                ones += x as i32;\n                end += 1;\n                continue;\n            }\n\n            if ones == k && (end - start) < substring.len()\n                || ((end - start) == substring.len() && curr_binary_value < substring_binary_value)\n            {\n                substring = &s[start..end];\n                substring_binary_value = curr_binary_value;\n            }\n            println!(\"substring: {}, value: {}\", substring.to_owned(), substring_binary_value);\n            println!(\"start: {}, end: {}, len: {}\", start, end, (end-start));\n\n            let x = (b'1' == bytes[start]) as i64;\n            println!(\"x: {}\",x);\n            curr_binary_value -= x << (end - start - 1);\n            ones -= x as i32;\n            start += 1;\n        }\n\n        if substring_binary_value == i64::MAX {\n            \"\".to_owned()\n        } else {\n            substring.to_owned()\n        }\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    // assert_eq!(\n    //     Solution::shortest_beautiful_substring(\"100011001\".to_owned(), 3),\n    //     \"11001\".to_owned()\n    // );\n    // assert_eq!(\n    //     Solution::shortest_beautiful_substring(\"001\".to_owned(), 1),\n    //     \"1\".to_owned()\n    // );\n    assert_eq!(\n        Solution::shortest_beautiful_substring(\"110101000010110101\".to_owned(), 3),\n        \"1011\".to_owned()\n    );\n}\n",
+          "codeHash": "5deed4389ed60b4d7066f5d10ac2fee0d92c87d37f605715218d0bf2cf19741d",
+          "markedWrong": true,
+          "commitComment": "bin tracking approach supports max of 63 len str",
+          "rawCommitSubject": "rust 2904!: bin tracking approach supports max of 63 len str",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Introduced a sliding-window approach that tracks the count of ones and compares candidates using their binary numeric values. This revision was marked wrong and limited binary-value tracking to 63 characters.",
+          "warnings": []
+        },
+        {
+          "sha": "727caf346b40eea30f0eee966481eed45b00728d",
+          "shortSha": "727caf3",
+          "parentSha": "9238a0b852c67918af08442bd324a7eb14b4ddbb",
+          "authoredAt": "2026-08-26T13:57:11+08:00",
+          "committedAt": "2026-08-26T13:57:11+08:00",
+          "chronologicalIndex": 294,
+          "problemId": 2904,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2904_shortest_and_lexicographically_smallest_beautiful_string.rs",
+          "sourceFilename": "2904_shortest_and_lexicographically_smallest_beautiful_string.rs",
+          "code": "impl Solution {\n    pub fn shortest_beautiful_substring(s: String, k: i32) -> String {\n        let bytes = s.as_bytes();\n        let (mut start, mut end) = (0, 0);\n        let mut ones = 0;\n        let mut substring = None::<&str>;\n        while end <= bytes.len() {\n            if ones < k {\n                if end == bytes.len() {\n                    break;\n                }\n                ones += (b'1' == bytes[end]) as i32;\n                end += 1;\n                continue;\n            }\n\n            if ones == k {\n                let candidate = &s[start..end];\n                match substring {\n                    None => substring = Some(candidate),\n                    Some(cur)\n                        if cur.len() > candidate.len()\n                            || (cur.len() == candidate.len() && cur > candidate) =>\n                    {\n                        substring = Some(candidate)\n                    }\n                    _ => {}\n                }\n            }\n\n            ones -= (b'1' == bytes[start]) as i32;\n            start += 1;\n        }\n\n        match substring {\n            None => \"\".to_owned(),\n            Some(x) => x.to_owned(),\n        }\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    // assert_eq!(\n    //     Solution::shortest_beautiful_substring(\"100011001\".to_owned(), 3),\n    //     \"11001\".to_owned()\n    // );\n    // assert_eq!(\n    //     Solution::shortest_beautiful_substring(\"001\".to_owned(), 1),\n    //     \"1\".to_owned()\n    // );\n    // assert_eq!(\n    //     Solution::shortest_beautiful_substring(\"110101000010110101\".to_owned(), 3),\n    //     \"1011\".to_owned()\n    // );\n    assert_eq!(\n        Solution::shortest_beautiful_substring(\"11011\".to_owned(), 4),\n        \"11011\".to_owned()\n    );\n}\n",
+          "codeHash": "e5c678ae2c7bf00e34352d7067996b09264df117a37f459a55396f98aba21fed",
+          "markedWrong": false,
+          "commitComment": "hais you can just compare strings...",
+          "rawCommitSubject": "rust 2904: hais you can just compare strings...",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2904_shortest_and_lexicographically_smallest_beautiful_string.rs b/rust/src/bin/2904_shortest_and_lexicographically_smallest_beautiful_string.rs\nindex 459113d..f50d685 100644\n--- a/rust/src/bin/2904_shortest_and_lexicographically_smallest_beautiful_string.rs\n+++ b/rust/src/bin/2904_shortest_and_lexicographically_smallest_beautiful_string.rs\n@@ -1,46 +1,40 @@\n impl Solution {\n     pub fn shortest_beautiful_substring(s: String, k: i32) -> String {\n         let bytes = s.as_bytes();\n-        let mut start = 0;\n-        let mut end = 0;\n+        let (mut start, mut end) = (0, 0);\n         let mut ones = 0;\n-        let mut substring = &s[..];\n-        let mut substring_binary_value = i64::MAX;\n-        let mut curr_binary_value = 0;\n+        let mut substring = None::<&str>;\n         while end <= bytes.len() {\n-            println!();\n             if ones < k {\n                 if end == bytes.len() {\n                     break;\n                 }\n-                let x = (b'1' == bytes[end]) as i64;\n-                curr_binary_value <<= 1;\n-                curr_binary_value += x;\n-                ones += x as i32;\n+                ones += (b'1' == bytes[end]) as i32;\n                 end += 1;\n                 continue;\n             }\n \n-            if ones == k && (end - start) < substring.len()\n-                || ((end - start) == substring.len() && curr_binary_value < substring_binary_value)\n-            {\n-                substring = &s[start..end];\n-                substring_binary_value = curr_binary_value;\n+            if ones == k {\n+                let candidate = &s[start..end];\n+                match substring {\n+                    None => substring = Some(candidate),\n+                    Some(cur)\n+                        if cur.len() > candidate.len()\n+                            || (cur.len() == candidate.len() && cur > candidate) =>\n+                    {\n+                        substring = Some(candidate)\n+                    }\n+                    _ => {}\n+                }\n             }\n-            println!(\"substring: {}, value: {}\", substring.to_owned(), substring_binary_value);\n-            println!(\"start: {}, end: {}, len: {}\", start, end, (end-start));\n \n-            let x = (b'1' == bytes[start]) as i64;\n-            println!(\"x: {}\",x);\n-            curr_binary_value -= x << (end - start - 1);\n-            ones -= x as i32;\n+            ones -= (b'1' == bytes[start]) as i32;\n             start += 1;\n         }\n \n-        if substring_binary_value == i64::MAX {\n-            \"\".to_owned()\n-        } else {\n-            substring.to_owned()\n+        match substring {\n+            None => \"\".to_owned(),\n+            Some(x) => x.to_owned(),\n         }\n     }\n }\n@@ -56,8 +50,12 @@ fn main() {\n     //     Solution::shortest_beautiful_substring(\"001\".to_owned(), 1),\n     //     \"1\".to_owned()\n     // );\n+    // assert_eq!(\n+    //     Solution::shortest_beautiful_substring(\"110101000010110101\".to_owned(), 3),\n+    //     \"1011\".to_owned()\n+    // );\n     assert_eq!(\n-        Solution::shortest_beautiful_substring(\"110101000010110101\".to_owned(), 3),\n-        \"1011\".to_owned()\n+        Solution::shortest_beautiful_substring(\"11011\".to_owned(), 4),\n+        \"11011\".to_owned()\n     );\n }\n",
+          "changedLineCounts": {
+            "additions": 25,
+            "deletions": 27
+          },
+          "approachId": "1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Removed binary-value tracking and compared candidate strings directly by length and lexicographic order. Also cleaned up the window implementation and removed debug output.",
+          "warnings": []
+        },
+        {
+          "sha": "01b50dfe05222477b8738a684c6e6f3461f0e171",
+          "shortSha": "01b50df",
+          "parentSha": "727caf346b40eea30f0eee966481eed45b00728d",
+          "authoredAt": "2026-08-26T14:14:10+08:00",
+          "committedAt": "2026-08-26T14:14:10+08:00",
+          "chronologicalIndex": 295,
+          "problemId": 2904,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2904_shortest_and_lexicographically_smallest_beautiful_string.rs",
+          "sourceFilename": "2904_shortest_and_lexicographically_smallest_beautiful_string.rs",
+          "code": "impl Solution {\n    pub fn shortest_beautiful_substring(s: String, k: i32) -> String {\n        let bytes = s.as_bytes();\n        let mut best = None::<&str>;\n        let mut left = 0;\n        let mut ones = 0;\n\n        for right in 0..bytes.len() {\n            ones += i32::from(b'1' == bytes[right]);\n            if ones == k {\n                while bytes[left] == b'0' {\n                    left += 1;\n                }\n                let candidate = &s[left..=right];\n                if best.is_none_or(|cur| (candidate.len(), candidate) < (cur.len(), cur)) {\n                    best = Some(candidate);\n                }\n                left += 1;\n                ones -= 1;\n            }\n        }\n\n        best.unwrap_or_default().to_owned()\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        Solution::shortest_beautiful_substring(\"100011001\".to_owned(), 3),\n        \"11001\".to_owned()\n    );\n    assert_eq!(\n        Solution::shortest_beautiful_substring(\"001\".to_owned(), 1),\n        \"1\".to_owned()\n    );\n    assert_eq!(\n        Solution::shortest_beautiful_substring(\"110101000010110101\".to_owned(), 3),\n        \"1011\".to_owned()\n    );\n    assert_eq!(\n        Solution::shortest_beautiful_substring(\"11011\".to_owned(), 4),\n        \"11011\".to_owned()\n    );\n}\n",
+          "codeHash": "94178989522797f01dd82415be6cf580bfd56313239f72d5cbe84d25181c38ef",
+          "markedWrong": false,
+          "commitComment": "more idomatic two-pointer & cleaner comparison with tuples",
+          "rawCommitSubject": "rust 2904: more idomatic two-pointer & cleaner comparison with tuples",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2904_shortest_and_lexicographically_smallest_beautiful_string.rs b/rust/src/bin/2904_shortest_and_lexicographically_smallest_beautiful_string.rs\nindex f50d685..fa1b210 100644\n--- a/rust/src/bin/2904_shortest_and_lexicographically_smallest_beautiful_string.rs\n+++ b/rust/src/bin/2904_shortest_and_lexicographically_smallest_beautiful_string.rs\n@@ -1,59 +1,44 @@\n impl Solution {\n     pub fn shortest_beautiful_substring(s: String, k: i32) -> String {\n         let bytes = s.as_bytes();\n-        let (mut start, mut end) = (0, 0);\n+        let mut best = None::<&str>;\n+        let mut left = 0;\n         let mut ones = 0;\n-        let mut substring = None::<&str>;\n-        while end <= bytes.len() {\n-            if ones < k {\n-                if end == bytes.len() {\n-                    break;\n-                }\n-                ones += (b'1' == bytes[end]) as i32;\n-                end += 1;\n-                continue;\n-            }\n \n+        for right in 0..bytes.len() {\n+            ones += i32::from(b'1' == bytes[right]);\n             if ones == k {\n-                let candidate = &s[start..end];\n-                match substring {\n-                    None => substring = Some(candidate),\n-                    Some(cur)\n-                        if cur.len() > candidate.len()\n-                            || (cur.len() == candidate.len() && cur > candidate) =>\n-                    {\n-                        substring = Some(candidate)\n-                    }\n-                    _ => {}\n+                while bytes[left] == b'0' {\n+                    left += 1;\n+                }\n+                let candidate = &s[left..=right];\n+                if best.is_none_or(|cur| (candidate.len(), candidate) < (cur.len(), cur)) {\n+                    best = Some(candidate);\n                 }\n+                left += 1;\n+                ones -= 1;\n             }\n-\n-            ones -= (b'1' == bytes[start]) as i32;\n-            start += 1;\n         }\n \n-        match substring {\n-            None => \"\".to_owned(),\n-            Some(x) => x.to_owned(),\n-        }\n+        best.unwrap_or_default().to_owned()\n     }\n }\n \n struct Solution {}\n \n fn main() {\n-    // assert_eq!(\n-    //     Solution::shortest_beautiful_substring(\"100011001\".to_owned(), 3),\n-    //     \"11001\".to_owned()\n-    // );\n-    // assert_eq!(\n-    //     Solution::shortest_beautiful_substring(\"001\".to_owned(), 1),\n-    //     \"1\".to_owned()\n-    // );\n-    // assert_eq!(\n-    //     Solution::shortest_beautiful_substring(\"110101000010110101\".to_owned(), 3),\n-    //     \"1011\".to_owned()\n-    // );\n+    assert_eq!(\n+        Solution::shortest_beautiful_substring(\"100011001\".to_owned(), 3),\n+        \"11001\".to_owned()\n+    );\n+    assert_eq!(\n+        Solution::shortest_beautiful_substring(\"001\".to_owned(), 1),\n+        \"1\".to_owned()\n+    );\n+    assert_eq!(\n+        Solution::shortest_beautiful_substring(\"110101000010110101\".to_owned(), 3),\n+        \"1011\".to_owned()\n+    );\n     assert_eq!(\n         Solution::shortest_beautiful_substring(\"11011\".to_owned(), 4),\n         \"11011\".to_owned()\n",
+          "changedLineCounts": {
+            "additions": 25,
+            "deletions": 40
+          },
+          "approachId": "1",
+          "narrativeIndex": 2,
+          "shortChangeSummary": "Refactored the same two-pointer strategy into a forward loop that trims leading zeros before evaluating each candidate. Simplified best-candidate selection with tuple comparison and restored broader test coverage.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "9238a0b852c67918af08442bd324a7eb14b4ddbb",
+    "727caf346b40eea30f0eee966481eed45b00728d",
+    "01b50dfe05222477b8738a684c6e6f3461f0e171"
+  ],
+  "warnings": []
+}

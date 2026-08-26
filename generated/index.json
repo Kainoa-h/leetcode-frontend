@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-25T10:00:49.128Z",
-  "sourceHeadSha": "44eac957f0f6be6e795c0adb3288816ab79b295e",
+  "generatedAt": "2026-08-26T06:14:58.996Z",
+  "sourceHeadSha": "01b50dfe05222477b8738a684c6e6f3461f0e171",
   "questions": [
     {
       "id": 1,
@@ -2027,6 +2027,24 @@
       ],
       "firstCommittedAt": "2026-03-30T23:33:24+08:00",
       "lastCommittedAt": "2026-04-16T18:09:38+08:00"
+    },
+    {
+      "id": 2904,
+      "title": "Shortest and Lexicographically Smallest Beautiful String",
+      "slug": "shortest-and-lexicographically-smallest-beautiful-string",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/2904/rust/",
+          "revisionCount": 3,
+          "approachCount": 1,
+          "incorrectRevisionCount": 1,
+          "lastCommittedAt": "2026-08-26T14:14:10+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-08-26T13:15:50+08:00",
+      "lastCommittedAt": "2026-08-26T14:14:10+08:00"
     },
     {
       "id": 2906,
