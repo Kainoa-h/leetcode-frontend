@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 226,
+    "title": "Invert Binary Tree",
+    "slug": "invert-binary-tree"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/226_invert_binary_tree.rs",
+    "latestSha": "d3c91d1ff5e355411391309ecb441a90ae96dd4a",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-08-27T17:16:21+08:00",
+    "lastCommittedAt": "2026-08-27T17:16:21+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "26aefd7e6eacbd84a4d6efc0915fb04459b369754ea4920491ae3426a48e8ab1"
+  },
+  "approaches": [
+    {
+      "id": "1",
+      "title": "Recursive in-place tree inversion",
+      "summary": "Recursively visits each node and swaps its left and right children in place using Rust reference-counted interior mutability. The root is returned after the entire tree is inverted.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "b2bd5703978d48876f2b93a54768cd4b2db07e96",
+          "shortSha": "b2bd570",
+          "parentSha": "b3455b6d81083540b67b68f595c33e081f9ab675",
+          "authoredAt": "2026-08-26T23:48:33+08:00",
+          "committedAt": "2026-08-27T17:16:21+08:00",
+          "chronologicalIndex": 300,
+          "problemId": 226,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/226_invert_binary_tree.rs",
+          "sourceFilename": "226_invert_binary_tree.rs",
+          "code": "use std::cell::{RefCell, RefMut};\nuse std::rc::Rc;\n\n#[derive(Debug, PartialEq, Eq)]\npub struct TreeNode {\n    pub val: i32,\n    pub left: Option<Rc<RefCell<TreeNode>>>,\n    pub right: Option<Rc<RefCell<TreeNode>>>,\n}\n\nimpl TreeNode {\n    #[inline]\n    pub fn new(val: i32) -> Self {\n        TreeNode {\n            val,\n            left: None,\n            right: None,\n        }\n    }\n}\n\nimpl Solution {\n    pub fn invert_tree(root: Option<Rc<RefCell<TreeNode>>>) -> Option<Rc<RefCell<TreeNode>>> {\n        fn swap_children(node: &mut RefMut<'_, TreeNode>) {\n            let left = node.left.take();\n            node.left = node.right.take();\n            node.right = left;\n\n            if let Some(left) = &node.left {\n                swap_children(&mut left.borrow_mut());\n            }\n            if let Some(right) = &node.right {\n                swap_children(&mut right.borrow_mut());\n            }\n        }\n        if let Some(r) = &root {\n            swap_children(&mut r.borrow_mut());\n        }\n\n        root\n    }\n}\n\nstruct Solution{}\n",
+          "codeHash": "5af2ba4fee93b0497f15a7f9f7a6e4753d630fc714b342c3ceaffd331e5ba06b",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 226",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Implements recursive in-place inversion by taking and swapping each node’s children, then recursively processing both subtrees.",
+          "warnings": []
+        },
+        {
+          "sha": "d3c91d1ff5e355411391309ecb441a90ae96dd4a",
+          "shortSha": "d3c91d1",
+          "parentSha": "b2bd5703978d48876f2b93a54768cd4b2db07e96",
+          "authoredAt": "2026-08-27T00:13:02+08:00",
+          "committedAt": "2026-08-27T17:16:21+08:00",
+          "chronologicalIndex": 301,
+          "problemId": 226,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/226_invert_binary_tree.rs",
+          "sourceFilename": "226_invert_binary_tree.rs",
+          "code": "use std::cell::{RefCell, RefMut};\nuse std::mem;\nuse std::rc::Rc;\n\n#[derive(Debug, PartialEq, Eq)]\npub struct TreeNode {\n    pub val: i32,\n    pub left: Option<Rc<RefCell<TreeNode>>>,\n    pub right: Option<Rc<RefCell<TreeNode>>>,\n}\n\nimpl TreeNode {\n    #[inline]\n    pub fn new(val: i32) -> Self {\n        TreeNode {\n            val,\n            left: None,\n            right: None,\n        }\n    }\n}\n\nimpl Solution {\n    pub fn invert_tree(root: Option<Rc<RefCell<TreeNode>>>) -> Option<Rc<RefCell<TreeNode>>> {\n        fn swap_children(node: Option<&Rc<RefCell<TreeNode>>>) {\n            if let Some(n) = node {\n                let mut n_borrow = n.borrow_mut();\n                let n_ref = &mut *n_borrow;\n                mem::swap(&mut n_ref.left, &mut n_ref.right);\n                swap_children(n_ref.left.as_ref());\n                swap_children(n_ref.right.as_ref());\n            }\n        }\n        swap_children(root.as_ref());\n\n        root\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "d88a4865b1d7a47a33464da9b7135e1b2e6d501de7061130062f0fea2a159322",
+          "markedWrong": false,
+          "commitComment": "better borrowing semantics",
+          "rawCommitSubject": "rust 226: better borrowing semantics",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/226_invert_binary_tree.rs b/rust/src/bin/226_invert_binary_tree.rs\nindex b68c692..89c69c8 100644\n--- a/rust/src/bin/226_invert_binary_tree.rs\n+++ b/rust/src/bin/226_invert_binary_tree.rs\n@@ -1,4 +1,5 @@\n use std::cell::{RefCell, RefMut};\n+use std::mem;\n use std::rc::Rc;\n \n #[derive(Debug, PartialEq, Eq)]\n@@ -21,24 +22,19 @@ impl TreeNode {\n \n impl Solution {\n     pub fn invert_tree(root: Option<Rc<RefCell<TreeNode>>>) -> Option<Rc<RefCell<TreeNode>>> {\n-        fn swap_children(node: &mut RefMut<'_, TreeNode>) {\n-            let left = node.left.take();\n-            node.left = node.right.take();\n-            node.right = left;\n-\n-            if let Some(left) = &node.left {\n-                swap_children(&mut left.borrow_mut());\n-            }\n-            if let Some(right) = &node.right {\n-                swap_children(&mut right.borrow_mut());\n+        fn swap_children(node: Option<&Rc<RefCell<TreeNode>>>) {\n+            if let Some(n) = node {\n+                let mut n_borrow = n.borrow_mut();\n+                let n_ref = &mut *n_borrow;\n+                mem::swap(&mut n_ref.left, &mut n_ref.right);\n+                swap_children(n_ref.left.as_ref());\n+                swap_children(n_ref.right.as_ref());\n             }\n         }\n-        if let Some(r) = &root {\n-            swap_children(&mut r.borrow_mut());\n-        }\n+        swap_children(root.as_ref());\n \n         root\n     }\n }\n \n-struct Solution{}\n+struct Solution {}\n",
+          "changedLineCounts": {
+            "additions": 10,
+            "deletions": 14
+          },
+          "approachId": "1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Refactors the same recursive inversion strategy to use `mem::swap` and pass optional node references, improving borrowing semantics and simplifying child access.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "b2bd5703978d48876f2b93a54768cd4b2db07e96",
+    "d3c91d1ff5e355411391309ecb441a90ae96dd4a"
+  ],
+  "warnings": []
+}
