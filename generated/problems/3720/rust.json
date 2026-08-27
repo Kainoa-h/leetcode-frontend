@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3720,
+    "title": "Lexicographically Smallest Permutation Greater Than Target",
+    "slug": "lexicographically-smallest-permutation-greater-than-target"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3720_lexicographically_smallest_permutation_greater_than_target.rs",
+    "latestSha": "b3455b6d81083540b67b68f595c33e081f9ab675",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-08-27T10:53:23+08:00",
+    "lastCommittedAt": "2026-08-27T11:22:45+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "5170fff9a8925850eadd1c18e118877de27eecfd8462a29219f184d3c762ffa9"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "Greedy multiset matching with backtracking",
+      "summary": "Builds a character-frequency bucket, matches the target greedily, and backtracks to the rightmost position that can be increased when necessary. It then appends the remaining characters in sorted order to obtain the smallest valid greater permutation.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "8d0f99e4f9f727de38b60b494e4734b61fe10624",
+          "shortSha": "8d0f99e",
+          "parentSha": "eb9431d73b9ff87b77928e220f4256c0f7a37178",
+          "authoredAt": "2026-08-27T10:49:46+08:00",
+          "committedAt": "2026-08-27T10:53:23+08:00",
+          "chronologicalIndex": 298,
+          "problemId": 3720,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3720_lexicographically_smallest_permutation_greater_than_target.rs",
+          "sourceFilename": "3720_lexicographically_smallest_permutation_greater_than_target.rs",
+          "code": "impl Solution {\n    pub fn lex_greater_permutation(s: String, target: String) -> String {\n        let mut bucket = [0; 256];\n        s.as_bytes().iter().for_each(|&b| bucket[b as usize] += 1);\n        let next_greater = |bucket: &[usize; 256], c: u8| {\n            bucket\n                .iter()\n                .enumerate()\n                .skip(c as usize + 1)\n                .take((b'z' - c + 1) as usize)\n                .find(|&(_, &count)| count > 0)\n                .map(|(i, _)| i)\n        };\n\n        let bytes = target.as_bytes();\n        let mut result = Vec::new();\n        let mut idx = 0;\n        let mut backtrack_needed = true;\n\n        while idx < bytes.len() {\n            let t_byte = bytes[idx];\n            if bucket[t_byte as usize] > 0 {\n                bucket[t_byte as usize] -= 1;\n                result.push(t_byte);\n                idx += 1;\n                continue;\n            }\n\n            if let Some(next) = next_greater(&bucket, t_byte) {\n                result.push(next as u8);\n                bucket[next] -= 1;\n                backtrack_needed = false;\n            }\n            break;\n        }\n\n        if idx == bytes.len() || backtrack_needed {\n            while let Some(p) = result.pop() {\n                bucket[p as usize] += 1;\n                if let Some(next) = next_greater(&bucket, p) {\n                    result.push(next as u8);\n                    bucket[next] -= 1;\n                    break;\n                }\n            }\n            if result.is_empty() {\n                return String::new();\n            }\n        }\n\n        for (char, &count) in bucket.iter().enumerate().skip(b'a' as usize).take(26) {\n            for _ in 0..count {\n                result.push(char as u8)\n            }\n        }\n\n        str::from_utf8(&result).unwrap().to_owned()\n    }\n}\n\nstruct Solution {}\n\n// abzf\n// abzd\n\n// zzzz\n// zaaa\n",
+          "codeHash": "f090cf72ac1b6f4fac24c5ce24f61e0b9d50a2339ceaa0651bf99fd3a08d9d92",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 3720",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial greedy permutation algorithm using a frequency bucket, next-greater character search, and backtracking.",
+          "warnings": []
+        },
+        {
+          "sha": "b3455b6d81083540b67b68f595c33e081f9ab675",
+          "shortSha": "b3455b6",
+          "parentSha": "8d0f99e4f9f727de38b60b494e4734b61fe10624",
+          "authoredAt": "2026-08-27T11:22:37+08:00",
+          "committedAt": "2026-08-27T11:22:45+08:00",
+          "chronologicalIndex": 299,
+          "problemId": 3720,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3720_lexicographically_smallest_permutation_greater_than_target.rs",
+          "sourceFilename": "3720_lexicographically_smallest_permutation_greater_than_target.rs",
+          "code": "impl Solution {\n    pub fn lex_greater_permutation(s: String, target: String) -> String {\n        let mut bucket = [0; 256];\n        s.as_bytes().iter().for_each(|&b| bucket[b as usize] += 1);\n        let next_greater = |bucket: &[usize; 256], byte: u8| {\n            ((byte + 1)..=b'z').find(|&c| bucket[c as usize] > 0)\n        };\n\n        let bytes = target.as_bytes();\n        let mut result = Vec::with_capacity(bytes.len());\n        let mut backtrack_needed = true;\n\n        for &b in bytes {\n            if bucket[b as usize] > 0 {\n                bucket[b as usize] -= 1;\n                result.push(b);\n                continue;\n            }\n\n            if let Some(next) = next_greater(&bucket, b) {\n                result.push(next);\n                bucket[next as usize] -= 1;\n                backtrack_needed = false;\n            }\n            break;\n        }\n\n        if backtrack_needed {\n            while let Some(p) = result.pop() {\n                bucket[p as usize] += 1;\n                if let Some(next) = next_greater(&bucket, p) {\n                    result.push(next);\n                    bucket[next as usize] -= 1;\n                    break;\n                }\n            }\n            if result.is_empty() {\n                return String::new();\n            }\n        }\n\n        for (char, &count) in bucket.iter().enumerate().skip(b'a' as usize).take(26) {\n            for _ in 0..count {\n                result.push(char as u8)\n            }\n        }\n\n        String::from_utf8(result).unwrap()\n    }\n}\n\nstruct Solution {}\n\n// abzf\n// abzd\n\n// zzzz\n// zaaa\n",
+          "codeHash": "e3f4748c4b57b7cff79dc58f8ceee0a488f4960b523cb1dbec7ae282fb2d9adc",
+          "markedWrong": false,
+          "commitComment": "idiomatic changes",
+          "rawCommitSubject": "rust 3720: idiomatic changes",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3720_lexicographically_smallest_permutation_greater_than_target.rs b/rust/src/bin/3720_lexicographically_smallest_permutation_greater_than_target.rs\nindex a56d580..1aa4fa0 100644\n--- a/rust/src/bin/3720_lexicographically_smallest_permutation_greater_than_target.rs\n+++ b/rust/src/bin/3720_lexicographically_smallest_permutation_greater_than_target.rs\n@@ -2,44 +2,35 @@ impl Solution {\n     pub fn lex_greater_permutation(s: String, target: String) -> String {\n         let mut bucket = [0; 256];\n         s.as_bytes().iter().for_each(|&b| bucket[b as usize] += 1);\n-        let next_greater = |bucket: &[usize; 256], c: u8| {\n-            bucket\n-                .iter()\n-                .enumerate()\n-                .skip(c as usize + 1)\n-                .take((b'z' - c + 1) as usize)\n-                .find(|&(_, &count)| count > 0)\n-                .map(|(i, _)| i)\n+        let next_greater = |bucket: &[usize; 256], byte: u8| {\n+            ((byte + 1)..=b'z').find(|&c| bucket[c as usize] > 0)\n         };\n \n         let bytes = target.as_bytes();\n-        let mut result = Vec::new();\n-        let mut idx = 0;\n+        let mut result = Vec::with_capacity(bytes.len());\n         let mut backtrack_needed = true;\n \n-        while idx < bytes.len() {\n-            let t_byte = bytes[idx];\n-            if bucket[t_byte as usize] > 0 {\n-                bucket[t_byte as usize] -= 1;\n-                result.push(t_byte);\n-                idx += 1;\n+        for &b in bytes {\n+            if bucket[b as usize] > 0 {\n+                bucket[b as usize] -= 1;\n+                result.push(b);\n                 continue;\n             }\n \n-            if let Some(next) = next_greater(&bucket, t_byte) {\n-                result.push(next as u8);\n-                bucket[next] -= 1;\n+            if let Some(next) = next_greater(&bucket, b) {\n+                result.push(next);\n+                bucket[next as usize] -= 1;\n                 backtrack_needed = false;\n             }\n             break;\n         }\n \n-        if idx == bytes.len() || backtrack_needed {\n+        if backtrack_needed {\n             while let Some(p) = result.pop() {\n                 bucket[p as usize] += 1;\n                 if let Some(next) = next_greater(&bucket, p) {\n-                    result.push(next as u8);\n-                    bucket[next] -= 1;\n+                    result.push(next);\n+                    bucket[next as usize] -= 1;\n                     break;\n                 }\n             }\n@@ -54,7 +45,7 @@ impl Solution {\n             }\n         }\n \n-        str::from_utf8(&result).unwrap().to_owned()\n+        String::from_utf8(result).unwrap()\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 14,
+            "deletions": 23
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Refactors the same algorithm into more idiomatic Rust with a `for` loop, direct byte indexing, preallocated output capacity, and simplified UTF-8 conversion.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "8d0f99e4f9f727de38b60b494e4734b61fe10624",
+    "b3455b6d81083540b67b68f595c33e081f9ab675"
+  ],
+  "warnings": []
+}

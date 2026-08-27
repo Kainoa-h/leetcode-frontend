@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-26T06:49:08.034Z",
-  "sourceHeadSha": "eb9431d73b9ff87b77928e220f4256c0f7a37178",
+  "generatedAt": "2026-08-27T03:25:50.466Z",
+  "sourceHeadSha": "b3455b6d81083540b67b68f595c33e081f9ab675",
   "questions": [
     {
       "id": 1,
@@ -2639,6 +2639,24 @@
       ],
       "firstCommittedAt": "2026-08-25T11:07:01+08:00",
       "lastCommittedAt": "2026-08-25T11:07:17+08:00"
+    },
+    {
+      "id": 3720,
+      "title": "Lexicographically Smallest Permutation Greater Than Target",
+      "slug": "lexicographically-smallest-permutation-greater-than-target",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3720/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-08-27T11:22:45+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-08-27T10:53:23+08:00",
+      "lastCommittedAt": "2026-08-27T11:22:45+08:00"
     },
     {
       "id": 3731,
