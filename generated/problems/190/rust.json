@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 190,
+    "title": "Reverse Bits",
+    "slug": "reverse-bits"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/190_reverse_bits.rs",
+    "latestSha": "1b0b97f89df6b5c73cfbdd9f2e7ce6f931043881",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-08-29T01:43:37+08:00",
+    "lastCommittedAt": "2026-08-29T01:50:34+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "a409fa03c189f3072222f2b061dff021d2f3eb53fe7b5bfe7c221198981d2606"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "Manual bit-by-bit reversal",
+      "summary": "Iterates over all 32 bits, shifting the result and appending the current least-significant bit from the input.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "05351a57f2e26e960d5f0f0d9ed1ceb64a1c6ee6",
+          "shortSha": "05351a5",
+          "parentSha": "86bd4bf4026386f58f686ce72cda13560bead6fd",
+          "authoredAt": "2026-08-29T01:43:37+08:00",
+          "committedAt": "2026-08-29T01:43:37+08:00",
+          "chronologicalIndex": 304,
+          "problemId": 190,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/190_reverse_bits.rs",
+          "sourceFilename": "190_reverse_bits.rs",
+          "code": "impl Solution {\n    pub fn reverse_bits(mut n: i32) -> i32 {\n        let mut result = 0;\n        for _ in 0..32 {\n            result <<= 1;\n            let x = n & 1;\n            result |= x;\n            n >>= 1;\n        }\n        result\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "999e96f21486064053cfca578e090e9a139f765203b195267bc7a7eee3894fea",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 190",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Introduces a 32-iteration loop that reverses the bits using shifts, masking, and accumulation.",
+          "warnings": []
+        },
+        {
+          "sha": "5e0ca9cd06fd8fe9b9f0e56dc661c8932923998b",
+          "shortSha": "5e0ca9c",
+          "parentSha": "05351a57f2e26e960d5f0f0d9ed1ceb64a1c6ee6",
+          "authoredAt": "2026-08-29T01:49:59+08:00",
+          "committedAt": "2026-08-29T01:50:20+08:00",
+          "chronologicalIndex": 305,
+          "problemId": 190,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/190_reverse_bits.rs",
+          "sourceFilename": "190_reverse_bits.rs",
+          "code": "impl Solution {\n    pub fn reverse_bits(mut n: i32) -> i32 {\n        let mut result = 0;\n        for _ in 0..32 {\n            result = (result << 1) | (n & 1);\n            n >>= 1;\n        }\n        result\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "102aa64731f7c69a2f5b0f18db85758e083294ab3ccf647d8b1a5e1804c3b801",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 190",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/190_reverse_bits.rs b/rust/src/bin/190_reverse_bits.rs\nindex 40b12a7..254a1a9 100644\n--- a/rust/src/bin/190_reverse_bits.rs\n+++ b/rust/src/bin/190_reverse_bits.rs\n@@ -2,9 +2,7 @@ impl Solution {\n     pub fn reverse_bits(mut n: i32) -> i32 {\n         let mut result = 0;\n         for _ in 0..32 {\n-            result <<= 1;\n-            let x = n & 1;\n-            result |= x;\n+            result = (result << 1) | (n & 1);\n             n >>= 1;\n         }\n         result\n",
+          "changedLineCounts": {
+            "additions": 1,
+            "deletions": 3
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Combines the result shift and extracted-bit operation into a single expression without changing the algorithm.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "approach-2",
+      "title": "Built-in bit reversal",
+      "summary": "Uses Rust’s built-in integer bit-reversal method to reverse all bits directly.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "1b0b97f89df6b5c73cfbdd9f2e7ce6f931043881",
+          "shortSha": "1b0b97f",
+          "parentSha": "5e0ca9cd06fd8fe9b9f0e56dc661c8932923998b",
+          "authoredAt": "2026-08-29T01:44:10+08:00",
+          "committedAt": "2026-08-29T01:50:34+08:00",
+          "chronologicalIndex": 306,
+          "problemId": 190,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/190_reverse_bits.rs",
+          "sourceFilename": "190_reverse_bits.rs",
+          "code": "impl Solution {\n    pub fn reverse_bits(n: i32) -> i32 {\n        n.reverse_bits()\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "93833f1cc7af4a71375968d9fde2c2b2374567b69106c554d0b372baba4711b4",
+          "markedWrong": false,
+          "commitComment": "lol",
+          "rawCommitSubject": "rust 190: lol",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/190_reverse_bits.rs b/rust/src/bin/190_reverse_bits.rs\nindex 254a1a9..d16e2e5 100644\n--- a/rust/src/bin/190_reverse_bits.rs\n+++ b/rust/src/bin/190_reverse_bits.rs\n@@ -1,11 +1,6 @@\n impl Solution {\n-    pub fn reverse_bits(mut n: i32) -> i32 {\n-        let mut result = 0;\n-        for _ in 0..32 {\n-            result = (result << 1) | (n & 1);\n-            n >>= 1;\n-        }\n-        result\n+    pub fn reverse_bits(n: i32) -> i32 {\n+        n.reverse_bits()\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 2,
+            "deletions": 7
+          },
+          "approachId": "approach-2",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaces the manual loop with the standard library’s `reverse_bits` method.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "05351a57f2e26e960d5f0f0d9ed1ceb64a1c6ee6",
+    "5e0ca9cd06fd8fe9b9f0e56dc661c8932923998b",
+    "1b0b97f89df6b5c73cfbdd9f2e7ce6f931043881"
+  ],
+  "warnings": []
+}
