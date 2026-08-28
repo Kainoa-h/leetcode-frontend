@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-27T09:17:00.653Z",
-  "sourceHeadSha": "d3c91d1ff5e355411391309ecb441a90ae96dd4a",
+  "generatedAt": "2026-08-28T10:18:13.889Z",
+  "sourceHeadSha": "86bd4bf4026386f58f686ce72cda13560bead6fd",
   "questions": [
     {
       "id": 1,
@@ -506,6 +506,24 @@
       ],
       "firstCommittedAt": "2026-01-29T23:12:46+08:00",
       "lastCommittedAt": "2026-01-29T23:13:29+08:00"
+    },
+    {
+      "id": 67,
+      "title": "Add Binary",
+      "slug": "add-binary",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/67/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-08-28T18:17:28+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-08-28T18:00:24+08:00",
+      "lastCommittedAt": "2026-08-28T18:17:28+08:00"
     },
     {
       "id": 68,

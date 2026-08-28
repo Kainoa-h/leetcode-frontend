@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 67,
+    "title": "Add Binary",
+    "slug": "add-binary"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/67_add_binary.rs",
+    "latestSha": "86bd4bf4026386f58f686ce72cda13560bead6fd",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-08-28T18:00:24+08:00",
+    "lastCommittedAt": "2026-08-28T18:17:28+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "6964ac9aeccaae4ed8490694c2e3480fe5bed922f77bb05d2a9dcc28ce1b5ba7"
+  },
+  "approaches": [
+    {
+      "id": "1",
+      "title": "Right-to-left binary addition",
+      "summary": "Adds the binary strings from right to left while propagating a carry, stores result digits in reverse order, then reverses the output. Revision 2 refines the same strategy with byte iterators and arithmetic instead of branching.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "8ac7a778299627c5c36b0a3355fd00e10ae95a4c",
+          "shortSha": "8ac7a77",
+          "parentSha": "d3c91d1ff5e355411391309ecb441a90ae96dd4a",
+          "authoredAt": "2026-08-28T18:00:24+08:00",
+          "committedAt": "2026-08-28T18:00:24+08:00",
+          "chronologicalIndex": 302,
+          "problemId": 67,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/67_add_binary.rs",
+          "sourceFilename": "67_add_binary.rs",
+          "code": "impl Solution {\n    pub fn add_binary(a: String, b: String) -> String {\n        let mut string_stack = String::with_capacity(a.len().max(b.len()) + 1);\n        let mut a_iter = a.as_bytes().iter().rev();\n        let mut b_iter = b.as_bytes().iter().rev();\n        let mut a_maybe = a_iter.next();\n        let mut b_maybe = b_iter.next();\n        let mut carry = 0;\n        while a_maybe.is_some() || b_maybe.is_some() || carry == 1 {\n            let ac = i32::from(*a_maybe.unwrap_or(&b'0') == b'1');\n            let bc = i32::from(*b_maybe.unwrap_or(&b'0') == b'1');\n            let sum = ac + bc + carry;\n            let x = match sum {\n                0 => (b'0', 0),\n                1 => (b'1', 0),\n                2 => (b'0', 1),\n                3 => (b'1', 1),\n                _ => panic!()\n            };\n            string_stack.push(x.0 as char);\n            carry = x.1;\n            a_maybe = a_iter.next();\n            b_maybe = b_iter.next();\n        }\n        string_stack.chars().rev().collect()\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "bce377556a17c529e019e7400ecbc302dc9cf4005d8b6694df69524e512d2a81",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 67",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Implements right-to-left binary addition using reversed byte iterators, explicit digit matching, and carry propagation.",
+          "warnings": []
+        },
+        {
+          "sha": "86bd4bf4026386f58f686ce72cda13560bead6fd",
+          "shortSha": "86bd4bf",
+          "parentSha": "8ac7a778299627c5c36b0a3355fd00e10ae95a4c",
+          "authoredAt": "2026-08-28T18:16:30+08:00",
+          "committedAt": "2026-08-28T18:17:28+08:00",
+          "chronologicalIndex": 303,
+          "problemId": 67,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/67_add_binary.rs",
+          "sourceFilename": "67_add_binary.rs",
+          "code": "impl Solution {\n    pub fn add_binary(a: String, b: String) -> String {\n        let mut string_stack = String::with_capacity(a.len().max(b.len()) + 1);\n        let mut a = a.bytes().rev().peekable();\n        let mut b = b.bytes().rev().peekable();\n        let mut carry = 0;\n\n        while a.peek().is_some() || b.peek().is_some() || carry == 1 {\n            let sum = carry + a.next().map_or(0, |b| b - b'0') + b.next().map_or(0, |b| b - b'0');\n            string_stack.push((b'0' + sum % 2) as char);\n            carry = sum / 2;\n        }\n\n        string_stack.chars().rev().collect()\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "1d341e861bcb8e208fa26e0f28bd88ab1b813b15a6f303f0d0e8e23dd9fe06e7",
+          "markedWrong": false,
+          "commitComment": "more idiomatic, less branching",
+          "rawCommitSubject": "rust 67: more idiomatic, less branching",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/67_add_binary.rs b/rust/src/bin/67_add_binary.rs\nindex 242b60c..07c0a5e 100644\n--- a/rust/src/bin/67_add_binary.rs\n+++ b/rust/src/bin/67_add_binary.rs\n@@ -1,27 +1,16 @@\n impl Solution {\n     pub fn add_binary(a: String, b: String) -> String {\n         let mut string_stack = String::with_capacity(a.len().max(b.len()) + 1);\n-        let mut a_iter = a.as_bytes().iter().rev();\n-        let mut b_iter = b.as_bytes().iter().rev();\n-        let mut a_maybe = a_iter.next();\n-        let mut b_maybe = b_iter.next();\n+        let mut a = a.bytes().rev().peekable();\n+        let mut b = b.bytes().rev().peekable();\n         let mut carry = 0;\n-        while a_maybe.is_some() || b_maybe.is_some() || carry == 1 {\n-            let ac = i32::from(*a_maybe.unwrap_or(&b'0') == b'1');\n-            let bc = i32::from(*b_maybe.unwrap_or(&b'0') == b'1');\n-            let sum = ac + bc + carry;\n-            let x = match sum {\n-                0 => (b'0', 0),\n-                1 => (b'1', 0),\n-                2 => (b'0', 1),\n-                3 => (b'1', 1),\n-                _ => panic!()\n-            };\n-            string_stack.push(x.0 as char);\n-            carry = x.1;\n-            a_maybe = a_iter.next();\n-            b_maybe = b_iter.next();\n+\n+        while a.peek().is_some() || b.peek().is_some() || carry == 1 {\n+            let sum = carry + a.next().map_or(0, |b| b - b'0') + b.next().map_or(0, |b| b - b'0');\n+            string_stack.push((b'0' + sum % 2) as char);\n+            carry = sum / 2;\n         }\n+\n         string_stack.chars().rev().collect()\n     }\n }\n",
+          "changedLineCounts": {
+            "additions": 8,
+            "deletions": 19
+          },
+          "approachId": "1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Keeps the same addition strategy while using peekable byte iterators and modulo/division arithmetic to reduce branching and improve idiomaticity.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "8ac7a778299627c5c36b0a3355fd00e10ae95a4c",
+    "86bd4bf4026386f58f686ce72cda13560bead6fd"
+  ],
+  "warnings": []
+}
