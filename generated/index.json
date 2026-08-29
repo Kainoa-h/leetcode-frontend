@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-28T17:51:34.120Z",
-  "sourceHeadSha": "1b0b97f89df6b5c73cfbdd9f2e7ce6f931043881",
+  "generatedAt": "2026-08-29T10:58:15.805Z",
+  "sourceHeadSha": "6d8fd862b1757d5aa84436c591417464f5cb8154",
   "questions": [
     {
       "id": 1,
@@ -2144,6 +2144,24 @@
       ],
       "firstCommittedAt": "2026-03-27T21:00:44+08:00",
       "lastCommittedAt": "2026-03-27T21:13:41+08:00"
+    },
+    {
+      "id": 2948,
+      "title": "Make Lexicographically Smallest Array By Swapping Elements",
+      "slug": "make-lexicographically-smallest-array-by-swapping-elements",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/2948/rust/",
+          "revisionCount": 3,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-08-29T18:53:40+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-08-29T18:07:33+08:00",
+      "lastCommittedAt": "2026-08-29T18:53:40+08:00"
     },
     {
       "id": 2986,

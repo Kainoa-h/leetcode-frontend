@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2948,
+    "title": "Make Lexicographically Smallest Array By Swapping Elements",
+    "slug": "make-lexicographically-smallest-array-by-swapping-elements"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/2948_make_lexicographically_smallest_array_by_swapping_elements.rs",
+    "latestSha": "6d8fd862b1757d5aa84436c591417464f5cb8154",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-08-29T18:07:33+08:00",
+    "lastCommittedAt": "2026-08-29T18:53:40+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "a1e49f841d843ca79aa1278598e3d5243cb6afd91e562048ac0c3cefaa50d536"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "Sort values and connect indices with DSU",
+      "summary": "Sort value-index pairs and union adjacent values whose difference is within the limit. Group indices by DSU component, then assign each component’s sorted values to its indices in ascending order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "0f9de931ab55a5c432db1baffdb44fba233553aa",
+          "shortSha": "0f9de93",
+          "parentSha": "1b0b97f89df6b5c73cfbdd9f2e7ce6f931043881",
+          "authoredAt": "2026-08-29T18:07:33+08:00",
+          "committedAt": "2026-08-29T18:07:33+08:00",
+          "chronologicalIndex": 307,
+          "problemId": 2948,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2948_make_lexicographically_smallest_array_by_swapping_elements.rs",
+          "sourceFilename": "2948_make_lexicographically_smallest_array_by_swapping_elements.rs",
+          "code": "use std::collections::HashMap;\n\nimpl Solution {\n    pub fn lexicographically_smallest_array(nums: Vec<i32>, limit: i32) -> Vec<i32> {\n        let mut dsu = (0..nums.len()).collect::<Vec<usize>>();\n        let mut sorted = nums\n            .iter()\n            .enumerate()\n            .map(|x| (x.0, *x.1))\n            .collect::<Vec<(usize, i32)>>();\n        sorted.sort_unstable_by_key(|x| x.1);\n        fn find(dsu: &mut Vec<usize>, i: usize) -> usize {\n            if dsu[i] == i {\n                return i;\n            }\n            dsu[i] = find(dsu, dsu[i]);\n            dsu[i]\n        }\n\n        for w in sorted.windows(2) {\n            let (a, b) = (w[0], w[1]);\n            if b.1 - a.1 <= limit {\n                let b_root = find(&mut dsu, b.0);\n                let a_root = find(&mut dsu, a.0);\n                dsu[b_root] = a_root;\n            }\n        }\n\n        let mut map = HashMap::<usize,Vec<i32>>::new();\n        for (idx, &val) in nums.iter().enumerate() {\n            let root = find(&mut dsu, idx);\n            map.entry(root).or_default().push(val);\n        }\n\n        for l in map.values_mut() {\n            l.sort_unstable_by_key(|x|-x);\n        }\n\n        (0..nums.len()).map(|idx| {\n            let root = find(&mut dsu, idx);\n            map.get_mut(&root).unwrap().pop().unwrap()\n        }).collect()\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "6bfaf7d4165efd3887e85ff84e72bfcc0e5588591c2d83d2d834d869616429e2",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 2948",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Introduced a DSU-based solution that identifies swappable components from adjacent sorted values and redistributes each component’s values.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "approach-2",
+      "title": "Sort and process contiguous value groups",
+      "summary": "Sort indices by their values and split them into contiguous groups where adjacent sorted values differ by at most the limit. Sort each group’s original indices and place the group’s values into those positions in ascending order.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "fd918e8a6941ca03702332d2ccd1350b49a2830d",
+          "shortSha": "fd918e8",
+          "parentSha": "0f9de931ab55a5c432db1baffdb44fba233553aa",
+          "authoredAt": "2026-08-29T18:44:31+08:00",
+          "committedAt": "2026-08-29T18:47:04+08:00",
+          "chronologicalIndex": 308,
+          "problemId": 2948,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2948_make_lexicographically_smallest_array_by_swapping_elements.rs",
+          "sourceFilename": "2948_make_lexicographically_smallest_array_by_swapping_elements.rs",
+          "code": "impl Solution {\n    pub fn lexicographically_smallest_array(nums: Vec<i32>, limit: i32) -> Vec<i32> {\n        let mut indexes = (0..nums.len()).collect::<Vec<usize>>();\n        indexes.sort_unstable_by_key(|&x| nums[x]);\n        let mut result = vec![0; nums.len()];\n        for group in indexes.chunk_by(|&a, &b| nums[b] - nums[a] <= limit) {\n            let mut index_order_group = group.to_vec();\n            index_order_group.sort_unstable_by_key(|&x| x);\n            for i in 0..group.len() {\n                let val = nums[group[i]];\n                let idx = index_order_group[i];\n                result[idx] = val;\n            }\n        }\n        result\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "e3bc1f60df4e2789d5f91596ae3b085374cf59078737d30bbcb13bd62c2de4fd",
+          "markedWrong": false,
+          "commitComment": "no need for dsu, sorting & chunking gives us groups",
+          "rawCommitSubject": "rust 2948: no need for dsu, sorting & chunking gives us groups",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2948_make_lexicographically_smallest_array_by_swapping_elements.rs b/rust/src/bin/2948_make_lexicographically_smallest_array_by_swapping_elements.rs\nindex a344231..9a5eae6 100644\n--- a/rust/src/bin/2948_make_lexicographically_smallest_array_by_swapping_elements.rs\n+++ b/rust/src/bin/2948_make_lexicographically_smallest_array_by_swapping_elements.rs\n@@ -1,45 +1,18 @@\n-use std::collections::HashMap;\n-\n impl Solution {\n     pub fn lexicographically_smallest_array(nums: Vec<i32>, limit: i32) -> Vec<i32> {\n-        let mut dsu = (0..nums.len()).collect::<Vec<usize>>();\n-        let mut sorted = nums\n-            .iter()\n-            .enumerate()\n-            .map(|x| (x.0, *x.1))\n-            .collect::<Vec<(usize, i32)>>();\n-        sorted.sort_unstable_by_key(|x| x.1);\n-        fn find(dsu: &mut Vec<usize>, i: usize) -> usize {\n-            if dsu[i] == i {\n-                return i;\n+        let mut indexes = (0..nums.len()).collect::<Vec<usize>>();\n+        indexes.sort_unstable_by_key(|&x| nums[x]);\n+        let mut result = vec![0; nums.len()];\n+        for group in indexes.chunk_by(|&a, &b| nums[b] - nums[a] <= limit) {\n+            let mut index_order_group = group.to_vec();\n+            index_order_group.sort_unstable_by_key(|&x| x);\n+            for i in 0..group.len() {\n+                let val = nums[group[i]];\n+                let idx = index_order_group[i];\n+                result[idx] = val;\n             }\n-            dsu[i] = find(dsu, dsu[i]);\n-            dsu[i]\n         }\n-\n-        for w in sorted.windows(2) {\n-            let (a, b) = (w[0], w[1]);\n-            if b.1 - a.1 <= limit {\n-                let b_root = find(&mut dsu, b.0);\n-                let a_root = find(&mut dsu, a.0);\n-                dsu[b_root] = a_root;\n-            }\n-        }\n-\n-        let mut map = HashMap::<usize,Vec<i32>>::new();\n-        for (idx, &val) in nums.iter().enumerate() {\n-            let root = find(&mut dsu, idx);\n-            map.entry(root).or_default().push(val);\n-        }\n-\n-        for l in map.values_mut() {\n-            l.sort_unstable_by_key(|x|-x);\n-        }\n-\n-        (0..nums.len()).map(|idx| {\n-            let root = find(&mut dsu, idx);\n-            map.get_mut(&root).unwrap().pop().unwrap()\n-        }).collect()\n+        result\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 11,
+            "deletions": 38
+          },
+          "approachId": "approach-2",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaced the DSU and hash-map component construction with direct sorted grouping and positional assignment.",
+          "warnings": []
+        },
+        {
+          "sha": "6d8fd862b1757d5aa84436c591417464f5cb8154",
+          "shortSha": "6d8fd86",
+          "parentSha": "fd918e8a6941ca03702332d2ccd1350b49a2830d",
+          "authoredAt": "2026-08-29T18:52:37+08:00",
+          "committedAt": "2026-08-29T18:53:40+08:00",
+          "chronologicalIndex": 309,
+          "problemId": 2948,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2948_make_lexicographically_smallest_array_by_swapping_elements.rs",
+          "sourceFilename": "2948_make_lexicographically_smallest_array_by_swapping_elements.rs",
+          "code": "impl Solution {\n    pub fn lexicographically_smallest_array(nums: Vec<i32>, limit: i32) -> Vec<i32> {\n        let mut indexes = (0..nums.len()).collect::<Vec<usize>>();\n        indexes.sort_unstable_by_key(|&x| nums[x]);\n        let mut result = vec![0; nums.len()];\n        for val_ordered_idx in indexes.chunk_by(|&a, &b| nums[b] - nums[a] <= limit) {\n            let mut index_ordered_idx = val_ordered_idx.to_vec();\n            index_ordered_idx.sort_unstable();\n            for (&src, idx) in val_ordered_idx.iter().zip(index_ordered_idx) {\n                result[idx] = nums[src];\n            }\n        }\n        result\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "34aea404c03542ac9a340978adcb73464797470ed6999f74ada232e1341d053b",
+          "markedWrong": false,
+          "commitComment": "use zip to clean up code",
+          "rawCommitSubject": "rust 2948: use zip to clean up code",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2948_make_lexicographically_smallest_array_by_swapping_elements.rs b/rust/src/bin/2948_make_lexicographically_smallest_array_by_swapping_elements.rs\nindex 9a5eae6..2fce051 100644\n--- a/rust/src/bin/2948_make_lexicographically_smallest_array_by_swapping_elements.rs\n+++ b/rust/src/bin/2948_make_lexicographically_smallest_array_by_swapping_elements.rs\n@@ -3,13 +3,11 @@ impl Solution {\n         let mut indexes = (0..nums.len()).collect::<Vec<usize>>();\n         indexes.sort_unstable_by_key(|&x| nums[x]);\n         let mut result = vec![0; nums.len()];\n-        for group in indexes.chunk_by(|&a, &b| nums[b] - nums[a] <= limit) {\n-            let mut index_order_group = group.to_vec();\n-            index_order_group.sort_unstable_by_key(|&x| x);\n-            for i in 0..group.len() {\n-                let val = nums[group[i]];\n-                let idx = index_order_group[i];\n-                result[idx] = val;\n+        for val_ordered_idx in indexes.chunk_by(|&a, &b| nums[b] - nums[a] <= limit) {\n+            let mut index_ordered_idx = val_ordered_idx.to_vec();\n+            index_ordered_idx.sort_unstable();\n+            for (&src, idx) in val_ordered_idx.iter().zip(index_ordered_idx) {\n+                result[idx] = nums[src];\n             }\n         }\n         result\n",
+          "changedLineCounts": {
+            "additions": 5,
+            "deletions": 7
+          },
+          "approachId": "approach-2",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Refactored the grouped assignment using clearer variable names and iterator zip instead of an index-based loop.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "0f9de931ab55a5c432db1baffdb44fba233553aa",
+    "fd918e8a6941ca03702332d2ccd1350b49a2830d",
+    "6d8fd862b1757d5aa84436c591417464f5cb8154"
+  ],
+  "warnings": []
+}
