@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2091,
+    "title": "Removing Minimum and Maximum From Array",
+    "slug": "removing-minimum-and-maximum-from-array"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/2091_removing_minimum_and_maximum_from_array.rs",
+    "latestSha": "2e79f49037fd68ac219be4ea7c51609a9f16e6ca",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-08-30T11:17:26+08:00",
+    "lastCommittedAt": "2026-08-30T11:17:26+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "7",
+    "inputHash": "01f1324c4bd1f30d2169880f09b97842f86fcc0f5c3f8735340bd1a9bafa349e"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "2e79f49037fd68ac219be4ea7c51609a9f16e6ca",
+          "shortSha": "2e79f49",
+          "parentSha": "6d8fd862b1757d5aa84436c591417464f5cb8154",
+          "authoredAt": "2026-08-30T11:17:26+08:00",
+          "committedAt": "2026-08-30T11:17:26+08:00",
+          "chronologicalIndex": 310,
+          "problemId": 2091,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2091_removing_minimum_and_maximum_from_array.rs",
+          "sourceFilename": "2091_removing_minimum_and_maximum_from_array.rs",
+          "code": "impl Solution {\n    pub fn minimum_deletions(nums: Vec<i32>) -> i32 {\n        let (mut max, mut max_idx) = (i32::MIN, 0);\n        let (mut min, mut min_idx) = (i32::MAX, 0);\n        for (idx, &n) in nums.iter().enumerate() {\n            if n < min {\n                min = n;\n                min_idx = idx;\n            }\n            if n > max {\n                max = n;\n                max_idx = idx;\n            }\n        }\n        let (lower_idx, higher_idx) = (max_idx.min(min_idx), max_idx.max(min_idx));\n        let delete_left = higher_idx + 1;\n        let delete_right = nums.len() - lower_idx;\n        let delete_both = lower_idx + 1 + nums.len() - higher_idx;\n\n        delete_left.min(delete_right).min(delete_both) as i32\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "2c13b92b484707e012fd716ecb466b1a4595e5d3db391aa1a7be2d794764edc5",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 2091",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "2e79f49037fd68ac219be4ea7c51609a9f16e6ca"
+  ],
+  "warnings": []
+}
