@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 191,
+    "title": "Number of 1 Bits",
+    "slug": "number-of-1-bits"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/191_number_of_1_bits.rs",
+    "latestSha": "f333022ada84e0150dfeb5375d75989bf85a17f5",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 3,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-08-30T23:02:54+08:00",
+    "lastCommittedAt": "2026-08-30T23:06:35+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "e3637b45db3aa2398de98d376d63d66a1b20d26acec430556075246c691a8247"
+  },
+  "approaches": [
+    {
+      "id": "1",
+      "title": "Fixed-width bit scanning",
+      "summary": "Checks each of the 32 bit positions and accumulates the set bits.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "84b52dbc0837c6b35953e004d1658d68a11a1a94",
+          "shortSha": "84b52db",
+          "parentSha": "7d478453a08b92088af593040bcf4f6259085d4c",
+          "authoredAt": "2026-08-30T23:02:54+08:00",
+          "committedAt": "2026-08-30T23:02:54+08:00",
+          "chronologicalIndex": 312,
+          "problemId": 191,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/191_number_of_1_bits.rs",
+          "sourceFilename": "191_number_of_1_bits.rs",
+          "code": "impl Solution {\n    pub fn hamming_weight(mut n: i32) -> i32 {\n        let mut hamming_weight = 0;\n        for _ in 0..32 {\n            hamming_weight += n & 1;\n            n >>= 1;\n        }\n        hamming_weight\n    }\n}\n\nstruct Solution{}\n",
+          "codeHash": "0e9112ecf289d22c4d422583da6679e36c446d14c2166206f0bb4cad23fe13f3",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 191",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation scans all 32 bits using masking and right shifts.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Brian Kernighan’s algorithm",
+      "summary": "Repeatedly clears the lowest set bit until the value becomes zero. The number of iterations equals the number of set bits.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "c538f6b7f6ae7bf0a1a2b2b606ab54d983ca6825",
+          "shortSha": "c538f6b",
+          "parentSha": "84b52dbc0837c6b35953e004d1658d68a11a1a94",
+          "authoredAt": "2026-08-30T23:03:36+08:00",
+          "committedAt": "2026-08-30T23:03:36+08:00",
+          "chronologicalIndex": 313,
+          "problemId": 191,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/191_number_of_1_bits.rs",
+          "sourceFilename": "191_number_of_1_bits.rs",
+          "code": "impl Solution {\n    pub fn hamming_weight(mut n: i32) -> i32 {\n        let mut hamming_weight = 0;\n        while n > 0 {\n            n &= n - 1;\n            hamming_weight += 1;\n        }\n        hamming_weight\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "a8e712d28efddca61726dfd1b547874a8ae09e0d67138906bee4b0dcd22bd18c",
+          "markedWrong": false,
+          "commitComment": "Brian Kernighan's Algo",
+          "rawCommitSubject": "rust 191: Brian Kernighan's Algo",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/191_number_of_1_bits.rs b/rust/src/bin/191_number_of_1_bits.rs\nindex 270412f..1513e7a 100644\n--- a/rust/src/bin/191_number_of_1_bits.rs\n+++ b/rust/src/bin/191_number_of_1_bits.rs\n@@ -1,12 +1,12 @@\n impl Solution {\n     pub fn hamming_weight(mut n: i32) -> i32 {\n         let mut hamming_weight = 0;\n-        for _ in 0..32 {\n-            hamming_weight += n & 1;\n-            n >>= 1;\n+        while n > 0 {\n+            n &= n - 1;\n+            hamming_weight += 1;\n         }\n         hamming_weight\n     }\n }\n \n-struct Solution{}\n+struct Solution {}\n",
+          "changedLineCounts": {
+            "additions": 4,
+            "deletions": 4
+          },
+          "approachId": "2",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaces fixed-width scanning with Brian Kernighan’s algorithm, clearing one set bit per iteration.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "title": "Built-in population count",
+      "summary": "Uses Rust’s built-in bit-counting method to compute the Hamming weight.",
+      "order": 2,
+      "revisions": [
+        {
+          "sha": "f333022ada84e0150dfeb5375d75989bf85a17f5",
+          "shortSha": "f333022",
+          "parentSha": "c538f6b7f6ae7bf0a1a2b2b606ab54d983ca6825",
+          "authoredAt": "2026-08-30T23:06:35+08:00",
+          "committedAt": "2026-08-30T23:06:35+08:00",
+          "chronologicalIndex": 314,
+          "problemId": 191,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/191_number_of_1_bits.rs",
+          "sourceFilename": "191_number_of_1_bits.rs",
+          "code": "impl Solution {\n    pub fn hamming_weight(n: i32) -> i32 {\n        n.count_ones() as i32\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "a58d115796f2eabe954b7c9fa95298b7b359ec7eae95f05cf0906758637d72d1",
+          "markedWrong": false,
+          "commitComment": "built-in! compiles to popcnt instruction if supported",
+          "rawCommitSubject": "rust 191: built-in! compiles to popcnt instruction if supported",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/191_number_of_1_bits.rs b/rust/src/bin/191_number_of_1_bits.rs\nindex 1513e7a..857e328 100644\n--- a/rust/src/bin/191_number_of_1_bits.rs\n+++ b/rust/src/bin/191_number_of_1_bits.rs\n@@ -1,11 +1,6 @@\n impl Solution {\n-    pub fn hamming_weight(mut n: i32) -> i32 {\n-        let mut hamming_weight = 0;\n-        while n > 0 {\n-            n &= n - 1;\n-            hamming_weight += 1;\n-        }\n-        hamming_weight\n+    pub fn hamming_weight(n: i32) -> i32 {\n+        n.count_ones() as i32\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 2,
+            "deletions": 7
+          },
+          "approachId": "3",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaces the manual loop with `count_ones()`, cast to `i32`.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "84b52dbc0837c6b35953e004d1658d68a11a1a94",
+    "c538f6b7f6ae7bf0a1a2b2b606ab54d983ca6825",
+    "f333022ada84e0150dfeb5375d75989bf85a17f5"
+  ],
+  "warnings": []
+}
