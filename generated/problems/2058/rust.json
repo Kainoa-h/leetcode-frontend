@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2058,
+    "title": "Find the Minimum and Maximum Number of Nodes Between Critical Points",
+    "slug": "find-the-minimum-and-maximum-number-of-nodes-between-critical-points"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/2058_find_the_minimum_and_maximum_number_of_nodes_between_critical_points.rs",
+    "latestSha": "8df42dc9a01b2548c0566e361b57b0a1537736ca",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-08-31T13:45:45+08:00",
+    "lastCommittedAt": "2026-08-31T14:04:33+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "714ccea0e2c702f771972f3463c297d3bd0b6b74a2a89b3e58b3618fe90d3a89"
+  },
+  "approaches": [
+    {
+      "id": "1",
+      "title": "Single-pass linked-list scan",
+      "summary": "Traverse the linked list once while identifying critical points and tracking the first and most recent critical indices. Update minimum adjacent distance and maximum distance from the first critical point.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "fe0ff474f3d3fe75d69de78b4b47ad46073e2dd0",
+          "shortSha": "fe0ff47",
+          "parentSha": "f333022ada84e0150dfeb5375d75989bf85a17f5",
+          "authoredAt": "2026-08-31T13:45:45+08:00",
+          "committedAt": "2026-08-31T13:45:45+08:00",
+          "chronologicalIndex": 315,
+          "problemId": 2058,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2058_find_the_minimum_and_maximum_number_of_nodes_between_critical_points.rs",
+          "sourceFilename": "2058_find_the_minimum_and_maximum_number_of_nodes_between_critical_points.rs",
+          "code": "#[derive(PartialEq, Eq, Clone, Debug)]\npub struct ListNode {\n    pub val: i32,\n    pub next: Option<Box<ListNode>>,\n}\n\nimpl ListNode {\n    #[inline]\n    fn new(val: i32) -> Self {\n        ListNode { next: None, val }\n    }\n}\n\nimpl Solution {\n    pub fn nodes_between_critical_points(head: Option<Box<ListNode>>) -> Vec<i32> {\n        let mut index = 1;\n        let mut first_critical = None::<i32>;\n        let mut recent_critical = None::<i32>;\n        let (mut min_dist, mut max_dist) = (None::<i32>, None::<i32>);\n        let Some(root) = head else {\n            return vec![-1, -1];\n        };\n        let mut prev_val = root.val;\n        let mut next = root.next.as_ref();\n        while let Some(curr) = next {\n            let val = curr.val;\n            let Some(next_node) = curr.next.as_ref() else {\n                break;\n            };\n\n            if (val < next_node.val && val < prev_val) || (val > next_node.val && val > prev_val){\n                if first_critical.is_none() {\n                    first_critical = Some(index);\n                    continue;\n                }\n                if let Some(critical) = recent_critical {\n                    min_dist = Some(min_dist.unwrap_or(i32::MAX).min(index - critical));\n                }\n                if let Some(critical) = first_critical {\n                    max_dist = Some(max_dist.unwrap_or_default().max(index - critical));\n                }\n                recent_critical = Some(index);\n            }\n\n            prev_val = val;\n            next = curr.next.as_ref();\n            index += 1;\n        }\n\n        match (min_dist, max_dist) {\n            (Some(min), Some(max)) => vec![min, max],\n            _ => vec![-1, -1],\n        }\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "12ab12f077c18bfe8e67cec69ab119eef9310e5bcc3509a839b484c5ac4dca1d",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 2058",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Introduces a one-pass scan that detects local extrema and tracks the minimum and maximum distances between critical points.",
+          "warnings": []
+        },
+        {
+          "sha": "8df42dc9a01b2548c0566e361b57b0a1537736ca",
+          "shortSha": "8df42dc",
+          "parentSha": "fe0ff474f3d3fe75d69de78b4b47ad46073e2dd0",
+          "authoredAt": "2026-08-31T14:04:33+08:00",
+          "committedAt": "2026-08-31T14:04:33+08:00",
+          "chronologicalIndex": 316,
+          "problemId": 2058,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2058_find_the_minimum_and_maximum_number_of_nodes_between_critical_points.rs",
+          "sourceFilename": "2058_find_the_minimum_and_maximum_number_of_nodes_between_critical_points.rs",
+          "code": "#[derive(PartialEq, Eq, Clone, Debug)]\npub struct ListNode {\n    pub val: i32,\n    pub next: Option<Box<ListNode>>,\n}\n\nimpl ListNode {\n    #[inline]\n    fn new(val: i32) -> Self {\n        ListNode { next: None, val }\n    }\n}\n\nimpl Solution {\n    pub fn nodes_between_critical_points(head: Option<Box<ListNode>>) -> Vec<i32> {\n        let Some(head) = head else {\n            return vec![-1, -1];\n        };\n        let mut prev_val = head.val;\n        let mut curr = head.next.as_deref();\n        let mut index = 1;\n\n        let mut first_critical = None::<i32>;\n        let mut recent_critical = None::<i32>;\n        let (mut min_dist, mut max_dist) = (i32::MAX, 0);\n        while let Some(node) = curr {\n            let Some(next_node) = node.next.as_deref() else {\n                break;\n            };\n\n            if (node.val < next_node.val && node.val < prev_val)\n                || (node.val > next_node.val && node.val > prev_val)\n            {\n                if let Some(critical) = first_critical {\n                    max_dist = max_dist.max(index - critical);\n                } else {\n                    first_critical = Some(index);\n                }\n                if let Some(critical) = recent_critical {\n                    min_dist = min_dist.min(index - critical);\n                }\n                recent_critical = Some(index);\n            }\n\n            prev_val = node.val;\n            curr = node.next.as_deref();\n            index += 1;\n        }\n\n        if min_dist == i32::MAX {\n            vec![-1, -1]\n        } else {\n            vec![min_dist, max_dist]\n        }\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "c62cbbe7108cdc7ef7b0a6db63e5f1db2d34eeb6c3db848db65877c858f9b0d1",
+          "markedWrong": false,
+          "commitComment": "idiomatic improvements, and fix unintended double pass on first critical",
+          "rawCommitSubject": "rust 2058: idiomatic improvements, and fix unintended double pass on first critical",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2058_find_the_minimum_and_maximum_number_of_nodes_between_critical_points.rs b/rust/src/bin/2058_find_the_minimum_and_maximum_number_of_nodes_between_critical_points.rs\nindex 927dc17..1842e8e 100644\n--- a/rust/src/bin/2058_find_the_minimum_and_maximum_number_of_nodes_between_critical_points.rs\n+++ b/rust/src/bin/2058_find_the_minimum_and_maximum_number_of_nodes_between_critical_points.rs\n@@ -13,43 +13,44 @@ impl ListNode {\n \n impl Solution {\n     pub fn nodes_between_critical_points(head: Option<Box<ListNode>>) -> Vec<i32> {\n+        let Some(head) = head else {\n+            return vec![-1, -1];\n+        };\n+        let mut prev_val = head.val;\n+        let mut curr = head.next.as_deref();\n         let mut index = 1;\n+\n         let mut first_critical = None::<i32>;\n         let mut recent_critical = None::<i32>;\n-        let (mut min_dist, mut max_dist) = (None::<i32>, None::<i32>);\n-        let Some(root) = head else {\n-            return vec![-1, -1];\n-        };\n-        let mut prev_val = root.val;\n-        let mut next = root.next.as_ref();\n-        while let Some(curr) = next {\n-            let val = curr.val;\n-            let Some(next_node) = curr.next.as_ref() else {\n+        let (mut min_dist, mut max_dist) = (i32::MAX, 0);\n+        while let Some(node) = curr {\n+            let Some(next_node) = node.next.as_deref() else {\n                 break;\n             };\n \n-            if (val < next_node.val && val < prev_val) || (val > next_node.val && val > prev_val){\n-                if first_critical.is_none() {\n+            if (node.val < next_node.val && node.val < prev_val)\n+                || (node.val > next_node.val && node.val > prev_val)\n+            {\n+                if let Some(critical) = first_critical {\n+                    max_dist = max_dist.max(index - critical);\n+                } else {\n                     first_critical = Some(index);\n-                    continue;\n                 }\n                 if let Some(critical) = recent_critical {\n-                    min_dist = Some(min_dist.unwrap_or(i32::MAX).min(index - critical));\n-                }\n-                if let Some(critical) = first_critical {\n-                    max_dist = Some(max_dist.unwrap_or_default().max(index - critical));\n+                    min_dist = min_dist.min(index - critical);\n                 }\n                 recent_critical = Some(index);\n             }\n \n-            prev_val = val;\n-            next = curr.next.as_ref();\n+            prev_val = node.val;\n+            curr = node.next.as_deref();\n             index += 1;\n         }\n \n-        match (min_dist, max_dist) {\n-            (Some(min), Some(max)) => vec![min, max],\n-            _ => vec![-1, -1],\n+        if min_dist == i32::MAX {\n+            vec![-1, -1]\n+        } else {\n+            vec![min_dist, max_dist]\n         }\n     }\n }\n",
+          "changedLineCounts": {
+            "additions": 22,
+            "deletions": 21
+          },
+          "approachId": "1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Keeps the same one-pass strategy while simplifying Rust traversal and fixing the first critical point handling so adjacent critical-point distances are computed correctly.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "fe0ff474f3d3fe75d69de78b4b47ad46073e2dd0",
+    "8df42dc9a01b2548c0566e361b57b0a1537736ca"
+  ],
+  "warnings": []
+}
