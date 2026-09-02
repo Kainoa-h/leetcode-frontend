@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3568,
+    "title": "Minimum Moves to Clean the Classroom",
+    "slug": "minimum-moves-to-clean-the-classroom"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3568_minimum_moves_to_clean_the_classroom.rs",
+    "latestSha": "2e003c55576f0bf03078e86bfdb9fac0c7f93871",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 4,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-09-01T13:07:36+08:00",
+    "lastCommittedAt": "2026-09-01T14:02:59+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "12e82005b47c26c5334b4dae7757c1d7c4debf1e92d93a5eb5eea42ba8384b71"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "BFS over position, energy, and collected-litter states",
+      "summary": "Uses breadth-first search with a bitmask for collected litter and a per-position, per-mask maximum-energy dominance table. Recharge cells restore energy, while walls are excluded from transitions; later revisions refactor traversal and compact the state representation.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "9787c0d330c809ba9a8ea69d3bea4b88a4cd36c9",
+          "shortSha": "9787c0d",
+          "parentSha": "8df42dc9a01b2548c0566e361b57b0a1537736ca",
+          "authoredAt": "2026-09-01T13:07:36+08:00",
+          "committedAt": "2026-09-01T13:07:36+08:00",
+          "chronologicalIndex": 317,
+          "problemId": 3568,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3568_minimum_moves_to_clean_the_classroom.rs",
+          "sourceFilename": "3568_minimum_moves_to_clean_the_classroom.rs",
+          "code": "use std::collections::{HashMap, VecDeque};\n\nstruct State {\n    row: usize,\n    col: usize,\n    steps: u32,\n    energy: u16,\n    mask: u16,\n}\n\nimpl Solution {\n    pub fn min_moves(classroom: Vec<String>, energy: i32) -> i32 {\n        let mut litter_map = HashMap::with_capacity(10);\n        let mut litter_mask = 0_u16;\n        let mut count = 0;\n        let (mut start_row, mut start_col) = (0, 0);\n        for (row_i, row) in classroom.iter().enumerate() {\n            for (col_i, &byte) in row.as_bytes().iter().enumerate() {\n                if byte == b'L' {\n                    litter_map.insert((row_i, col_i), count);\n                    litter_mask |= 1 << count;\n                    count += 1;\n                } else if byte == b'S' {\n                    start_row = row_i;\n                    start_col = col_i;\n                }\n            }\n        }\n\n        let rows = classroom.len();\n        let cols = classroom[0].len();\n        let mut best_mask = vec![vec![HashMap::<u16, u16>::new(); cols]; rows];\n        let mut queue = VecDeque::<State>::new();\n        queue.push_back(State {\n            row: start_row,\n            col: start_col,\n            steps: 0,\n            energy: energy as u16,\n            mask: 0,\n        });\n\n        while let Some(mut state) = queue.pop_front() {\n            match classroom[state.row].as_bytes()[state.col] {\n                b'X' => continue,\n                b'R' => state.energy = energy as u16,\n                b'L' => {\n                    state.mask |= 1 << *litter_map.get(&(state.row, state.col)).unwrap_or(&0) as u16\n                }\n                _ => {}\n            }\n\n            if state.mask == litter_mask {\n                return state.steps as i32;\n            }\n\n            let entry = best_mask[state.row][state.col]\n                .entry(state.mask)\n                .or_insert(0);\n\n            if *entry >= state.energy {\n                continue;\n            }\n            *entry = state.energy;\n\n            if state.energy == 0 {\n                continue;\n            }\n            if state.row > 0 {\n                queue.push_back(State {\n                    row: state.row - 1,\n                    col: state.col,\n                    steps: state.steps + 1,\n                    energy: state.energy - 1,\n                    mask: state.mask,\n                });\n            }\n            if state.row < rows - 1 {\n                queue.push_back(State {\n                    row: state.row + 1,\n                    col: state.col,\n                    steps: state.steps + 1,\n                    energy: state.energy - 1,\n                    mask: state.mask,\n                });\n            }\n            if state.col > 0 {\n                queue.push_back(State {\n                    row: state.row,\n                    col: state.col - 1,\n                    steps: state.steps + 1,\n                    energy: state.energy - 1,\n                    mask: state.mask,\n                });\n            }\n            if state.col < cols - 1 {\n                queue.push_back(State {\n                    row: state.row,\n                    col: state.col + 1,\n                    steps: state.steps + 1,\n                    energy: state.energy - 1,\n                    mask: state.mask,\n                });\n            }\n        }\n        -1\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "671fae48d8664312f1a1bcd253bf0a321a2f73e68a236a0c2f343e8fe6d7873d",
+          "markedWrong": false,
+          "commitComment": "what a chore",
+          "rawCommitSubject": "rust 3568: what a chore",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Introduces BFS over grid positions with remaining energy and a litter bitmask. Tracks the best energy for each position and mask to prune dominated states.",
+          "warnings": []
+        },
+        {
+          "sha": "284eb8921ef5cfb843eb5c94800fe23f1259609c",
+          "shortSha": "284eb89",
+          "parentSha": "9787c0d330c809ba9a8ea69d3bea4b88a4cd36c9",
+          "authoredAt": "2026-09-01T13:42:22+08:00",
+          "committedAt": "2026-09-01T13:42:22+08:00",
+          "chronologicalIndex": 318,
+          "problemId": 3568,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3568_minimum_moves_to_clean_the_classroom.rs",
+          "sourceFilename": "3568_minimum_moves_to_clean_the_classroom.rs",
+          "code": "use std::collections::{HashMap, VecDeque};\n\nstruct State {\n    row: usize,\n    col: usize,\n    steps: u32,\n    energy: u16,\n    mask: u16,\n}\n\nimpl Solution {\n    pub fn min_moves(classroom: Vec<String>, energy: i32) -> i32 {\n        let mut litter_map = HashMap::with_capacity(10);\n        let mut count = 0;\n        let mut start = (0, 0);\n        for (row_i, row) in classroom.iter().enumerate() {\n            for (col_i, &byte) in row.as_bytes().iter().enumerate() {\n                if byte == b'L' {\n                    litter_map.insert((row_i, col_i), count);\n                    count += 1;\n                } else if byte == b'S' {\n                    start = (row_i, col_i);\n                }\n            }\n        }\n        let litter_mask = (1 << count) - 1;\n\n        let rows = classroom.len();\n        let cols = classroom[0].len();\n        let mut best_mask = vec![vec![HashMap::<u16, u16>::new(); cols]; rows];\n        let mut queue = VecDeque::<State>::new();\n        queue.push_back(State {\n            row: start.0,\n            col: start.1,\n            steps: 0,\n            energy: energy as u16,\n            mask: 0,\n        });\n\n        while let Some(mut state) = queue.pop_front() {\n            match classroom[state.row].as_bytes()[state.col] {\n                b'R' => state.energy = energy as u16,\n                b'L' => {\n                    state.mask |= 1 << *litter_map.get(&(state.row, state.col)).unwrap_or(&0) as u16\n                }\n                _ => {}\n            }\n\n            if state.mask == litter_mask {\n                return state.steps as i32;\n            }\n\n            let entry = best_mask[state.row][state.col]\n                .entry(state.mask)\n                .or_insert(0);\n\n            if *entry >= state.energy {\n                continue;\n            }\n            *entry = state.energy;\n\n            if state.energy == 0 {\n                continue;\n            }\n\n            for (dr, dc) in [(-1, 0), (1, 0), (0, -1), (0, 1)] {\n                let nr = state.row as isize + dr;\n                let nc = state.col as isize + dc;\n\n                if nr >= 0\n                    && nr < rows as isize\n                    && nc >= 0\n                    && nc < cols as isize\n                    && classroom[nr as usize].as_bytes()[nc as usize] != b'X'\n                {\n                    queue.push_back(State {\n                        row: nr as usize,\n                        col: nc as usize,\n                        steps: state.steps + 1,\n                        energy: state.energy - 1,\n                        mask: state.mask,\n                    });\n                }\n            }\n       }\n        -1\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "f6d3e463d718ea69bbe1894dc4db36997cfc17c67862de527bb633bcb058a931",
+          "markedWrong": false,
+          "commitComment": "minor simplifications",
+          "rawCommitSubject": "rust 3568: minor simplifications",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3568_minimum_moves_to_clean_the_classroom.rs b/rust/src/bin/3568_minimum_moves_to_clean_the_classroom.rs\nindex d3434f8..11c9a85 100644\n--- a/rust/src/bin/3568_minimum_moves_to_clean_the_classroom.rs\n+++ b/rust/src/bin/3568_minimum_moves_to_clean_the_classroom.rs\n@@ -11,29 +11,27 @@ struct State {\n impl Solution {\n     pub fn min_moves(classroom: Vec<String>, energy: i32) -> i32 {\n         let mut litter_map = HashMap::with_capacity(10);\n-        let mut litter_mask = 0_u16;\n         let mut count = 0;\n-        let (mut start_row, mut start_col) = (0, 0);\n+        let mut start = (0, 0);\n         for (row_i, row) in classroom.iter().enumerate() {\n             for (col_i, &byte) in row.as_bytes().iter().enumerate() {\n                 if byte == b'L' {\n                     litter_map.insert((row_i, col_i), count);\n-                    litter_mask |= 1 << count;\n                     count += 1;\n                 } else if byte == b'S' {\n-                    start_row = row_i;\n-                    start_col = col_i;\n+                    start = (row_i, col_i);\n                 }\n             }\n         }\n+        let litter_mask = (1 << count) - 1;\n \n         let rows = classroom.len();\n         let cols = classroom[0].len();\n         let mut best_mask = vec![vec![HashMap::<u16, u16>::new(); cols]; rows];\n         let mut queue = VecDeque::<State>::new();\n         queue.push_back(State {\n-            row: start_row,\n-            col: start_col,\n+            row: start.0,\n+            col: start.1,\n             steps: 0,\n             energy: energy as u16,\n             mask: 0,\n@@ -41,7 +39,6 @@ impl Solution {\n \n         while let Some(mut state) = queue.pop_front() {\n             match classroom[state.row].as_bytes()[state.col] {\n-                b'X' => continue,\n                 b'R' => state.energy = energy as u16,\n                 b'L' => {\n                     state.mask |= 1 << *litter_map.get(&(state.row, state.col)).unwrap_or(&0) as u16\n@@ -65,43 +62,27 @@ impl Solution {\n             if state.energy == 0 {\n                 continue;\n             }\n-            if state.row > 0 {\n-                queue.push_back(State {\n-                    row: state.row - 1,\n-                    col: state.col,\n-                    steps: state.steps + 1,\n-                    energy: state.energy - 1,\n-                    mask: state.mask,\n-                });\n-            }\n-            if state.row < rows - 1 {\n-                queue.push_back(State {\n-                    row: state.row + 1,\n-                    col: state.col,\n-                    steps: state.steps + 1,\n-                    energy: state.energy - 1,\n-                    mask: state.mask,\n-                });\n-            }\n-            if state.col > 0 {\n-                queue.push_back(State {\n-                    row: state.row,\n-                    col: state.col - 1,\n-                    steps: state.steps + 1,\n-                    energy: state.energy - 1,\n-                    mask: state.mask,\n-                });\n-            }\n-            if state.col < cols - 1 {\n-                queue.push_back(State {\n-                    row: state.row,\n-                    col: state.col + 1,\n-                    steps: state.steps + 1,\n-                    energy: state.energy - 1,\n-                    mask: state.mask,\n-                });\n+\n+            for (dr, dc) in [(-1, 0), (1, 0), (0, -1), (0, 1)] {\n+                let nr = state.row as isize + dr;\n+                let nc = state.col as isize + dc;\n+\n+                if nr >= 0\n+                    && nr < rows as isize\n+                    && nc >= 0\n+                    && nc < cols as isize\n+                    && classroom[nr as usize].as_bytes()[nc as usize] != b'X'\n+                {\n+                    queue.push_back(State {\n+                        row: nr as usize,\n+                        col: nc as usize,\n+                        steps: state.steps + 1,\n+                        energy: state.energy - 1,\n+                        mask: state.mask,\n+                    });\n+                }\n             }\n-        }\n+       }\n         -1\n     }\n }\n",
+          "changedLineCounts": {
+            "additions": 25,
+            "deletions": 44
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Simplifies litter-mask and start-position initialization, and replaces explicit directional checks with a loop over four neighbor offsets while filtering walls.",
+          "warnings": []
+        },
+        {
+          "sha": "1e8f795a643bce6cb29322a1ab785a6201ea5bf8",
+          "shortSha": "1e8f795",
+          "parentSha": "284eb8921ef5cfb843eb5c94800fe23f1259609c",
+          "authoredAt": "2026-09-01T13:49:48+08:00",
+          "committedAt": "2026-09-01T13:49:48+08:00",
+          "chronologicalIndex": 319,
+          "problemId": 3568,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3568_minimum_moves_to_clean_the_classroom.rs",
+          "sourceFilename": "3568_minimum_moves_to_clean_the_classroom.rs",
+          "code": "use std::collections::{HashMap, VecDeque};\n\nstruct State {\n    row: usize,\n    col: usize,\n    energy: u16,\n    mask: u16,\n}\n\nimpl Solution {\n    pub fn min_moves(classroom: Vec<String>, energy: i32) -> i32 {\n        let mut litter_map = HashMap::with_capacity(10);\n        let mut count = 0;\n        let mut start = (0, 0);\n        for (row_i, row) in classroom.iter().enumerate() {\n            for (col_i, &byte) in row.as_bytes().iter().enumerate() {\n                if byte == b'L' {\n                    litter_map.insert((row_i, col_i), count);\n                    count += 1;\n                } else if byte == b'S' {\n                    start = (row_i, col_i);\n                }\n            }\n        }\n        let litter_mask = (1 << count) - 1;\n\n        let rows = classroom.len();\n        let cols = classroom[0].len();\n        let mut best_mask = vec![vec![HashMap::<u16, u16>::new(); cols]; rows];\n        let mut queue = VecDeque::<State>::new();\n        queue.push_back(State {\n            row: start.0,\n            col: start.1,\n            energy: energy as u16,\n            mask: 0,\n        });\n\n        let mut steps = 0;\n        while !queue.is_empty() {\n            for _ in 0..queue.len() {\n                let mut state = queue.pop_front().unwrap();\n                match classroom[state.row].as_bytes()[state.col] {\n                    b'R' => state.energy = energy as u16,\n                    b'L' => {\n                        state.mask |=\n                            1 << *litter_map.get(&(state.row, state.col)).unwrap_or(&0) as u16\n                    }\n                    _ => {}\n                }\n\n                if state.mask == litter_mask {\n                    return steps;\n                }\n\n                let entry = best_mask[state.row][state.col]\n                    .entry(state.mask)\n                    .or_insert(0);\n\n                if *entry >= state.energy {\n                    continue;\n                }\n                *entry = state.energy;\n\n                if state.energy == 0 {\n                    continue;\n                }\n\n                for (dr, dc) in [(-1, 0), (1, 0), (0, -1), (0, 1)] {\n                    let nr = state.row as isize + dr;\n                    let nc = state.col as isize + dc;\n\n                    if nr >= 0\n                        && nr < rows as isize\n                        && nc >= 0\n                        && nc < cols as isize\n                        && classroom[nr as usize].as_bytes()[nc as usize] != b'X'\n                    {\n                        queue.push_back(State {\n                            row: nr as usize,\n                            col: nc as usize,\n                            energy: state.energy - 1,\n                            mask: state.mask,\n                        });\n                    }\n                }\n            }\n            steps += 1;\n        }\n        -1\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "577d84a3c6cc7c3bf6eb7b4b4fc5da74adfe5b5dd311ddd74a333a5473a79583",
+          "markedWrong": false,
+          "commitComment": "track steps globally",
+          "rawCommitSubject": "rust 3568: track steps globally",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3568_minimum_moves_to_clean_the_classroom.rs b/rust/src/bin/3568_minimum_moves_to_clean_the_classroom.rs\nindex 11c9a85..394e5ca 100644\n--- a/rust/src/bin/3568_minimum_moves_to_clean_the_classroom.rs\n+++ b/rust/src/bin/3568_minimum_moves_to_clean_the_classroom.rs\n@@ -3,7 +3,6 @@ use std::collections::{HashMap, VecDeque};\n struct State {\n     row: usize,\n     col: usize,\n-    steps: u32,\n     energy: u16,\n     mask: u16,\n }\n@@ -32,57 +31,61 @@ impl Solution {\n         queue.push_back(State {\n             row: start.0,\n             col: start.1,\n-            steps: 0,\n             energy: energy as u16,\n             mask: 0,\n         });\n \n-        while let Some(mut state) = queue.pop_front() {\n-            match classroom[state.row].as_bytes()[state.col] {\n-                b'R' => state.energy = energy as u16,\n-                b'L' => {\n-                    state.mask |= 1 << *litter_map.get(&(state.row, state.col)).unwrap_or(&0) as u16\n+        let mut steps = 0;\n+        while !queue.is_empty() {\n+            for _ in 0..queue.len() {\n+                let mut state = queue.pop_front().unwrap();\n+                match classroom[state.row].as_bytes()[state.col] {\n+                    b'R' => state.energy = energy as u16,\n+                    b'L' => {\n+                        state.mask |=\n+                            1 << *litter_map.get(&(state.row, state.col)).unwrap_or(&0) as u16\n+                    }\n+                    _ => {}\n                 }\n-                _ => {}\n-            }\n \n-            if state.mask == litter_mask {\n-                return state.steps as i32;\n-            }\n+                if state.mask == litter_mask {\n+                    return steps;\n+                }\n \n-            let entry = best_mask[state.row][state.col]\n-                .entry(state.mask)\n-                .or_insert(0);\n+                let entry = best_mask[state.row][state.col]\n+                    .entry(state.mask)\n+                    .or_insert(0);\n \n-            if *entry >= state.energy {\n-                continue;\n-            }\n-            *entry = state.energy;\n+                if *entry >= state.energy {\n+                    continue;\n+                }\n+                *entry = state.energy;\n \n-            if state.energy == 0 {\n-                continue;\n-            }\n+                if state.energy == 0 {\n+                    continue;\n+                }\n \n-            for (dr, dc) in [(-1, 0), (1, 0), (0, -1), (0, 1)] {\n-                let nr = state.row as isize + dr;\n-                let nc = state.col as isize + dc;\n+                for (dr, dc) in [(-1, 0), (1, 0), (0, -1), (0, 1)] {\n+                    let nr = state.row as isize + dr;\n+                    let nc = state.col as isize + dc;\n \n-                if nr >= 0\n-                    && nr < rows as isize\n-                    && nc >= 0\n-                    && nc < cols as isize\n-                    && classroom[nr as usize].as_bytes()[nc as usize] != b'X'\n-                {\n-                    queue.push_back(State {\n-                        row: nr as usize,\n-                        col: nc as usize,\n-                        steps: state.steps + 1,\n-                        energy: state.energy - 1,\n-                        mask: state.mask,\n-                    });\n+                    if nr >= 0\n+                        && nr < rows as isize\n+                        && nc >= 0\n+                        && nc < cols as isize\n+                        && classroom[nr as usize].as_bytes()[nc as usize] != b'X'\n+                    {\n+                        queue.push_back(State {\n+                            row: nr as usize,\n+                            col: nc as usize,\n+                            energy: state.energy - 1,\n+                            mask: state.mask,\n+                        });\n+                    }\n                 }\n             }\n-       }\n+            steps += 1;\n+        }\n         -1\n     }\n }\n",
+          "changedLineCounts": {
+            "additions": 42,
+            "deletions": 39
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 2,
+          "shortChangeSummary": "Removes the step count from each state and tracks BFS distance by processing the queue level by level.",
+          "warnings": []
+        },
+        {
+          "sha": "2e003c55576f0bf03078e86bfdb9fac0c7f93871",
+          "shortSha": "2e003c5",
+          "parentSha": "1e8f795a643bce6cb29322a1ab785a6201ea5bf8",
+          "authoredAt": "2026-09-01T14:02:59+08:00",
+          "committedAt": "2026-09-01T14:02:59+08:00",
+          "chronologicalIndex": 320,
+          "problemId": 3568,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3568_minimum_moves_to_clean_the_classroom.rs",
+          "sourceFilename": "3568_minimum_moves_to_clean_the_classroom.rs",
+          "code": "use std::collections::{HashMap, VecDeque};\n\nstruct State {\n    row: u8,\n    col: u8,\n    energy: u16,\n    mask: u16,\n}\n\nimpl Solution {\n    pub fn min_moves(classroom: Vec<String>, energy: i32) -> i32 {\n        let mut litter_map = HashMap::with_capacity(10);\n        let mut count = 0;\n        let mut start = (0, 0);\n        for (row_i, row) in classroom.iter().enumerate() {\n            for (col_i, &byte) in row.as_bytes().iter().enumerate() {\n                if byte == b'L' {\n                    litter_map.insert((row_i as u8, col_i as u8), count);\n                    count += 1;\n                } else if byte == b'S' {\n                    start = (row_i as u8, col_i as u8);\n                }\n            }\n        }\n        let litter_mask = (1 << count) - 1;\n\n        let rows = classroom.len();\n        let cols = classroom[0].len();\n        let mut best_mask = vec![vec![HashMap::<u16, u16>::new(); cols]; rows];\n        let mut queue = VecDeque::<State>::new();\n        queue.push_back(State {\n            row: start.0,\n            col: start.1,\n            energy: energy as u16,\n            mask: 0,\n        });\n\n        let mut steps = 0;\n        while !queue.is_empty() {\n            for _ in 0..queue.len() {\n                let mut state = queue.pop_front().unwrap();\n                match classroom[state.row as usize].as_bytes()[state.col as usize] {\n                    b'R' => state.energy = energy as u16,\n                    b'L' => {\n                        state.mask |=\n                            1 << *litter_map.get(&(state.row, state.col)).unwrap_or(&0) as u16\n                    }\n                    _ => {}\n                }\n\n                if state.mask == litter_mask {\n                    return steps;\n                }\n\n                let entry = best_mask[state.row as usize][state.col as usize]\n                    .entry(state.mask)\n                    .or_insert(0);\n\n                if *entry >= state.energy {\n                    continue;\n                }\n                *entry = state.energy;\n\n                if state.energy == 0 {\n                    continue;\n                }\n\n                for (dr, dc) in [(-1, 0), (1, 0), (0, -1), (0, 1)] {\n                    let nr = state.row as i8 + dr;\n                    let nc = state.col as i8 + dc;\n\n                    if nr >= 0\n                        && nr < rows as i8\n                        && nc >= 0\n                        && nc < cols as i8\n                        && classroom[nr as usize].as_bytes()[nc as usize] != b'X'\n                    {\n                        queue.push_back(State {\n                            row: nr as u8,\n                            col: nc as u8,\n                            energy: state.energy - 1,\n                            mask: state.mask,\n                        });\n                    }\n                }\n            }\n            steps += 1;\n        }\n        -1\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "bc5a84e801508e6cae0b20f231fee0af58393167745471fd7cdc65edd9007f8b",
+          "markedWrong": false,
+          "commitComment": "shrink State",
+          "rawCommitSubject": "rust 3568: shrink State",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3568_minimum_moves_to_clean_the_classroom.rs b/rust/src/bin/3568_minimum_moves_to_clean_the_classroom.rs\nindex 394e5ca..0a8f82e 100644\n--- a/rust/src/bin/3568_minimum_moves_to_clean_the_classroom.rs\n+++ b/rust/src/bin/3568_minimum_moves_to_clean_the_classroom.rs\n@@ -1,8 +1,8 @@\n use std::collections::{HashMap, VecDeque};\n \n struct State {\n-    row: usize,\n-    col: usize,\n+    row: u8,\n+    col: u8,\n     energy: u16,\n     mask: u16,\n }\n@@ -15,10 +15,10 @@ impl Solution {\n         for (row_i, row) in classroom.iter().enumerate() {\n             for (col_i, &byte) in row.as_bytes().iter().enumerate() {\n                 if byte == b'L' {\n-                    litter_map.insert((row_i, col_i), count);\n+                    litter_map.insert((row_i as u8, col_i as u8), count);\n                     count += 1;\n                 } else if byte == b'S' {\n-                    start = (row_i, col_i);\n+                    start = (row_i as u8, col_i as u8);\n                 }\n             }\n         }\n@@ -39,7 +39,7 @@ impl Solution {\n         while !queue.is_empty() {\n             for _ in 0..queue.len() {\n                 let mut state = queue.pop_front().unwrap();\n-                match classroom[state.row].as_bytes()[state.col] {\n+                match classroom[state.row as usize].as_bytes()[state.col as usize] {\n                     b'R' => state.energy = energy as u16,\n                     b'L' => {\n                         state.mask |=\n@@ -52,7 +52,7 @@ impl Solution {\n                     return steps;\n                 }\n \n-                let entry = best_mask[state.row][state.col]\n+                let entry = best_mask[state.row as usize][state.col as usize]\n                     .entry(state.mask)\n                     .or_insert(0);\n \n@@ -66,18 +66,18 @@ impl Solution {\n                 }\n \n                 for (dr, dc) in [(-1, 0), (1, 0), (0, -1), (0, 1)] {\n-                    let nr = state.row as isize + dr;\n-                    let nc = state.col as isize + dc;\n+                    let nr = state.row as i8 + dr;\n+                    let nc = state.col as i8 + dc;\n \n                     if nr >= 0\n-                        && nr < rows as isize\n+                        && nr < rows as i8\n                         && nc >= 0\n-                        && nc < cols as isize\n+                        && nc < cols as i8\n                         && classroom[nr as usize].as_bytes()[nc as usize] != b'X'\n                     {\n                         queue.push_back(State {\n-                            row: nr as usize,\n-                            col: nc as usize,\n+                            row: nr as u8,\n+                            col: nc as u8,\n                             energy: state.energy - 1,\n                             mask: state.mask,\n                         });\n",
+          "changedLineCounts": {
+            "additions": 12,
+            "deletions": 12
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 3,
+          "shortChangeSummary": "Shrinks row and column fields in the BFS state from usize to u8, adding casts at grid-access and neighbor-calculation boundaries.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "9787c0d330c809ba9a8ea69d3bea4b88a4cd36c9",
+    "284eb8921ef5cfb843eb5c94800fe23f1259609c",
+    "1e8f795a643bce6cb29322a1ab785a6201ea5bf8",
+    "2e003c55576f0bf03078e86bfdb9fac0c7f93871"
+  ],
+  "warnings": []
+}

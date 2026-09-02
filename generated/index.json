@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-31T06:39:36.489Z",
-  "sourceHeadSha": "8df42dc9a01b2548c0566e361b57b0a1537736ca",
+  "generatedAt": "2026-09-02T14:14:44.812Z",
+  "sourceHeadSha": "f32da555d143945d6aacfd885f2e8dd18134f8f9",
   "questions": [
     {
       "id": 1,
@@ -713,6 +713,24 @@
       ],
       "firstCommittedAt": "2026-02-01T16:56:43+08:00",
       "lastCommittedAt": "2026-02-01T16:56:43+08:00"
+    },
+    {
+      "id": 130,
+      "title": "Surrounded Regions",
+      "slug": "surrounded-regions",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/130/rust/",
+          "revisionCount": 3,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-09-02T22:13:48+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-09-02T21:44:38+08:00",
+      "lastCommittedAt": "2026-09-02T22:13:48+08:00"
     },
     {
       "id": 134,
@@ -2612,6 +2630,24 @@
       ],
       "firstCommittedAt": "2026-06-11T18:26:28+08:00",
       "lastCommittedAt": "2026-06-11T20:03:19+08:00"
+    },
+    {
+      "id": 3568,
+      "title": "Minimum Moves to Clean the Classroom",
+      "slug": "minimum-moves-to-clean-the-classroom",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3568/rust/",
+          "revisionCount": 4,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-09-01T14:02:59+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-09-01T13:07:36+08:00",
+      "lastCommittedAt": "2026-09-01T14:02:59+08:00"
     },
     {
       "id": 3612,

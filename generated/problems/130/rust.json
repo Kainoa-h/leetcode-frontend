@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 130,
+    "title": "Surrounded Regions",
+    "slug": "surrounded-regions"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/130_surrounded_regions.rs",
+    "latestSha": "f32da555d143945d6aacfd885f2e8dd18134f8f9",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-09-02T21:44:38+08:00",
+    "lastCommittedAt": "2026-09-02T22:13:48+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "a9381ea8e27ae7721b327223b69cc0319ffda15f73aa7bd0459d6404d9e89d8f"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "Interior-region detection and capture",
+      "summary": "Scans interior cells, recursively determines whether each connected region reaches the boundary, and captures regions that do not. Uses a separate visited grid and a second recursive pass to convert capturable cells to X.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "9ecf8c422a219c26ffc240a0b55e8f40a9365a80",
+          "shortSha": "9ecf8c4",
+          "parentSha": "2e003c55576f0bf03078e86bfdb9fac0c7f93871",
+          "authoredAt": "2026-09-02T21:44:38+08:00",
+          "committedAt": "2026-09-02T21:44:38+08:00",
+          "chronologicalIndex": 321,
+          "problemId": 130,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/130_surrounded_regions.rs",
+          "sourceFilename": "130_surrounded_regions.rs",
+          "code": "impl Solution {\n    pub fn solve(board: &mut Vec<Vec<char>>) {\n        let rows = board.len();\n        let cols = board[0].len();\n        let mut visited_board = vec![vec![false; cols]; rows];\n\n        fn can_capture(\n            board: &mut Vec<Vec<char>>,\n            visited_board: &mut Vec<Vec<bool>>,\n            r: usize,\n            c: usize,\n            rows: usize,\n            cols: usize,\n        ) -> bool {\n            visited_board[r][c] = true;\n\n            let mut can = true;\n            for (rm, cm) in [(-1, 0), (1, 0), (0, -1), (0, 1)] {\n                let (nr, nc) = (r as isize + rm, c as isize + cm);\n                if (0..rows as isize).contains(&nr) && (0..cols as isize).contains(&nc) {\n                    if !visited_board[nr as usize][nc as usize]\n                        && board[nr as usize][nc as usize] == 'O' {\n                        can &= can_capture(board, visited_board, nr as usize, nc as usize, rows, cols)\n                    }\n                } else {\n                    can = false;\n                }\n            }\n            can\n        }\n\n        fn capture(board: &mut Vec<Vec<char>>, r: usize, c: usize, rows: usize, cols: usize) {\n            board[r][c] = 'X';\n            for (rm, cm) in [(-1, 0), (1, 0), (0, -1), (0, 1)] {\n                let (nr, nc) = (r as isize + rm, c as isize + cm);\n                if (0..rows as isize).contains(&nr)\n                    && (0..cols as isize).contains(&nc)\n                    && board[nr as usize][nc as usize] == 'O'\n                {\n                    capture(board, nr as usize, nc as usize, rows, cols);\n                }\n            }\n        }\n\n        for r in 1..rows - 1 {\n            for c in 1..cols - 1 {\n                let letter = board[r][c];\n                if letter == 'O'\n                    && !visited_board[r][c]\n                    && can_capture(board, &mut visited_board, r, c, rows, cols)\n                {\n                    capture(board, r, c, rows, cols);\n                }\n            }\n        }\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    let mut v = vec![\n        vec!['X', 'X', 'X', 'X'],\n        vec!['X', 'O', 'O', 'X'],\n        vec!['X', 'X', 'O', 'X'],\n        vec!['X', 'O', 'X', 'X'],\n    ];\n    Solution::solve(&mut v);\n    println!(\"{:?}\", v);\n}\n",
+          "codeHash": "0475bccaed47ef16331a08634a2f8ec0545472540dd00b4e565651c332317b3f",
+          "markedWrong": false,
+          "commitComment": "first pass",
+          "rawCommitSubject": "rust 130: first pass",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Introduces recursive region validation with a visited grid, followed by recursive capture of enclosed O regions.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "approach-2",
+      "title": "Boundary flood fill with temporary safe markers",
+      "summary": "Flood-fills O regions connected to the boundary, marking them as safe before converting remaining O cells to X. This reverses the problem by preserving boundary-connected regions rather than testing every interior region.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "d60ec144e5582a64f111c96ca9ca204ed0212a37",
+          "shortSha": "d60ec14",
+          "parentSha": "9ecf8c422a219c26ffc240a0b55e8f40a9365a80",
+          "authoredAt": "2026-09-02T22:04:42+08:00",
+          "committedAt": "2026-09-02T22:04:42+08:00",
+          "chronologicalIndex": 322,
+          "problemId": 130,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/130_surrounded_regions.rs",
+          "sourceFilename": "130_surrounded_regions.rs",
+          "code": "impl Solution {\n    pub fn solve(board: &mut Vec<Vec<char>>) {\n        let rows = board.len();\n        let cols = board[0].len();\n\n        fn mark_safe(board: &mut Vec<Vec<char>>, r: usize, c: usize) {\n            if board[r][c] == 'O' {\n                board[r][c] = 'S';\n                for (mr, mc) in [(-1, 0), (1, 0), (0, -1), (0, 1)] {\n                    let (nr, nc) = (r as isize + mr, c as isize + mc);\n                    if (0..board.len() as isize).contains(&nr)\n                        && (0..board[0].len() as isize).contains(&nc)\n                        && board[nr as usize][nc as usize] == 'O'\n                    {\n                        mark_safe(board, nr as usize, nc as usize);\n                    }\n                }\n            }\n        }\n\n        for i in 0..rows {\n            mark_safe(board, i, 0);\n            mark_safe(board, i, cols - 1);\n        }\n\n        for i in 0..cols {\n            mark_safe(board, 0, i);\n            mark_safe(board, rows - 1, i);\n        }\n\n        for row in board {\n            for cell in row {\n                match *cell {\n                    'S' => *cell = 'O',\n                    'O' => *cell = 'X',\n                    _ => {}\n                }\n            }\n        }\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    let mut v = vec![\n        vec!['X', 'X', 'X', 'X'],\n        vec!['X', 'O', 'O', 'X'],\n        vec!['X', 'X', 'O', 'X'],\n        vec!['X', 'O', 'X', 'X'],\n    ];\n    Solution::solve(&mut v);\n    println!(\"{:?}\", v);\n}\n",
+          "codeHash": "b5f20a839d5155eec72db45c0aa566a962e68c6e263091d99951955d50b44799",
+          "markedWrong": false,
+          "commitComment": "mark safe first",
+          "rawCommitSubject": "rust 130: mark safe first",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/130_surrounded_regions.rs b/rust/src/bin/130_surrounded_regions.rs\nindex ea20d80..ddf834f 100644\n--- a/rust/src/bin/130_surrounded_regions.rs\n+++ b/rust/src/bin/130_surrounded_regions.rs\n@@ -2,54 +2,38 @@ impl Solution {\n     pub fn solve(board: &mut Vec<Vec<char>>) {\n         let rows = board.len();\n         let cols = board[0].len();\n-        let mut visited_board = vec![vec![false; cols]; rows];\n \n-        fn can_capture(\n-            board: &mut Vec<Vec<char>>,\n-            visited_board: &mut Vec<Vec<bool>>,\n-            r: usize,\n-            c: usize,\n-            rows: usize,\n-            cols: usize,\n-        ) -> bool {\n-            visited_board[r][c] = true;\n-\n-            let mut can = true;\n-            for (rm, cm) in [(-1, 0), (1, 0), (0, -1), (0, 1)] {\n-                let (nr, nc) = (r as isize + rm, c as isize + cm);\n-                if (0..rows as isize).contains(&nr) && (0..cols as isize).contains(&nc) {\n-                    if !visited_board[nr as usize][nc as usize]\n-                        && board[nr as usize][nc as usize] == 'O' {\n-                        can &= can_capture(board, visited_board, nr as usize, nc as usize, rows, cols)\n+        fn mark_safe(board: &mut Vec<Vec<char>>, r: usize, c: usize) {\n+            if board[r][c] == 'O' {\n+                board[r][c] = 'S';\n+                for (mr, mc) in [(-1, 0), (1, 0), (0, -1), (0, 1)] {\n+                    let (nr, nc) = (r as isize + mr, c as isize + mc);\n+                    if (0..board.len() as isize).contains(&nr)\n+                        && (0..board[0].len() as isize).contains(&nc)\n+                        && board[nr as usize][nc as usize] == 'O'\n+                    {\n+                        mark_safe(board, nr as usize, nc as usize);\n                     }\n-                } else {\n-                    can = false;\n                 }\n             }\n-            can\n         }\n \n-        fn capture(board: &mut Vec<Vec<char>>, r: usize, c: usize, rows: usize, cols: usize) {\n-            board[r][c] = 'X';\n-            for (rm, cm) in [(-1, 0), (1, 0), (0, -1), (0, 1)] {\n-                let (nr, nc) = (r as isize + rm, c as isize + cm);\n-                if (0..rows as isize).contains(&nr)\n-                    && (0..cols as isize).contains(&nc)\n-                    && board[nr as usize][nc as usize] == 'O'\n-                {\n-                    capture(board, nr as usize, nc as usize, rows, cols);\n-                }\n-            }\n+        for i in 0..rows {\n+            mark_safe(board, i, 0);\n+            mark_safe(board, i, cols - 1);\n+        }\n+\n+        for i in 0..cols {\n+            mark_safe(board, 0, i);\n+            mark_safe(board, rows - 1, i);\n         }\n \n-        for r in 1..rows - 1 {\n-            for c in 1..cols - 1 {\n-                let letter = board[r][c];\n-                if letter == 'O'\n-                    && !visited_board[r][c]\n-                    && can_capture(board, &mut visited_board, r, c, rows, cols)\n-                {\n-                    capture(board, r, c, rows, cols);\n+        for row in board {\n+            for cell in row {\n+                match *cell {\n+                    'S' => *cell = 'O',\n+                    'O' => *cell = 'X',\n+                    _ => {}\n                 }\n             }\n         }\n",
+          "changedLineCounts": {
+            "additions": 24,
+            "deletions": 40
+          },
+          "approachId": "approach-2",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaces interior capture checks with boundary-based flood fill using S as a temporary safe marker, then restores safe cells and captures the rest.",
+          "warnings": []
+        },
+        {
+          "sha": "f32da555d143945d6aacfd885f2e8dd18134f8f9",
+          "shortSha": "f32da55",
+          "parentSha": "d60ec144e5582a64f111c96ca9ca204ed0212a37",
+          "authoredAt": "2026-09-02T22:13:48+08:00",
+          "committedAt": "2026-09-02T22:13:48+08:00",
+          "chronologicalIndex": 323,
+          "problemId": 130,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/130_surrounded_regions.rs",
+          "sourceFilename": "130_surrounded_regions.rs",
+          "code": "impl Solution {\n    pub fn solve(board: &mut Vec<Vec<char>>) {\n        let rows = board.len();\n        let cols = board[0].len();\n\n        fn mark_safe(board: &mut [Vec<char>], r: usize, c: usize) {\n            board[r][c] = 'S';\n            for (mr, mc) in [(-1, 0), (1, 0), (0, -1), (0, 1)] {\n                let (nr, nc) = (r as isize + mr, c as isize + mc);\n                if (0..board.len() as isize).contains(&nr)\n                    && (0..board[0].len() as isize).contains(&nc)\n                    && board[nr as usize][nc as usize] == 'O'\n                {\n                    mark_safe(board, nr as usize, nc as usize);\n                }\n            }\n        }\n\n        for i in 0..rows {\n            if board[i][0] == 'O' {\n                mark_safe(board, i, 0);\n            }\n            if board[i][cols - 1] == 'O' {\n                mark_safe(board, i, cols - 1);\n            }\n        }\n\n        for i in 1..cols - 1 {\n            if board[0][i] == 'O' {\n                mark_safe(board, 0, i);\n            }\n            if board[rows - 1][i] == 'O' {\n                mark_safe(board, rows - 1, i);\n            }\n        }\n\n        for row in board {\n            for cell in row {\n                match *cell {\n                    'S' => *cell = 'O',\n                    'O' => *cell = 'X',\n                    _ => {}\n                }\n            }\n        }\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    let mut v = vec![\n        vec!['X', 'X', 'X', 'X'],\n        vec!['X', 'O', 'O', 'X'],\n        vec!['X', 'X', 'O', 'X'],\n        vec!['X', 'O', 'X', 'X'],\n    ];\n    Solution::solve(&mut v);\n    println!(\"{:?}\", v);\n}\n",
+          "codeHash": "76470baba74cd2e190374fb1d7d38f9187064f9c0504c6dea2342af9a444327e",
+          "markedWrong": false,
+          "commitComment": "less branching",
+          "rawCommitSubject": "rust 130: less branching",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/130_surrounded_regions.rs b/rust/src/bin/130_surrounded_regions.rs\nindex ddf834f..de23329 100644\n--- a/rust/src/bin/130_surrounded_regions.rs\n+++ b/rust/src/bin/130_surrounded_regions.rs\n@@ -3,29 +3,35 @@ impl Solution {\n         let rows = board.len();\n         let cols = board[0].len();\n \n-        fn mark_safe(board: &mut Vec<Vec<char>>, r: usize, c: usize) {\n-            if board[r][c] == 'O' {\n-                board[r][c] = 'S';\n-                for (mr, mc) in [(-1, 0), (1, 0), (0, -1), (0, 1)] {\n-                    let (nr, nc) = (r as isize + mr, c as isize + mc);\n-                    if (0..board.len() as isize).contains(&nr)\n-                        && (0..board[0].len() as isize).contains(&nc)\n-                        && board[nr as usize][nc as usize] == 'O'\n-                    {\n-                        mark_safe(board, nr as usize, nc as usize);\n-                    }\n+        fn mark_safe(board: &mut [Vec<char>], r: usize, c: usize) {\n+            board[r][c] = 'S';\n+            for (mr, mc) in [(-1, 0), (1, 0), (0, -1), (0, 1)] {\n+                let (nr, nc) = (r as isize + mr, c as isize + mc);\n+                if (0..board.len() as isize).contains(&nr)\n+                    && (0..board[0].len() as isize).contains(&nc)\n+                    && board[nr as usize][nc as usize] == 'O'\n+                {\n+                    mark_safe(board, nr as usize, nc as usize);\n                 }\n             }\n         }\n \n         for i in 0..rows {\n-            mark_safe(board, i, 0);\n-            mark_safe(board, i, cols - 1);\n+            if board[i][0] == 'O' {\n+                mark_safe(board, i, 0);\n+            }\n+            if board[i][cols - 1] == 'O' {\n+                mark_safe(board, i, cols - 1);\n+            }\n         }\n \n-        for i in 0..cols {\n-            mark_safe(board, 0, i);\n-            mark_safe(board, rows - 1, i);\n+        for i in 1..cols - 1 {\n+            if board[0][i] == 'O' {\n+                mark_safe(board, 0, i);\n+            }\n+            if board[rows - 1][i] == 'O' {\n+                mark_safe(board, rows - 1, i);\n+            }\n         }\n \n         for row in board {\n",
+          "changedLineCounts": {
+            "additions": 22,
+            "deletions": 16
+          },
+          "approachId": "approach-2",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Keeps the boundary flood-fill strategy while avoiding redundant calls, accepting slices in mark_safe, and skipping duplicate corner processing.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "9ecf8c422a219c26ffc240a0b55e8f40a9365a80",
+    "d60ec144e5582a64f111c96ca9ca204ed0212a37",
+    "f32da555d143945d6aacfd885f2e8dd18134f8f9"
+  ],
+  "warnings": []
+}
