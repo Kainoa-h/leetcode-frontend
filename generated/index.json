@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-02T14:14:44.812Z",
-  "sourceHeadSha": "f32da555d143945d6aacfd885f2e8dd18134f8f9",
+  "generatedAt": "2026-09-02T14:49:03.455Z",
+  "sourceHeadSha": "01669c73086a30c77c1565531fa57d7d566f7053",
   "questions": [
     {
       "id": 1,
@@ -1794,14 +1794,14 @@
           "id": "rust",
           "label": "Rust",
           "route": "/problems/2058/rust/",
-          "revisionCount": 2,
+          "revisionCount": 6,
           "approachCount": 1,
           "incorrectRevisionCount": 0,
-          "lastCommittedAt": "2026-08-31T14:04:33+08:00"
+          "lastCommittedAt": "2026-09-02T22:48:16+08:00"
         }
       ],
       "firstCommittedAt": "2026-08-31T13:45:45+08:00",
-      "lastCommittedAt": "2026-08-31T14:04:33+08:00"
+      "lastCommittedAt": "2026-09-02T22:48:16+08:00"
     },
     {
       "id": 2069,
