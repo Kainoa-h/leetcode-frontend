@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-02T14:49:03.455Z",
-  "sourceHeadSha": "01669c73086a30c77c1565531fa57d7d566f7053",
+  "generatedAt": "2026-09-03T03:17:17.448Z",
+  "sourceHeadSha": "0cf5cf8ec4f3cbf6b098afc07e07ec9660a323d0",
   "questions": [
     {
       "id": 1,
@@ -2936,6 +2936,24 @@
       ],
       "firstCommittedAt": "2026-07-16T14:50:34+08:00",
       "lastCommittedAt": "2026-07-16T15:28:38+08:00"
+    },
+    {
+      "id": 3876,
+      "title": "Construct Uniform Parity Array Ii",
+      "slug": "construct-uniform-parity-array-ii",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3876/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-09-03T11:16:32+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-09-03T11:04:21+08:00",
+      "lastCommittedAt": "2026-09-03T11:16:32+08:00"
     }
   ]
 }

@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3876,
+    "title": "Construct Uniform Parity Array Ii",
+    "slug": "construct-uniform-parity-array-ii"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3876_construct_uniform_parity_array_II.rs",
+    "latestSha": "0cf5cf8ec4f3cbf6b098afc07e07ec9660a323d0",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-09-03T11:04:21+08:00",
+    "lastCommittedAt": "2026-09-03T11:16:32+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "b52b5f613059276c2d8c264c22a97c324baa77beebf9455e067de2a273d7ee97"
+  },
+  "approaches": [
+    {
+      "id": "1",
+      "title": "Minimum-value and duplicate-smallest-odd check",
+      "summary": "Finds the smallest odd value and the overall minimum, then checks whether the minimum is already odd or the smallest odd appears at least twice. Revision 2 preserves this strategy while terminating early when a second occurrence is found.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "be6defeb96427de4424d0c7fdd71bfc038fa17d1",
+          "shortSha": "be6defe",
+          "parentSha": "01669c73086a30c77c1565531fa57d7d566f7053",
+          "authoredAt": "2026-09-03T11:04:21+08:00",
+          "committedAt": "2026-09-03T11:04:21+08:00",
+          "chronologicalIndex": 328,
+          "problemId": 3876,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3876_construct_uniform_parity_array_II.rs",
+          "sourceFilename": "3876_construct_uniform_parity_array_II.rs",
+          "code": "impl Solution {\n    pub fn uniform_array(nums1: Vec<i32>) -> bool {\n        let Some(smallest_odd) = nums1.iter().filter(|&&x|x % 2 == 1).min().cloned() else {\n            return true;\n        };\n\n        let Some(smallest) = nums1.iter().min().cloned() else {\n            return false;\n        };\n\n        smallest_odd == smallest || nums1.iter().filter(|&&x| x == smallest_odd).count() > 1\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "51f9d7a6b07d6ab7c4aeace0f03db2143907f03a84ecd5740bd6aa0670a8f8c1",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 3876",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Implements the solution by comparing the smallest odd element with the overall minimum and counting occurrences of the smallest odd value.",
+          "warnings": []
+        },
+        {
+          "sha": "0cf5cf8ec4f3cbf6b098afc07e07ec9660a323d0",
+          "shortSha": "0cf5cf8",
+          "parentSha": "be6defeb96427de4424d0c7fdd71bfc038fa17d1",
+          "authoredAt": "2026-09-03T11:16:32+08:00",
+          "committedAt": "2026-09-03T11:16:32+08:00",
+          "chronologicalIndex": 329,
+          "problemId": 3876,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3876_construct_uniform_parity_array_II.rs",
+          "sourceFilename": "3876_construct_uniform_parity_array_II.rs",
+          "code": "impl Solution {\n    pub fn uniform_array(nums1: Vec<i32>) -> bool {\n        let Some(smallest_odd) = nums1.iter().filter(|&&x|x % 2 == 1).min().cloned() else {\n            return true;\n        };\n\n        let Some(smallest) = nums1.iter().min().cloned() else {\n            return false;\n        };\n\n        smallest_odd == smallest || nums1.iter().filter(|&&x| x == smallest_odd).nth(1).is_some()\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "fe54687682e4391c81a98142b4f4992bf446be927c0c0bb037246f008df2f5bf",
+          "markedWrong": false,
+          "commitComment": "terminate early on first found pair",
+          "rawCommitSubject": "rust 3876: terminate early on first found pair",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3876_construct_uniform_parity_array_II.rs b/rust/src/bin/3876_construct_uniform_parity_array_II.rs\nindex a07b690..2ccc471 100644\n--- a/rust/src/bin/3876_construct_uniform_parity_array_II.rs\n+++ b/rust/src/bin/3876_construct_uniform_parity_array_II.rs\n@@ -8,7 +8,7 @@ impl Solution {\n             return false;\n         };\n \n-        smallest_odd == smallest || nums1.iter().filter(|&&x| x == smallest_odd).count() > 1\n+        smallest_odd == smallest || nums1.iter().filter(|&&x| x == smallest_odd).nth(1).is_some()\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 1,
+            "deletions": 1
+          },
+          "approachId": "1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Optimizes the duplicate check to stop after finding the second occurrence of the smallest odd value instead of counting all matches.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "be6defeb96427de4424d0c7fdd71bfc038fa17d1",
+    "0cf5cf8ec4f3cbf6b098afc07e07ec9660a323d0"
+  ],
+  "warnings": []
+}
