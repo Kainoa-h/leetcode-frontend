@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "problem": {
     "id": 2840,
-    "title": "Check If Strings Can Be Made Equal With Operations Ii",
+    "title": "Check If Strings Can Be Made Equal With Operations II",
     "slug": "check-if-strings-can-be-made-equal-with-operations-ii"
   },
   "language": {
@@ -27,7 +27,7 @@
     "status": "cached",
     "model": "openai/gpt-5.6-luna",
     "promptVersion": "7",
-    "inputHash": "bc81315ccd28ee99e1df4dae2cbf43e2730512fa4025d9d73e0a4ed4c2607daf"
+    "inputHash": "8916985378d096b177a1018a823a2d9c58d973e0f1c6a9c373ece7e62bc1cf55"
   },
   "approaches": [
     {

@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "problem": {
     "id": 219,
-    "title": "Contains Duplicate Ii",
+    "title": "Contains Duplicate II",
     "slug": "contains-duplicate-ii"
   },
   "language": {
@@ -27,7 +27,7 @@
     "status": "cached",
     "model": "openai/gpt-5.6-luna",
     "promptVersion": "7",
-    "inputHash": "df75579f19505d9080430db024f5e919ea6ebcc0216aee9f8ff69ce334a07aa7"
+    "inputHash": "45813196957b0b3de09591c5487ca4e4383103ebe215f013794929027ee1848b"
   },
   "approaches": [
     {

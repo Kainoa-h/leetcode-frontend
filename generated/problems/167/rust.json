@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "problem": {
     "id": 167,
-    "title": "Two Sum Ii Input Array Sorted",
+    "title": "Two Sum II Input Array Sorted",
     "slug": "two-sum-ii-input-array-sorted"
   },
   "language": {
@@ -27,7 +27,7 @@
     "status": "cached",
     "model": "openai/gpt-5.6-luna",
     "promptVersion": "7",
-    "inputHash": "7da3307c7cbafa1e1e607b93c32fd1ef8e0964e64f67bafccd2aeba98969aad1"
+    "inputHash": "45bf31e2316baef8e1842492f9ffc73210909cf0d1d2332e145aebabc923d6d2"
   },
   "approaches": [
     {

@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "problem": {
     "id": 2069,
-    "title": "Walking Robot Simulation Ii",
+    "title": "Walking Robot Simulation II",
     "slug": "walking-robot-simulation-ii"
   },
   "language": {
@@ -27,7 +27,7 @@
     "status": "cached",
     "model": null,
     "promptVersion": "7",
-    "inputHash": "22297b2121f4eb0851c7cf94e43891763e8f97bd33d968a1df1b76f5e4f2f63d"
+    "inputHash": "4e74871ef861836f70ef0bbe815db4743ced53327ef6f1de3dca7937da3d685c"
   },
   "approaches": [
     {

@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "problem": {
     "id": 2069,
-    "title": "Walking Robot Simulation Ii",
+    "title": "Walking Robot Simulation II",
     "slug": "walking-robot-simulation-ii"
   },
   "language": {
@@ -27,7 +27,7 @@
     "status": "cached",
     "model": "openai/gpt-5.6-luna",
     "promptVersion": "7",
-    "inputHash": "3cf0c8144f28b2ce3efab2b0add57c285a0346255b9363b1ce9241c7dc44b9bd"
+    "inputHash": "20dabf7c6a30efb18978b327f2c01e79295560f6c95a87c94106ca700b0df970"
   },
   "approaches": [
     {

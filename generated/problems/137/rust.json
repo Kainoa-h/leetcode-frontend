@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "problem": {
     "id": 137,
-    "title": "Single Number Ii",
+    "title": "Single Number II",
     "slug": "single-number-ii"
   },
   "language": {
@@ -27,7 +27,7 @@
     "status": "cached",
     "model": "openai/gpt-5.6-luna",
     "promptVersion": "7",
-    "inputHash": "dcb87fad1a8fa71bb6e08149a37331797fe3a68ea7d7b92f9842de55da96c3be"
+    "inputHash": "2cda03541614659fb7e335e310acb486d789596ec1e5589b09aabd6b11597633"
   },
   "approaches": [
     {

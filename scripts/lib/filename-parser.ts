@@ -19,14 +19,15 @@ export function deriveTitle(file: string, problemId: number): string {
   if (!base || /^problem$/i.test(base)) return `Problem ${problemId}`;
   return base
     .split(' ')
-    .map(
-      (w, i) =>
-        acronyms.get(w.toLowerCase()) ??
-        (i > 0 &&
-        ['in', 'of', 'to', 'and', 'or', 'the'].includes(w.toLowerCase())
-          ? w.toLowerCase()
-          : w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()),
-    )
+    .map((w, i) => {
+      const lower = w.toLowerCase();
+      return (
+        acronyms.get(lower) ??
+        (i > 0 && ['in', 'of', 'to', 'and', 'or', 'the'].includes(lower)
+          ? w
+          : w.charAt(0).toUpperCase() + w.slice(1))
+      );
+    })
     .join(' ');
 }
 export function problemIdFromFilename(file: string): number | null {

@@ -65,7 +65,7 @@ Requests use Chat Completions structured output, local Zod validation, a 60-seco
 
 ## Parsing and generated data
 
-Subjects accept `[language]? ID[!]?: comment`. Missing language means Rust unless the file extension is stronger evidence. `!` remains visibly labeled “Marked incorrect by the author”; no failure reason is invented. Extension evidence wins conflicts and emits a recoverable warning. Titles come solely from the latest filename: source extension and `.solution` are removed, a leading ID is stripped, separators become spaces, and text becomes readable title case. A meaningless name falls back to `Problem <id>`.
+Subjects accept `[language]? ID[!]?: comment`. Missing language means Rust unless the file extension is stronger evidence. `!` remains visibly labeled “Marked incorrect by the author”; no failure reason is invented. Extension evidence wins conflicts and emits a recoverable warning. Titles come solely from the latest filename: source extension and `.solution` are removed, a leading ID is stripped, separators become spaces, and lowercase words become readable title case while existing capitalization is preserved. A meaningless name falls back to `Problem <id>`.
 
 Every unique code hash becomes one full revision snapshot. Consecutive content duplicates are omitted; metadata-only no-ops are not retained because their commit subject remains visible in Git. Deletions retain historical snapshots and mark the group deleted. JSON uses two-space stable formatting:
 

@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "problem": {
     "id": 2840,
-    "title": "Check If Strings Can Be Made Equal With Operations Ii",
+    "title": "Check If Strings Can Be Made Equal With Operations II",
     "slug": "check-if-strings-can-be-made-equal-with-operations-ii"
   },
   "language": {
@@ -27,7 +27,7 @@
     "status": "cached",
     "model": null,
     "promptVersion": "7",
-    "inputHash": "d7e9939402d663174bcb248069c51c97b28a750a9d874cac67a949f8edd67554"
+    "inputHash": "ba0e388b3c206ef6887f0145eadfdd52a4f2241e0ecc28fc7e781b425a91259a"
   },
   "approaches": [
     {

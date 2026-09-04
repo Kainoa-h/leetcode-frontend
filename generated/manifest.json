@@ -2446,7 +2446,7 @@
     "122/rust": {
       "problemId": 122,
       "language": "rust",
-      "inputHash": "439ed212845808d63d39112351fa55f98e077c5d2c11ebe133a80208d3e348d0",
+      "inputHash": "9dbec4e15a608e6d85fa9caadfcc5d502f40c5b0be3b92926bff3f5e7f814043",
       "outputPath": "generated/problems/122/rust.json",
       "promptVersion": "7",
       "model": "openai/gpt-5.6-luna",
@@ -2586,7 +2586,7 @@
     "137/rust": {
       "problemId": 137,
       "language": "rust",
-      "inputHash": "dcb87fad1a8fa71bb6e08149a37331797fe3a68ea7d7b92f9842de55da96c3be",
+      "inputHash": "2cda03541614659fb7e335e310acb486d789596ec1e5589b09aabd6b11597633",
       "outputPath": "generated/problems/137/rust.json",
       "promptVersion": "7",
       "model": "openai/gpt-5.6-luna",
@@ -2696,7 +2696,7 @@
     "167/rust": {
       "problemId": 167,
       "language": "rust",
-      "inputHash": "7da3307c7cbafa1e1e607b93c32fd1ef8e0964e64f67bafccd2aeba98969aad1",
+      "inputHash": "45bf31e2316baef8e1842492f9ffc73210909cf0d1d2332e145aebabc923d6d2",
       "outputPath": "generated/problems/167/rust.json",
       "promptVersion": "7",
       "model": "openai/gpt-5.6-luna",
@@ -2936,7 +2936,7 @@
     "2069/java": {
       "problemId": 2069,
       "language": "java",
-      "inputHash": "3cf0c8144f28b2ce3efab2b0add57c285a0346255b9363b1ce9241c7dc44b9bd",
+      "inputHash": "20dabf7c6a30efb18978b327f2c01e79295560f6c95a87c94106ca700b0df970",
       "outputPath": "generated/problems/2069/java.json",
       "promptVersion": "7",
       "model": "openai/gpt-5.6-luna",
@@ -2946,7 +2946,7 @@
     "2069/rust": {
       "problemId": 2069,
       "language": "rust",
-      "inputHash": "22297b2121f4eb0851c7cf94e43891763e8f97bd33d968a1df1b76f5e4f2f63d",
+      "inputHash": "4e74871ef861836f70ef0bbe815db4743ced53327ef6f1de3dca7937da3d685c",
       "outputPath": "generated/problems/2069/rust.json",
       "promptVersion": "7",
       "model": null,
@@ -3056,7 +3056,7 @@
     "219/rust": {
       "problemId": 219,
       "language": "rust",
-      "inputHash": "df75579f19505d9080430db024f5e919ea6ebcc0216aee9f8ff69ce334a07aa7",
+      "inputHash": "45813196957b0b3de09591c5487ca4e4383103ebe215f013794929027ee1848b",
       "outputPath": "generated/problems/219/rust.json",
       "promptVersion": "7",
       "model": "openai/gpt-5.6-luna",
@@ -3276,7 +3276,7 @@
     "2840/java": {
       "problemId": 2840,
       "language": "java",
-      "inputHash": "bc81315ccd28ee99e1df4dae2cbf43e2730512fa4025d9d73e0a4ed4c2607daf",
+      "inputHash": "8916985378d096b177a1018a823a2d9c58d973e0f1c6a9c373ece7e62bc1cf55",
       "outputPath": "generated/problems/2840/java.json",
       "promptVersion": "7",
       "model": "openai/gpt-5.6-luna",
@@ -3286,7 +3286,7 @@
     "2840/rust": {
       "problemId": 2840,
       "language": "rust",
-      "inputHash": "d7e9939402d663174bcb248069c51c97b28a750a9d874cac67a949f8edd67554",
+      "inputHash": "ba0e388b3c206ef6887f0145eadfdd52a4f2241e0ecc28fc7e781b425a91259a",
       "outputPath": "generated/problems/2840/rust.json",
       "promptVersion": "7",
       "model": null,
@@ -3406,7 +3406,7 @@
     "3016/rust": {
       "problemId": 3016,
       "language": "rust",
-      "inputHash": "127e3d0b488df1bcfd3d6f43cad88cd9df8c5baa9bdeed11c92bf2bbf0ee6cc0",
+      "inputHash": "6ced3f40cc1998b0e76018ddf8561e424093255e9017891930c363ced2ef65a1",
       "outputPath": "generated/problems/3016/rust.json",
       "promptVersion": "7",
       "model": "openai/gpt-5.6-luna",
@@ -3456,7 +3456,7 @@
     "3121/rust": {
       "problemId": 3121,
       "language": "rust",
-      "inputHash": "90969bf7eea09ad5f6048b8a5544c228a0e30045416cdaa470b8ac29cd2b27b3",
+      "inputHash": "da8ba7c6e3b52f368f439197ab5777d1c14287337bb13f8ca84aac7fe49af8c3",
       "outputPath": "generated/problems/3121/rust.json",
       "promptVersion": "7",
       "model": "openai/gpt-5.6-luna",
@@ -3696,7 +3696,7 @@
     "3691/rust": {
       "problemId": 3691,
       "language": "rust",
-      "inputHash": "b9be3bb8462a083a8568e6ec9dce7cfebe598930a40fff9f09aaf4a84e6bc1c5",
+      "inputHash": "f49168e0899358da556c8c432c92fd1a5d698d1cd5bf53de15ea0e0e063633b8",
       "outputPath": "generated/problems/3691/rust.json",
       "promptVersion": "7",
       "model": "openai/gpt-5.6-luna",
@@ -3826,7 +3826,7 @@
     "3876/rust": {
       "problemId": 3876,
       "language": "rust",
-      "inputHash": "2f5ae94762e6367b90c8a5889bcde0723a407777e9c40439c428c4824b70efe8",
+      "inputHash": "e19d319ef8345b3d3cf1b7ffdd8374b473be8470bd1e17a11d0f52922b5c6bdd",
       "outputPath": "generated/problems/3876/rust.json",
       "promptVersion": "7",
       "model": "openai/gpt-5.6-luna",
@@ -4066,7 +4066,7 @@
     "80/rust": {
       "problemId": 80,
       "language": "rust",
-      "inputHash": "239281a9b3664d6ccaa8eb67c7c1e49d0d7024f0f0f9d88b14c7b69360329340",
+      "inputHash": "f4ec94c68423ab9600a380ad83977dd59cb9c99d80bf2bc6519713498a5d054b",
       "outputPath": "generated/problems/80/rust.json",
       "promptVersion": "7",
       "model": "openai/gpt-5.6-luna",

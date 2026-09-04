@@ -22,7 +22,11 @@ const { question } = Astro.props;
       {
         question.languages.map((l) => (
           <a class="language-card" href={l.route}>
-            <span>{l.approachCount} approaches</span>
+            <strong>{l.label}</strong>
+            <span>
+              {l.approachCount}{' '}
+              {l.approachCount === 1 ? 'approach' : 'approaches'}
+            </span>
             {l.incorrectRevisionCount > 0 && (
               <span class="wrong">
                 {l.incorrectRevisionCount} marked incorrect
