@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3903,
+    "title": "Smallest Stable Index I",
+    "slug": "smallest-stable-index-i"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3903_smallest_stable_index_I.rs",
+    "latestSha": "ca16beca53bb8beda7f81286f69652f091f038ea",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-09-04T22:37:23+08:00",
+    "lastCommittedAt": "2026-09-04T22:37:23+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "7",
+    "inputHash": "4924443c88e125f01bcdfc206035cc798d8933f0c261b94f4c476981753cfe87"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "ca16beca53bb8beda7f81286f69652f091f038ea",
+          "shortSha": "ca16bec",
+          "parentSha": "61f3fdfd68b5ac664c47cb9bf324e385a29fa67e",
+          "authoredAt": "2026-09-04T10:21:57+08:00",
+          "committedAt": "2026-09-04T22:37:23+08:00",
+          "chronologicalIndex": 335,
+          "problemId": 3903,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3903_smallest_stable_index_I.rs",
+          "sourceFilename": "3903_smallest_stable_index_I.rs",
+          "code": "impl Solution {\n    pub fn first_stable_index(nums: Vec<i32>, k: i32) -> i32 {\n        let mut postfix = Vec::with_capacity(nums.len());\n\n        let mut smallest = *nums.last().unwrap();\n        for &n in nums.iter().rev() {\n            smallest = smallest.min(n);\n            postfix.push(smallest);\n        }\n        postfix.reverse();\n\n        let mut largest = *nums.first().unwrap();\n        for (idx, n) in nums.into_iter().enumerate() {\n            largest = largest.max(n);\n            let smallest = postfix[idx];\n            let score = largest - smallest;\n            if score <= k {\n                return idx as i32;\n            }\n        }\n        -1\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "5b71d8556ce637c517028c70cafaa6e5823bcb24973744466fb2ce12ced27b0d",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 3903",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "ca16beca53bb8beda7f81286f69652f091f038ea"
+  ],
+  "warnings": []
+}

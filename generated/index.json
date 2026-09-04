@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-04T10:27:11.476Z",
-  "sourceHeadSha": "61f3fdfd68b5ac664c47cb9bf324e385a29fa67e",
+  "generatedAt": "2026-09-04T14:37:53.955Z",
+  "sourceHeadSha": "ca16beca53bb8beda7f81286f69652f091f038ea",
   "questions": [
     {
       "id": 1,
@@ -2990,6 +2990,24 @@
       ],
       "firstCommittedAt": "2026-09-03T11:04:21+08:00",
       "lastCommittedAt": "2026-09-03T17:49:39+08:00"
+    },
+    {
+      "id": 3903,
+      "title": "Smallest Stable Index I",
+      "slug": "smallest-stable-index-i",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3903/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-09-04T22:37:23+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-09-04T22:37:23+08:00",
+      "lastCommittedAt": "2026-09-04T22:37:23+08:00"
     }
   ]
 }
