@@ -13,35 +13,35 @@
   "source": {
     "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
     "latestPath": "rust/src/bin/201_bitwise_and_of_numbers_range.rs",
-    "latestSha": "5f3898fe180248da44c2a185377fd9ed2faaa687",
+    "latestSha": "7a73a969c923e796d9d53be872cac667c18c3bb5",
     "deleted": false
   },
   "statistics": {
     "revisionCount": 3,
     "approachCount": 1,
-    "incorrectRevisionCount": 0,
-    "firstCommittedAt": "2026-09-05T00:09:17+08:00",
-    "lastCommittedAt": "2026-09-05T00:25:13+08:00"
+    "incorrectRevisionCount": 1,
+    "firstCommittedAt": "2026-09-05T00:27:19+08:00",
+    "lastCommittedAt": "2026-09-05T00:27:19+08:00"
   },
   "analysis": {
     "status": "llm",
     "model": "openai/gpt-5.6-luna",
     "promptVersion": "7",
-    "inputHash": "792c4d3f525423a56c11e204e34bd45f9aab9989742c51f5a9646b09910ab691"
+    "inputHash": "39589077e4ceecd5c1c119c611d675fb65a6f2fe17871609a7da7153f723cfe2"
   },
   "approaches": [
     {
-      "id": "1",
-      "title": "Find the common leading-bit prefix",
-      "summary": "Determine the shared leading bits of the range endpoints, stopping at the first differing bit; all lower bits are zero in the range AND. The implementations progressively simplify how that prefix is identified.",
+      "id": "approach-1",
+      "title": "Find the common binary prefix",
+      "summary": "Determine the bits shared by all numbers in the inclusive range by identifying the common leading prefix of the endpoints. The initial implementation is incorrect because it uses the endpoint intersection rather than directly comparing corresponding bits.",
       "order": 0,
       "revisions": [
         {
-          "sha": "f0a2783ee800cd19d617116e0008b05126006d79",
-          "shortSha": "f0a2783",
+          "sha": "30558083fc4cb1043f2f7231d868fb5e281f9c38",
+          "shortSha": "3055808",
           "parentSha": "ca16beca53bb8beda7f81286f69652f091f038ea",
           "authoredAt": "2026-09-05T00:09:17+08:00",
-          "committedAt": "2026-09-05T00:09:17+08:00",
+          "committedAt": "2026-09-05T00:27:19+08:00",
           "chronologicalIndex": 336,
           "problemId": 201,
           "language": "rust",
@@ -49,23 +49,23 @@
           "sourceFilename": "201_bitwise_and_of_numbers_range.rs",
           "code": "impl Solution {\n    pub fn range_bitwise_and(left: i32, right: i32) -> i32 {\n        let lz = left.leading_zeros();\n        let rz = right.leading_zeros();\n        if lz != rz {\n            return 0;\n        }\n\n        let inter = left & right;\n        let mut result = 0;\n        for i in (0..(32 - lz)).rev() {\n            if (inter >> i) & 1 != 1 {\n                break;\n            }\n            result |= 1 << i;\n        }\n        result\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(4, Solution::range_bitwise_and(5, 7));\n}\n",
           "codeHash": "a5d11be4fb53e55be306f421883ee1f7afedacf7493c9fbc03b1c5ffd24b0631",
-          "markedWrong": false,
+          "markedWrong": true,
           "commitComment": "rly thought this would work",
-          "rawCommitSubject": "rust 201: rly thought this would work",
+          "rawCommitSubject": "rust 201!: rly thought this would work",
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "1",
+          "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Computes the endpoint intersection and retains its leading consecutive one-bits, returning zero when the endpoints have different leading-zero counts.",
+          "shortChangeSummary": "Initial attempt uses leading-zero counts and the endpoint bitwise intersection to construct the shared prefix; it is marked wrong.",
           "warnings": []
         },
         {
-          "sha": "654762b5630c5b115b8c47351b61bc9d2b4b6ca2",
-          "shortSha": "654762b",
-          "parentSha": "f0a2783ee800cd19d617116e0008b05126006d79",
+          "sha": "76609dfcc0f7c456460e7e173e660040b709b606",
+          "shortSha": "76609df",
+          "parentSha": "30558083fc4cb1043f2f7231d868fb5e281f9c38",
           "authoredAt": "2026-09-05T00:19:25+08:00",
-          "committedAt": "2026-09-05T00:19:25+08:00",
+          "committedAt": "2026-09-05T00:27:19+08:00",
           "chronologicalIndex": 337,
           "problemId": 201,
           "language": "rust",
@@ -82,17 +82,17 @@
             "additions": 4,
             "deletions": 3
           },
-          "approachId": "1",
+          "approachId": "approach-1",
           "narrativeIndex": 1,
-          "shortChangeSummary": "Checks corresponding endpoint bits directly and builds the result until the first differing bit, avoiding the intermediate intersection.",
+          "shortChangeSummary": "Corrects the prefix detection by comparing corresponding bits of the left and right endpoints and stopping at their first difference.",
           "warnings": []
         },
         {
-          "sha": "5f3898fe180248da44c2a185377fd9ed2faaa687",
-          "shortSha": "5f3898f",
-          "parentSha": "654762b5630c5b115b8c47351b61bc9d2b4b6ca2",
+          "sha": "7a73a969c923e796d9d53be872cac667c18c3bb5",
+          "shortSha": "7a73a96",
+          "parentSha": "76609dfcc0f7c456460e7e173e660040b709b606",
           "authoredAt": "2026-09-05T00:25:13+08:00",
-          "committedAt": "2026-09-05T00:25:13+08:00",
+          "committedAt": "2026-09-05T00:27:19+08:00",
           "chronologicalIndex": 338,
           "problemId": 201,
           "language": "rust",
@@ -109,18 +109,18 @@
             "additions": 7,
             "deletions": 11
           },
-          "approachId": "1",
+          "approachId": "approach-1",
           "narrativeIndex": 2,
-          "shortChangeSummary": "Simplifies common-prefix detection by repeatedly right-shifting both endpoints until they match, then restores the removed bit positions.",
+          "shortChangeSummary": "Simplifies the same common-prefix strategy by repeatedly right-shifting both endpoints until they match, then restoring the discarded bit positions.",
           "warnings": []
         }
       ]
     }
   ],
   "chronologicalRevisionShas": [
-    "f0a2783ee800cd19d617116e0008b05126006d79",
-    "654762b5630c5b115b8c47351b61bc9d2b4b6ca2",
-    "5f3898fe180248da44c2a185377fd9ed2faaa687"
+    "30558083fc4cb1043f2f7231d868fb5e281f9c38",
+    "76609dfcc0f7c456460e7e173e660040b709b606",
+    "7a73a969c923e796d9d53be872cac667c18c3bb5"
   ],
   "warnings": []
 }
