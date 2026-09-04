@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 137,
+    "title": "Single Number Ii",
+    "slug": "single-number-ii"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/137_single_number_II.rs",
+    "latestSha": "61f3fdfd68b5ac664c47cb9bf324e385a29fa67e",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-09-04T16:49:53+08:00",
+    "lastCommittedAt": "2026-09-04T18:26:19+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "dcb87fad1a8fa71bb6e08149a37331797fe3a68ea7d7b92f9842de55da96c3be"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "Per-bit counting modulo three",
+      "summary": "Counts occurrences of each bit position across all numbers, then reconstructs the value from bit counts modulo three.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "b369c15e4d78a6fadc124497b19d402382913803",
+          "shortSha": "b369c15",
+          "parentSha": "4f38e6e7b08d4249c1b1ab04416d2de858d592af",
+          "authoredAt": "2026-09-04T16:49:53+08:00",
+          "committedAt": "2026-09-04T16:49:53+08:00",
+          "chronologicalIndex": 332,
+          "problemId": 137,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/137_single_number_II.rs",
+          "sourceFilename": "137_single_number_II.rs",
+          "code": "impl Solution {\n    pub fn single_number(nums: Vec<i32>) -> i32 {\n        let mut bit_count = [0; 32];\n        for n in nums {\n            for (idx, count) in bit_count.iter_mut().enumerate() {\n                if (n & (1 << idx)).count_ones() == 1 {\n                    *count += 1;\n                }\n            }\n        }\n\n        let mut number = 0;\n        for count in bit_count.into_iter().rev() {\n            number <<= 1;\n            if count % 3 != 0 {\n                number |= 1;\n            }\n        }\n        number\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(99, Solution::single_number(vec![0, 1, 0, 1, 0, 1, 99]));\n    assert_eq!(-4, Solution::single_number(vec![1, 1, 1, -2, -2, -2, -4]));\n}\n",
+          "codeHash": "28c90b0bef03cf0ac5e69477b53d47c9e9b4c8e7e4255df23be6203e91e412af",
+          "markedWrong": false,
+          "commitComment": "solved with a hint to count bits",
+          "rawCommitSubject": "rust 137: solved with a hint to count bits",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Introduced a 32-bit array to count set bits and reconstructed the unique number using counts modulo three.",
+          "warnings": []
+        },
+        {
+          "sha": "43aec3e689fe64f1bc09b290b545b0719f80ab31",
+          "shortSha": "43aec3e",
+          "parentSha": "b369c15e4d78a6fadc124497b19d402382913803",
+          "authoredAt": "2026-09-04T16:59:37+08:00",
+          "committedAt": "2026-09-04T18:09:55+08:00",
+          "chronologicalIndex": 333,
+          "problemId": 137,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/137_single_number_II.rs",
+          "sourceFilename": "137_single_number_II.rs",
+          "code": "impl Solution {\n    pub fn single_number(nums: Vec<i32>) -> i32 {\n        let mut bit_count = [0; 32];\n        for n in nums {\n            for (idx, count) in bit_count.iter_mut().enumerate() {\n                *count += (n >> idx) & 1;\n            }\n        }\n\n        let mut number = 0;\n        for (idx,count) in bit_count.into_iter().enumerate() {\n            if count % 3 != 0 {\n                number |= 1 << idx;\n            }\n        }\n        number\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(99, Solution::single_number(vec![0, 1, 0, 1, 0, 1, 99]));\n    assert_eq!(-4, Solution::single_number(vec![1, 1, 1, -2, -2, -2, -4]));\n}\n",
+          "codeHash": "edb51473648bef263d517abe23a248eb6218e83269cafadf12ceb44d7be8ddbf",
+          "markedWrong": false,
+          "commitComment": "simplier bit arithmetic",
+          "rawCommitSubject": "rust 137: simplier bit arithmetic",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/137_single_number_II.rs b/rust/src/bin/137_single_number_II.rs\nindex 793af17..22b9314 100644\n--- a/rust/src/bin/137_single_number_II.rs\n+++ b/rust/src/bin/137_single_number_II.rs\n@@ -3,17 +3,14 @@ impl Solution {\n         let mut bit_count = [0; 32];\n         for n in nums {\n             for (idx, count) in bit_count.iter_mut().enumerate() {\n-                if (n & (1 << idx)).count_ones() == 1 {\n-                    *count += 1;\n-                }\n+                *count += (n >> idx) & 1;\n             }\n         }\n \n         let mut number = 0;\n-        for count in bit_count.into_iter().rev() {\n-            number <<= 1;\n+        for (idx,count) in bit_count.into_iter().enumerate() {\n             if count % 3 != 0 {\n-                number |= 1;\n+                number |= 1 << idx;\n             }\n         }\n         number\n",
+          "changedLineCounts": {
+            "additions": 3,
+            "deletions": 6
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Simplified bit extraction with shifts and replaced reverse reconstruction with direct indexed bit placement.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "approach-2",
+      "title": "Bitwise finite-state counters",
+      "summary": "Tracks each bit’s occurrence count using two bit masks representing the one-occurrence and two-occurrence states. XOR and masking cycle each bit through counts zero, one, two, and back to zero.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "61f3fdfd68b5ac664c47cb9bf324e385a29fa67e",
+          "shortSha": "61f3fdf",
+          "parentSha": "43aec3e689fe64f1bc09b290b545b0719f80ab31",
+          "authoredAt": "2026-09-04T18:01:22+08:00",
+          "committedAt": "2026-09-04T18:26:19+08:00",
+          "chronologicalIndex": 334,
+          "problemId": 137,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/137_single_number_II.rs",
+          "sourceFilename": "137_single_number_II.rs",
+          "code": "impl Solution {\n    pub fn single_number(nums: Vec<i32>) -> i32 {\n        let mut ones = 0;\n        let mut twos = 0;\n        for n in nums {\n            ones = (ones ^ n) & !twos;\n            twos = (twos ^ n) & !ones;\n        }\n        ones\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(99, Solution::single_number(vec![0, 1, 0, 1, 0, 1, 99]));\n    assert_eq!(-4, Solution::single_number(vec![1, 1, 1, -2, -2, -2, -4]));\n}\n",
+          "codeHash": "eb83e5e4e30830c09b373ddcda1a6bda3eb8f318cf7b0a8e6f6c86ea3217c0d1",
+          "markedWrong": false,
+          "commitComment": "crazy bit counting trick",
+          "rawCommitSubject": "rust 137: crazy bit counting trick",
+          "commitBody": "Just think about counting each bit, and abstract away thinking about the\nactual number\n\nones and twos act as counting buckets for each bit position.\nThey record whether each bit has occurred once or twice.\nIf trice, wrap back to 0 and don't count.\n\nones = (ones ^ n) & !twos:\nXOR toggles bits in ones, counting them. However, bits already present\nin twos are masked out, because their count is advancing from two to\nzero.\n\ntwos = (twos ^ n) & !ones:\nXOR toggles bits in twos. Bits currently present in ones are masked out,\nbecause their count is advancing from zero to one.\n\nThus each bit cycles through zero, one, two, zero occurrences, and the\nbits remaining in ones represent the number that occurred once.",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/137_single_number_II.rs b/rust/src/bin/137_single_number_II.rs\nindex 22b9314..d6e5563 100644\n--- a/rust/src/bin/137_single_number_II.rs\n+++ b/rust/src/bin/137_single_number_II.rs\n@@ -1,19 +1,12 @@\n impl Solution {\n     pub fn single_number(nums: Vec<i32>) -> i32 {\n-        let mut bit_count = [0; 32];\n+        let mut ones = 0;\n+        let mut twos = 0;\n         for n in nums {\n-            for (idx, count) in bit_count.iter_mut().enumerate() {\n-                *count += (n >> idx) & 1;\n-            }\n+            ones = (ones ^ n) & !twos;\n+            twos = (twos ^ n) & !ones;\n         }\n-\n-        let mut number = 0;\n-        for (idx,count) in bit_count.into_iter().enumerate() {\n-            if count % 3 != 0 {\n-                number |= 1 << idx;\n-            }\n-        }\n-        number\n+        ones\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 5,
+            "deletions": 12
+          },
+          "approachId": "approach-2",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaced the per-bit counting array with constant-space `ones` and `twos` bitwise state masks.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "b369c15e4d78a6fadc124497b19d402382913803",
+    "43aec3e689fe64f1bc09b290b545b0719f80ab31",
+    "61f3fdfd68b5ac664c47cb9bf324e385a29fa67e"
+  ],
+  "warnings": []
+}

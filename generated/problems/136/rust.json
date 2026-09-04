@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 136,
+    "title": "Single Number",
+    "slug": "single-number"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/136_single_number.rs",
+    "latestSha": "4f38e6e7b08d4249c1b1ab04416d2de858d592af",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-09-04T16:10:08+08:00",
+    "lastCommittedAt": "2026-09-04T16:10:08+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "7",
+    "inputHash": "aabc80854be2989d04334eee13873badcd5282126cbfaa3bb9179c8b7279a32a"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "4f38e6e7b08d4249c1b1ab04416d2de858d592af",
+          "shortSha": "4f38e6e",
+          "parentSha": "9504cf0625850104d400af7cc1d4a3351f43909d",
+          "authoredAt": "2026-09-04T16:10:08+08:00",
+          "committedAt": "2026-09-04T16:10:08+08:00",
+          "chronologicalIndex": 331,
+          "problemId": 136,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/136_single_number.rs",
+          "sourceFilename": "136_single_number.rs",
+          "code": "impl Solution {\n    pub fn single_number(nums: Vec<i32>) -> i32 {\n        nums.into_iter().fold(0, |acc, x| acc ^ x)\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "28e267cbed405602c982f0bbee601a6673756c28565b32da632f134f2004a8aa",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 136",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "4f38e6e7b08d4249c1b1ab04416d2de858d592af"
+  ],
+  "warnings": []
+}
