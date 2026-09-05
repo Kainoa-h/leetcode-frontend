@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3904,
+    "title": "Smallest Stable Index II",
+    "slug": "smallest-stable-index-ii"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3904_smallest_stable_index_II.rs",
+    "latestSha": "8e1c6347ec0d3067e1e6a4ab6b0e2557cd2de6ab",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-09-05T11:18:33+08:00",
+    "lastCommittedAt": "2026-09-05T11:18:33+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "5d78e40a5c6c63935bb2667c0c5fcf1d1d0f5106f341f8edd08c5ef3785c41a5"
+  },
+  "approaches": [
+    {
+      "id": "1",
+      "title": "Prefix maximum and suffix minimum scan",
+      "summary": "Precompute the minimum value from each index to the end, then scan left to right while maintaining the prefix maximum. Return the first index whose maximum-minus-minimum score is at most k.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "7b9db2080dda1922804ad500b0585d22ed3c797c",
+          "shortSha": "7b9db20",
+          "parentSha": "7a73a969c923e796d9d53be872cac667c18c3bb5",
+          "authoredAt": "2026-09-05T10:19:58+08:00",
+          "committedAt": "2026-09-05T11:18:33+08:00",
+          "chronologicalIndex": 339,
+          "problemId": 3904,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3904_smallest_stable_index_II.rs",
+          "sourceFilename": "3904_smallest_stable_index_II.rs",
+          "code": "impl Solution {\n    pub fn first_stable_index(nums: Vec<i32>, k: i32) -> i32 {\n        let mut postfix = Vec::with_capacity(nums.len());\n\n        let mut smallest = *nums.last().unwrap();\n        for &n in nums.iter().rev() {\n            smallest = smallest.min(n);\n            postfix.push(smallest);\n        }\n        postfix.reverse();\n\n        let mut largest = *nums.first().unwrap();\n        for (idx, n) in nums.into_iter().enumerate() {\n            largest = largest.max(n);\n            let smallest = postfix[idx];\n            let score = largest - smallest;\n            if score <= k {\n                return idx as i32;\n            }\n        }\n        -1\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "5b71d8556ce637c517028c70cafaa6e5823bcb24973744466fb2ce12ced27b0d",
+          "markedWrong": false,
+          "commitComment": "already did the postfix optimisation in 3903",
+          "rawCommitSubject": "rust 3904: already did the postfix optimisation in 3903",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Implemented the prefix-maximum and suffix-minimum solution using a reversed postfix array, then scanned for the first valid index.",
+          "warnings": []
+        },
+        {
+          "sha": "8e1c6347ec0d3067e1e6a4ab6b0e2557cd2de6ab",
+          "shortSha": "8e1c634",
+          "parentSha": "7b9db2080dda1922804ad500b0585d22ed3c797c",
+          "authoredAt": "2026-09-05T10:21:14+08:00",
+          "committedAt": "2026-09-05T11:18:33+08:00",
+          "chronologicalIndex": 340,
+          "problemId": 3904,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3904_smallest_stable_index_II.rs",
+          "sourceFilename": "3904_smallest_stable_index_II.rs",
+          "code": "impl Solution {\n    pub fn first_stable_index(nums: Vec<i32>, k: i32) -> i32 {\n        let Some(mut largest) = nums.first().copied() else {\n            return -1;\n        };\n\n        let mut postfix = nums.clone();\n        for i in (1..postfix.len()).rev() {\n            postfix[i - 1] = postfix[i].min(postfix[i - 1]);\n        }\n\n        for (idx, (n, smallest)) in nums.into_iter().zip(postfix).enumerate() {\n            largest = largest.max(n);\n            if largest - smallest <= k {\n                return idx as i32;\n            }\n        }\n        -1\n    }\n}\nstruct Solution {}\n\nfn main() {\n    Solution::first_stable_index(vec![], 0);\n}\n",
+          "codeHash": "7feffe6267048906bd4e721c7cc80b4545c8dce1f87de3e21518c4c4e86a826a",
+          "markedWrong": false,
+          "commitComment": "bce optimisations",
+          "rawCommitSubject": "rust 3904: bce optimisations",
+          "commitBody": "- set largest early to gate empty input vectors\n- build postfix with reverse iteration to enable bounds-check\nelimination\n  - we minus from the index instead of plus to allow LLVM to prove the\nbounds\n- final loop zips the two slices so indices are provably in bounds\n\ndunno if compiler actually performs bce lul",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3904_smallest_stable_index_II.rs b/rust/src/bin/3904_smallest_stable_index_II.rs\nindex 87c879a..18dab4d 100644\n--- a/rust/src/bin/3904_smallest_stable_index_II.rs\n+++ b/rust/src/bin/3904_smallest_stable_index_II.rs\n@@ -1,25 +1,25 @@\n impl Solution {\n     pub fn first_stable_index(nums: Vec<i32>, k: i32) -> i32 {\n-        let mut postfix = Vec::with_capacity(nums.len());\n+        let Some(mut largest) = nums.first().copied() else {\n+            return -1;\n+        };\n \n-        let mut smallest = *nums.last().unwrap();\n-        for &n in nums.iter().rev() {\n-            smallest = smallest.min(n);\n-            postfix.push(smallest);\n+        let mut postfix = nums.clone();\n+        for i in (1..postfix.len()).rev() {\n+            postfix[i - 1] = postfix[i].min(postfix[i - 1]);\n         }\n-        postfix.reverse();\n \n-        let mut largest = *nums.first().unwrap();\n-        for (idx, n) in nums.into_iter().enumerate() {\n+        for (idx, (n, smallest)) in nums.into_iter().zip(postfix).enumerate() {\n             largest = largest.max(n);\n-            let smallest = postfix[idx];\n-            let score = largest - smallest;\n-            if score <= k {\n+            if largest - smallest <= k {\n                 return idx as i32;\n             }\n         }\n         -1\n     }\n }\n-\n struct Solution {}\n+\n+fn main() {\n+    Solution::first_stable_index(vec![], 0);\n+}\n",
+          "changedLineCounts": {
+            "additions": 12,
+            "deletions": 12
+          },
+          "approachId": "1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Kept the same prefix/suffix strategy while handling empty input, building suffix minima in place over a clone, and zipping the arrays during the final scan.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "7b9db2080dda1922804ad500b0585d22ed3c797c",
+    "8e1c6347ec0d3067e1e6a4ab6b0e2557cd2de6ab"
+  ],
+  "warnings": []
+}
