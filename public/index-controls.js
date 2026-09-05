@@ -65,7 +65,6 @@ if (form && list) {
       .forEach((item) => list.append(item));
 
     if (sort === 'updated') addMonthDividers(items);
-    result.textContent = `${items.filter((item) => !item.hidden).length} questions shown`;
   };
 
   form.addEventListener('input', update);
