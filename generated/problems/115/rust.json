@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 115,
+    "title": "Distinct Subsequences",
+    "slug": "distinct-subsequences"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/115_distinct_subsequences.rs",
+    "latestSha": "46652db3bad1d8b5269fb823d2450fcb08696472",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 1,
+    "firstCommittedAt": "2026-09-06T14:32:53+08:00",
+    "lastCommittedAt": "2026-09-06T14:32:53+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "7",
+    "inputHash": "aba0bc2a833ecc8bdc0867618c3f5bad6c4e28d5a20cbd2a61267ca5eb9a3ea8"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "46652db3bad1d8b5269fb823d2450fcb08696472",
+          "shortSha": "46652db",
+          "parentSha": "8e1c6347ec0d3067e1e6a4ab6b0e2557cd2de6ab",
+          "authoredAt": "2026-09-06T14:32:53+08:00",
+          "committedAt": "2026-09-06T14:32:53+08:00",
+          "chronologicalIndex": 341,
+          "problemId": 115,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/115_distinct_subsequences.rs",
+          "sourceFilename": "115_distinct_subsequences.rs",
+          "code": "impl Solution {\n    pub fn num_distinct(s: String, t: String) -> i32 {\n        let s = s.into_bytes();\n        let t = t.into_bytes();\n        let first_char = t[0];\n        fn combinations(s: &[u8], t: &[u8]) -> i32 {\n            println!(\"- s: {:?}, t: {:?}\", str::from_utf8(s), str::from_utf8(t));\n            if t.len() == 1 {\n                let x = s.contains(&t[0]) as i32; \n                println!(\"- term {:?}\", x);\n                return x;\n            }\n\n            if s.len() == 1 {\n                println!(\"- term none\");\n                return 0;\n            }\n\n            let mut calls = 0;\n            for (idx, &c) in s.iter().enumerate() {\n                if c == t[0] {\n                    calls += combinations(&s[idx + 1..], &t[1..]);\n                }\n            }\n            calls\n        }\n\n        let mut distinct = 0;\n        for (idx, &c) in s.iter().enumerate() {\n            if c == first_char {\n                println!(\"\\n\\ncall 1:\");\n                distinct += combinations(&s[idx..], &t);\n            }\n        }\n\n        distinct\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        5,\n        Solution::num_distinct(\"babgbag\".to_owned(), \"bag\".to_owned())\n    );\n    assert_eq!(\n        3,\n        Solution::num_distinct(\"rabbbit\".to_owned(), \"rabbit\".to_owned())\n    );\n}\n",
+          "codeHash": "dc16933fa91a12d1aedc2b02aaae39261e1d3650f2ea12d69c88fb6e253adac4",
+          "markedWrong": true,
+          "commitComment": "something wrong with the recursion, then add caching",
+          "rawCommitSubject": "rust 115!: something wrong with the recursion, then add caching",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "something wrong with the recursion, then add caching",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "46652db3bad1d8b5269fb823d2450fcb08696472"
+  ],
+  "warnings": []
+}
