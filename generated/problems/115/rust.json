@@ -13,27 +13,27 @@
   "source": {
     "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
     "latestPath": "rust/src/bin/115_distinct_subsequences.rs",
-    "latestSha": "46652db3bad1d8b5269fb823d2450fcb08696472",
+    "latestSha": "282b0ab2a52754cf42aabe9ea6645a08b99aa6fa",
     "deleted": false
   },
   "statistics": {
-    "revisionCount": 1,
-    "approachCount": 1,
-    "incorrectRevisionCount": 1,
+    "revisionCount": 3,
+    "approachCount": 2,
+    "incorrectRevisionCount": 2,
     "firstCommittedAt": "2026-09-06T14:32:53+08:00",
-    "lastCommittedAt": "2026-09-06T14:32:53+08:00"
+    "lastCommittedAt": "2026-09-06T21:52:02+08:00"
   },
   "analysis": {
-    "status": "fallback",
-    "model": null,
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
     "promptVersion": "7",
-    "inputHash": "aba0bc2a833ecc8bdc0867618c3f5bad6c4e28d5a20cbd2a61267ca5eb9a3ea8"
+    "inputHash": "abb185111763ea78846ed3c55960571c2f2af3c9dd1cab9e2bb857674c25a672"
   },
   "approaches": [
     {
-      "id": "chronological",
-      "title": "Solution history",
-      "summary": "Revisions in chronological order.",
+      "id": "approach-1",
+      "title": "Recursive subsequence counting with memoization",
+      "summary": "Recursively explores matching characters of s against t to count distinct subsequences. Memoization is added to reuse overlapping subproblems, but the revision remains marked wrong for performance reasons.",
       "order": 0,
       "revisions": [
         {
@@ -55,16 +55,80 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "chronological",
+          "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "something wrong with the recursion, then add caching",
+          "shortChangeSummary": "Introduces a naive recursive enumeration of matching subsequences, but it is marked wrong and includes debugging output. The recursion has incorrect handling of some starting states.",
+          "warnings": []
+        },
+        {
+          "sha": "0c71f64daf60802029702c696643f004c6a415e8",
+          "shortSha": "0c71f64",
+          "parentSha": "46652db3bad1d8b5269fb823d2450fcb08696472",
+          "authoredAt": "2026-09-06T21:21:25+08:00",
+          "committedAt": "2026-09-06T21:21:25+08:00",
+          "chronologicalIndex": 342,
+          "problemId": 115,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/115_distinct_subsequences.rs",
+          "sourceFilename": "115_distinct_subsequences.rs",
+          "code": "use std::collections::HashMap;\n\nimpl Solution {\n    pub fn num_distinct(s: String, t: String) -> i32 {\n        let s = s.into_bytes();\n        let t = t.into_bytes();\n        let mut cache = HashMap::<(usize, usize), i32>::new();\n        fn combinations(\n            s_idx: usize,\n            t_idx: usize,\n            s: &[u8],\n            t: &[u8],\n            cache: &mut HashMap<(usize, usize), i32>,\n        ) -> i32 {\n            if t[t_idx..].len() == 1 {\n                let x = s[s_idx..].iter().filter(|&&c| c == t[t_idx]).count() as i32;\n                return x;\n            }\n\n            if s[s_idx..].len() == 1 {\n                return 0;\n            }\n\n            if let Some(&cached) = cache.get(&(s_idx,t_idx)) {\n                return cached\n            }\n            let mut calls = 0;\n            for (idx, &c) in s.iter().enumerate().skip(s_idx) {\n                if c == t[t_idx] {\n                    let x = combinations(idx + 1, t_idx + 1, s, t, cache);\n                    calls += x;\n                }\n            }\n            cache.insert((s_idx,t_idx), calls);\n            calls\n        }\n        combinations(0, 0, &s, &t, &mut cache)\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        5,\n        Solution::num_distinct(\"babgbag\".to_owned(), \"bag\".to_owned())\n    );\n    assert_eq!(\n        3,\n        Solution::num_distinct(\"rabbbit\".to_owned(), \"rabbit\".to_owned())\n    );\n}\n",
+          "codeHash": "53bf82b991873e547204333d287e132353403cd040dfeffdb6832d588dce1226",
+          "markedWrong": true,
+          "commitComment": "fixed recursion and added memoization but still TLE",
+          "rawCommitSubject": "rust 115!: fixed recursion and added memoization but still TLE",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/115_distinct_subsequences.rs b/rust/src/bin/115_distinct_subsequences.rs\nindex a815131..25990c1 100644\n--- a/rust/src/bin/115_distinct_subsequences.rs\n+++ b/rust/src/bin/115_distinct_subsequences.rs\n@@ -1,39 +1,40 @@\n+use std::collections::HashMap;\n+\n impl Solution {\n     pub fn num_distinct(s: String, t: String) -> i32 {\n         let s = s.into_bytes();\n         let t = t.into_bytes();\n-        let first_char = t[0];\n-        fn combinations(s: &[u8], t: &[u8]) -> i32 {\n-            println!(\"- s: {:?}, t: {:?}\", str::from_utf8(s), str::from_utf8(t));\n-            if t.len() == 1 {\n-                let x = s.contains(&t[0]) as i32; \n-                println!(\"- term {:?}\", x);\n+        let mut cache = HashMap::<(usize, usize), i32>::new();\n+        fn combinations(\n+            s_idx: usize,\n+            t_idx: usize,\n+            s: &[u8],\n+            t: &[u8],\n+            cache: &mut HashMap<(usize, usize), i32>,\n+        ) -> i32 {\n+            if t[t_idx..].len() == 1 {\n+                let x = s[s_idx..].iter().filter(|&&c| c == t[t_idx]).count() as i32;\n                 return x;\n             }\n \n-            if s.len() == 1 {\n-                println!(\"- term none\");\n+            if s[s_idx..].len() == 1 {\n                 return 0;\n             }\n \n+            if let Some(&cached) = cache.get(&(s_idx,t_idx)) {\n+                return cached\n+            }\n             let mut calls = 0;\n-            for (idx, &c) in s.iter().enumerate() {\n-                if c == t[0] {\n-                    calls += combinations(&s[idx + 1..], &t[1..]);\n+            for (idx, &c) in s.iter().enumerate().skip(s_idx) {\n+                if c == t[t_idx] {\n+                    let x = combinations(idx + 1, t_idx + 1, s, t, cache);\n+                    calls += x;\n                 }\n             }\n+            cache.insert((s_idx,t_idx), calls);\n             calls\n         }\n-\n-        let mut distinct = 0;\n-        for (idx, &c) in s.iter().enumerate() {\n-            if c == first_char {\n-                println!(\"\\n\\ncall 1:\");\n-                distinct += combinations(&s[idx..], &t);\n-            }\n-        }\n-\n-        distinct\n+        combinations(0, 0, &s, &t, &mut cache)\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 22,
+            "deletions": 21
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Fixes the recursive indexing and adds a HashMap keyed by string positions for memoization. It remains marked wrong as still TLE.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "approach-2",
+      "title": "One-dimensional bottom-up dynamic programming",
+      "summary": "Uses a one-dimensional DP array where dp[j] counts ways to form the first j characters of t while scanning s. Iterating target positions backward preserves the previous state for each character.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "282b0ab2a52754cf42aabe9ea6645a08b99aa6fa",
+          "shortSha": "282b0ab",
+          "parentSha": "0c71f64daf60802029702c696643f004c6a415e8",
+          "authoredAt": "2026-09-06T21:52:02+08:00",
+          "committedAt": "2026-09-06T21:52:02+08:00",
+          "chronologicalIndex": 343,
+          "problemId": 115,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/115_distinct_subsequences.rs",
+          "sourceFilename": "115_distinct_subsequences.rs",
+          "code": "impl Solution {\n    pub fn num_distinct(s: String, t: String) -> i32 {\n        let mut dp = vec![0_i64; t.len()+1];\n        dp[0] = 1;\n\n        for ch in s.into_bytes() {\n            for idx in (0..t.len()).rev() {\n                if ch == t.as_bytes()[idx] {\n                    dp[idx + 1] += dp[idx];\n                }\n            }\n        }\n\n        dp[t.len()] as i32\n    }\n}\n\nstruct Solution {}\n\nfn main() {\n    assert_eq!(\n        5,\n        Solution::num_distinct(\"babgbag\".to_owned(), \"bag\".to_owned())\n    );\n    assert_eq!(\n        3,\n        Solution::num_distinct(\"rabbbit\".to_owned(), \"rabbit\".to_owned())\n    );\n}\n",
+          "codeHash": "0995864f44e5783cd1ffb28b5871c62b442fe3042aff67979cee19628ec6f28b",
+          "markedWrong": false,
+          "commitComment": "copied dp solution",
+          "rawCommitSubject": "rust 115: copied dp solution",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/115_distinct_subsequences.rs b/rust/src/bin/115_distinct_subsequences.rs\nindex 25990c1..5d0bc0d 100644\n--- a/rust/src/bin/115_distinct_subsequences.rs\n+++ b/rust/src/bin/115_distinct_subsequences.rs\n@@ -1,40 +1,17 @@\n-use std::collections::HashMap;\n-\n impl Solution {\n     pub fn num_distinct(s: String, t: String) -> i32 {\n-        let s = s.into_bytes();\n-        let t = t.into_bytes();\n-        let mut cache = HashMap::<(usize, usize), i32>::new();\n-        fn combinations(\n-            s_idx: usize,\n-            t_idx: usize,\n-            s: &[u8],\n-            t: &[u8],\n-            cache: &mut HashMap<(usize, usize), i32>,\n-        ) -> i32 {\n-            if t[t_idx..].len() == 1 {\n-                let x = s[s_idx..].iter().filter(|&&c| c == t[t_idx]).count() as i32;\n-                return x;\n-            }\n-\n-            if s[s_idx..].len() == 1 {\n-                return 0;\n-            }\n+        let mut dp = vec![0_i64; t.len()+1];\n+        dp[0] = 1;\n \n-            if let Some(&cached) = cache.get(&(s_idx,t_idx)) {\n-                return cached\n-            }\n-            let mut calls = 0;\n-            for (idx, &c) in s.iter().enumerate().skip(s_idx) {\n-                if c == t[t_idx] {\n-                    let x = combinations(idx + 1, t_idx + 1, s, t, cache);\n-                    calls += x;\n+        for ch in s.into_bytes() {\n+            for idx in (0..t.len()).rev() {\n+                if ch == t.as_bytes()[idx] {\n+                    dp[idx + 1] += dp[idx];\n                 }\n             }\n-            cache.insert((s_idx,t_idx), calls);\n-            calls\n         }\n-        combinations(0, 0, &s, &t, &mut cache)\n+\n+        dp[t.len()] as i32\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 8,
+            "deletions": 31
+          },
+          "approachId": "approach-2",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaces recursive memoization with an iterative one-dimensional DP solution. It processes t backward for each character of s and uses i64 storage before returning the result as i32.",
           "warnings": []
         }
       ]
     }
   ],
   "chronologicalRevisionShas": [
-    "46652db3bad1d8b5269fb823d2450fcb08696472"
+    "46652db3bad1d8b5269fb823d2450fcb08696472",
+    "0c71f64daf60802029702c696643f004c6a415e8",
+    "282b0ab2a52754cf42aabe9ea6645a08b99aa6fa"
   ],
   "warnings": []
 }
