@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 322,
+    "title": "Coin Change",
+    "slug": "coin-change"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/322_coin_change.rs",
+    "latestSha": "11b310b6621d26dd6e428aeb26310a27e6175c75",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 3,
+    "incorrectRevisionCount": 2,
+    "firstCommittedAt": "2026-09-07T18:10:42+08:00",
+    "lastCommittedAt": "2026-09-07T20:13:53+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "07dd7a768b1f4e71bb615730d3c12097a3d3d083e5394075bda082bd79eb0745"
+  },
+  "approaches": [
+    {
+      "id": "greedy",
+      "title": "Greedy largest-coin selection",
+      "summary": "Sorts coins and repeatedly chooses the largest coin that does not exceed the remaining amount. This strategy is marked incorrect because greedy choices do not always produce the minimum number of coins.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "2cb8869a14648fe89c2eac467e038b73f33c1760",
+          "shortSha": "2cb8869",
+          "parentSha": "b4d43b626adefa651fd75f9710e88f61d47e0e0a",
+          "authoredAt": "2026-09-07T18:10:42+08:00",
+          "committedAt": "2026-09-07T18:10:42+08:00",
+          "chronologicalIndex": 353,
+          "problemId": 322,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/322_coin_change.rs",
+          "sourceFilename": "322_coin_change.rs",
+          "code": "impl Solution {\n    pub fn coin_change(mut coins: Vec<i32>, mut amount: i32) -> i32 {\n        let mut coins_used = 0;\n        coins.sort_unstable();\n        while amount > 0\n            && let Some(&coin) = coins.last()\n        {\n            if coin > amount {\n                coins.pop();\n                continue;\n            }\n            amount -= coin;\n            coins_used +=1;\n        }\n\n        if amount == 0 { coins_used } else { -1 }\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "a2054524005197b0d63e76cf7717b29507922487dfb5e36f89d4264020137155",
+          "markedWrong": true,
+          "commitComment": "why do i keep making this mistake",
+          "rawCommitSubject": "rust 322!: why do i keep making this mistake",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "greedy",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Introduces a descending-style greedy process that repeatedly subtracts the largest usable coin. Marked wrong because this does not guarantee an optimal solution.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "dfs",
+      "title": "Depth-first search",
+      "summary": "Recursively explores coin choices until reaching the target amount, returning the first successful combination found. Sorting changes traversal order but does not guarantee a minimum-length solution, and this revision is marked incorrect.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "c831f6fdbb00c805b71b823900ecb4b5f371048c",
+          "shortSha": "c831f6f",
+          "parentSha": "2cb8869a14648fe89c2eac467e038b73f33c1760",
+          "authoredAt": "2026-09-07T18:35:40+08:00",
+          "committedAt": "2026-09-07T18:35:53+08:00",
+          "chronologicalIndex": 354,
+          "problemId": 322,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/322_coin_change.rs",
+          "sourceFilename": "322_coin_change.rs",
+          "code": "use std::collections::HashSet;\n\nimpl Solution {\n    pub fn coin_change(mut coins: Vec<i32>, mut amount: i32) -> i32 {\n        coins.sort_unstable_by_key(|x| -x);\n        fn change(amt: i32, coins: &[i32]) -> Option<i32> {\n            if amt == 0 {\n                return Some(1);\n            }\n            for &coin in coins {\n                if amt >= coin && let Some(x) = change(amt - coin, coins) {\n                    return Some(x + 1);\n                }\n            }\n            None\n        }\n\n        change(amount, &coins).unwrap_or(-1)\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "9dbc006c12076236d53c1fcdc2f226a915e040537ea98c602bea6d625162a0af",
+          "markedWrong": true,
+          "commitComment": "no memo yet, but algo performs dfs which even with sorting doesn't gurantee best case",
+          "rawCommitSubject": "rust 322!: no memo yet, but algo performs dfs which even with sorting doesn't gurantee best case",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/322_coin_change.rs b/rust/src/bin/322_coin_change.rs\nindex 6a15341..d842dc1 100644\n--- a/rust/src/bin/322_coin_change.rs\n+++ b/rust/src/bin/322_coin_change.rs\n@@ -1,19 +1,21 @@\n+use std::collections::HashSet;\n+\n impl Solution {\n     pub fn coin_change(mut coins: Vec<i32>, mut amount: i32) -> i32 {\n-        let mut coins_used = 0;\n-        coins.sort_unstable();\n-        while amount > 0\n-            && let Some(&coin) = coins.last()\n-        {\n-            if coin > amount {\n-                coins.pop();\n-                continue;\n+        coins.sort_unstable_by_key(|x| -x);\n+        fn change(amt: i32, coins: &[i32]) -> Option<i32> {\n+            if amt == 0 {\n+                return Some(1);\n+            }\n+            for &coin in coins {\n+                if amt >= coin && let Some(x) = change(amt - coin, coins) {\n+                    return Some(x + 1);\n+                }\n             }\n-            amount -= coin;\n-            coins_used +=1;\n+            None\n         }\n \n-        if amount == 0 { coins_used } else { -1 }\n+        change(amount, &coins).unwrap_or(-1)\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 13,
+            "deletions": 11
+          },
+          "approachId": "dfs",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaces greedy subtraction with recursive depth-first exploration of coin combinations. It returns the first feasible result without memoization or minimum tracking, so it is marked wrong.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "bfs",
+      "title": "Breadth-first search",
+      "summary": "Treats each remaining amount as a graph state and explores all states level by level. The first reached zero uses the fewest coins, while a hash set prevents revisiting states.",
+      "order": 2,
+      "revisions": [
+        {
+          "sha": "11b310b6621d26dd6e428aeb26310a27e6175c75",
+          "shortSha": "11b310b",
+          "parentSha": "c831f6fdbb00c805b71b823900ecb4b5f371048c",
+          "authoredAt": "2026-09-07T20:13:53+08:00",
+          "committedAt": "2026-09-07T20:13:53+08:00",
+          "chronologicalIndex": 355,
+          "problemId": 322,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/322_coin_change.rs",
+          "sourceFilename": "322_coin_change.rs",
+          "code": "use std::collections::HashSet;\n\nimpl Solution {\n    pub fn coin_change(mut coins: Vec<i32>, mut amount: i32) -> i32 {\n        if amount == 0 {\n            return 0;\n        }\n\n        coins.sort_unstable_by_key(|x| -x);\n        let mut seen_set = HashSet::<i32>::new();\n        let mut stack = vec![amount];\n        let mut depth = 0;\n        while !stack.is_empty() {\n            let mut new_stack = Vec::new();\n            for amt in stack {\n                if amt == 0 {\n                    return depth;\n                }\n\n                for &c in &coins {\n                    let diff = amt - c;\n                    if c <= amt && !seen_set.contains(&diff) {\n                        seen_set.insert(diff);\n                        new_stack.push(diff);\n                    }\n                }\n            }\n            stack = new_stack;\n            depth += 1;\n        }\n        -1\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "30aa58e5cd7aa97817318e35a5374bce288f6e43b46b3963a88af54e43969d7f",
+          "markedWrong": false,
+          "commitComment": "bfs yahoo",
+          "rawCommitSubject": "rust 322: bfs yahoo",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/322_coin_change.rs b/rust/src/bin/322_coin_change.rs\nindex d842dc1..34f775e 100644\n--- a/rust/src/bin/322_coin_change.rs\n+++ b/rust/src/bin/322_coin_change.rs\n@@ -2,20 +2,33 @@ use std::collections::HashSet;\n \n impl Solution {\n     pub fn coin_change(mut coins: Vec<i32>, mut amount: i32) -> i32 {\n+        if amount == 0 {\n+            return 0;\n+        }\n+\n         coins.sort_unstable_by_key(|x| -x);\n-        fn change(amt: i32, coins: &[i32]) -> Option<i32> {\n-            if amt == 0 {\n-                return Some(1);\n-            }\n-            for &coin in coins {\n-                if amt >= coin && let Some(x) = change(amt - coin, coins) {\n-                    return Some(x + 1);\n+        let mut seen_set = HashSet::<i32>::new();\n+        let mut stack = vec![amount];\n+        let mut depth = 0;\n+        while !stack.is_empty() {\n+            let mut new_stack = Vec::new();\n+            for amt in stack {\n+                if amt == 0 {\n+                    return depth;\n+                }\n+\n+                for &c in &coins {\n+                    let diff = amt - c;\n+                    if c <= amt && !seen_set.contains(&diff) {\n+                        seen_set.insert(diff);\n+                        new_stack.push(diff);\n+                    }\n                 }\n             }\n-            None\n+            stack = new_stack;\n+            depth += 1;\n         }\n-\n-        change(amount, &coins).unwrap_or(-1)\n+        -1\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 23,
+            "deletions": 10
+          },
+          "approachId": "bfs",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaces recursive DFS with breadth-first exploration of remaining amounts and tracks visited states. Returning the depth at which zero is reached yields the minimum coin count.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "2cb8869a14648fe89c2eac467e038b73f33c1760",
+    "c831f6fdbb00c805b71b823900ecb4b5f371048c",
+    "11b310b6621d26dd6e428aeb26310a27e6175c75"
+  ],
+  "warnings": []
+}
