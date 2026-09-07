@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 139,
+    "title": "Word Break",
+    "slug": "word-break"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/139_word_break.rs",
+    "latestSha": "b4d43b626adefa651fd75f9710e88f61d47e0e0a",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-09-07T15:13:53+08:00",
+    "lastCommittedAt": "2026-09-07T15:54:40+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "61a0be1b990af1dd6b2b151957fd733d5c14eba1856c19daa19c5759c3ff010e"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "Top-down recursive dynamic programming",
+      "summary": "Uses recursive search from each string index with memoization to cache failed positions. Revision 2 simplifies control flow while preserving the same strategy.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "fc5423a068d0c0dd9f47400306b2aaf102021f7f",
+          "shortSha": "fc5423a",
+          "parentSha": "591300ea6a6543bc918af9a3f83c095ab8a46b77",
+          "authoredAt": "2026-09-07T15:13:53+08:00",
+          "committedAt": "2026-09-07T15:13:53+08:00",
+          "chronologicalIndex": 350,
+          "problemId": 139,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/139_word_break.rs",
+          "sourceFilename": "139_word_break.rs",
+          "code": "impl Solution {\n    pub fn word_break(s: String, word_dict: Vec<String>) -> bool {\n        fn find(idx: usize, s: &String, dict: &Vec<String>, cache: &mut Vec<u8>) -> bool {\n            if idx == s.len() {\n                return true;\n            }\n\n            if cache[idx] == 1 {\n                return false;\n            }\n\n            let mut found = false;\n            for word in dict {\n                let end = idx + word.len();\n                if !found && s[idx..].len() >= word.len() && s[idx..end] == word[..] {\n                    found |= find(end, s, dict, cache);\n                }\n            }\n            cache[idx] = 1;\n            found\n        }\n\n        let mut cache = vec![0_u8; s.len()];\n        find(0, &s, &word_dict, &mut cache)\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "85313dc70cc0f3d9715f1fb8df861c6bdfdf84165156a7da3cab7bba701c330a",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 139",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Implements recursive word-break search with memoization of failed indices.",
+          "warnings": []
+        },
+        {
+          "sha": "e0809eeb1017ad317a6bff33d36a039af041c284",
+          "shortSha": "e0809ee",
+          "parentSha": "fc5423a068d0c0dd9f47400306b2aaf102021f7f",
+          "authoredAt": "2026-09-07T15:28:37+08:00",
+          "committedAt": "2026-09-07T15:28:37+08:00",
+          "chronologicalIndex": 351,
+          "problemId": 139,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/139_word_break.rs",
+          "sourceFilename": "139_word_break.rs",
+          "code": "impl Solution {\n    pub fn word_break(s: String, word_dict: Vec<String>) -> bool {\n        fn find(idx: usize, s: &String, dict: &Vec<String>, cache: &mut Vec<u8>) -> bool {\n            if idx == s.len() {\n                return true;\n            }\n\n            if cache[idx] == 1 {\n                return false;\n            }\n\n            for word in dict {\n                let end = idx + word.len();\n                if s[idx..].len() >= word.len()\n                    && s[idx..end] == word[..]\n                    && find(end, s, dict, cache)\n                {\n                    return true;\n                }\n            }\n            cache[idx] = 1;\n            false\n        }\n\n        let mut cache = vec![0_u8; s.len()];\n        find(0, &s, &word_dict, &mut cache)\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "0bb80e5786d534475ba16c9b7fc9b946c76e484ae50aba0a6ac3245e9f2cc6d9",
+          "markedWrong": false,
+          "commitComment": "simplier conditions",
+          "rawCommitSubject": "rust 139: simplier conditions",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/139_word_break.rs b/rust/src/bin/139_word_break.rs\nindex eb5795d..893885a 100644\n--- a/rust/src/bin/139_word_break.rs\n+++ b/rust/src/bin/139_word_break.rs\n@@ -9,15 +9,17 @@ impl Solution {\n                 return false;\n             }\n \n-            let mut found = false;\n             for word in dict {\n                 let end = idx + word.len();\n-                if !found && s[idx..].len() >= word.len() && s[idx..end] == word[..] {\n-                    found |= find(end, s, dict, cache);\n+                if s[idx..].len() >= word.len()\n+                    && s[idx..end] == word[..]\n+                    && find(end, s, dict, cache)\n+                {\n+                    return true;\n                 }\n             }\n             cache[idx] = 1;\n-            found\n+            false\n         }\n \n         let mut cache = vec![0_u8; s.len()];\n",
+          "changedLineCounts": {
+            "additions": 6,
+            "deletions": 4
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Simplifies the recursive loop by returning immediately when a valid continuation is found.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "approach-2",
+      "title": "Bottom-up dynamic programming",
+      "summary": "Builds a boolean DP table from the empty prefix through the full string. Each position records whether it can be reached by appending a dictionary word.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "b4d43b626adefa651fd75f9710e88f61d47e0e0a",
+          "shortSha": "b4d43b6",
+          "parentSha": "e0809eeb1017ad317a6bff33d36a039af041c284",
+          "authoredAt": "2026-09-07T15:54:40+08:00",
+          "committedAt": "2026-09-07T15:54:40+08:00",
+          "chronologicalIndex": 352,
+          "problemId": 139,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/139_word_break.rs",
+          "sourceFilename": "139_word_break.rs",
+          "code": "impl Solution {\n    pub fn word_break(s: String, word_dict: Vec<String>) -> bool {\n        let mut dp = vec![false; s.len() + 1];\n        dp[0] = true;\n        for end in 1..=s.len() {\n            for word in &word_dict {\n                if end < word.len() {\n                    continue;\n                }\n                let start = end - word.len();\n                if dp[start] && &s[start..end] == word {\n                    dp[end] = true;\n                    break;\n                }\n            }\n        }\n        dp[s.len()]\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "31b2b2817ee8e40896e146e6eac1412a2a2387ab989eefc942da36859f09438c",
+          "markedWrong": false,
+          "commitComment": "bottom-up dp",
+          "rawCommitSubject": "rust 139: bottom-up dp",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/139_word_break.rs b/rust/src/bin/139_word_break.rs\nindex 893885a..631927e 100644\n--- a/rust/src/bin/139_word_break.rs\n+++ b/rust/src/bin/139_word_break.rs\n@@ -1,29 +1,20 @@\n impl Solution {\n     pub fn word_break(s: String, word_dict: Vec<String>) -> bool {\n-        fn find(idx: usize, s: &String, dict: &Vec<String>, cache: &mut Vec<u8>) -> bool {\n-            if idx == s.len() {\n-                return true;\n-            }\n-\n-            if cache[idx] == 1 {\n-                return false;\n-            }\n-\n-            for word in dict {\n-                let end = idx + word.len();\n-                if s[idx..].len() >= word.len()\n-                    && s[idx..end] == word[..]\n-                    && find(end, s, dict, cache)\n-                {\n-                    return true;\n+        let mut dp = vec![false; s.len() + 1];\n+        dp[0] = true;\n+        for end in 1..=s.len() {\n+            for word in &word_dict {\n+                if end < word.len() {\n+                    continue;\n+                }\n+                let start = end - word.len();\n+                if dp[start] && &s[start..end] == word {\n+                    dp[end] = true;\n+                    break;\n                 }\n             }\n-            cache[idx] = 1;\n-            false\n         }\n-\n-        let mut cache = vec![0_u8; s.len()];\n-        find(0, &s, &word_dict, &mut cache)\n+        dp[s.len()]\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 12,
+            "deletions": 21
+          },
+          "approachId": "approach-2",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaces recursive memoization with iterative bottom-up DP over string prefixes.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "fc5423a068d0c0dd9f47400306b2aaf102021f7f",
+    "e0809eeb1017ad317a6bff33d36a039af041c284",
+    "b4d43b626adefa651fd75f9710e88f61d47e0e0a"
+  ],
+  "warnings": []
+}

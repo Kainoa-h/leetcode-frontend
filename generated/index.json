@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-06T14:35:48.977Z",
-  "sourceHeadSha": "282b0ab2a52754cf42aabe9ea6645a08b99aa6fa",
+  "generatedAt": "2026-09-07T07:55:36.373Z",
+  "sourceHeadSha": "b4d43b626adefa651fd75f9710e88f61d47e0e0a",
   "questions": [
     {
       "id": 1,
@@ -544,6 +544,24 @@
       "lastCommittedAt": "2026-02-01T15:06:52+08:00"
     },
     {
+      "id": 70,
+      "title": "Climbing Stairs",
+      "slug": "climbing-stairs",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/70/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-09-07T14:09:12+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-09-07T14:09:12+08:00",
+      "lastCommittedAt": "2026-09-07T14:09:12+08:00"
+    },
+    {
       "id": 71,
       "title": "Simplify Path",
       "slug": "simplify-path",
@@ -841,6 +859,24 @@
       "lastCommittedAt": "2026-08-21T14:44:55+08:00"
     },
     {
+      "id": 139,
+      "title": "Word Break",
+      "slug": "word-break",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/139/rust/",
+          "revisionCount": 3,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-09-07T15:54:40+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-09-07T15:13:53+08:00",
+      "lastCommittedAt": "2026-09-07T15:54:40+08:00"
+    },
+    {
       "id": 141,
       "title": "Linked List Cycle",
       "slug": "linked-list-cycle",
@@ -1001,6 +1037,24 @@
       ],
       "firstCommittedAt": "2026-08-30T23:02:54+08:00",
       "lastCommittedAt": "2026-08-30T23:06:35+08:00"
+    },
+    {
+      "id": 198,
+      "title": "House Robber",
+      "slug": "house-robber",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/198/rust/",
+          "revisionCount": 4,
+          "approachCount": 2,
+          "incorrectRevisionCount": 1,
+          "lastCommittedAt": "2026-09-07T14:45:24+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-09-07T14:17:01+08:00",
+      "lastCommittedAt": "2026-09-07T14:45:24+08:00"
     },
     {
       "id": 200,

@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 70,
+    "title": "Climbing Stairs",
+    "slug": "climbing-stairs"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/70_climbing_stairs.rs",
+    "latestSha": "fe6820b420d2f1c4b0a0915516293313d6205584",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-09-07T14:09:12+08:00",
+    "lastCommittedAt": "2026-09-07T14:09:12+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "1e29e64d9967e340d92e2635cddd58c9204aa3a481c9dccf67d94a286970ae6f"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "Dynamic programming for Fibonacci recurrence",
+      "summary": "Computes the number of ways to reach each stair using the recurrence ways(n) = ways(n-1) + ways(n-2). The second revision preserves this strategy while reducing storage to constant space.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "569b8f2869e98ebe21ac76699113ea9b4a3e84f4",
+          "shortSha": "569b8f2",
+          "parentSha": "282b0ab2a52754cf42aabe9ea6645a08b99aa6fa",
+          "authoredAt": "2026-09-07T13:37:51+08:00",
+          "committedAt": "2026-09-07T14:09:12+08:00",
+          "chronologicalIndex": 344,
+          "problemId": 70,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/70_climbing_stairs.rs",
+          "sourceFilename": "70_climbing_stairs.rs",
+          "code": "impl Solution {\n    pub fn climb_stairs(n: i32) -> i32 {\n        let mut dp = vec![0; n as usize + 1];\n        dp[0] = 1;\n        dp[1] = 1;\n\n        for i in 2..=n as usize {\n            dp[i] += dp[i - 1] + dp[i - 2];\n        }\n\n        dp[n as usize]\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "0f3817bc359045a1f1d9f7eb056cd2be601c7e851f646ef180dc0f881d342764",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 70",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Uses a vector to store dynamic-programming values for all stair counts and returns the value at n.",
+          "warnings": []
+        },
+        {
+          "sha": "fe6820b420d2f1c4b0a0915516293313d6205584",
+          "shortSha": "fe6820b",
+          "parentSha": "569b8f2869e98ebe21ac76699113ea9b4a3e84f4",
+          "authoredAt": "2026-09-07T13:40:33+08:00",
+          "committedAt": "2026-09-07T14:09:12+08:00",
+          "chronologicalIndex": 345,
+          "problemId": 70,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/70_climbing_stairs.rs",
+          "sourceFilename": "70_climbing_stairs.rs",
+          "code": "impl Solution {\n    pub fn climb_stairs(n: i32) -> i32 {\n        let mut dp = (1,1);\n        for _ in 1..n {\n            dp = (dp.1, dp.0 + dp.1);\n        }\n        dp.1\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "33924638b6dc72929cda759c95c9596795a3d7596bc928ff218eaae5f35ae012",
+          "markedWrong": false,
+          "commitComment": "simplier accumulation",
+          "rawCommitSubject": "rust 70: simplier accumulation",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/70_climbing_stairs.rs b/rust/src/bin/70_climbing_stairs.rs\nindex c9d531a..ed35765 100644\n--- a/rust/src/bin/70_climbing_stairs.rs\n+++ b/rust/src/bin/70_climbing_stairs.rs\n@@ -1,14 +1,10 @@\n impl Solution {\n     pub fn climb_stairs(n: i32) -> i32 {\n-        let mut dp = vec![0; n as usize + 1];\n-        dp[0] = 1;\n-        dp[1] = 1;\n-\n-        for i in 2..=n as usize {\n-            dp[i] += dp[i - 1] + dp[i - 2];\n+        let mut dp = (1,1);\n+        for _ in 1..n {\n+            dp = (dp.1, dp.0 + dp.1);\n         }\n-\n-        dp[n as usize]\n+        dp.1\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 4,
+            "deletions": 8
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Replaces the DP vector with a two-value rolling state that accumulates the same recurrence in constant space.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "569b8f2869e98ebe21ac76699113ea9b4a3e84f4",
+    "fe6820b420d2f1c4b0a0915516293313d6205584"
+  ],
+  "warnings": []
+}

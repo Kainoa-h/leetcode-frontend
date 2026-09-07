@@ -1,0 +1,162 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 198,
+    "title": "House Robber",
+    "slug": "house-robber"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/198_house_robber.rs",
+    "latestSha": "591300ea6a6543bc918af9a3f83c095ab8a46b77",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 4,
+    "approachCount": 2,
+    "incorrectRevisionCount": 1,
+    "firstCommittedAt": "2026-09-07T14:17:01+08:00",
+    "lastCommittedAt": "2026-09-07T14:45:24+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "0822a7c046bb58f140f595b719e5a6d0ef9dae5582ded543feeccc1429f9c544"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "Parity-based greedy accumulation",
+      "summary": "Sums values at even and odd indices separately and returns the larger total. This greedy strategy is incorrect because the optimal robbery pattern need not follow a fixed parity.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "e12b7de6b694525f803c8c03bd7adbccd3ed6694",
+          "shortSha": "e12b7de",
+          "parentSha": "fe6820b420d2f1c4b0a0915516293313d6205584",
+          "authoredAt": "2026-09-07T14:17:01+08:00",
+          "committedAt": "2026-09-07T14:17:01+08:00",
+          "chronologicalIndex": 346,
+          "problemId": 198,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/198_house_robber.rs",
+          "sourceFilename": "198_house_robber.rs",
+          "code": "impl Solution {\n    pub fn rob(nums: Vec<i32>) -> i32 {\n        let mut x = 0;\n        let mut y = 0;\n        for (idx, n) in nums.into_iter().enumerate() {\n            if idx % 2 == 0 {\n                x += n;\n            } else {\n                y += n;\n            }\n        }\n        x.max(y)\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "d420870cffe652827fb8b31a85dc94ff525d2c3afbce2b27fac90e8fa7933f7b",
+          "markedWrong": true,
+          "commitComment": "can't be solved greedily",
+          "rawCommitSubject": "rust 198!: can't be solved greedily",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Attempts to solve the problem greedily by comparing the sums of houses at even and odd indices. This approach is marked wrong because it can miss the optimal non-adjacent selection.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "approach-2",
+      "title": "Dynamic programming with rolling state",
+      "summary": "Uses the recurrence that the best result at each house is the maximum of skipping it or adding its value to the result from two houses earlier. The implementation evolves from a full one-dimensional table to constant-space state and then a fold expression.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "679261bf77cf126c0c2216d4c8f0246c7ec6a885",
+          "shortSha": "679261b",
+          "parentSha": "e12b7de6b694525f803c8c03bd7adbccd3ed6694",
+          "authoredAt": "2026-09-07T14:33:07+08:00",
+          "committedAt": "2026-09-07T14:33:07+08:00",
+          "chronologicalIndex": 347,
+          "problemId": 198,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/198_house_robber.rs",
+          "sourceFilename": "198_house_robber.rs",
+          "code": "impl Solution {\n    pub fn rob(nums: Vec<i32>) -> i32 {\n        let mut dp = vec![0; nums.len()];\n        for idx in 0..dp.len() {\n            //underflow but wtv\n            let prev_prev_now = dp.get(idx - 2).unwrap_or(&0) + nums[idx];\n            let prev = *dp.get(idx-1).unwrap_or(&0);\n            dp[idx] = prev_prev_now.max(prev);\n        }\n        dp[nums.len() - 1]\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "398a29462695c88b0fffdbda2eed5a4d3feb2364c0f7a0e7265934b25c106440",
+          "markedWrong": false,
+          "commitComment": "1d dp",
+          "rawCommitSubject": "rust 198: 1d dp",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/198_house_robber.rs b/rust/src/bin/198_house_robber.rs\nindex fb20dca..699d587 100644\n--- a/rust/src/bin/198_house_robber.rs\n+++ b/rust/src/bin/198_house_robber.rs\n@@ -1,15 +1,13 @@\n impl Solution {\n     pub fn rob(nums: Vec<i32>) -> i32 {\n-        let mut x = 0;\n-        let mut y = 0;\n-        for (idx, n) in nums.into_iter().enumerate() {\n-            if idx % 2 == 0 {\n-                x += n;\n-            } else {\n-                y += n;\n-            }\n+        let mut dp = vec![0; nums.len()];\n+        for idx in 0..dp.len() {\n+            //underflow but wtv\n+            let prev_prev_now = dp.get(idx - 2).unwrap_or(&0) + nums[idx];\n+            let prev = *dp.get(idx-1).unwrap_or(&0);\n+            dp[idx] = prev_prev_now.max(prev);\n         }\n-        x.max(y)\n+        dp[nums.len() - 1]\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 7,
+            "deletions": 9
+          },
+          "approachId": "approach-2",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaces the incorrect greedy strategy with one-dimensional dynamic programming, storing the best result through each index.",
+          "warnings": []
+        },
+        {
+          "sha": "99672b0ce2a7c6795d3b2c4a6f54c0785f38cac1",
+          "shortSha": "99672b0",
+          "parentSha": "679261bf77cf126c0c2216d4c8f0246c7ec6a885",
+          "authoredAt": "2026-09-07T14:42:38+08:00",
+          "committedAt": "2026-09-07T14:42:38+08:00",
+          "chronologicalIndex": 348,
+          "problemId": 198,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/198_house_robber.rs",
+          "sourceFilename": "198_house_robber.rs",
+          "code": "impl Solution {\n    pub fn rob(nums: Vec<i32>) -> i32 {\n        let mut dp = (0, 0);\n        for n in nums {\n            let a = dp.0 + n;\n            let b = dp.1;\n            dp = (dp.1, a.max(b));\n        }\n        dp.1\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "d23689a00299ffb85cc2617c1e1f166c4521de260c458d73f15db67fa70cb434",
+          "markedWrong": false,
+          "commitComment": "cleaner dp",
+          "rawCommitSubject": "rust 198: cleaner dp",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/198_house_robber.rs b/rust/src/bin/198_house_robber.rs\nindex 699d587..2fa8947 100644\n--- a/rust/src/bin/198_house_robber.rs\n+++ b/rust/src/bin/198_house_robber.rs\n@@ -1,13 +1,12 @@\n impl Solution {\n     pub fn rob(nums: Vec<i32>) -> i32 {\n-        let mut dp = vec![0; nums.len()];\n-        for idx in 0..dp.len() {\n-            //underflow but wtv\n-            let prev_prev_now = dp.get(idx - 2).unwrap_or(&0) + nums[idx];\n-            let prev = *dp.get(idx-1).unwrap_or(&0);\n-            dp[idx] = prev_prev_now.max(prev);\n+        let mut dp = (0, 0);\n+        for n in nums {\n+            let a = dp.0 + n;\n+            let b = dp.1;\n+            dp = (dp.1, a.max(b));\n         }\n-        dp[nums.len() - 1]\n+        dp.1\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 6,
+            "deletions": 7
+          },
+          "approachId": "approach-2",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Preserves the dynamic programming recurrence while reducing storage to two rolling state values.",
+          "warnings": []
+        },
+        {
+          "sha": "591300ea6a6543bc918af9a3f83c095ab8a46b77",
+          "shortSha": "591300e",
+          "parentSha": "99672b0ce2a7c6795d3b2c4a6f54c0785f38cac1",
+          "authoredAt": "2026-09-07T14:45:24+08:00",
+          "committedAt": "2026-09-07T14:45:24+08:00",
+          "chronologicalIndex": 349,
+          "problemId": 198,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/198_house_robber.rs",
+          "sourceFilename": "198_house_robber.rs",
+          "code": "impl Solution {\n    pub fn rob(nums: Vec<i32>) -> i32 {\n        nums.into_iter()\n            .fold((0, 0), |acc, n| (acc.1, acc.1.max(acc.0 + n)))\n            .1\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "e2d113daae197d61e5995b9bb31cf0595e25f4465c028583b26640d306257c5a",
+          "markedWrong": false,
+          "commitComment": "single fold expression",
+          "rawCommitSubject": "rust 198: single fold expression",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/198_house_robber.rs b/rust/src/bin/198_house_robber.rs\nindex 2fa8947..18d67b9 100644\n--- a/rust/src/bin/198_house_robber.rs\n+++ b/rust/src/bin/198_house_robber.rs\n@@ -1,12 +1,8 @@\n impl Solution {\n     pub fn rob(nums: Vec<i32>) -> i32 {\n-        let mut dp = (0, 0);\n-        for n in nums {\n-            let a = dp.0 + n;\n-            let b = dp.1;\n-            dp = (dp.1, a.max(b));\n-        }\n-        dp.1\n+        nums.into_iter()\n+            .fold((0, 0), |acc, n| (acc.1, acc.1.max(acc.0 + n)))\n+            .1\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 3,
+            "deletions": 7
+          },
+          "approachId": "approach-2",
+          "narrativeIndex": 2,
+          "shortChangeSummary": "Refactors the rolling dynamic program into an iterator fold without changing the underlying strategy.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "e12b7de6b694525f803c8c03bd7adbccd3ed6694",
+    "679261bf77cf126c0c2216d4c8f0246c7ec6a885",
+    "99672b0ce2a7c6795d3b2c4a6f54c0785f38cac1",
+    "591300ea6a6543bc918af9a3f83c095ab8a46b77"
+  ],
+  "warnings": []
+}
