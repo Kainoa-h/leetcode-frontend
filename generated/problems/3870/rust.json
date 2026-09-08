@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3870,
+    "title": "Count Commas in Range",
+    "slug": "count-commas-in-range"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3870_count_commas_in_range.rs",
+    "latestSha": "4946ce98434191a8f45575894701abc053f627a3",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-09-08T11:05:25+08:00",
+    "lastCommittedAt": "2026-09-08T11:05:25+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "7",
+    "inputHash": "f1e82b01188d74a23dbd69d68879604784df856819b8f328c5f7d6cf7bd2f4da"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "4946ce98434191a8f45575894701abc053f627a3",
+          "shortSha": "4946ce9",
+          "parentSha": "11b310b6621d26dd6e428aeb26310a27e6175c75",
+          "authoredAt": "2026-09-08T11:05:25+08:00",
+          "committedAt": "2026-09-08T11:05:25+08:00",
+          "chronologicalIndex": 356,
+          "problemId": 3870,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3870_count_commas_in_range.rs",
+          "sourceFilename": "3870_count_commas_in_range.rs",
+          "code": "impl Solution {\n    pub fn count_commas(n: i32) -> i32 {\n        if n < 1000 {\n            0\n        } else {\n            n - 1000 + 1\n        }\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "2ab9dd4ba1dafdbdcab9e6608f093cc0018ef33553602af434b7ec660e49fe41",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 3870",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "4946ce98434191a8f45575894701abc053f627a3"
+  ],
+  "warnings": []
+}

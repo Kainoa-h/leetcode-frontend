@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-07T12:14:37.785Z",
-  "sourceHeadSha": "11b310b6621d26dd6e428aeb26310a27e6175c75",
+  "generatedAt": "2026-09-08T03:05:51.947Z",
+  "sourceHeadSha": "4946ce98434191a8f45575894701abc053f627a3",
   "questions": [
     {
       "id": 1,
@@ -3080,6 +3080,24 @@
       ],
       "firstCommittedAt": "2026-07-16T14:50:34+08:00",
       "lastCommittedAt": "2026-07-16T15:28:38+08:00"
+    },
+    {
+      "id": 3870,
+      "title": "Count Commas in Range",
+      "slug": "count-commas-in-range",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3870/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-09-08T11:05:25+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-09-08T11:05:25+08:00",
+      "lastCommittedAt": "2026-09-08T11:05:25+08:00"
     },
     {
       "id": 3876,
