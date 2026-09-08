@@ -13,27 +13,27 @@
   "source": {
     "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
     "latestPath": "rust/src/bin/3870_count_commas_in_range.rs",
-    "latestSha": "4946ce98434191a8f45575894701abc053f627a3",
+    "latestSha": "abd52261802d2b43d1f3fd72a1e686983d7a53a1",
     "deleted": false
   },
   "statistics": {
-    "revisionCount": 1,
+    "revisionCount": 2,
     "approachCount": 1,
     "incorrectRevisionCount": 0,
     "firstCommittedAt": "2026-09-08T11:05:25+08:00",
-    "lastCommittedAt": "2026-09-08T11:05:25+08:00"
+    "lastCommittedAt": "2026-09-08T14:49:32+08:00"
   },
   "analysis": {
-    "status": "fallback",
-    "model": null,
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
     "promptVersion": "7",
-    "inputHash": "f1e82b01188d74a23dbd69d68879604784df856819b8f328c5f7d6cf7bd2f4da"
+    "inputHash": "bc5e254672b594306c28f7200bc745694bc89e99e99d635f0a37a4f5e73518a2"
   },
   "approaches": [
     {
-      "id": "chronological",
-      "title": "Solution history",
-      "summary": "Revisions in chronological order.",
+      "id": "1",
+      "title": "Threshold arithmetic count",
+      "summary": "Counts valid comma-containing numbers by returning zero below 1000 and otherwise computing n minus 999. The second revision preserves this arithmetic strategy with a branchless saturating subtraction.",
       "order": 0,
       "revisions": [
         {
@@ -55,16 +55,44 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "chronological",
+          "approachId": "1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Updates the solution.",
+          "shortChangeSummary": "Uses a conditional threshold check: returns 0 for n below 1000, otherwise returns n - 999.",
+          "warnings": []
+        },
+        {
+          "sha": "abd52261802d2b43d1f3fd72a1e686983d7a53a1",
+          "shortSha": "abd5226",
+          "parentSha": "4946ce98434191a8f45575894701abc053f627a3",
+          "authoredAt": "2026-09-08T14:49:32+08:00",
+          "committedAt": "2026-09-08T14:49:32+08:00",
+          "chronologicalIndex": 357,
+          "problemId": 3870,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3870_count_commas_in_range.rs",
+          "sourceFilename": "3870_count_commas_in_range.rs",
+          "code": "impl Solution {\n    pub fn count_commas(n: i32) -> i32 {\n        (n as u32).saturating_sub(999) as i32\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "f0fbd5e044c011f41e0afe1a08113a50108e741ec8af3307f3c59fcada631cc3",
+          "markedWrong": false,
+          "commitComment": "make branchlesss using cpu intrinsics",
+          "rawCommitSubject": "rust 3870: make branchlesss using cpu intrinsics",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3870_count_commas_in_range.rs b/rust/src/bin/3870_count_commas_in_range.rs\nindex e228c5a..639916d 100644\n--- a/rust/src/bin/3870_count_commas_in_range.rs\n+++ b/rust/src/bin/3870_count_commas_in_range.rs\n@@ -1,10 +1,6 @@\n impl Solution {\n     pub fn count_commas(n: i32) -> i32 {\n-        if n < 1000 {\n-            0\n-        } else {\n-            n - 1000 + 1\n-        }\n+        (n as u32).saturating_sub(999) as i32\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 1,
+            "deletions": 5
+          },
+          "approachId": "1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Replaces the conditional with unsigned saturating subtraction by 999, preserving the same threshold arithmetic branchlessly.",
           "warnings": []
         }
       ]
     }
   ],
   "chronologicalRevisionShas": [
-    "4946ce98434191a8f45575894701abc053f627a3"
+    "4946ce98434191a8f45575894701abc053f627a3",
+    "abd52261802d2b43d1f3fd72a1e686983d7a53a1"
   ],
   "warnings": []
 }
