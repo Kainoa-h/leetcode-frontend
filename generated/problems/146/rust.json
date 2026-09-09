@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 146,
+    "title": "Lru Cache",
+    "slug": "lru-cache"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/146_lru_cache.rs",
+    "latestSha": "da1b9491b57cff6e4927dd0cbc974b698390a7d5",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 1,
+    "firstCommittedAt": "2026-09-08T18:10:51+08:00",
+    "lastCommittedAt": "2026-09-08T18:10:51+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "7",
+    "inputHash": "0c682c375f7107cc84c9881724b81cd1548b3392758e3692aa1d58ee37ddf4d8"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "da1b9491b57cff6e4927dd0cbc974b698390a7d5",
+          "shortSha": "da1b949",
+          "parentSha": "ce329abccba69898a39ba38b0c2fc8c7ba723077",
+          "authoredAt": "2026-09-08T18:10:51+08:00",
+          "committedAt": "2026-09-08T18:10:51+08:00",
+          "chronologicalIndex": 359,
+          "problemId": 146,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/146_lru_cache.rs",
+          "sourceFilename": "146_lru_cache.rs",
+          "code": "use std::collections::HashMap;\n\n#[derive(Clone, Copy)]\nstruct Entry {\n    key: i32,\n    value: i32,\n    next: Option<usize>,\n    prev: Option<usize>,\n}\n\nstruct LRUCache {\n    size: usize,\n    len: usize,\n    entry_vec: Vec<Entry>,\n    map: HashMap<i32, usize>,\n    head: Option<usize>, //lru\n    tail: Option<usize>, //mru\n}\n\nimpl LRUCache {\n    fn new(capacity: i32) -> Self {\n        let n = capacity as usize;\n        Self {\n            size: n,\n            len: 0,\n            entry_vec: Vec::with_capacity(n),\n            map: HashMap::with_capacity(n),\n            head: None,\n            tail: None,\n        }\n    }\n\n    fn get(&mut self, key: i32) -> i32 {\n        let Some(&entry_idx) = self.map.get(&key) else {\n            return -1;\n        };\n        let entry = self.entry_vec[entry_idx];\n        if self.head == Some(entry_idx) {\n            self.head = entry.next;\n        }\n        if let Some(entry_before_idx) = entry.prev {\n            self.entry_vec[entry_before_idx].next = entry.next;\n        }\n        if let Some(entry_after_idx) = entry.next {\n            self.entry_vec[entry_after_idx].prev = entry.prev;\n        }\n        self.entry_vec[self.tail.unwrap()].next = Some(entry_idx);\n        self.entry_vec[entry_idx].next = None;\n        self.tail = Some(entry_idx);\n\n        self.entry_vec[entry_idx].value\n    }\n\n    fn put(&mut self, key: i32, value: i32) {\n        if self.len < self.size {\n            if let Some(tail) = self.tail {\n                self.entry_vec[tail].next = Some(self.len);\n            } else {\n                self.head = Some(0);\n            }\n            self.entry_vec.push(Entry {\n                key,\n                value,\n                next: None,\n                prev: self.tail,\n            });\n            self.map.insert(key, self.len);\n            self.tail = Some(self.len);\n            self.len += 1;\n            return;\n        }\n        let old_entry_idx = self.head.unwrap();\n        let old_entry = self.entry_vec[old_entry_idx];\n        self.map.remove(&old_entry.key);\n        self.head = old_entry.next;\n        self.entry_vec[old_entry_idx] = Entry {\n            key,\n            value,\n            next: None,\n            prev: self.tail,\n        };\n        if let Some(tail) = self.tail {\n            self.entry_vec[tail].next = Some(old_entry_idx);\n        }\n        self.tail = Some(old_entry_idx);\n    }\n}\n",
+          "codeHash": "6052457ba9d70cff48745c186843caaf348dbfe961e19dde569d703e40d5c1f7",
+          "markedWrong": true,
+          "commitComment": "confusing lru",
+          "rawCommitSubject": "rust 146!: confusing lru",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "confusing lru",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "da1b9491b57cff6e4927dd0cbc974b698390a7d5"
+  ],
+  "warnings": []
+}

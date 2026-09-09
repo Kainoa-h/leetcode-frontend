@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-08T07:17:07.072Z",
-  "sourceHeadSha": "ce329abccba69898a39ba38b0c2fc8c7ba723077",
+  "generatedAt": "2026-09-09T02:22:13.219Z",
+  "sourceHeadSha": "b007d8665433d668deae7f9de05599582bf184ea",
   "questions": [
     {
       "id": 1,
@@ -893,6 +893,24 @@
       ],
       "firstCommittedAt": "2026-08-05T17:32:49+08:00",
       "lastCommittedAt": "2026-08-05T17:38:35+08:00"
+    },
+    {
+      "id": 146,
+      "title": "Lru Cache",
+      "slug": "lru-cache",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/146/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 1,
+          "lastCommittedAt": "2026-09-08T18:10:51+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-09-08T18:10:51+08:00",
+      "lastCommittedAt": "2026-09-08T18:10:51+08:00"
     },
     {
       "id": 150,
@@ -3098,6 +3116,24 @@
       ],
       "firstCommittedAt": "2026-09-08T11:05:25+08:00",
       "lastCommittedAt": "2026-09-08T14:49:32+08:00"
+    },
+    {
+      "id": 3871,
+      "title": "Count Commas in Range II",
+      "slug": "count-commas-in-range-ii",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3871/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-09-09T10:21:35+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-09-09T10:21:35+08:00",
+      "lastCommittedAt": "2026-09-09T10:21:35+08:00"
     },
     {
       "id": 3876,

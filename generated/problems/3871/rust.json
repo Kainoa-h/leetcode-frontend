@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3871,
+    "title": "Count Commas in Range II",
+    "slug": "count-commas-in-range-ii"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3871_count_commas_in_range_II.rs",
+    "latestSha": "b007d8665433d668deae7f9de05599582bf184ea",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-09-09T10:21:35+08:00",
+    "lastCommittedAt": "2026-09-09T10:21:35+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "7",
+    "inputHash": "724b1a323af34221751c50f59fe16274d57788654ad39a5045c7a0afa715b1a4"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "b007d8665433d668deae7f9de05599582bf184ea",
+          "shortSha": "b007d86",
+          "parentSha": "da1b9491b57cff6e4927dd0cbc974b698390a7d5",
+          "authoredAt": "2026-09-09T10:21:35+08:00",
+          "committedAt": "2026-09-09T10:21:35+08:00",
+          "chronologicalIndex": 360,
+          "problemId": 3871,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3871_count_commas_in_range_II.rs",
+          "sourceFilename": "3871_count_commas_in_range_II.rs",
+          "code": "impl Solution {\n    pub fn count_commas(mut n: i64) -> i64 {\n        if n < 1_000 {\n            return 0;\n        }\n        let mut place = 1_000;\n        let mut count = 0;\n        while place <= n {\n            count += n - place + 1;\n            place *= 1_000;\n        }\n        count\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "73d20fc589887b63069764b599ca8adbf585ebe9a61dc3756cabc2f514c6b14e",
+          "markedWrong": false,
+          "commitComment": "what",
+          "rawCommitSubject": "rust 3871: what",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "what",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "b007d8665433d668deae7f9de05599582bf184ea"
+  ],
+  "warnings": []
+}
