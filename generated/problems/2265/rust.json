@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2265,
+    "title": "Count Nodes Equal to Average of Subtree",
+    "slug": "count-nodes-equal-to-average-of-subtree"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/2265_count_nodes_equal_to_average_of_subtree.rs",
+    "latestSha": "86636fdd95db5c3ee10991ca5c6fc3f6dd32592f",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-09-10T10:43:57+08:00",
+    "lastCommittedAt": "2026-09-10T10:43:57+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "7c3b4f9d5792b86048ac6eb005d890903f26c5f214b4b3c9b8dec31ca5490dd0"
+  },
+  "approaches": [
+    {
+      "id": "1",
+      "title": "Postorder subtree aggregation",
+      "summary": "Uses a recursive postorder traversal that returns each subtree's sum, node count, and number of matching averages. Each node is evaluated from its children's aggregates.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "3669901848b95bde979f7329515275abbc138cbd",
+          "shortSha": "3669901",
+          "parentSha": "b007d8665433d668deae7f9de05599582bf184ea",
+          "authoredAt": "2026-09-10T10:37:32+08:00",
+          "committedAt": "2026-09-10T10:43:57+08:00",
+          "chronologicalIndex": 361,
+          "problemId": 2265,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2265_count_nodes_equal_to_average_of_subtree.rs",
+          "sourceFilename": "2265_count_nodes_equal_to_average_of_subtree.rs",
+          "code": "#[derive(Debug, PartialEq, Eq)]\npub struct TreeNode {\n    pub val: i32,\n    pub left: Option<Rc<RefCell<TreeNode>>>,\n    pub right: Option<Rc<RefCell<TreeNode>>>,\n}\n\nimpl TreeNode {\n    #[inline]\n    pub fn new(val: i32) -> Self {\n        TreeNode {\n            val,\n            left: None,\n            right: None,\n        }\n    }\n}\nstruct Solution {}\n\nuse std::cell::RefCell;\nuse std::rc::Rc;\nimpl Solution {\n    pub fn average_of_subtree(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {\n        fn search_subtree(root: Option<&Rc<RefCell<TreeNode>>>) -> (i32, i32, i32) {\n            let Some(root) = root else {return (0,0,0)};\n            let root = root.borrow();\n\n            let mut sub_tree_sum = root.val;\n            let mut sub_tree_count = 1;\n\n            let left = search_subtree(root.left.as_ref());\n            sub_tree_sum += left.0;\n            sub_tree_count += left.1;\n            let right = search_subtree(root.right.as_ref());\n            sub_tree_sum += right.0;\n            sub_tree_count += right.1;\n\n            let count = left.2 + right.2 + i32::from(sub_tree_sum/sub_tree_count == root.val);\n\n            (sub_tree_sum, sub_tree_count, count)\n        }\n        search_subtree(root.as_ref()).2\n    }\n}\n",
+          "codeHash": "ab7284a8c2e0b6d632528beb6fd4e6331a7f450a8d70ba75062200f0fff836bd",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 2265",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Implemented recursive postorder aggregation using mutable sum and count accumulators, then checked each subtree's integer average.",
+          "warnings": []
+        },
+        {
+          "sha": "86636fdd95db5c3ee10991ca5c6fc3f6dd32592f",
+          "shortSha": "86636fd",
+          "parentSha": "3669901848b95bde979f7329515275abbc138cbd",
+          "authoredAt": "2026-09-10T10:40:16+08:00",
+          "committedAt": "2026-09-10T10:43:57+08:00",
+          "chronologicalIndex": 362,
+          "problemId": 2265,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2265_count_nodes_equal_to_average_of_subtree.rs",
+          "sourceFilename": "2265_count_nodes_equal_to_average_of_subtree.rs",
+          "code": "#[derive(Debug, PartialEq, Eq)]\npub struct TreeNode {\n    pub val: i32,\n    pub left: Option<Rc<RefCell<TreeNode>>>,\n    pub right: Option<Rc<RefCell<TreeNode>>>,\n}\n\nimpl TreeNode {\n    #[inline]\n    pub fn new(val: i32) -> Self {\n        TreeNode {\n            val,\n            left: None,\n            right: None,\n        }\n    }\n}\nstruct Solution {}\n\nuse std::cell::RefCell;\nuse std::rc::Rc;\nimpl Solution {\n    pub fn average_of_subtree(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {\n        fn search_subtree(root: Option<&Rc<RefCell<TreeNode>>>) -> (i32, i32, i32) {\n            let Some(root) = root else { return (0, 0, 0) };\n            let root = root.borrow();\n\n            let (ls, lc, lr) = search_subtree(root.left.as_ref());\n            let (rs, rc, rr) = search_subtree(root.right.as_ref());\n            let sub_tree_sum = ls + rs + root.val;\n            let sub_tree_count = lc + rc + 1;\n            let count = lr + rr + i32::from(sub_tree_sum / sub_tree_count == root.val);\n\n            (sub_tree_sum, sub_tree_count, count)\n        }\n        search_subtree(root.as_ref()).2\n    }\n}\n",
+          "codeHash": "909a65c2903d80902d568a47d55ef0929c6438d5cf2d7a0a43cfaa14ad66d52d",
+          "markedWrong": false,
+          "commitComment": "neater",
+          "rawCommitSubject": "rust 2265: neater",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2265_count_nodes_equal_to_average_of_subtree.rs b/rust/src/bin/2265_count_nodes_equal_to_average_of_subtree.rs\nindex a004190..cc44b16 100644\n--- a/rust/src/bin/2265_count_nodes_equal_to_average_of_subtree.rs\n+++ b/rust/src/bin/2265_count_nodes_equal_to_average_of_subtree.rs\n@@ -22,20 +22,14 @@ use std::rc::Rc;\n impl Solution {\n     pub fn average_of_subtree(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {\n         fn search_subtree(root: Option<&Rc<RefCell<TreeNode>>>) -> (i32, i32, i32) {\n-            let Some(root) = root else {return (0,0,0)};\n+            let Some(root) = root else { return (0, 0, 0) };\n             let root = root.borrow();\n \n-            let mut sub_tree_sum = root.val;\n-            let mut sub_tree_count = 1;\n-\n-            let left = search_subtree(root.left.as_ref());\n-            sub_tree_sum += left.0;\n-            sub_tree_count += left.1;\n-            let right = search_subtree(root.right.as_ref());\n-            sub_tree_sum += right.0;\n-            sub_tree_count += right.1;\n-\n-            let count = left.2 + right.2 + i32::from(sub_tree_sum/sub_tree_count == root.val);\n+            let (ls, lc, lr) = search_subtree(root.left.as_ref());\n+            let (rs, rc, rr) = search_subtree(root.right.as_ref());\n+            let sub_tree_sum = ls + rs + root.val;\n+            let sub_tree_count = lc + rc + 1;\n+            let count = lr + rr + i32::from(sub_tree_sum / sub_tree_count == root.val);\n \n             (sub_tree_sum, sub_tree_count, count)\n         }\n",
+          "changedLineCounts": {
+            "additions": 6,
+            "deletions": 12
+          },
+          "approachId": "1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Refactored the same traversal to destructure child results and compute each subtree's aggregates more directly and idiomatically.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "3669901848b95bde979f7329515275abbc138cbd",
+    "86636fdd95db5c3ee10991ca5c6fc3f6dd32592f"
+  ],
+  "warnings": []
+}

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-09T02:22:13.219Z",
-  "sourceHeadSha": "b007d8665433d668deae7f9de05599582bf184ea",
+  "generatedAt": "2026-09-10T02:44:39.170Z",
+  "sourceHeadSha": "86636fdd95db5c3ee10991ca5c6fc3f6dd32592f",
   "questions": [
     {
       "id": 1,
@@ -2153,6 +2153,24 @@
       ],
       "firstCommittedAt": "2026-08-13T15:49:00+08:00",
       "lastCommittedAt": "2026-08-13T15:49:00+08:00"
+    },
+    {
+      "id": 2265,
+      "title": "Count Nodes Equal to Average of Subtree",
+      "slug": "count-nodes-equal-to-average-of-subtree",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/2265/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-09-10T10:43:57+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-09-10T10:43:57+08:00",
+      "lastCommittedAt": "2026-09-10T10:43:57+08:00"
     },
     {
       "id": 2452,
