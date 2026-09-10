@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-10T16:37:42.999Z",
-  "sourceHeadSha": "5e5e6e7ccd9ee52eb9afb0b77be5b2222fddc3c2",
+  "generatedAt": "2026-09-10T17:08:57.625Z",
+  "sourceHeadSha": "eb4e33fabd9fe204b2df4e2dde073d7bb3267ec9",
   "questions": [
     {
       "id": 1,
@@ -506,6 +506,24 @@
       ],
       "firstCommittedAt": "2026-01-29T23:12:46+08:00",
       "lastCommittedAt": "2026-01-29T23:13:29+08:00"
+    },
+    {
+      "id": 64,
+      "title": "Minimum Path Sum",
+      "slug": "minimum-path-sum",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/64/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-09-11T00:59:17+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-09-11T00:59:17+08:00",
+      "lastCommittedAt": "2026-09-11T00:59:17+08:00"
     },
     {
       "id": 67,
