@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 120,
+    "title": "Triangle",
+    "slug": "triangle"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/120_triangle.rs",
+    "latestSha": "5e5e6e7ccd9ee52eb9afb0b77be5b2222fddc3c2",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-09-11T00:10:19+08:00",
+    "lastCommittedAt": "2026-09-11T00:33:54+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "7c0d971e68e1698e7698151e1eb6a8923a34340fc480c90a02c203d3c706c4eb"
+  },
+  "approaches": [
+    {
+      "id": "1",
+      "title": "In-place bottom-up dynamic programming",
+      "summary": "Updates each triangle row in place using the minimum path sum from the preceding row, then returns the minimum value in the final row.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "1e9776144133615a3f2e9fff393bae26d889cb12",
+          "shortSha": "1e97761",
+          "parentSha": "1735fe8776f19a7efd25a549b72c71520d90f372",
+          "authoredAt": "2026-09-11T00:10:19+08:00",
+          "committedAt": "2026-09-11T00:10:19+08:00",
+          "chronologicalIndex": 367,
+          "problemId": 120,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/120_triangle.rs",
+          "sourceFilename": "120_triangle.rs",
+          "code": "impl Solution {\n    pub fn minimum_total(mut triangle: Vec<Vec<i32>>) -> i32 {\n        if triangle.len() == 1 {\n            return triangle[0][0];\n        }\n\n        for row_idx in 1..triangle.len() {\n            let (prev_rows, next_rows) = triangle.split_at_mut(row_idx);\n            let prev_row = prev_rows.last().unwrap();\n            let row = next_rows.first_mut().unwrap();\n            for (idx, v) in row.iter_mut().enumerate() {\n                let left = *prev_row.get(idx - 1).unwrap_or(&i32::MAX);\n                let right = *prev_row.get(idx).unwrap_or(&i32::MAX);\n                *v += left.min(right);\n            }\n        }\n\n        triangle.last().map_or(0, |x| *x.iter().min().unwrap_or(&0))\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "696df9b3d328c8b5b3a733abae515f49e4d934eff84d8be8a66fc3edb068f0d6",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 120",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial in-place dynamic programming solution using boundary-safe indexing with sentinel values.",
+          "warnings": []
+        },
+        {
+          "sha": "5e5e6e7ccd9ee52eb9afb0b77be5b2222fddc3c2",
+          "shortSha": "5e5e6e7",
+          "parentSha": "1e9776144133615a3f2e9fff393bae26d889cb12",
+          "authoredAt": "2026-09-11T00:33:54+08:00",
+          "committedAt": "2026-09-11T00:33:54+08:00",
+          "chronologicalIndex": 368,
+          "problemId": 120,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/120_triangle.rs",
+          "sourceFilename": "120_triangle.rs",
+          "code": "impl Solution {\n    pub fn minimum_total(mut triangle: Vec<Vec<i32>>) -> i32 {\n        if triangle.len() == 1 {\n            return triangle[0][0];\n        }\n\n        for row_idx in 1..triangle.len() {\n            let (prev_rows, next_rows) = triangle.split_at_mut(row_idx);\n            let prev_row = prev_rows.last().unwrap();\n            let row = next_rows.first_mut().unwrap();\n            for (idx, v) in row.iter_mut().enumerate() {\n                *v += match idx {\n                    0 => prev_row[0],\n                    idx if idx == prev_row.len() => prev_row[idx - 1],\n                    idx => prev_row[idx].min(prev_row[idx - 1]),\n                }\n            }\n        }\n\n        triangle\n            .last()\n            .and_then(|x| x.iter().min())\n            .copied()\n            .unwrap_or(0)\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "afd50db68676837111ef65dfbe017448d4967a57bb3794757ac64ddf35465689",
+          "markedWrong": false,
+          "commitComment": "match & better return",
+          "rawCommitSubject": "rust 120: match & better return",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/120_triangle.rs b/rust/src/bin/120_triangle.rs\nindex 6a7bb19..bbed4a6 100644\n--- a/rust/src/bin/120_triangle.rs\n+++ b/rust/src/bin/120_triangle.rs\n@@ -9,13 +9,19 @@ impl Solution {\n             let prev_row = prev_rows.last().unwrap();\n             let row = next_rows.first_mut().unwrap();\n             for (idx, v) in row.iter_mut().enumerate() {\n-                let left = *prev_row.get(idx - 1).unwrap_or(&i32::MAX);\n-                let right = *prev_row.get(idx).unwrap_or(&i32::MAX);\n-                *v += left.min(right);\n+                *v += match idx {\n+                    0 => prev_row[0],\n+                    idx if idx == prev_row.len() => prev_row[idx - 1],\n+                    idx => prev_row[idx].min(prev_row[idx - 1]),\n+                }\n             }\n         }\n \n-        triangle.last().map_or(0, |x| *x.iter().min().unwrap_or(&0))\n+        triangle\n+            .last()\n+            .and_then(|x| x.iter().min())\n+            .copied()\n+            .unwrap_or(0)\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 10,
+            "deletions": 4
+          },
+          "approachId": "1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Keeps the same in-place dynamic programming strategy while replacing sentinel-based indexing with explicit boundary matching and refining the final-row return.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "1e9776144133615a3f2e9fff393bae26d889cb12",
+    "5e5e6e7ccd9ee52eb9afb0b77be5b2222fddc3c2"
+  ],
+  "warnings": []
+}
