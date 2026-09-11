@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3483,
+    "title": "Unique 3 Digit Even Numbers",
+    "slug": "unique-3-digit-even-numbers"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3483_unique_3_digit_even_numbers.rs",
+    "latestSha": "c25b31ac697697d124def355c84d1db52c8df6a3",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-09-11T10:42:53+08:00",
+    "lastCommittedAt": "2026-09-11T10:49:45+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "8ba0da21d8452f39ce7f6abb52dfce08b09a4e458cec3d371cd36c8479bed39d"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "Enumerate all three-digit even numbers",
+      "summary": "Build a digit-frequency bucket, then test every three-digit even number against the available digit counts. This directly counts valid numbers without constructing permutations of the input positions.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "908e8ba557dee2a3f5aa127c8692d3d64e3634d5",
+          "shortSha": "908e8ba",
+          "parentSha": "8c2d31037d488c689fb7e63dde6944e4e0b44d7a",
+          "authoredAt": "2026-09-11T10:39:17+08:00",
+          "committedAt": "2026-09-11T10:42:53+08:00",
+          "chronologicalIndex": 371,
+          "problemId": 3483,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3483_unique_3_digit_even_numbers.rs",
+          "sourceFilename": "3483_unique_3_digit_even_numbers.rs",
+          "code": "impl Solution {\n    pub fn total_numbers(digits: Vec<i32>) -> i32 {\n        let bucket = digits.into_iter().fold([0; 10], |mut acc, x| {\n            acc[x as usize] += 1;\n            acc\n        });\n\n        let mut count = 0;\n        for i in (100..1000).step_by(2) {\n            let mut n = i;\n            let mut b = [0;10];\n            for _ in 0..3 {\n                b[(n % 10) as usize] += 1;\n                n /= 10;\n            }\n            count += i32::from(b.iter().zip(&bucket).all(|(c, t)| c <= t));\n        }\n        count\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "d522e2a8c6545ec416fa7ec283011a60ffbfff8cc3c1cdef74394596a1ab76ad",
+          "markedWrong": false,
+          "commitComment": "is this O(1)? hahaha..",
+          "rawCommitSubject": "rust 3483: is this O(1)? hahaha..",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Uses digit frequencies to validate each even number from 100 through 998. The bounded digit range makes the work effectively constant with respect to the input size.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "approach-2",
+      "title": "Enumerate digit-index permutations",
+      "summary": "Iterate over distinct input indices for the hundreds, tens, and units positions, requiring a nonzero hundreds digit and an even units digit. A boolean array removes duplicate numeric values caused by repeated digits.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "c25b31ac697697d124def355c84d1db52c8df6a3",
+          "shortSha": "c25b31a",
+          "parentSha": "908e8ba557dee2a3f5aa127c8692d3d64e3634d5",
+          "authoredAt": "2026-09-11T10:49:45+08:00",
+          "committedAt": "2026-09-11T10:49:45+08:00",
+          "chronologicalIndex": 372,
+          "problemId": 3483,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3483_unique_3_digit_even_numbers.rs",
+          "sourceFilename": "3483_unique_3_digit_even_numbers.rs",
+          "code": "impl Solution {\n    pub fn total_numbers(digits: Vec<i32>) -> i32 {\n        let n = digits.len();\n        let mut seen = [false; 1000];\n        let mut count = 0;\n        for ia in 0..n {\n            if digits[ia] == 0 { continue; }\n\n            for ib in 0..n {\n                if ib == ia { continue; }\n\n                for ic in 0..n {\n                    if ic == ia || ic == ib || digits[ic] % 2 != 0 { continue; }\n\n                    let num = (digits[ia] * 100 + digits[ib] * 10 + digits[ic]) as usize;\n                    count += i32::from(!seen[num]);\n                    seen[num] = true;\n                }\n            }\n        }\n        count\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "cead9c812473775d22d8ad475531cfdb043114dad8934015bc5a10d0994e4ae9",
+          "markedWrong": false,
+          "commitComment": "editorial solution",
+          "rawCommitSubject": "rust 3483: editorial solution",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3483_unique_3_digit_even_numbers.rs b/rust/src/bin/3483_unique_3_digit_even_numbers.rs\nindex e6742d8..60b7b4c 100644\n--- a/rust/src/bin/3483_unique_3_digit_even_numbers.rs\n+++ b/rust/src/bin/3483_unique_3_digit_even_numbers.rs\n@@ -1,19 +1,22 @@\n impl Solution {\n     pub fn total_numbers(digits: Vec<i32>) -> i32 {\n-        let bucket = digits.into_iter().fold([0; 10], |mut acc, x| {\n-            acc[x as usize] += 1;\n-            acc\n-        });\n-\n+        let n = digits.len();\n+        let mut seen = [false; 1000];\n         let mut count = 0;\n-        for i in (100..1000).step_by(2) {\n-            let mut n = i;\n-            let mut b = [0;10];\n-            for _ in 0..3 {\n-                b[(n % 10) as usize] += 1;\n-                n /= 10;\n+        for ia in 0..n {\n+            if digits[ia] == 0 { continue; }\n+\n+            for ib in 0..n {\n+                if ib == ia { continue; }\n+\n+                for ic in 0..n {\n+                    if ic == ia || ic == ib || digits[ic] % 2 != 0 { continue; }\n+\n+                    let num = (digits[ia] * 100 + digits[ib] * 10 + digits[ic]) as usize;\n+                    count += i32::from(!seen[num]);\n+                    seen[num] = true;\n+                }\n             }\n-            count += i32::from(b.iter().zip(&bucket).all(|(c, t)| c <= t));\n         }\n         count\n     }\n",
+          "changedLineCounts": {
+            "additions": 15,
+            "deletions": 12
+          },
+          "approachId": "approach-2",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaces candidate-number checking with triple nested iteration over available digit positions. It records generated values in a seen array so duplicate numbers are counted once.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "908e8ba557dee2a3f5aa127c8692d3d64e3634d5",
+    "c25b31ac697697d124def355c84d1db52c8df6a3"
+  ],
+  "warnings": []
+}
