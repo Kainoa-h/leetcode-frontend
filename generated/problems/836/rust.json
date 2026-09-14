@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 836,
+    "title": "Rectangle Overlap",
+    "slug": "rectangle-overlap"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/836_rectangle_overlap.rs",
+    "latestSha": "46412c508ac22d614ab0e3aacd69f9d5a4eca6c5",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-09-14T20:37:01+08:00",
+    "lastCommittedAt": "2026-09-14T20:37:01+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "7",
+    "inputHash": "6a93c94c8c2b77a77f6cf1bf2d36c7d547fb0eb83ca95aaf2c40f192e8639fff"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "46412c508ac22d614ab0e3aacd69f9d5a4eca6c5",
+          "shortSha": "46412c5",
+          "parentSha": "c25b31ac697697d124def355c84d1db52c8df6a3",
+          "authoredAt": "2026-09-14T20:37:01+08:00",
+          "committedAt": "2026-09-14T20:37:01+08:00",
+          "chronologicalIndex": 373,
+          "problemId": 836,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/836_rectangle_overlap.rs",
+          "sourceFilename": "836_rectangle_overlap.rs",
+          "code": "impl Solution {\n    pub fn is_rectangle_overlap(rec1: Vec<i32>, rec2: Vec<i32>) -> bool {\n        let (blx1, bly1, trx1, try1) = (rec1[0], rec1[1], rec1[2], rec1[3]);\n        let (blx2, bly2, trx2, try2) = (rec2[0], rec2[1], rec2[2], rec2[3]);\n        let x_overlap = blx1 < trx2 && blx2 < trx1;\n        let y_overlap = bly1 < try2 && bly2 < try1;\n        x_overlap && y_overlap\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "2fb164fa3c3960a9fd720e8ea8461e23cd36350152aa927292a3d60f256e0c71",
+          "markedWrong": false,
+          "commitComment": "hais i needed help for ts",
+          "rawCommitSubject": "rust 836: hais i needed help for ts",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "hais i needed help for ts",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "46412c508ac22d614ab0e3aacd69f9d5a4eca6c5"
+  ],
+  "warnings": []
+}
