@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 322,
+    "title": "Coin Chain",
+    "slug": "coin-chain"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/322_coin_chain.java",
+    "latestSha": "4b295785e5fe9951cccb651a9856afaf3459b30d",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-09-15T13:33:08+08:00",
+    "lastCommittedAt": "2026-09-15T13:37:53+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "b12666e1f472ffddaa370c4a79fd1d6900203e321825f898eec63c292d3b1018"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "Bottom-up dynamic programming",
+      "summary": "Computes the minimum number of coins for every amount from 0 through the target using a one-dimensional bottom-up DP array.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "038e9b6cce4a1e400d9b86ec3aa486ca50cd7d7d",
+          "shortSha": "038e9b6",
+          "parentSha": "46412c508ac22d614ab0e3aacd69f9d5a4eca6c5",
+          "authoredAt": "2026-09-15T13:33:08+08:00",
+          "committedAt": "2026-09-15T13:33:08+08:00",
+          "chronologicalIndex": 374,
+          "problemId": 322,
+          "language": "java",
+          "sourcePath": "java/src/solutions/322_coin_chain.java",
+          "sourceFilename": "322_coin_chain.java",
+          "code": "import java.util.Arrays;\n\nclass Solution {\n  public int coinChange(int[] coins, int amount) {\n    if (amount == 0) {\n      return 0;\n    }\n    int[] dp = new int[amount + 1];\n    dp[0] = 1;\n    for (var i = 1; i < dp.length; i++) {\n      for (var coin : coins) {\n        if (i < coin) {\n          continue;\n        }\n        var start = i - coin;\n        if (dp[start] != 0)\n          if (dp[i] == 0)\n            dp[i] = dp[start] + 1;\n          else\n            dp[i] = Math.min(dp[i], dp[start] + 1);\n      }\n    }\n    return dp[amount] == 0 ? -1 : dp[amount] - 1;\n  }\n}\n",
+          "codeHash": "a2ef0680bf7498ae7c17b65dea44be065bdeb64adae94f81e8a81572a21dd115",
+          "markedWrong": false,
+          "commitComment": "tuff",
+          "rawCommitSubject": "java 322: tuff",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial bottom-up DP implementation using zero as the unreachable marker and storing coin counts offset by one.",
+          "warnings": []
+        },
+        {
+          "sha": "4b295785e5fe9951cccb651a9856afaf3459b30d",
+          "shortSha": "4b29578",
+          "parentSha": "038e9b6cce4a1e400d9b86ec3aa486ca50cd7d7d",
+          "authoredAt": "2026-09-15T13:37:53+08:00",
+          "committedAt": "2026-09-15T13:37:53+08:00",
+          "chronologicalIndex": 375,
+          "problemId": 322,
+          "language": "java",
+          "sourcePath": "java/src/solutions/322_coin_chain.java",
+          "sourceFilename": "322_coin_chain.java",
+          "code": "import java.util.Arrays;\n\nclass Solution {\n  public int coinChange(int[] coins, int amount) {\n    int[] dp = new int[amount + 1];\n    Arrays.fill(dp, amount + 1);\n    dp[0] = 0;\n    for (var i = 1; i < dp.length; i++) {\n      for (var coin : coins) {\n        if (i < coin)\n          continue;\n        dp[i] = Math.min(dp[i], dp[i - coin] + 1);\n      }\n    }\n    return dp[amount] == amount + 1 ? -1 : dp[amount];\n  }\n}\n",
+          "codeHash": "6a53203289bc55b028f6a4a62fc69dbd209f21482375a935117b9459db928f81",
+          "markedWrong": false,
+          "commitComment": "simplify with sentinel value",
+          "rawCommitSubject": "java 322: simplify with sentinel value",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/java/src/solutions/322_coin_chain.java b/java/src/solutions/322_coin_chain.java\nindex 9947837..6b35488 100644\n--- a/java/src/solutions/322_coin_chain.java\n+++ b/java/src/solutions/322_coin_chain.java\n@@ -2,24 +2,16 @@ import java.util.Arrays;\n \n class Solution {\n   public int coinChange(int[] coins, int amount) {\n-    if (amount == 0) {\n-      return 0;\n-    }\n     int[] dp = new int[amount + 1];\n-    dp[0] = 1;\n+    Arrays.fill(dp, amount + 1);\n+    dp[0] = 0;\n     for (var i = 1; i < dp.length; i++) {\n       for (var coin : coins) {\n-        if (i < coin) {\n+        if (i < coin)\n           continue;\n-        }\n-        var start = i - coin;\n-        if (dp[start] != 0)\n-          if (dp[i] == 0)\n-            dp[i] = dp[start] + 1;\n-          else\n-            dp[i] = Math.min(dp[i], dp[start] + 1);\n+        dp[i] = Math.min(dp[i], dp[i - coin] + 1);\n       }\n     }\n-    return dp[amount] == 0 ? -1 : dp[amount] - 1;\n+    return dp[amount] == amount + 1 ? -1 : dp[amount];\n   }\n }\n",
+          "changedLineCounts": {
+            "additions": 5,
+            "deletions": 13
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Simplifies the same DP strategy by using amount + 1 as an unreachable sentinel, allowing direct minimum updates and eliminating nested reachability checks.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "038e9b6cce4a1e400d9b86ec3aa486ca50cd7d7d",
+    "4b295785e5fe9951cccb651a9856afaf3459b30d"
+  ],
+  "warnings": []
+}

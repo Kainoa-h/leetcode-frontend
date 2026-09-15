@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-14T12:37:33.929Z",
-  "sourceHeadSha": "46412c508ac22d614ab0e3aacd69f9d5a4eca6c5",
+  "generatedAt": "2026-09-15T05:38:34.610Z",
+  "sourceHeadSha": "4b295785e5fe9951cccb651a9856afaf3459b30d",
   "questions": [
     {
       "id": 1,
@@ -1364,9 +1364,18 @@
     },
     {
       "id": 322,
-      "title": "Coin Change",
-      "slug": "coin-change",
+      "title": "Coin Chain",
+      "slug": "coin-chain",
       "languages": [
+        {
+          "id": "java",
+          "label": "Java",
+          "route": "/problems/322/java/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-09-15T13:37:53+08:00"
+        },
         {
           "id": "rust",
           "label": "Rust",
@@ -1378,7 +1387,7 @@
         }
       ],
       "firstCommittedAt": "2026-09-07T18:10:42+08:00",
-      "lastCommittedAt": "2026-09-08T15:13:32+08:00"
+      "lastCommittedAt": "2026-09-15T13:37:53+08:00"
     },
     {
       "id": 380,
