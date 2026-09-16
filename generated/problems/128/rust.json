@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 128,
+    "title": "Longest Consecutive Sequence",
+    "slug": "longest-consecutive-sequence"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/128_longest_consecutive_sequence.rs",
+    "latestSha": "beb4d113db45d2d4efa9e5337eb1fc384d4ae43a",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-09-16T14:56:56+08:00",
+    "lastCommittedAt": "2026-09-16T15:10:05+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "bced11a0ede0afacf94eb503354b14b93ebc25d38a4e6d13148c59324afd10c3"
+  },
+  "approaches": [
+    {
+      "id": "hashset-sequence-scan",
+      "title": "Hash set sequence scanning",
+      "summary": "Stores the numbers in a hash set and examines consecutive runs by scanning neighboring values. The second revision expresses the same strategy with iterators and correctly begins scans at sequence starts.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "50732d70844742a41694b270fe05904fcd18dee8",
+          "shortSha": "50732d7",
+          "parentSha": "afd6f9f8b19171fdaa6eeb41895894b151ab1f84",
+          "authoredAt": "2026-09-16T14:55:01+08:00",
+          "committedAt": "2026-09-16T14:56:56+08:00",
+          "chronologicalIndex": 378,
+          "problemId": 128,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/128_longest_consecutive_sequence.rs",
+          "sourceFilename": "128_longest_consecutive_sequence.rs",
+          "code": "use std::collections::HashSet;\n\nimpl Solution {\n    pub fn longest_consecutive(nums: Vec<i32>) -> i32 {\n        let set = HashSet::<i32>::from_iter(nums);\n        let starting_nums = set.iter().filter(|&x| set.contains(&(x - 1)));\n        let mut longest = 0;\n        for &s in starting_nums {\n            let mut n = s + 1;\n            while set.contains(&n) {\n                n += 1;\n            }\n            longest = longest.max(n - s);\n        }\n        longest\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "43416f5bbc32440d1f0a608c3bb74d3d9cf272f6b011ca91b7df2b8276a1cc32",
+          "markedWrong": false,
+          "commitComment": "naive hashset approach",
+          "rawCommitSubject": "rust 128: naive hashset approach",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "hashset-sequence-scan",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Builds a hash set and scans consecutive values from selected elements to track the longest run.",
+          "warnings": []
+        },
+        {
+          "sha": "beb4d113db45d2d4efa9e5337eb1fc384d4ae43a",
+          "shortSha": "beb4d11",
+          "parentSha": "50732d70844742a41694b270fe05904fcd18dee8",
+          "authoredAt": "2026-09-16T15:10:05+08:00",
+          "committedAt": "2026-09-16T15:10:05+08:00",
+          "chronologicalIndex": 379,
+          "problemId": 128,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/128_longest_consecutive_sequence.rs",
+          "sourceFilename": "128_longest_consecutive_sequence.rs",
+          "code": "use std::collections::HashSet;\n\nimpl Solution {\n    pub fn longest_consecutive(nums: Vec<i32>) -> i32 {\n        let set = HashSet::<i32>::from_iter(nums);\n        set.iter()\n            .filter(|&x| !set.contains(&(x - 1)))\n            .map(|x| {\n                (x + 1..i32::MAX)\n                    .take_while(|n| set.contains(n))\n                    .last()\n                    .map_or(1, |r| r - x + 1)\n            })\n            .max()\n            .unwrap_or(0)\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "58be0251a9674e4e9a0af0479cc99f660e3a2e4f0cee4b492929427ae83f67b0",
+          "markedWrong": false,
+          "commitComment": "one big iterator for fun",
+          "rawCommitSubject": "rust 128: one big iterator for fun",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/128_longest_consecutive_sequence.rs b/rust/src/bin/128_longest_consecutive_sequence.rs\nindex ce1396d..b2574fc 100644\n--- a/rust/src/bin/128_longest_consecutive_sequence.rs\n+++ b/rust/src/bin/128_longest_consecutive_sequence.rs\n@@ -3,16 +3,16 @@ use std::collections::HashSet;\n impl Solution {\n     pub fn longest_consecutive(nums: Vec<i32>) -> i32 {\n         let set = HashSet::<i32>::from_iter(nums);\n-        let starting_nums = set.iter().filter(|&x| set.contains(&(x - 1)));\n-        let mut longest = 0;\n-        for &s in starting_nums {\n-            let mut n = s + 1;\n-            while set.contains(&n) {\n-                n += 1;\n-            }\n-            longest = longest.max(n - s);\n-        }\n-        longest\n+        set.iter()\n+            .filter(|&x| !set.contains(&(x - 1)))\n+            .map(|x| {\n+                (x + 1..i32::MAX)\n+                    .take_while(|n| set.contains(n))\n+                    .last()\n+                    .map_or(1, |r| r - x + 1)\n+            })\n+            .max()\n+            .unwrap_or(0)\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 10,
+            "deletions": 10
+          },
+          "approachId": "hashset-sequence-scan",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Refactors the hash-set scan into iterator chains and selects values without predecessors as sequence starts.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "50732d70844742a41694b270fe05904fcd18dee8",
+    "beb4d113db45d2d4efa9e5337eb1fc384d4ae43a"
+  ],
+  "warnings": []
+}
