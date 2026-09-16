@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 416,
+    "title": "Partition Equal Subset Sum",
+    "slug": "partition-equal-subset-sum"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/416_partition_equal_subset_sum.rs",
+    "latestSha": "afd6f9f8b19171fdaa6eeb41895894b151ab1f84",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-09-16T10:08:38+08:00",
+    "lastCommittedAt": "2026-09-16T10:17:12+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "60e3823d0020167cfe5d759cef2ac691959672a30a6002e9a5bda3c65747972f"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "One-dimensional subset-sum dynamic programming",
+      "summary": "Compute whether a subset can reach half of the total sum using a one-dimensional boolean DP array updated in reverse order. This determines whether the numbers can be partitioned into two equal-sum subsets.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "957f472351a7f58c5b969250b077c525bec0b25c",
+          "shortSha": "957f472",
+          "parentSha": "4b295785e5fe9951cccb651a9856afaf3459b30d",
+          "authoredAt": "2026-09-16T10:04:37+08:00",
+          "committedAt": "2026-09-16T10:08:38+08:00",
+          "chronologicalIndex": 376,
+          "problemId": 416,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/416_partition_equal_subset_sum.rs",
+          "sourceFilename": "416_partition_equal_subset_sum.rs",
+          "code": "impl Solution {\n    pub fn can_partition(nums: Vec<i32>) -> bool {\n        let sum = nums.iter().sum::<i32>();\n        if sum % 2 != 0 {\n            return false;\n        }\n        let half = sum/2;\n        let mut dp = vec![false; half as usize + 1];\n        dp[0] = true;\n        for n in nums {\n            let n = n as usize;\n            for i in (0..dp.len()).rev() {\n                if dp[i] && let Some(x) = dp.get_mut(i + n) {\n                    *x = true;\n                }\n            }\n            if dp[half as usize] {\n                break;\n            }\n        }\n\n        dp[half as usize]\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "7887b6611d4a61b75c85cdc99805c5467883d4f693019e3f5b155c11f523f9a8",
+          "markedWrong": false,
+          "commitComment": "had to googs, why is dp so hard",
+          "rawCommitSubject": "rust 416: had to googs, why is dp so hard",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Introduces a reverse-updated one-dimensional boolean DP targeting half the total sum, with an early exit when the target becomes reachable.",
+          "warnings": []
+        },
+        {
+          "sha": "afd6f9f8b19171fdaa6eeb41895894b151ab1f84",
+          "shortSha": "afd6f9f",
+          "parentSha": "957f472351a7f58c5b969250b077c525bec0b25c",
+          "authoredAt": "2026-09-16T10:17:12+08:00",
+          "committedAt": "2026-09-16T10:17:12+08:00",
+          "chronologicalIndex": 377,
+          "problemId": 416,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/416_partition_equal_subset_sum.rs",
+          "sourceFilename": "416_partition_equal_subset_sum.rs",
+          "code": "impl Solution {\n    pub fn can_partition(nums: Vec<i32>) -> bool {\n        let sum = nums.iter().sum::<i32>() as usize;\n        if !sum.is_multiple_of(2) {\n            return false;\n        }\n        let half = sum / 2;\n        let mut dp = vec![false; half + 1];\n        dp[0] = true;\n        for n in nums {\n            let n = n as usize;\n            for i in (n..dp.len()).rev() {\n                dp[i] |= dp[i - n];\n            }\n            if dp[half] {\n                return true;\n            }\n        }\n\n        dp[half]\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "b344ee6ccd86fcb0a366b4f0473bc34d84bd2c961501824954947a9a63553542",
+          "markedWrong": false,
+          "commitComment": "better use of usize and tigher inner loop bounds",
+          "rawCommitSubject": "rust 416: better use of usize and tigher inner loop bounds",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/416_partition_equal_subset_sum.rs b/rust/src/bin/416_partition_equal_subset_sum.rs\nindex 55010d5..8d24f3d 100644\n--- a/rust/src/bin/416_partition_equal_subset_sum.rs\n+++ b/rust/src/bin/416_partition_equal_subset_sum.rs\n@@ -1,25 +1,23 @@\n impl Solution {\n     pub fn can_partition(nums: Vec<i32>) -> bool {\n-        let sum = nums.iter().sum::<i32>();\n-        if sum % 2 != 0 {\n+        let sum = nums.iter().sum::<i32>() as usize;\n+        if !sum.is_multiple_of(2) {\n             return false;\n         }\n-        let half = sum/2;\n-        let mut dp = vec![false; half as usize + 1];\n+        let half = sum / 2;\n+        let mut dp = vec![false; half + 1];\n         dp[0] = true;\n         for n in nums {\n             let n = n as usize;\n-            for i in (0..dp.len()).rev() {\n-                if dp[i] && let Some(x) = dp.get_mut(i + n) {\n-                    *x = true;\n-                }\n+            for i in (n..dp.len()).rev() {\n+                dp[i] |= dp[i - n];\n             }\n-            if dp[half as usize] {\n-                break;\n+            if dp[half] {\n+                return true;\n             }\n         }\n \n-        dp[half as usize]\n+        dp[half]\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 9,
+            "deletions": 11
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Keeps the same subset-sum DP strategy while using usize consistently, restricting the inner loop to valid indices, and returning immediately when the target is reached.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "957f472351a7f58c5b969250b077c525bec0b25c",
+    "afd6f9f8b19171fdaa6eeb41895894b151ab1f84"
+  ],
+  "warnings": []
+}

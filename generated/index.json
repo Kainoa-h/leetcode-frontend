@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-15T05:38:34.610Z",
-  "sourceHeadSha": "4b295785e5fe9951cccb651a9856afaf3459b30d",
+  "generatedAt": "2026-09-16T02:17:52.771Z",
+  "sourceHeadSha": "afd6f9f8b19171fdaa6eeb41895894b151ab1f84",
   "questions": [
     {
       "id": 1,
@@ -1460,6 +1460,24 @@
       ],
       "firstCommittedAt": "2026-05-05T20:12:03+08:00",
       "lastCommittedAt": "2026-05-05T20:46:08+08:00"
+    },
+    {
+      "id": 416,
+      "title": "Partition Equal Subset Sum",
+      "slug": "partition-equal-subset-sum",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/416/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-09-16T10:17:12+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-09-16T10:08:38+08:00",
+      "lastCommittedAt": "2026-09-16T10:17:12+08:00"
     },
     {
       "id": 452,
