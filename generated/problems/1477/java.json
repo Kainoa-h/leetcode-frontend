@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1477,
+    "title": "Find Two Non Overlapping Sub Arrays Each With Target Sum",
+    "slug": "find-two-non-overlapping-sub-arrays-each-with-target-sum"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/1477_find_two_non_overlapping_sub_arrays_each_with_target_sum.java",
+    "latestSha": "b2faa70bda258cfe66b031275540eb89803abed9",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-09-17T13:54:25+08:00",
+    "lastCommittedAt": "2026-09-17T13:54:25+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "7",
+    "inputHash": "5758ed1ae0f7baffab2296b693ad9a99599879726bddafe3b33da96273e39c6f"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "b2faa70bda258cfe66b031275540eb89803abed9",
+          "shortSha": "b2faa70",
+          "parentSha": "bfd6cbb2a92435e0b73cfe5a2ff0a89c18a3f09c",
+          "authoredAt": "2026-09-17T13:54:25+08:00",
+          "committedAt": "2026-09-17T13:54:25+08:00",
+          "chronologicalIndex": 383,
+          "problemId": 1477,
+          "language": "java",
+          "sourcePath": "java/src/solutions/1477_find_two_non_overlapping_sub_arrays_each_with_target_sum.java",
+          "sourceFilename": "1477_find_two_non_overlapping_sub_arrays_each_with_target_sum.java",
+          "code": "import java.util.Arrays;\n\nclass Solution {\n  public int minSumOfLengths(int[] arr, int target) {\n    var n = arr.length;\n    var dp = new int[n + 1];\n    Arrays.fill(dp, n + 1);\n    int result = n + 1, left = 0, count = 0;\n    for (var right = 0; right < n; right++) {\n      count += arr[right];\n      dp[right + 1] = dp[right];\n\n      while (count > target) {\n        count -= arr[left];\n        left++;\n      }\n\n      if (count == target) {\n        var len = right - left + 1;\n        dp[right + 1] = Math.min(dp[right], len);\n        result = Math.min(result, dp[left] + len);\n      }\n    }\n\n    return result == n + 1 ? -1 : result;\n  }\n}\n",
+          "codeHash": "5c9b269f3ed583681accf74bb0608ab9d90e6f2afdcb2d83ad14c560008bcc92",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "java 1477",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "b2faa70bda258cfe66b031275540eb89803abed9"
+  ],
+  "warnings": []
+}

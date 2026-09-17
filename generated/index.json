@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-17T04:40:25.113Z",
-  "sourceHeadSha": "bfd6cbb2a92435e0b73cfe5a2ff0a89c18a3f09c",
+  "generatedAt": "2026-09-17T05:54:58.586Z",
+  "sourceHeadSha": "b2faa70bda258cfe66b031275540eb89803abed9",
   "questions": [
     {
       "id": 1,
@@ -1872,6 +1872,15 @@
       "slug": "find-two-non-overlapping-sub-arrays-each-with-target-sum",
       "languages": [
         {
+          "id": "java",
+          "label": "Java",
+          "route": "/problems/1477/java/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-09-17T13:54:25+08:00"
+        },
+        {
           "id": "rust",
           "label": "Rust",
           "route": "/problems/1477/rust/",
@@ -1882,7 +1891,7 @@
         }
       ],
       "firstCommittedAt": "2026-09-17T12:37:55+08:00",
-      "lastCommittedAt": "2026-09-17T12:37:55+08:00"
+      "lastCommittedAt": "2026-09-17T13:54:25+08:00"
     },
     {
       "id": 1722,
