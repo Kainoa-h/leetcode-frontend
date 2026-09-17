@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-17T05:54:58.586Z",
-  "sourceHeadSha": "b2faa70bda258cfe66b031275540eb89803abed9",
+  "generatedAt": "2026-09-17T14:28:33.503Z",
+  "sourceHeadSha": "72a87d377b0341aab45dff0cad57f9b3e140ec5b",
   "questions": [
     {
       "id": 1,
@@ -326,6 +326,24 @@
       ],
       "firstCommittedAt": "2026-05-23T16:18:38+08:00",
       "lastCommittedAt": "2026-05-23T16:18:38+08:00"
+    },
+    {
+      "id": 35,
+      "title": "Search Insert Position",
+      "slug": "search-insert-position",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/35/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-09-17T22:27:50+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-09-17T22:25:58+08:00",
+      "lastCommittedAt": "2026-09-17T22:27:50+08:00"
     },
     {
       "id": 36,
