@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-16T07:17:59.004Z",
-  "sourceHeadSha": "beb4d113db45d2d4efa9e5337eb1fc384d4ae43a",
+  "generatedAt": "2026-09-17T04:40:25.113Z",
+  "sourceHeadSha": "bfd6cbb2a92435e0b73cfe5a2ff0a89c18a3f09c",
   "questions": [
     {
       "id": 1,
@@ -1534,6 +1534,24 @@
       "lastCommittedAt": "2026-08-03T21:13:05+08:00"
     },
     {
+      "id": 530,
+      "title": "Minimum Absolute Difference in Bst",
+      "slug": "minimum-absolute-difference-in-bst",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/530/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-09-17T10:45:35+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-09-16T17:52:41+08:00",
+      "lastCommittedAt": "2026-09-17T10:45:35+08:00"
+    },
+    {
       "id": 628,
       "title": "Maximum Product of Three Numbers",
       "slug": "maximum-product-of-three-numbers",
@@ -1847,6 +1865,24 @@
       ],
       "firstCommittedAt": "2026-07-27T11:11:13+08:00",
       "lastCommittedAt": "2026-07-27T11:20:57+08:00"
+    },
+    {
+      "id": 1477,
+      "title": "Find Two Non Overlapping Sub Arrays Each With Target Sum",
+      "slug": "find-two-non-overlapping-sub-arrays-each-with-target-sum",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/1477/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-09-17T12:37:55+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-09-17T12:37:55+08:00",
+      "lastCommittedAt": "2026-09-17T12:37:55+08:00"
     },
     {
       "id": 1722,

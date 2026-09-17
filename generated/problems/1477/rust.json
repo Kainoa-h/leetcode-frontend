@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1477,
+    "title": "Find Two Non Overlapping Sub Arrays Each With Target Sum",
+    "slug": "find-two-non-overlapping-sub-arrays-each-with-target-sum"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/1477_find_two_non_overlapping_sub_arrays_each_with_target_sum.rs",
+    "latestSha": "bfd6cbb2a92435e0b73cfe5a2ff0a89c18a3f09c",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-09-17T12:37:55+08:00",
+    "lastCommittedAt": "2026-09-17T12:37:55+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "7",
+    "inputHash": "b153133beded87dbea0cc5bcc3682d54e149fa7be6920f5f80ce031a9c4c0ad3"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "bfd6cbb2a92435e0b73cfe5a2ff0a89c18a3f09c",
+          "shortSha": "bfd6cbb",
+          "parentSha": "4616134f891703d47f2bbf4e9e7e4498e8977507",
+          "authoredAt": "2026-09-17T12:37:55+08:00",
+          "committedAt": "2026-09-17T12:37:55+08:00",
+          "chronologicalIndex": 382,
+          "problemId": 1477,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1477_find_two_non_overlapping_sub_arrays_each_with_target_sum.rs",
+          "sourceFilename": "1477_find_two_non_overlapping_sub_arrays_each_with_target_sum.rs",
+          "code": "impl Solution {\n    pub fn min_sum_of_lengths(arr: Vec<i32>, target: i32) -> i32 {\n        let n = arr.len();\n        let mut dp = vec![n + 1; n + 1];\n        let mut current_count = 0;\n        let mut left_idx = 0;\n        let mut result = n + 1;\n        for right_idx in 0..n {\n            current_count += arr[right_idx];\n            dp[right_idx + 1] = dp[right_idx];\n\n            while current_count > target {\n                current_count -= arr[left_idx];\n                left_idx += 1;\n            }\n\n            if current_count == target {\n                let len = right_idx - left_idx + 1;\n                dp[right_idx + 1] = dp[right_idx].min(len);\n                result = result.min(len + dp[left_idx]);\n            }\n        }\n        if result == n + 1 { -1 } else { result as i32 }\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "d2d9088c9ea154ce74e4d3286551cd8ebee7b4f6b2dbf5bf3daff14b8c3930e0",
+          "markedWrong": false,
+          "commitComment": "copied solutions",
+          "rawCommitSubject": "rust 1477: copied solutions",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "copied solutions",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "bfd6cbb2a92435e0b73cfe5a2ff0a89c18a3f09c"
+  ],
+  "warnings": []
+}

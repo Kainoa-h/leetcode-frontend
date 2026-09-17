@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 530,
+    "title": "Minimum Absolute Difference in Bst",
+    "slug": "minimum-absolute-difference-in-bst"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/530_minimum_absolute_difference_in_bst.rs",
+    "latestSha": "4616134f891703d47f2bbf4e9e7e4498e8977507",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-09-16T17:52:41+08:00",
+    "lastCommittedAt": "2026-09-17T10:45:35+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "3bef0ffe3b6f9fe4682b61925a58a10b436c4675fee48ba14c86a8dabf0bc3b9"
+  },
+  "approaches": [
+    {
+      "id": "1",
+      "title": "In-order traversal with adjacent-value differences",
+      "summary": "Uses the BST property that in-order traversal produces sorted values, then finds the minimum difference between adjacent values. Revision 2 preserves this strategy while computing the minimum during traversal instead of storing all values.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "2846789e023dc72068007c7e62b72bdc7e695f2e",
+          "shortSha": "2846789",
+          "parentSha": "beb4d113db45d2d4efa9e5337eb1fc384d4ae43a",
+          "authoredAt": "2026-09-16T17:52:41+08:00",
+          "committedAt": "2026-09-16T17:52:41+08:00",
+          "chronologicalIndex": 380,
+          "problemId": 530,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/530_minimum_absolute_difference_in_bst.rs",
+          "sourceFilename": "530_minimum_absolute_difference_in_bst.rs",
+          "code": "// Definition for a binary tree node.\n#[derive(Debug, PartialEq, Eq)]\npub struct TreeNode {\n    pub val: i32,\n    pub left: Option<Rc<RefCell<TreeNode>>>,\n    pub right: Option<Rc<RefCell<TreeNode>>>,\n}\n\nimpl TreeNode {\n    #[inline]\n    pub fn new(val: i32) -> Self {\n        TreeNode {\n            val,\n            left: None,\n            right: None,\n        }\n    }\n}\n\nstruct Solution {}\n\nuse std::cell::RefCell;\nuse std::rc::Rc;\nimpl Solution {\n    pub fn get_minimum_difference(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {\n        fn in_order(node: &Rc<RefCell<TreeNode>>) -> Vec<i32> {\n            let node = node.borrow();\n            let mut v = Vec::new();\n            if let Some(left) = node.left.as_ref() {\n                v.append(&mut in_order(left));\n            }\n            v.push(node.val);\n            if let Some(right) = node.right.as_ref() {\n                v.append(&mut in_order(right));\n            }\n            v\n        }\n        let vec = in_order(root.as_ref().unwrap());\n\n        vec.windows(2).map(|x| x[1] - x[0]).min().unwrap_or(0)\n    }\n}\n",
+          "codeHash": "c938939dd79be0569e4df5dadfb9733a1a275c027a08e9e88774fc4f9744790a",
+          "markedWrong": false,
+          "commitComment": "in-order then map over",
+          "rawCommitSubject": "rust 530: in-order then map over",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Collects values through recursive in-order traversal, then computes the minimum difference across adjacent values.",
+          "warnings": []
+        },
+        {
+          "sha": "4616134f891703d47f2bbf4e9e7e4498e8977507",
+          "shortSha": "4616134",
+          "parentSha": "2846789e023dc72068007c7e62b72bdc7e695f2e",
+          "authoredAt": "2026-09-17T10:45:35+08:00",
+          "committedAt": "2026-09-17T10:45:35+08:00",
+          "chronologicalIndex": 381,
+          "problemId": 530,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/530_minimum_absolute_difference_in_bst.rs",
+          "sourceFilename": "530_minimum_absolute_difference_in_bst.rs",
+          "code": "// Definition for a binary tree node.\n#[derive(Debug, PartialEq, Eq)]\npub struct TreeNode {\n    pub val: i32,\n    pub left: Option<Rc<RefCell<TreeNode>>>,\n    pub right: Option<Rc<RefCell<TreeNode>>>,\n}\n\nimpl TreeNode {\n    #[inline]\n    pub fn new(val: i32) -> Self {\n        TreeNode {\n            val,\n            left: None,\n            right: None,\n        }\n    }\n}\n\nstruct Solution {}\n\nuse std::cell::RefCell;\nuse std::rc::Rc;\nimpl Solution {\n    pub fn get_minimum_difference(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {\n        fn in_order(node: &Rc<RefCell<TreeNode>>, prev: &mut Option<i32>, min: &mut i32){\n            let node = node.borrow();\n            if let Some(left) = node.left.as_ref() {\n                in_order(left, prev, min);\n            }\n            if let Some(p) = *prev {\n                *min = (*min).min(node.val - p);\n            }\n            *prev = Some(node.val);\n            if let Some(right) = node.right.as_ref() {\n                in_order(right, prev, min);\n            }\n        }\n        let mut min = i32::MAX;\n        let mut prev = None;\n        in_order(root.as_ref().unwrap(), &mut prev, &mut min);\n        min\n    }\n}\n",
+          "codeHash": "e12d517fb1629b8449684b4188335eb323fb2c27fa41ab234c19e9c2c1e2baef",
+          "markedWrong": false,
+          "commitComment": "fold calculation of min into the traversal",
+          "rawCommitSubject": "rust 530: fold calculation of min into the traversal",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/530_minimum_absolute_difference_in_bst.rs b/rust/src/bin/530_minimum_absolute_difference_in_bst.rs\nindex d0796ff..2dd749d 100644\n--- a/rust/src/bin/530_minimum_absolute_difference_in_bst.rs\n+++ b/rust/src/bin/530_minimum_absolute_difference_in_bst.rs\n@@ -23,20 +23,22 @@ use std::cell::RefCell;\n use std::rc::Rc;\n impl Solution {\n     pub fn get_minimum_difference(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {\n-        fn in_order(node: &Rc<RefCell<TreeNode>>) -> Vec<i32> {\n+        fn in_order(node: &Rc<RefCell<TreeNode>>, prev: &mut Option<i32>, min: &mut i32){\n             let node = node.borrow();\n-            let mut v = Vec::new();\n             if let Some(left) = node.left.as_ref() {\n-                v.append(&mut in_order(left));\n+                in_order(left, prev, min);\n             }\n-            v.push(node.val);\n+            if let Some(p) = *prev {\n+                *min = (*min).min(node.val - p);\n+            }\n+            *prev = Some(node.val);\n             if let Some(right) = node.right.as_ref() {\n-                v.append(&mut in_order(right));\n+                in_order(right, prev, min);\n             }\n-            v\n         }\n-        let vec = in_order(root.as_ref().unwrap());\n-\n-        vec.windows(2).map(|x| x[1] - x[0]).min().unwrap_or(0)\n+        let mut min = i32::MAX;\n+        let mut prev = None;\n+        in_order(root.as_ref().unwrap(), &mut prev, &mut min);\n+        min\n     }\n }\n",
+          "changedLineCounts": {
+            "additions": 11,
+            "deletions": 9
+          },
+          "approachId": "1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Folds the previous value and minimum difference into the in-order traversal, reducing auxiliary storage from a vector to constant state aside from recursion.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "2846789e023dc72068007c7e62b72bdc7e695f2e",
+    "4616134f891703d47f2bbf4e9e7e4498e8977507"
+  ],
+  "warnings": []
+}
