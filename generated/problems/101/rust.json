@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 101,
+    "title": "Symmetric Tree",
+    "slug": "symmetric-tree"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/101_symmetric_tree.rs",
+    "latestSha": "0ab62401d750825f81cf3f14f8ed1e987bf62d0a",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-09-18T17:42:25+08:00",
+    "lastCommittedAt": "2026-09-18T17:52:00+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "987c49efc51bccad91b16d2c9ac842aedaa49b74d87e0c5b8230551268833042"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "Recursive mirrored DFS",
+      "summary": "Recursively compares corresponding nodes from the left and right subtrees in mirrored positions. It treats matching absence as symmetric and mismatched structure or values as asymmetric.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "b8c7693099b1177135e977a1938879718d63123a",
+          "shortSha": "b8c7693",
+          "parentSha": "979f2d89cbe028887189af31d4471de281a19f19",
+          "authoredAt": "2026-09-18T17:42:25+08:00",
+          "committedAt": "2026-09-18T17:42:25+08:00",
+          "chronologicalIndex": 390,
+          "problemId": 101,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/101_symmetric_tree.rs",
+          "sourceFilename": "101_symmetric_tree.rs",
+          "code": "// Definition for a binary tree node.\n#[derive(Debug, PartialEq, Eq)]\npub struct TreeNode {\n    pub val: i32,\n    pub left: Option<Rc<RefCell<TreeNode>>>,\n    pub right: Option<Rc<RefCell<TreeNode>>>,\n}\n\nimpl TreeNode {\n    #[inline]\n    pub fn new(val: i32) -> Self {\n        TreeNode {\n            val,\n            left: None,\n            right: None,\n        }\n    }\n}\n\nstruct Solution {}\n\nuse std::cell::RefCell;\nuse std::rc::Rc;\nimpl Solution {\n    pub fn is_symmetric(root: Option<Rc<RefCell<TreeNode>>>) -> bool {\n        let root = root.as_ref().unwrap().borrow();\n        let (left, right) = match (&root.left, &root.right) {\n            (None, None) => return true,\n            (Some(l), Some(r)) => (l, r),\n            _ => return false,\n        };\n\n        fn check(left: &Rc<RefCell<TreeNode>>, right: &Rc<RefCell<TreeNode>>) -> bool {\n            let (l, r) = (left.borrow(), right.borrow());\n            if l.val != r.val {\n                return false;\n            }\n\n            let check_out = match (l.left.as_ref(), r.right.as_ref()) {\n                (None, None) => true,\n                (Some(ll), Some(rr)) => check(ll, rr),\n                _ => false,\n            };\n            \n            let check_in = match (l.right.as_ref(), r.left.as_ref()) {\n                (None, None) => true,\n                (Some(lr), Some(rl)) => check(lr, rl),\n                _ => false,\n            };\n\n            check_out && check_in\n        }\n\n        check(left, right)\n    }\n}\n\n",
+          "codeHash": "4f68901783c451a5f7dd0c62a8518c3ecbb8386dd240bca204c75cbb01c9a114",
+          "markedWrong": false,
+          "commitComment": "simultanious dfs",
+          "rawCommitSubject": "rust 101: simultanious dfs",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Introduces a recursive helper that compares mirrored child pairs using simultaneous depth-first traversal. The root’s two subtrees are handled explicitly before recursion.",
+          "warnings": []
+        },
+        {
+          "sha": "0ab62401d750825f81cf3f14f8ed1e987bf62d0a",
+          "shortSha": "0ab6240",
+          "parentSha": "b8c7693099b1177135e977a1938879718d63123a",
+          "authoredAt": "2026-09-18T17:52:00+08:00",
+          "committedAt": "2026-09-18T17:52:00+08:00",
+          "chronologicalIndex": 391,
+          "problemId": 101,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/101_symmetric_tree.rs",
+          "sourceFilename": "101_symmetric_tree.rs",
+          "code": "// Definition for a binary tree node.\n#[derive(Debug, PartialEq, Eq)]\npub struct TreeNode {\n    pub val: i32,\n    pub left: Option<Rc<RefCell<TreeNode>>>,\n    pub right: Option<Rc<RefCell<TreeNode>>>,\n}\n\nimpl TreeNode {\n    #[inline]\n    pub fn new(val: i32) -> Self {\n        TreeNode {\n            val,\n            left: None,\n            right: None,\n        }\n    }\n}\n\nstruct Solution {}\n\nuse std::cell::RefCell;\nuse std::rc::Rc;\nimpl Solution {\n    pub fn is_symmetric(root: Option<Rc<RefCell<TreeNode>>>) -> bool {\n        fn check(\n            left: Option<&Rc<RefCell<TreeNode>>>,\n            right: Option<&Rc<RefCell<TreeNode>>>,\n        ) -> bool {\n            match (left, right) {\n                (None, None) => true,\n                (None, Some(_)) | (Some(_), None) => false,\n                (Some(l), Some(r)) => {\n                    let (l, r) = (l.borrow(), r.borrow());\n                    l.val == r.val\n                        && check(l.left.as_ref(), r.right.as_ref())\n                        && check(l.right.as_ref(), r.left.as_ref())\n                }\n            }\n        }\n        \n        match root {\n            None => true,\n            Some(r) => check(r.borrow().left.as_ref(), r.borrow().right.as_ref())\n        }\n    }\n}\n",
+          "codeHash": "08477f5a6078147c5edd7c963ea7df206819190bb5d67fe6787feb54989ef172",
+          "markedWrong": false,
+          "commitComment": "less matching",
+          "rawCommitSubject": "rust 101: less matching",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/101_symmetric_tree.rs b/rust/src/bin/101_symmetric_tree.rs\nindex 2d18ca7..767bb48 100644\n--- a/rust/src/bin/101_symmetric_tree.rs\n+++ b/rust/src/bin/101_symmetric_tree.rs\n@@ -23,35 +23,25 @@ use std::cell::RefCell;\n use std::rc::Rc;\n impl Solution {\n     pub fn is_symmetric(root: Option<Rc<RefCell<TreeNode>>>) -> bool {\n-        let root = root.as_ref().unwrap().borrow();\n-        let (left, right) = match (&root.left, &root.right) {\n-            (None, None) => return true,\n-            (Some(l), Some(r)) => (l, r),\n-            _ => return false,\n-        };\n-\n-        fn check(left: &Rc<RefCell<TreeNode>>, right: &Rc<RefCell<TreeNode>>) -> bool {\n-            let (l, r) = (left.borrow(), right.borrow());\n-            if l.val != r.val {\n-                return false;\n-            }\n-\n-            let check_out = match (l.left.as_ref(), r.right.as_ref()) {\n+        fn check(\n+            left: Option<&Rc<RefCell<TreeNode>>>,\n+            right: Option<&Rc<RefCell<TreeNode>>>,\n+        ) -> bool {\n+            match (left, right) {\n                 (None, None) => true,\n-                (Some(ll), Some(rr)) => check(ll, rr),\n-                _ => false,\n-            };\n-            \n-            let check_in = match (l.right.as_ref(), r.left.as_ref()) {\n-                (None, None) => true,\n-                (Some(lr), Some(rl)) => check(lr, rl),\n-                _ => false,\n-            };\n-\n-            check_out && check_in\n+                (None, Some(_)) | (Some(_), None) => false,\n+                (Some(l), Some(r)) => {\n+                    let (l, r) = (l.borrow(), r.borrow());\n+                    l.val == r.val\n+                        && check(l.left.as_ref(), r.right.as_ref())\n+                        && check(l.right.as_ref(), r.left.as_ref())\n+                }\n+            }\n+        }\n+        \n+        match root {\n+            None => true,\n+            Some(r) => check(r.borrow().left.as_ref(), r.borrow().right.as_ref())\n         }\n-\n-        check(left, right)\n     }\n }\n-\n",
+          "changedLineCounts": {
+            "additions": 18,
+            "deletions": 28
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Refactors the helper to accept optional child references directly, consolidating null handling and simplifying the root case. The mirrored recursive DFS strategy remains unchanged.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "b8c7693099b1177135e977a1938879718d63123a",
+    "0ab62401d750825f81cf3f14f8ed1e987bf62d0a"
+  ],
+  "warnings": []
+}

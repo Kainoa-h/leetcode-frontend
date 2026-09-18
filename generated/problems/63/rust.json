@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 63,
+    "title": "Unique Paths II",
+    "slug": "unique-paths-ii"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/63_unique_paths_II.rs",
+    "latestSha": "979f2d89cbe028887189af31d4471de281a19f19",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 2,
+    "incorrectRevisionCount": 1,
+    "firstCommittedAt": "2026-09-18T14:28:17+08:00",
+    "lastCommittedAt": "2026-09-18T14:28:17+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "c7438e45da3507d677fc92d948b3bd9672c5dcf93d43a0a3607dbd9a103cb86a"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "Recursive path enumeration",
+      "summary": "Uses depth-first recursion to explore every valid route from the top-left to the destination. This exhaustive strategy was marked wrong for timing out.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "fb49040f12c34700169f1bcdea89276d3afc916d",
+          "shortSha": "fb49040",
+          "parentSha": "c8422453ae5511b24301beb0b2b76239b6c1a473",
+          "authoredAt": "2026-09-11T16:17:57+08:00",
+          "committedAt": "2026-09-18T14:28:17+08:00",
+          "chronologicalIndex": 388,
+          "problemId": 63,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/63_unique_paths_II.rs",
+          "sourceFilename": "63_unique_paths_II.rs",
+          "code": "impl Solution {\n    pub fn unique_paths_with_obstacles(obstacle_grid: Vec<Vec<i32>>) -> i32 {\n        if obstacle_grid[0][0] == 1 {\n            return 0;\n        }\n\n        fn move_down(grid: &[Vec<i32>], r: usize, c: usize) -> i32 {\n            if r == grid.len() - 1 && c == grid[0].len() - 1 {\n                return 1;\n            }\n\n            let mut count = 0;\n            if let Some(&next) = grid.get(r + 1).and_then(|x| x.get(c))\n                && next == 0\n            {\n                count += move_down(grid, r + 1, c);\n            }\n            if let Some(&next) = grid.get(r).and_then(|x| x.get(c + 1))\n                && next == 0\n            {\n                count += move_down(grid, r, c + 1);\n            }\n\n            count\n        }\n        move_down(&obstacle_grid, 0, 0)\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "e1ffabf0e4882cd321fd6787d30378d5b3bae529ab149573f837d3a119ea5cf8",
+          "markedWrong": true,
+          "commitComment": "TLE",
+          "rawCommitSubject": "rust 63!: TLE",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Implements recursive down/right traversal, summing all valid paths while avoiding obstacles. Marked wrong due to TLE.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "approach-2",
+      "title": "Two-dimensional dynamic programming",
+      "summary": "Uses a grid of subproblem results, where each cell accumulates paths from its accessible top and left neighbors. This avoids repeatedly exploring the same suffixes of paths.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "979f2d89cbe028887189af31d4471de281a19f19",
+          "shortSha": "979f2d8",
+          "parentSha": "fb49040f12c34700169f1bcdea89276d3afc916d",
+          "authoredAt": "2026-09-11T17:48:28+08:00",
+          "committedAt": "2026-09-18T14:28:17+08:00",
+          "chronologicalIndex": 389,
+          "problemId": 63,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/63_unique_paths_II.rs",
+          "sourceFilename": "63_unique_paths_II.rs",
+          "code": "impl Solution {\n    pub fn unique_paths_with_obstacles(obstacle_grid: Vec<Vec<i32>>) -> i32 {\n        let rows = obstacle_grid.len();\n        let cols = obstacle_grid[0].len();\n        if obstacle_grid[rows - 1][cols - 1] == 1 {\n            return 0;\n        }\n\n        let mut dp = vec![vec![0; cols]; rows];\n        dp[0][0] = 1;\n\n        for r in 0..rows {\n            for c in 0..cols {\n                if r != 0 && obstacle_grid[r - 1][c] != 1 {\n                    dp[r][c] += dp[r - 1][c];\n                }\n                if c != 0 && obstacle_grid[r][c - 1] != 1 {\n                    dp[r][c] += dp[r][c - 1];\n                }\n            }\n        }\n\n        dp[rows - 1][cols - 1]\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "93cf9833b66921600632b4bc5f9e85332e1e341142588b3d29fc2025855e52ba",
+          "markedWrong": false,
+          "commitComment": "2d dp",
+          "rawCommitSubject": "rust 63: 2d dp",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/63_unique_paths_II.rs b/rust/src/bin/63_unique_paths_II.rs\nindex 3c7752b..6cbf384 100644\n--- a/rust/src/bin/63_unique_paths_II.rs\n+++ b/rust/src/bin/63_unique_paths_II.rs\n@@ -1,29 +1,26 @@\n impl Solution {\n     pub fn unique_paths_with_obstacles(obstacle_grid: Vec<Vec<i32>>) -> i32 {\n-        if obstacle_grid[0][0] == 1 {\n+        let rows = obstacle_grid.len();\n+        let cols = obstacle_grid[0].len();\n+        if obstacle_grid[rows - 1][cols - 1] == 1 {\n             return 0;\n         }\n \n-        fn move_down(grid: &[Vec<i32>], r: usize, c: usize) -> i32 {\n-            if r == grid.len() - 1 && c == grid[0].len() - 1 {\n-                return 1;\n-            }\n+        let mut dp = vec![vec![0; cols]; rows];\n+        dp[0][0] = 1;\n \n-            let mut count = 0;\n-            if let Some(&next) = grid.get(r + 1).and_then(|x| x.get(c))\n-                && next == 0\n-            {\n-                count += move_down(grid, r + 1, c);\n-            }\n-            if let Some(&next) = grid.get(r).and_then(|x| x.get(c + 1))\n-                && next == 0\n-            {\n-                count += move_down(grid, r, c + 1);\n+        for r in 0..rows {\n+            for c in 0..cols {\n+                if r != 0 && obstacle_grid[r - 1][c] != 1 {\n+                    dp[r][c] += dp[r - 1][c];\n+                }\n+                if c != 0 && obstacle_grid[r][c - 1] != 1 {\n+                    dp[r][c] += dp[r][c - 1];\n+                }\n             }\n-\n-            count\n         }\n-        move_down(&obstacle_grid, 0, 0)\n+\n+        dp[rows - 1][cols - 1]\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 15,
+            "deletions": 18
+          },
+          "approachId": "approach-2",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaces recursive enumeration with a two-dimensional DP table that computes path counts row by row and returns the destination value.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "fb49040f12c34700169f1bcdea89276d3afc916d",
+    "979f2d89cbe028887189af31d4471de281a19f19"
+  ],
+  "warnings": []
+}
