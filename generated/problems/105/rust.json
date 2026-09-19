@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 105,
+    "title": "Construct Binary Tree From Preorder and Inorder Traversal",
+    "slug": "construct-binary-tree-from-preorder-and-inorder-traversal"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/105_construct_binary_tree_from_preorder_and_inorder_traversal.rs",
+    "latestSha": "9a54758066e247eae15702e4cf2f7865c7f3149b",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-09-19T01:11:38+08:00",
+    "lastCommittedAt": "2026-09-19T16:02:28+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "b56004c3b7942992cc32fa67f715a6086c5f1954c2d806613e949a1b6d4f3a14"
+  },
+  "approaches": [
+    {
+      "id": "recursive-traversal-partition",
+      "title": "Recursive construction by partitioning preorder and inorder",
+      "summary": "Recursively constructs the tree by identifying a root, locating it in inorder, and partitioning the traversals into left and right subtrees. Revision 2 corrects the preorder split so each subtree receives the appropriate elements.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "23f7a2243884261f3efbd0df2e03f2011e87fef3",
+          "shortSha": "23f7a22",
+          "parentSha": "0ab62401d750825f81cf3f14f8ed1e987bf62d0a",
+          "authoredAt": "2026-09-19T01:11:11+08:00",
+          "committedAt": "2026-09-19T01:11:38+08:00",
+          "chronologicalIndex": 392,
+          "problemId": 105,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/105_construct_binary_tree_from_preorder_and_inorder_traversal.rs",
+          "sourceFilename": "105_construct_binary_tree_from_preorder_and_inorder_traversal.rs",
+          "code": "#[derive(Debug, PartialEq, Eq)]\npub struct TreeNode {\n    pub val: i32,\n    pub left: Option<Rc<RefCell<TreeNode>>>,\n    pub right: Option<Rc<RefCell<TreeNode>>>,\n}\n\nimpl TreeNode {\n    #[inline]\n    pub fn new(val: i32) -> Self {\n        TreeNode {\n            val,\n            left: None,\n            right: None,\n        }\n    }\n}\n\nstruct Solution {}\n\nuse std::cell::RefCell;\nuse std::rc::Rc;\nimpl Solution {\n    pub fn build_tree(preorder: Vec<i32>, inorder: Vec<i32>) -> Option<Rc<RefCell<TreeNode>>> {\n        fn build(preorder: &[i32], inorder: &[i32]) -> Option<Rc<RefCell<TreeNode>>> {\n            for (pre_i, &x) in preorder.iter().enumerate() {\n                for (in_i, &y) in inorder.iter().enumerate() {\n                    if x != y {\n                        continue;\n                    }\n                    let mut node = TreeNode::new(x);\n                    node.left = build(&preorder[pre_i + 1..], &inorder[..in_i]);\n                    node.right = build(&preorder[pre_i + 1..], &inorder[in_i + 1..]);\n                    return Some(Rc::new(RefCell::new(node)))\n                }\n            }\n            None\n        }\n\n        build(&preorder, &inorder)\n    }\n}\n",
+          "codeHash": "371b9037e38c315cbf28c936a17034198a53453bdb009336075de7ab7c16afaa",
+          "markedWrong": false,
+          "commitComment": "got a hint from solutions about postorder and inorder",
+          "rawCommitSubject": "rust 105: got a hint from solutions about postorder and inorder",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "recursive-traversal-partition",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial recursive attempt searches for a matching preorder/inorder value and partitions the inorder traversal. It incorrectly gives both recursive calls the same preorder suffix rather than splitting preorder according to the left subtree size.",
+          "warnings": []
+        },
+        {
+          "sha": "9a54758066e247eae15702e4cf2f7865c7f3149b",
+          "shortSha": "9a54758",
+          "parentSha": "23f7a2243884261f3efbd0df2e03f2011e87fef3",
+          "authoredAt": "2026-09-19T16:02:28+08:00",
+          "committedAt": "2026-09-19T16:02:28+08:00",
+          "chronologicalIndex": 393,
+          "problemId": 105,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/105_construct_binary_tree_from_preorder_and_inorder_traversal.rs",
+          "sourceFilename": "105_construct_binary_tree_from_preorder_and_inorder_traversal.rs",
+          "code": "#[derive(Debug, PartialEq, Eq)]\npub struct TreeNode {\n    pub val: i32,\n    pub left: Option<Rc<RefCell<TreeNode>>>,\n    pub right: Option<Rc<RefCell<TreeNode>>>,\n}\n\nimpl TreeNode {\n    #[inline]\n    pub fn new(val: i32) -> Self {\n        TreeNode {\n            val,\n            left: None,\n            right: None,\n        }\n    }\n}\n\nstruct Solution {}\n\nuse std::cell::RefCell;\nuse std::rc::Rc;\nimpl Solution {\n    pub fn build_tree(preorder: Vec<i32>, inorder: Vec<i32>) -> Option<Rc<RefCell<TreeNode>>> {\n        fn build(preorder: &[i32], inorder: &[i32]) -> Option<Rc<RefCell<TreeNode>>> {\n            let (&n, preorder) = preorder.split_first()?;\n            let mut node = TreeNode::new(n);\n            let split_idx = inorder.iter().position(|&x| x == n)?;\n            node.left = build(&preorder[..split_idx], &inorder[..split_idx]);\n            node.right = build(&preorder[split_idx..], &inorder[split_idx + 1..]);\n            Some(Rc::new(RefCell::new(node)))\n        }\n\n        build(&preorder, &inorder)\n    }\n}\n",
+          "codeHash": "1b8141b864ccdfe8ea66995f8e3b15550340565318380dc4d16951b99edbb6b4",
+          "markedWrong": false,
+          "commitComment": "split preorder correctly",
+          "rawCommitSubject": "rust 105: split preorder correctly",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/105_construct_binary_tree_from_preorder_and_inorder_traversal.rs b/rust/src/bin/105_construct_binary_tree_from_preorder_and_inorder_traversal.rs\nindex f98c2b7..cc186e6 100644\n--- a/rust/src/bin/105_construct_binary_tree_from_preorder_and_inorder_traversal.rs\n+++ b/rust/src/bin/105_construct_binary_tree_from_preorder_and_inorder_traversal.rs\n@@ -23,18 +23,12 @@ use std::rc::Rc;\n impl Solution {\n     pub fn build_tree(preorder: Vec<i32>, inorder: Vec<i32>) -> Option<Rc<RefCell<TreeNode>>> {\n         fn build(preorder: &[i32], inorder: &[i32]) -> Option<Rc<RefCell<TreeNode>>> {\n-            for (pre_i, &x) in preorder.iter().enumerate() {\n-                for (in_i, &y) in inorder.iter().enumerate() {\n-                    if x != y {\n-                        continue;\n-                    }\n-                    let mut node = TreeNode::new(x);\n-                    node.left = build(&preorder[pre_i + 1..], &inorder[..in_i]);\n-                    node.right = build(&preorder[pre_i + 1..], &inorder[in_i + 1..]);\n-                    return Some(Rc::new(RefCell::new(node)))\n-                }\n-            }\n-            None\n+            let (&n, preorder) = preorder.split_first()?;\n+            let mut node = TreeNode::new(n);\n+            let split_idx = inorder.iter().position(|&x| x == n)?;\n+            node.left = build(&preorder[..split_idx], &inorder[..split_idx]);\n+            node.right = build(&preorder[split_idx..], &inorder[split_idx + 1..]);\n+            Some(Rc::new(RefCell::new(node)))\n         }\n \n         build(&preorder, &inorder)\n",
+          "changedLineCounts": {
+            "additions": 6,
+            "deletions": 12
+          },
+          "approachId": "recursive-traversal-partition",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Uses the first preorder element as the root, finds its inorder position, and correctly splits the remaining preorder values into left and right subtree ranges.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "23f7a2243884261f3efbd0df2e03f2011e87fef3",
+    "9a54758066e247eae15702e4cf2f7865c7f3149b"
+  ],
+  "warnings": []
+}
