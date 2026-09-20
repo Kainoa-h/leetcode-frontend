@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-19T08:03:02.392Z",
-  "sourceHeadSha": "9a54758066e247eae15702e4cf2f7865c7f3149b",
+  "generatedAt": "2026-09-20T14:38:00.975Z",
+  "sourceHeadSha": "c2e2c650f840bbcaae65d1fc455f0ed2f3f78b18",
   "questions": [
     {
       "id": 1,
@@ -2990,6 +2990,24 @@
       ],
       "firstCommittedAt": "2026-04-16T18:09:38+08:00",
       "lastCommittedAt": "2026-04-16T18:09:38+08:00"
+    },
+    {
+      "id": 3498,
+      "title": "Reverse Degree of A String",
+      "slug": "reverse-degree-of-a-string",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3498/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-09-20T22:37:24+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-09-20T22:34:33+08:00",
+      "lastCommittedAt": "2026-09-20T22:37:24+08:00"
     },
     {
       "id": 3499,
