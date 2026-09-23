@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-22T10:07:29.565Z",
-  "sourceHeadSha": "2b588a4ee3c2f26e47b8cb89c52a764f34c57c5d",
+  "generatedAt": "2026-09-23T06:54:45.775Z",
+  "sourceHeadSha": "57e820a7b4361c8b1390768dc9770745edbd7c32",
   "questions": [
     {
       "id": 1,
@@ -1982,6 +1982,24 @@
       ],
       "firstCommittedAt": "2026-09-17T12:37:55+08:00",
       "lastCommittedAt": "2026-09-17T13:54:25+08:00"
+    },
+    {
+      "id": 1658,
+      "title": "Minimum Operations to Reduce X to Zero",
+      "slug": "minimum-operations-to-reduce-x-to-zero",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/1658/rust/",
+          "revisionCount": 2,
+          "approachCount": 2,
+          "incorrectRevisionCount": 1,
+          "lastCommittedAt": "2026-09-23T14:53:53+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-09-23T14:53:53+08:00",
+      "lastCommittedAt": "2026-09-23T14:53:53+08:00"
     },
     {
       "id": 1722,
