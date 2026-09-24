@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-23T06:54:45.775Z",
-  "sourceHeadSha": "57e820a7b4361c8b1390768dc9770745edbd7c32",
+  "generatedAt": "2026-09-24T09:41:12.115Z",
+  "sourceHeadSha": "073c997ad2801b31dfb7981f099217f77c37ad6b",
   "questions": [
     {
       "id": 1,
@@ -3116,6 +3116,24 @@
       ],
       "firstCommittedAt": "2026-03-25T23:11:16+08:00",
       "lastCommittedAt": "2026-03-26T00:13:35+08:00"
+    },
+    {
+      "id": 3550,
+      "title": "Smallest Index With Digit Sum Equal to Index",
+      "slug": "smallest-index-with-digit-sum-equal-to-index",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3550/rust/",
+          "revisionCount": 4,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-09-24T17:40:19+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-09-24T17:22:54+08:00",
+      "lastCommittedAt": "2026-09-24T17:40:19+08:00"
     },
     {
       "id": 3558,

@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3550,
+    "title": "Smallest Index With Digit Sum Equal to Index",
+    "slug": "smallest-index-with-digit-sum-equal-to-index"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3550_smallest_index_with_digit_sum_equal_to_index.rs",
+    "latestSha": "073c997ad2801b31dfb7981f099217f77c37ad6b",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 4,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-09-24T17:22:54+08:00",
+    "lastCommittedAt": "2026-09-24T17:40:19+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "f9a9534500d414e703d457fc04dcfdf5ec50ff91dc1c3be8bbe3c77b7df1d716"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "Linear scan with digit-sum matching",
+      "summary": "Iterate through the numbers in index order, compute each number's digit sum, and return the first index where it matches. Return -1 when no index qualifies.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "ee3a1ba5af53ac638671d66a63539205e39d981d",
+          "shortSha": "ee3a1ba",
+          "parentSha": "57e820a7b4361c8b1390768dc9770745edbd7c32",
+          "authoredAt": "2026-09-24T17:22:54+08:00",
+          "committedAt": "2026-09-24T17:22:54+08:00",
+          "chronologicalIndex": 399,
+          "problemId": 3550,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3550_smallest_index_with_digit_sum_equal_to_index.rs",
+          "sourceFilename": "3550_smallest_index_with_digit_sum_equal_to_index.rs",
+          "code": "impl Solution {\n    pub fn smallest_index(nums: Vec<i32>) -> i32 {\n        for (idx, mut num) in nums.into_iter().enumerate() {\n            let mut sum = 0;\n            while num > 0 {\n                sum += num % 10;\n                num /= 10;\n            }\n            if sum as usize == idx {\n                return idx as i32;\n            }\n        }\n        -1\n    }\n}\n",
+          "codeHash": "4edf428b4f012b24118e1fcaa49dc3f45267e369899ecf1f9b70b17f2c015ade",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 3550",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Implemented a direct loop that computes digit sums and returns the first matching index.",
+          "warnings": []
+        },
+        {
+          "sha": "17b695a4474d87ec51a6fb89d3bd3a42c92faf4c",
+          "shortSha": "17b695a",
+          "parentSha": "ee3a1ba5af53ac638671d66a63539205e39d981d",
+          "authoredAt": "2026-09-24T17:30:21+08:00",
+          "committedAt": "2026-09-24T17:30:21+08:00",
+          "chronologicalIndex": 400,
+          "problemId": 3550,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3550_smallest_index_with_digit_sum_equal_to_index.rs",
+          "sourceFilename": "3550_smallest_index_with_digit_sum_equal_to_index.rs",
+          "code": "impl Solution {\n    pub fn smallest_index(nums: Vec<i32>) -> i32 {\n        nums.into_iter().enumerate().find_map(|(idx, mut num)| {\n            let mut sum = 0;\n            while num > 0 {\n                sum += num % 10;\n                num /= 10;\n            }\n            if sum as usize == idx {\n                Some(idx as i32)\n            } else {\n                None\n            }\n        }).unwrap_or(-1)\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "d191a5805df3444eda38ce25e95ea5d00bd3187270a961cdc7509ab0ae506400",
+          "markedWrong": false,
+          "commitComment": "iterator!",
+          "rawCommitSubject": "rust 3550: iterator!",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3550_smallest_index_with_digit_sum_equal_to_index.rs b/rust/src/bin/3550_smallest_index_with_digit_sum_equal_to_index.rs\nindex 8d6c604..b9c90d3 100644\n--- a/rust/src/bin/3550_smallest_index_with_digit_sum_equal_to_index.rs\n+++ b/rust/src/bin/3550_smallest_index_with_digit_sum_equal_to_index.rs\n@@ -1,15 +1,18 @@\n impl Solution {\n     pub fn smallest_index(nums: Vec<i32>) -> i32 {\n-        for (idx, mut num) in nums.into_iter().enumerate() {\n+        nums.into_iter().enumerate().find_map(|(idx, mut num)| {\n             let mut sum = 0;\n             while num > 0 {\n                 sum += num % 10;\n                 num /= 10;\n             }\n             if sum as usize == idx {\n-                return idx as i32;\n+                Some(idx as i32)\n+            } else {\n+                None\n             }\n-        }\n-        -1\n+        }).unwrap_or(-1)\n     }\n }\n+\n+struct Solution {}\n",
+          "changedLineCounts": {
+            "additions": 7,
+            "deletions": 4
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Refactored the scan to use iterator find_map while retaining the same digit-by-digit sum calculation.",
+          "warnings": []
+        },
+        {
+          "sha": "7526336102cb2d56e57977bdfb51f3f7240ff42c",
+          "shortSha": "7526336",
+          "parentSha": "17b695a4474d87ec51a6fb89d3bd3a42c92faf4c",
+          "authoredAt": "2026-09-24T17:35:13+08:00",
+          "committedAt": "2026-09-24T17:35:24+08:00",
+          "chronologicalIndex": 401,
+          "problemId": 3550,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3550_smallest_index_with_digit_sum_equal_to_index.rs",
+          "sourceFilename": "3550_smallest_index_with_digit_sum_equal_to_index.rs",
+          "code": "impl Solution {\n    pub fn smallest_index(nums: Vec<i32>) -> i32 {\n        let digit_sum = | mut num: i32| {\n            let mut sum = 0;\n            while num > 0 {\n                sum += num % 10;\n                num /= 10;\n            }\n            sum\n        };\n\n        nums.into_iter().enumerate().position(|(i, n)| digit_sum(n) == i as i32).map_or(-1, |x| x as i32)\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "4c2dcda3b951dd731343c244f92f1bb161137ea10ab810aa5f918df86685a1da",
+          "markedWrong": false,
+          "commitComment": "more iterators!",
+          "rawCommitSubject": "rust 3550: more iterators!",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3550_smallest_index_with_digit_sum_equal_to_index.rs b/rust/src/bin/3550_smallest_index_with_digit_sum_equal_to_index.rs\nindex b9c90d3..88a9893 100644\n--- a/rust/src/bin/3550_smallest_index_with_digit_sum_equal_to_index.rs\n+++ b/rust/src/bin/3550_smallest_index_with_digit_sum_equal_to_index.rs\n@@ -1,17 +1,15 @@\n impl Solution {\n     pub fn smallest_index(nums: Vec<i32>) -> i32 {\n-        nums.into_iter().enumerate().find_map(|(idx, mut num)| {\n+        let digit_sum = | mut num: i32| {\n             let mut sum = 0;\n             while num > 0 {\n                 sum += num % 10;\n                 num /= 10;\n             }\n-            if sum as usize == idx {\n-                Some(idx as i32)\n-            } else {\n-                None\n-            }\n-        }).unwrap_or(-1)\n+            sum\n+        };\n+\n+        nums.into_iter().enumerate().position(|(i, n)| digit_sum(n) == i as i32).map_or(-1, |x| x as i32)\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 5,
+            "deletions": 7
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 2,
+          "shortChangeSummary": "Extracted digit-sum computation into a closure and used position with map_or to find the matching index.",
+          "warnings": []
+        },
+        {
+          "sha": "073c997ad2801b31dfb7981f099217f77c37ad6b",
+          "shortSha": "073c997",
+          "parentSha": "7526336102cb2d56e57977bdfb51f3f7240ff42c",
+          "authoredAt": "2026-09-24T17:40:19+08:00",
+          "committedAt": "2026-09-24T17:40:19+08:00",
+          "chronologicalIndex": 402,
+          "problemId": 3550,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3550_smallest_index_with_digit_sum_equal_to_index.rs",
+          "sourceFilename": "3550_smallest_index_with_digit_sum_equal_to_index.rs",
+          "code": "impl Solution {\n    pub fn smallest_index(nums: Vec<i32>) -> i32 {\n        let digit_sum = |num: i32| {\n            std::iter::successors(Some(num), |&x| (x >= 10).then_some(x / 10))\n                .map(|x| x % 10)\n                .sum::<i32>()\n        };\n\n        nums.into_iter()\n            .enumerate()\n            .position(|(i, n)| digit_sum(n) == i as i32)\n            .map_or(-1, |x| x as i32)\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "3e28e7c6780b6e9e374d7ead8ae810250202606fe0cae0785801cb927818a70a",
+          "markedWrong": false,
+          "commitComment": "MORE iterators!!",
+          "rawCommitSubject": "rust 3550: MORE iterators!!",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3550_smallest_index_with_digit_sum_equal_to_index.rs b/rust/src/bin/3550_smallest_index_with_digit_sum_equal_to_index.rs\nindex 88a9893..7533c7b 100644\n--- a/rust/src/bin/3550_smallest_index_with_digit_sum_equal_to_index.rs\n+++ b/rust/src/bin/3550_smallest_index_with_digit_sum_equal_to_index.rs\n@@ -1,15 +1,15 @@\n impl Solution {\n     pub fn smallest_index(nums: Vec<i32>) -> i32 {\n-        let digit_sum = | mut num: i32| {\n-            let mut sum = 0;\n-            while num > 0 {\n-                sum += num % 10;\n-                num /= 10;\n-            }\n-            sum\n+        let digit_sum = |num: i32| {\n+            std::iter::successors(Some(num), |&x| (x >= 10).then_some(x / 10))\n+                .map(|x| x % 10)\n+                .sum::<i32>()\n         };\n \n-        nums.into_iter().enumerate().position(|(i, n)| digit_sum(n) == i as i32).map_or(-1, |x| x as i32)\n+        nums.into_iter()\n+            .enumerate()\n+            .position(|(i, n)| digit_sum(n) == i as i32)\n+            .map_or(-1, |x| x as i32)\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 8,
+            "deletions": 8
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 3,
+          "shortChangeSummary": "Replaced the digit-sum loop with an iterator based on successors, preserving the same linear scan strategy.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "ee3a1ba5af53ac638671d66a63539205e39d981d",
+    "17b695a4474d87ec51a6fb89d3bd3a42c92faf4c",
+    "7526336102cb2d56e57977bdfb51f3f7240ff42c",
+    "073c997ad2801b31dfb7981f099217f77c37ad6b"
+  ],
+  "warnings": []
+}
