@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-24T09:41:12.115Z",
-  "sourceHeadSha": "073c997ad2801b31dfb7981f099217f77c37ad6b",
+  "generatedAt": "2026-09-26T09:21:42.453Z",
+  "sourceHeadSha": "bbb0abd1c13ed2fe5e8d1a0cf48c6f7c6d2b3ac7",
   "questions": [
     {
       "id": 1,
@@ -2081,6 +2081,24 @@
       ],
       "firstCommittedAt": "2026-03-06T23:00:17+08:00",
       "lastCommittedAt": "2026-03-06T23:00:17+08:00"
+    },
+    {
+      "id": 1807,
+      "title": "Evaluate the Bracket Pairs of A String",
+      "slug": "evaluate-the-bracket-pairs-of-a-string",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/1807/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-09-26T17:20:16+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-09-26T16:34:08+08:00",
+      "lastCommittedAt": "2026-09-26T17:20:16+08:00"
     },
     {
       "id": 1833,

@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1807,
+    "title": "Evaluate the Bracket Pairs of A String",
+    "slug": "evaluate-the-bracket-pairs-of-a-string"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/1807_evaluate_the_bracket_pairs_of_a_string.rs",
+    "latestSha": "bbb0abd1c13ed2fe5e8d1a0cf48c6f7c6d2b3ac7",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-09-26T16:34:08+08:00",
+    "lastCommittedAt": "2026-09-26T17:20:16+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "383971a0bfaf1f04a143f41df099257848609858d4a77964fbe7f273841e1d6a"
+  },
+  "approaches": [
+    {
+      "id": "1",
+      "title": "Single-pass byte parsing with knowledge lookup",
+      "summary": "Builds a hash map of bracket keys to values, then scans the string once to replace each parenthesized key while preserving ordinary characters. Unknown keys become \"?\".",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "5132bbab37edf819c7f113f9ff734e76010e4e8a",
+          "shortSha": "5132bba",
+          "parentSha": "073c997ad2801b31dfb7981f099217f77c37ad6b",
+          "authoredAt": "2026-09-26T16:34:08+08:00",
+          "committedAt": "2026-09-26T16:34:08+08:00",
+          "chronologicalIndex": 403,
+          "problemId": 1807,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1807_evaluate_the_bracket_pairs_of_a_string.rs",
+          "sourceFilename": "1807_evaluate_the_bracket_pairs_of_a_string.rs",
+          "code": "use std::collections::HashMap;\n\nimpl Solution {\n    pub fn evaluate(s: String, knowledge: Vec<Vec<String>>) -> String {\n        let dunno = [b'?'];\n        let mut k_map = HashMap::new();\n        for kv in &knowledge {\n            k_map.insert(kv[0].as_bytes(), kv[1].as_bytes());\n        }\n\n        let mut result = Vec::<u8>::new();\n        let mut start_idx = None::<usize>;\n        for (idx, &c) in s.as_bytes().iter().enumerate() {\n            if c == b'(' {\n                start_idx = Some(idx + 1);\n            } else if c == b')' {\n                let &value = k_map.get(&s.as_bytes()[start_idx.unwrap()..idx])\n                    .unwrap_or(&dunno.as_ref());\n                result.extend_from_slice(value);\n                start_idx = None;\n            } else if start_idx.is_none() {\n                result.push(c);\n            }\n        }\n\n        unsafe { String::from_utf8_unchecked(result) }\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "c13b0794308893cd3c6860e7eaf12a3ad80803d3a5308c0c264b118c3db54d62",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 1807",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial implementation using a byte-oriented scan, optional bracket start index, and HashMap lookups for replacements.",
+          "warnings": []
+        },
+        {
+          "sha": "bbb0abd1c13ed2fe5e8d1a0cf48c6f7c6d2b3ac7",
+          "shortSha": "bbb0abd",
+          "parentSha": "5132bbab37edf819c7f113f9ff734e76010e4e8a",
+          "authoredAt": "2026-09-26T17:03:50+08:00",
+          "committedAt": "2026-09-26T17:20:16+08:00",
+          "chronologicalIndex": 404,
+          "problemId": 1807,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1807_evaluate_the_bracket_pairs_of_a_string.rs",
+          "sourceFilename": "1807_evaluate_the_bracket_pairs_of_a_string.rs",
+          "code": "use std::collections::HashMap;\n\nimpl Solution {\n    pub fn evaluate(s: String, knowledge: Vec<Vec<String>>) -> String {\n        let dunno: &[u8] = b\"?\";\n        let bytes = s.as_bytes();\n        let k_map =\n            knowledge\n                .iter()\n                .fold(HashMap::with_capacity(knowledge.len()), |mut map, kv| {\n                    map.insert(kv[0].as_bytes(), kv[1].as_bytes());\n                    map\n                });\n\n        let mut result = Vec::<u8>::with_capacity(s.len());\n        let mut start_idx = s.len();\n        for (idx, &c) in bytes.iter().enumerate() {\n            match c {\n                b'(' => start_idx = idx + 1,\n                b')' => {\n                    let &value = k_map.get(&bytes[start_idx..idx]).unwrap_or(&dunno);\n                    result.extend_from_slice(value);\n                    start_idx = s.len();\n                }\n                _ if start_idx == s.len() => result.push(c),\n                _ => {}\n            }\n        }\n\n        unsafe { String::from_utf8_unchecked(result) }\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "9b8148ffff728f3bb49e9b1a662a495f7ba04cdb769e842abadc733c4d7e369d",
+          "markedWrong": false,
+          "commitComment": "idiomatic improvements",
+          "rawCommitSubject": "rust 1807: idiomatic improvements",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/1807_evaluate_the_bracket_pairs_of_a_string.rs b/rust/src/bin/1807_evaluate_the_bracket_pairs_of_a_string.rs\nindex 6acf736..abf288b 100644\n--- a/rust/src/bin/1807_evaluate_the_bracket_pairs_of_a_string.rs\n+++ b/rust/src/bin/1807_evaluate_the_bracket_pairs_of_a_string.rs\n@@ -2,24 +2,28 @@ use std::collections::HashMap;\n \n impl Solution {\n     pub fn evaluate(s: String, knowledge: Vec<Vec<String>>) -> String {\n-        let dunno = [b'?'];\n-        let mut k_map = HashMap::new();\n-        for kv in &knowledge {\n-            k_map.insert(kv[0].as_bytes(), kv[1].as_bytes());\n-        }\n+        let dunno: &[u8] = b\"?\";\n+        let bytes = s.as_bytes();\n+        let k_map =\n+            knowledge\n+                .iter()\n+                .fold(HashMap::with_capacity(knowledge.len()), |mut map, kv| {\n+                    map.insert(kv[0].as_bytes(), kv[1].as_bytes());\n+                    map\n+                });\n \n-        let mut result = Vec::<u8>::new();\n-        let mut start_idx = None::<usize>;\n-        for (idx, &c) in s.as_bytes().iter().enumerate() {\n-            if c == b'(' {\n-                start_idx = Some(idx + 1);\n-            } else if c == b')' {\n-                let &value = k_map.get(&s.as_bytes()[start_idx.unwrap()..idx])\n-                    .unwrap_or(&dunno.as_ref());\n-                result.extend_from_slice(value);\n-                start_idx = None;\n-            } else if start_idx.is_none() {\n-                result.push(c);\n+        let mut result = Vec::<u8>::with_capacity(s.len());\n+        let mut start_idx = s.len();\n+        for (idx, &c) in bytes.iter().enumerate() {\n+            match c {\n+                b'(' => start_idx = idx + 1,\n+                b')' => {\n+                    let &value = k_map.get(&bytes[start_idx..idx]).unwrap_or(&dunno);\n+                    result.extend_from_slice(value);\n+                    start_idx = s.len();\n+                }\n+                _ if start_idx == s.len() => result.push(c),\n+                _ => {}\n             }\n         }\n \n",
+          "changedLineCounts": {
+            "additions": 21,
+            "deletions": 17
+          },
+          "approachId": "1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Refactors the same scan into a more idiomatic match-based implementation, reuses the input bytes, and preallocates the hash map and output capacity.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "5132bbab37edf819c7f113f9ff734e76010e4e8a",
+    "bbb0abd1c13ed2fe5e8d1a0cf48c6f7c6d2b3ac7"
+  ],
+  "warnings": []
+}
