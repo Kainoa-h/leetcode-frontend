@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1614,
+    "title": "Maximum Nesting Depth of the Parentheses",
+    "slug": "maximum-nesting-depth-of-the-parentheses"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/1614_maximum_nesting_depth_of_the_parentheses.rs",
+    "latestSha": "f71edb940f14461e35e19cc433e6919c95eb6d4d",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-09-28T14:06:45+08:00",
+    "lastCommittedAt": "2026-09-28T14:06:45+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "7",
+    "inputHash": "24ea07c90ea51519a7ac23ad43e9b5b177399dcf9ea6b5df868973ed8e9a41d2"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "f71edb940f14461e35e19cc433e6919c95eb6d4d",
+          "shortSha": "f71edb9",
+          "parentSha": "bbb0abd1c13ed2fe5e8d1a0cf48c6f7c6d2b3ac7",
+          "authoredAt": "2026-09-28T14:06:45+08:00",
+          "committedAt": "2026-09-28T14:06:45+08:00",
+          "chronologicalIndex": 405,
+          "problemId": 1614,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1614_maximum_nesting_depth_of_the_parentheses.rs",
+          "sourceFilename": "1614_maximum_nesting_depth_of_the_parentheses.rs",
+          "code": "impl Solution {\n    pub fn max_depth(s: String) -> i32 {\n        s.chars().scan(0, |acc, c| {\n            *acc += i32::from(c == '(');\n            *acc -= i32::from(c == ')');\n            Some(*acc)\n        }).max().unwrap_or(0)\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "706f4a20772e3d6f652d38319310fb8ed9c7b44c25800ed7cf5d83deea364c4d",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 1614",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "f71edb940f14461e35e19cc433e6919c95eb6d4d"
+  ],
+  "warnings": []
+}

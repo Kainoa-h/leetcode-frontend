@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-26T09:21:42.453Z",
-  "sourceHeadSha": "bbb0abd1c13ed2fe5e8d1a0cf48c6f7c6d2b3ac7",
+  "generatedAt": "2026-09-28T06:07:16.844Z",
+  "sourceHeadSha": "f71edb940f14461e35e19cc433e6919c95eb6d4d",
   "questions": [
     {
       "id": 1,
@@ -1982,6 +1982,24 @@
       ],
       "firstCommittedAt": "2026-09-17T12:37:55+08:00",
       "lastCommittedAt": "2026-09-17T13:54:25+08:00"
+    },
+    {
+      "id": 1614,
+      "title": "Maximum Nesting Depth of the Parentheses",
+      "slug": "maximum-nesting-depth-of-the-parentheses",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/1614/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-09-28T14:06:45+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-09-28T14:06:45+08:00",
+      "lastCommittedAt": "2026-09-28T14:06:45+08:00"
     },
     {
       "id": 1658,
