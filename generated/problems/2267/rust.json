@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2267,
+    "title": "Check If There Is A Valid Parentheses String Path",
+    "slug": "check-if-there-is-a-valid-parentheses-string-path"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/2267_check_if_there_is_a_valid_parentheses_string_path.rs",
+    "latestSha": "c4c300a7466a3ff4acfadf5068062afac5588a8f",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 2,
+    "incorrectRevisionCount": 1,
+    "firstCommittedAt": "2026-09-30T16:57:17+08:00",
+    "lastCommittedAt": "2026-09-30T16:57:17+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "fc2958b8dcc39504b54e2218e26f533df49c3864880e5db7d72ceb25edf914e0"
+  },
+  "approaches": [
+    {
+      "id": "1",
+      "title": "Set-based dynamic programming",
+      "summary": "Tracks the set of possible balance values at each grid cell using rolling-column dynamic programming. Revision 1 is marked wrong; revision 2 adds validity checks and prevents negative balances.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "c7c721bae2e1c222844336ad2b17b1459583818a",
+          "shortSha": "c7c721b",
+          "parentSha": "33ad851500df223629d95c85880563c797579681",
+          "authoredAt": "2026-09-30T16:14:58+08:00",
+          "committedAt": "2026-09-30T16:57:17+08:00",
+          "chronologicalIndex": 408,
+          "problemId": 2267,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2267_check_if_there_is_a_valid_parentheses_string_path.rs",
+          "sourceFilename": "2267_check_if_there_is_a_valid_parentheses_string_path.rs",
+          "code": "use std::collections::HashSet;\n\nimpl Solution {\n    pub fn has_valid_path(grid: Vec<Vec<char>>) -> bool {\n        let (rows, cols) = (grid.len(), grid[0].len());\n        let mut dp = vec![HashSet::new(); cols + 1];\n        dp[0].insert(0);\n\n        for (r, row) in grid.iter().enumerate() {\n            for (c, &ch) in row.iter().enumerate() {\n                let opr = if ch == '(' { 1 } else { -1 };\n                let dist = ((rows - r) + (cols - c)) as isize;\n                let mut new_set = HashSet::new();\n                //above\n                for &n in &dp[c + 1] {\n                    let x = n + opr;\n                    if x <= dist {\n                        new_set.insert(x);\n                    }\n                }\n                //left\n                for &n in &dp[c] {\n                    let x = n + opr;\n                    if x <= dist {\n                        new_set.insert(x);\n                    }\n                }\n                dp[c + 1] = new_set;\n            }\n            dp[0].clear();\n        }\n\n        dp[cols].contains(&0)\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "403f8c1e1d09e75bac6dc344960edf15162650f9bac585879cee9b37bba1c550",
+          "markedWrong": true,
+          "commitComment": "hais",
+          "rawCommitSubject": "rust 2267!: hais",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial rolling DP using HashSet balance states, retaining states that can still reach the endpoint. Marked wrong.",
+          "warnings": []
+        },
+        {
+          "sha": "257e9f37acfeb428091300a1f424ff1a57a0c47b",
+          "shortSha": "257e9f3",
+          "parentSha": "c7c721bae2e1c222844336ad2b17b1459583818a",
+          "authoredAt": "2026-09-30T16:22:03+08:00",
+          "committedAt": "2026-09-30T16:57:17+08:00",
+          "chronologicalIndex": 409,
+          "problemId": 2267,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2267_check_if_there_is_a_valid_parentheses_string_path.rs",
+          "sourceFilename": "2267_check_if_there_is_a_valid_parentheses_string_path.rs",
+          "code": "use std::collections::HashSet;\n\nimpl Solution {\n    pub fn has_valid_path(grid: Vec<Vec<char>>) -> bool {\n        let (rows, cols) = (grid.len(), grid[0].len());\n        if (rows + cols - 1) % 2 != 0 || grid[0][0] == ')' || grid[rows - 1][cols - 1] == '(' {\n            return false;\n        }\n        let mut dp = vec![HashSet::new(); cols + 1];\n        dp[0].insert(0);\n\n        for (r, row) in grid.iter().enumerate() {\n            for (c, &ch) in row.iter().enumerate() {\n                let opr = if ch == '(' { 1 } else { -1 };\n                let dist = ((rows - r) + (cols - c)) as isize;\n                let mut new_set = HashSet::new();\n                //above\n                for &n in &dp[c + 1] {\n                    let x = n + opr;\n                    if (0..=dist).contains(&x) {\n                        new_set.insert(x);\n                    }\n                }\n                //left\n                for &n in &dp[c] {\n                    let x = n + opr;\n                    if (0..=dist).contains(&x) {\n                        new_set.insert(x);\n                    }\n                }\n                dp[c + 1] = new_set;\n            }\n            dp[0].clear();\n        }\n\n        dp[cols].contains(&0)\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "0c564a14bd35d85cef27c78f9810534408e09ac09dde84345d9d2b2b37eb9805",
+          "markedWrong": false,
+          "commitComment": "negative check and early exits",
+          "rawCommitSubject": "rust 2267: negative check and early exits",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2267_check_if_there_is_a_valid_parentheses_string_path.rs b/rust/src/bin/2267_check_if_there_is_a_valid_parentheses_string_path.rs\nindex 6251d0f..c6f2a36 100644\n--- a/rust/src/bin/2267_check_if_there_is_a_valid_parentheses_string_path.rs\n+++ b/rust/src/bin/2267_check_if_there_is_a_valid_parentheses_string_path.rs\n@@ -3,6 +3,9 @@ use std::collections::HashSet;\n impl Solution {\n     pub fn has_valid_path(grid: Vec<Vec<char>>) -> bool {\n         let (rows, cols) = (grid.len(), grid[0].len());\n+        if (rows + cols - 1) % 2 != 0 || grid[0][0] == ')' || grid[rows - 1][cols - 1] == '(' {\n+            return false;\n+        }\n         let mut dp = vec![HashSet::new(); cols + 1];\n         dp[0].insert(0);\n \n@@ -14,14 +17,14 @@ impl Solution {\n                 //above\n                 for &n in &dp[c + 1] {\n                     let x = n + opr;\n-                    if x <= dist {\n+                    if (0..=dist).contains(&x) {\n                         new_set.insert(x);\n                     }\n                 }\n                 //left\n                 for &n in &dp[c] {\n                     let x = n + opr;\n-                    if x <= dist {\n+                    if (0..=dist).contains(&x) {\n                         new_set.insert(x);\n                     }\n                 }\n",
+          "changedLineCounts": {
+            "additions": 5,
+            "deletions": 2
+          },
+          "approachId": "1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Adds parity and endpoint early exits, and filters states to nonnegative balances within the remaining path distance.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Bitmask dynamic programming",
+      "summary": "Replaces HashSet balance states with bitmasks, where each bit represents a reachable balance. This materially changes the state representation and improves the implementation's performance.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "c4c300a7466a3ff4acfadf5068062afac5588a8f",
+          "shortSha": "c4c300a",
+          "parentSha": "257e9f37acfeb428091300a1f424ff1a57a0c47b",
+          "authoredAt": "2026-09-30T16:54:38+08:00",
+          "committedAt": "2026-09-30T16:57:17+08:00",
+          "chronologicalIndex": 410,
+          "problemId": 2267,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2267_check_if_there_is_a_valid_parentheses_string_path.rs",
+          "sourceFilename": "2267_check_if_there_is_a_valid_parentheses_string_path.rs",
+          "code": "impl Solution {\n    pub fn has_valid_path(grid: Vec<Vec<char>>) -> bool {\n        let (rows, cols) = (grid.len(), grid[0].len());\n        if (rows + cols - 1) % 2 != 0 || grid[0][0] == ')' || grid[rows - 1][cols - 1] == '(' {\n            return false;\n        }\n        let mut dp = vec![0_u128; cols + 1];\n        for (r, row) in grid.iter().enumerate() {\n            for (c, &ch) in row.iter().enumerate() {\n                let new_mask = if r == 0 && c == 0 {\n                    1\n                } else {\n                    dp[c + 1] | dp[c]\n                };\n                dp[c + 1] = if ch == '(' {\n                    new_mask << 1\n                } else {\n                    new_mask >> 1\n                }\n            }\n        }\n\n        dp[cols] & 1 == 1\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "b195499e12d713d8e0deca40a8da73fc57995537bb5f15d717412d8d1b60ea04",
+          "markedWrong": false,
+          "commitComment": "bit mask approach for O(n) perf",
+          "rawCommitSubject": "rust 2267: bit mask approach for O(n) perf",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2267_check_if_there_is_a_valid_parentheses_string_path.rs b/rust/src/bin/2267_check_if_there_is_a_valid_parentheses_string_path.rs\nindex c6f2a36..68ee794 100644\n--- a/rust/src/bin/2267_check_if_there_is_a_valid_parentheses_string_path.rs\n+++ b/rust/src/bin/2267_check_if_there_is_a_valid_parentheses_string_path.rs\n@@ -1,39 +1,26 @@\n-use std::collections::HashSet;\n-\n impl Solution {\n     pub fn has_valid_path(grid: Vec<Vec<char>>) -> bool {\n         let (rows, cols) = (grid.len(), grid[0].len());\n         if (rows + cols - 1) % 2 != 0 || grid[0][0] == ')' || grid[rows - 1][cols - 1] == '(' {\n             return false;\n         }\n-        let mut dp = vec![HashSet::new(); cols + 1];\n-        dp[0].insert(0);\n-\n+        let mut dp = vec![0_u128; cols + 1];\n         for (r, row) in grid.iter().enumerate() {\n             for (c, &ch) in row.iter().enumerate() {\n-                let opr = if ch == '(' { 1 } else { -1 };\n-                let dist = ((rows - r) + (cols - c)) as isize;\n-                let mut new_set = HashSet::new();\n-                //above\n-                for &n in &dp[c + 1] {\n-                    let x = n + opr;\n-                    if (0..=dist).contains(&x) {\n-                        new_set.insert(x);\n-                    }\n-                }\n-                //left\n-                for &n in &dp[c] {\n-                    let x = n + opr;\n-                    if (0..=dist).contains(&x) {\n-                        new_set.insert(x);\n-                    }\n+                let new_mask = if r == 0 && c == 0 {\n+                    1\n+                } else {\n+                    dp[c + 1] | dp[c]\n+                };\n+                dp[c + 1] = if ch == '(' {\n+                    new_mask << 1\n+                } else {\n+                    new_mask >> 1\n                 }\n-                dp[c + 1] = new_set;\n             }\n-            dp[0].clear();\n         }\n \n-        dp[cols].contains(&0)\n+        dp[cols] & 1 == 1\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 11,
+            "deletions": 24
+          },
+          "approachId": "2",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaces HashSet state tracking with u128 bitmask propagation using shifts and unions.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "c7c721bae2e1c222844336ad2b17b1459583818a",
+    "257e9f37acfeb428091300a1f424ff1a57a0c47b",
+    "c4c300a7466a3ff4acfadf5068062afac5588a8f"
+  ],
+  "warnings": []
+}

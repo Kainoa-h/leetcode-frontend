@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-30T04:08:05.870Z",
-  "sourceHeadSha": "33ad851500df223629d95c85880563c797579681",
+  "generatedAt": "2026-09-30T08:58:30.575Z",
+  "sourceHeadSha": "c4c300a7466a3ff4acfadf5068062afac5588a8f",
   "questions": [
     {
       "id": 1,
@@ -2495,6 +2495,24 @@
       ],
       "firstCommittedAt": "2026-09-10T10:43:57+08:00",
       "lastCommittedAt": "2026-09-10T10:43:57+08:00"
+    },
+    {
+      "id": 2267,
+      "title": "Check If There Is A Valid Parentheses String Path",
+      "slug": "check-if-there-is-a-valid-parentheses-string-path",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/2267/rust/",
+          "revisionCount": 3,
+          "approachCount": 2,
+          "incorrectRevisionCount": 1,
+          "lastCommittedAt": "2026-09-30T16:57:17+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-09-30T16:57:17+08:00",
+      "lastCommittedAt": "2026-09-30T16:57:17+08:00"
     },
     {
       "id": 2452,
