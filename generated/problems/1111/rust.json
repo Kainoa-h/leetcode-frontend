@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1111,
+    "title": "Maximum Nesting Depth of Two Valid Parentheses Strings",
+    "slug": "maximum-nesting-depth-of-two-valid-parentheses-strings"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/1111_maximum_nesting_depth_of_two_valid_parentheses_strings.rs",
+    "latestSha": "33ad851500df223629d95c85880563c797579681",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-09-30T12:07:26+08:00",
+    "lastCommittedAt": "2026-09-30T12:07:26+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "9b36f5d0d92981160bafce103d0c825708f498a0059fcde768c3dccabb4fee2c"
+  },
+  "approaches": [
+    {
+      "id": "1",
+      "title": "Parity-based depth splitting",
+      "summary": "Assign each parenthesis to one of two groups according to alternating nesting parity, ensuring both resulting strings have minimal maximum depth.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "4e9ab5b6a451700fd396d1499520712af06748dd",
+          "shortSha": "4e9ab5b",
+          "parentSha": "f71edb940f14461e35e19cc433e6919c95eb6d4d",
+          "authoredAt": "2026-09-30T11:56:31+08:00",
+          "committedAt": "2026-09-30T12:07:26+08:00",
+          "chronologicalIndex": 406,
+          "problemId": 1111,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1111_maximum_nesting_depth_of_two_valid_parentheses_strings.rs",
+          "sourceFilename": "1111_maximum_nesting_depth_of_two_valid_parentheses_strings.rs",
+          "code": "impl Solution {\n    pub fn max_depth_after_split(seq: String) -> Vec<i32> {\n        let mut result = vec![0; seq.len()];\n        for x in seq.chars().enumerate().filter(|x| x.1 == '(').step_by(2) {\n            result[x.0] = 1;\n        }\n        for x in seq.chars().enumerate().filter(|x| x.1 == ')').step_by(2) {\n            result[x.0] = 1;\n        }\n\n        result\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "4e5f43591228ed297bb6a4f75c13ee710de64e5eab5e4bc7385d7fb76c0d86bc",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 1111",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Uses separate scans over opening and closing parentheses, assigning alternating occurrences to groups via their positions.",
+          "warnings": []
+        },
+        {
+          "sha": "33ad851500df223629d95c85880563c797579681",
+          "shortSha": "33ad851",
+          "parentSha": "4e9ab5b6a451700fd396d1499520712af06748dd",
+          "authoredAt": "2026-09-30T12:04:30+08:00",
+          "committedAt": "2026-09-30T12:07:26+08:00",
+          "chronologicalIndex": 407,
+          "problemId": 1111,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1111_maximum_nesting_depth_of_two_valid_parentheses_strings.rs",
+          "sourceFilename": "1111_maximum_nesting_depth_of_two_valid_parentheses_strings.rs",
+          "code": "impl Solution {\n    pub fn max_depth_after_split(seq: String) -> Vec<i32> {\n        seq.bytes()\n            .scan(0, |depth, byte| match byte {\n                b'(' => {\n                    let bin = *depth % 2;\n                    *depth += 1;\n                    Some(bin)\n                }\n                b')' => {\n                    *depth -= 1;\n                    Some(*depth % 2)\n                }\n                _ => unreachable!(),\n            })\n            .collect()\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "006e4b6b0b8762f5db838b824b1f8eebc622df8ff2e689a3c28ffe8a15b34b81",
+          "markedWrong": false,
+          "commitComment": "linear scan",
+          "rawCommitSubject": "rust 1111: linear scan",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/1111_maximum_nesting_depth_of_two_valid_parentheses_strings.rs b/rust/src/bin/1111_maximum_nesting_depth_of_two_valid_parentheses_strings.rs\nindex e94dc7b..798689c 100644\n--- a/rust/src/bin/1111_maximum_nesting_depth_of_two_valid_parentheses_strings.rs\n+++ b/rust/src/bin/1111_maximum_nesting_depth_of_two_valid_parentheses_strings.rs\n@@ -1,14 +1,19 @@\n impl Solution {\n     pub fn max_depth_after_split(seq: String) -> Vec<i32> {\n-        let mut result = vec![0; seq.len()];\n-        for x in seq.chars().enumerate().filter(|x| x.1 == '(').step_by(2) {\n-            result[x.0] = 1;\n-        }\n-        for x in seq.chars().enumerate().filter(|x| x.1 == ')').step_by(2) {\n-            result[x.0] = 1;\n-        }\n-\n-        result\n+        seq.bytes()\n+            .scan(0, |depth, byte| match byte {\n+                b'(' => {\n+                    let bin = *depth % 2;\n+                    *depth += 1;\n+                    Some(bin)\n+                }\n+                b')' => {\n+                    *depth -= 1;\n+                    Some(*depth % 2)\n+                }\n+                _ => unreachable!(),\n+            })\n+            .collect()\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 14,
+            "deletions": 9
+          },
+          "approachId": "1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Replaces the separate scans with a single linear depth-tracking scan that assigns each parenthesis using the current depth parity.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "4e9ab5b6a451700fd396d1499520712af06748dd",
+    "33ad851500df223629d95c85880563c797579681"
+  ],
+  "warnings": []
+}

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-28T06:07:16.844Z",
-  "sourceHeadSha": "f71edb940f14461e35e19cc433e6919c95eb6d4d",
+  "generatedAt": "2026-09-30T04:08:05.870Z",
+  "sourceHeadSha": "33ad851500df223629d95c85880563c797579681",
   "questions": [
     {
       "id": 1,
@@ -1757,6 +1757,24 @@
       ],
       "firstCommittedAt": "2026-07-20T18:03:31+08:00",
       "lastCommittedAt": "2026-07-20T18:03:31+08:00"
+    },
+    {
+      "id": 1111,
+      "title": "Maximum Nesting Depth of Two Valid Parentheses Strings",
+      "slug": "maximum-nesting-depth-of-two-valid-parentheses-strings",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/1111/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-09-30T12:07:26+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-09-30T12:07:26+08:00",
+      "lastCommittedAt": "2026-09-30T12:07:26+08:00"
     },
     {
       "id": 1189,
