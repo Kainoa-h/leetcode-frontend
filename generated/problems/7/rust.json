@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 7,
+    "title": "Reverse Integer",
+    "slug": "reverse-integer"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/7_reverse_integer.rs",
+    "latestSha": "8479c3518de790e74ae382cbb6a5c81b2f64f848",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-10-03T16:21:24+08:00",
+    "lastCommittedAt": "2026-10-03T16:21:24+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "7",
+    "inputHash": "476b3a88d1fe6f56660837fc2ad74a260555575612f50808fab94af0a4546dae"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "8479c3518de790e74ae382cbb6a5c81b2f64f848",
+          "shortSha": "8479c35",
+          "parentSha": "de967c0957113de7de24f9067348239eb13c57c5",
+          "authoredAt": "2026-10-03T16:21:24+08:00",
+          "committedAt": "2026-10-03T16:21:24+08:00",
+          "chronologicalIndex": 414,
+          "problemId": 7,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/7_reverse_integer.rs",
+          "sourceFilename": "7_reverse_integer.rs",
+          "code": "impl Solution {\n    pub fn reverse(mut x: i32) -> i32 {\n        let mut reversed = 0_i32;\n        while x != 0 {\n            let digit = x % 10_i32;\n            x /= 10;\n\n            match reversed.checked_mul(10).and_then(|m| m.checked_add(digit)) {\n                Some(s)=> reversed = s,\n                None => return 0\n            }\n        }\n        reversed\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "db1cf808c94eeb532a11039113d57ca475f06fcbf1f250cc60271339ec44a9a4",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 7",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "8479c3518de790e74ae382cbb6a5c81b2f64f848"
+  ],
+  "warnings": []
+}

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-03T06:10:18.493Z",
-  "sourceHeadSha": "de967c0957113de7de24f9067348239eb13c57c5",
+  "generatedAt": "2026-10-03T08:21:51.501Z",
+  "sourceHeadSha": "8479c3518de790e74ae382cbb6a5c81b2f64f848",
   "questions": [
     {
       "id": 1,
@@ -92,6 +92,24 @@
       ],
       "firstCommittedAt": "2026-01-31T14:33:07+08:00",
       "lastCommittedAt": "2026-01-31T14:33:07+08:00"
+    },
+    {
+      "id": 7,
+      "title": "Reverse Integer",
+      "slug": "reverse-integer",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/7/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-10-03T16:21:24+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-10-03T16:21:24+08:00",
+      "lastCommittedAt": "2026-10-03T16:21:24+08:00"
     },
     {
       "id": 11,
