@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 32,
+    "title": "Longest Valid Parentheses",
+    "slug": "longest-valid-parentheses"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/32_longest_valid_parentheses.rs",
+    "latestSha": "de967c0957113de7de24f9067348239eb13c57c5",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-10-03T13:29:23+08:00",
+    "lastCommittedAt": "2026-10-03T14:09:37+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "3e41e00c98f121a59945f9864c4f2a248d63fa51e5e4f553e7e3b03d6ea72e3b"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "Index stack scan",
+      "summary": "Uses a stack of unmatched-parenthesis indices with a sentinel boundary to compute the longest valid substring in one pass.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "9798796ec964af54c75b30cb09bb6dfab5d0f632",
+          "shortSha": "9798796",
+          "parentSha": "c4c300a7466a3ff4acfadf5068062afac5588a8f",
+          "authoredAt": "2026-10-03T13:29:23+08:00",
+          "committedAt": "2026-10-03T13:29:23+08:00",
+          "chronologicalIndex": 411,
+          "problemId": 32,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/32_longest_valid_parentheses.rs",
+          "sourceFilename": "32_longest_valid_parentheses.rs",
+          "code": "impl Solution {\n    pub fn longest_valid_parentheses(s: String) -> i32 {\n        let mut stack = Vec::with_capacity(s.len());\n        stack.push(-1);\n        let mut longest = 0;\n        for (idx, &byte) in s.as_bytes().iter().enumerate() {\n            let idx = idx as isize;\n            if byte == b'(' {\n                stack.push(idx);\n                continue;\n            }\n            stack.pop();\n            match stack.last() {\n                Some(&last)=> longest = longest.max(idx - last),\n                None => stack.push(idx)\n            }\n        }\n        longest as i32\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "6617fa95610c23441e469952f932bd94dd39b447807203431e6341dfdfe02cb2",
+          "markedWrong": false,
+          "commitComment": "copied from editorial",
+          "rawCommitSubject": "rust 32: copied from editorial",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Implements the standard one-pass stack algorithm, tracking indices of unmatched opening parentheses and boundaries.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "approach-2",
+      "title": "Bidirectional balance scans",
+      "summary": "Scans the string from both directions while tracking opening and closing counts, resetting when balance becomes invalid. The reverse scan handles cases that the forward scan cannot capture.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "a7d56821f10a9cabb599590877c61062da32d9b9",
+          "shortSha": "a7d5682",
+          "parentSha": "9798796ec964af54c75b30cb09bb6dfab5d0f632",
+          "authoredAt": "2026-10-03T13:51:45+08:00",
+          "committedAt": "2026-10-03T13:51:45+08:00",
+          "chronologicalIndex": 412,
+          "problemId": 32,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/32_longest_valid_parentheses.rs",
+          "sourceFilename": "32_longest_valid_parentheses.rs",
+          "code": "impl Solution {\n    pub fn longest_valid_parentheses(s: String) -> i32 {\n        let mut longest = 0;\n        s.as_bytes().iter().map(|&s| if s == b'(' {(1,0)} else {(0,1)}).fold((0,0), |mut acc, x|{\n            acc = (acc.0 + x.0, acc.1 + x.1);\n            if acc.0 == acc.1 {\n                longest = longest.max(acc.0 * 2);\n            } else if acc.0 < acc.1 {\n                acc = (0,0);\n            }\n            acc\n        });\n        s.as_bytes().iter().rev().map(|&s| if s == b'(' {(1,0)} else {(0,1)}).fold((0,0), |mut acc, x|{\n            acc = (acc.0 + x.0, acc.1 + x.1);\n            if acc.0 == acc.1 {\n                longest = longest.max(acc.0 * 2);\n            } else if acc.0 > acc.1 {\n                acc = (0,0);\n            }\n            acc\n        });\n        longest\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "049113435c7dea9b6c2cc5bfd156bac638d637fef618bfbb8532c86cd1992a6f",
+          "markedWrong": false,
+          "commitComment": "another copied solution, more intuitive",
+          "rawCommitSubject": "rust 32: another copied solution, more intuitive",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/32_longest_valid_parentheses.rs b/rust/src/bin/32_longest_valid_parentheses.rs\nindex 9b37d68..22eda25 100644\n--- a/rust/src/bin/32_longest_valid_parentheses.rs\n+++ b/rust/src/bin/32_longest_valid_parentheses.rs\n@@ -1,21 +1,25 @@\n impl Solution {\n     pub fn longest_valid_parentheses(s: String) -> i32 {\n-        let mut stack = Vec::with_capacity(s.len());\n-        stack.push(-1);\n         let mut longest = 0;\n-        for (idx, &byte) in s.as_bytes().iter().enumerate() {\n-            let idx = idx as isize;\n-            if byte == b'(' {\n-                stack.push(idx);\n-                continue;\n+        s.as_bytes().iter().map(|&s| if s == b'(' {(1,0)} else {(0,1)}).fold((0,0), |mut acc, x|{\n+            acc = (acc.0 + x.0, acc.1 + x.1);\n+            if acc.0 == acc.1 {\n+                longest = longest.max(acc.0 * 2);\n+            } else if acc.0 < acc.1 {\n+                acc = (0,0);\n             }\n-            stack.pop();\n-            match stack.last() {\n-                Some(&last)=> longest = longest.max(idx - last),\n-                None => stack.push(idx)\n+            acc\n+        });\n+        s.as_bytes().iter().rev().map(|&s| if s == b'(' {(1,0)} else {(0,1)}).fold((0,0), |mut acc, x|{\n+            acc = (acc.0 + x.0, acc.1 + x.1);\n+            if acc.0 == acc.1 {\n+                longest = longest.max(acc.0 * 2);\n+            } else if acc.0 > acc.1 {\n+                acc = (0,0);\n             }\n-        }\n-        longest as i32\n+            acc\n+        });\n+        longest\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 17,
+            "deletions": 13
+          },
+          "approachId": "approach-2",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaces the stack with forward and reverse balance scans to find the maximum balanced span.",
+          "warnings": []
+        },
+        {
+          "sha": "de967c0957113de7de24f9067348239eb13c57c5",
+          "shortSha": "de967c0",
+          "parentSha": "a7d56821f10a9cabb599590877c61062da32d9b9",
+          "authoredAt": "2026-10-03T14:09:37+08:00",
+          "committedAt": "2026-10-03T14:09:37+08:00",
+          "chronologicalIndex": 413,
+          "problemId": 32,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/32_longest_valid_parentheses.rs",
+          "sourceFilename": "32_longest_valid_parentheses.rs",
+          "code": "impl Solution {\n    pub fn longest_valid_parentheses(s: String) -> i32 {\n        fn search<'a, I>(iter: I, open: u8) -> i32\n        where\n            I: Iterator<Item = &'a u8>,\n        {\n            iter.fold((0, 0, 0), |mut acc, &x| {\n                if x == open {\n                    acc.0 += 1;\n                } else {\n                    acc.1 += 1;\n                }\n                if acc.0 == acc.1 {\n                    acc.2 = acc.2.max(acc.0 * 2);\n                } else if acc.0 < acc.1 {\n                    acc = (0, 0, acc.2);\n                }\n                acc\n            })\n            .2\n        }\n\n        i32::max(\n            search(s.as_bytes().iter(), b'('),\n            search(s.as_bytes().iter().rev(), b')')\n        )\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "792ad2de9c8087f4c977a7384094ae901c3b18791df26d5327aea4f4d8876efb",
+          "markedWrong": false,
+          "commitComment": "first time using generics and lifetimes",
+          "rawCommitSubject": "rust 32: first time using generics and lifetimes",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/32_longest_valid_parentheses.rs b/rust/src/bin/32_longest_valid_parentheses.rs\nindex 22eda25..00c2d55 100644\n--- a/rust/src/bin/32_longest_valid_parentheses.rs\n+++ b/rust/src/bin/32_longest_valid_parentheses.rs\n@@ -1,25 +1,29 @@\n impl Solution {\n     pub fn longest_valid_parentheses(s: String) -> i32 {\n-        let mut longest = 0;\n-        s.as_bytes().iter().map(|&s| if s == b'(' {(1,0)} else {(0,1)}).fold((0,0), |mut acc, x|{\n-            acc = (acc.0 + x.0, acc.1 + x.1);\n-            if acc.0 == acc.1 {\n-                longest = longest.max(acc.0 * 2);\n-            } else if acc.0 < acc.1 {\n-                acc = (0,0);\n-            }\n-            acc\n-        });\n-        s.as_bytes().iter().rev().map(|&s| if s == b'(' {(1,0)} else {(0,1)}).fold((0,0), |mut acc, x|{\n-            acc = (acc.0 + x.0, acc.1 + x.1);\n-            if acc.0 == acc.1 {\n-                longest = longest.max(acc.0 * 2);\n-            } else if acc.0 > acc.1 {\n-                acc = (0,0);\n-            }\n-            acc\n-        });\n-        longest\n+        fn search<'a, I>(iter: I, open: u8) -> i32\n+        where\n+            I: Iterator<Item = &'a u8>,\n+        {\n+            iter.fold((0, 0, 0), |mut acc, &x| {\n+                if x == open {\n+                    acc.0 += 1;\n+                } else {\n+                    acc.1 += 1;\n+                }\n+                if acc.0 == acc.1 {\n+                    acc.2 = acc.2.max(acc.0 * 2);\n+                } else if acc.0 < acc.1 {\n+                    acc = (0, 0, acc.2);\n+                }\n+                acc\n+            })\n+            .2\n+        }\n+\n+        i32::max(\n+            search(s.as_bytes().iter(), b'('),\n+            search(s.as_bytes().iter().rev(), b')')\n+        )\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 24,
+            "deletions": 20
+          },
+          "approachId": "approach-2",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Refactors the two scans into a generic iterator-based helper with an explicit opening-parenthesis parameter, preserving the bidirectional balance strategy.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "9798796ec964af54c75b30cb09bb6dfab5d0f632",
+    "a7d56821f10a9cabb599590877c61062da32d9b9",
+    "de967c0957113de7de24f9067348239eb13c57c5"
+  ],
+  "warnings": []
+}
