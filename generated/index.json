@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-04T16:25:07.626Z",
-  "sourceHeadSha": "7daa18e706fec3d91af30addc29d471c1c1f3495",
+  "generatedAt": "2026-10-05T10:25:24.821Z",
+  "sourceHeadSha": "88cc65daac86e7ac52af080c612804a1fbd642f4",
   "questions": [
     {
       "id": 1,
@@ -1757,6 +1757,24 @@
       ],
       "firstCommittedAt": "2026-09-14T20:37:01+08:00",
       "lastCommittedAt": "2026-09-14T20:37:01+08:00"
+    },
+    {
+      "id": 856,
+      "title": "Score of Parentheses",
+      "slug": "score-of-parentheses",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/856/rust/",
+          "revisionCount": 3,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-10-05T18:24:46+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-10-05T18:24:46+08:00",
+      "lastCommittedAt": "2026-10-05T18:24:46+08:00"
     },
     {
       "id": 874,
