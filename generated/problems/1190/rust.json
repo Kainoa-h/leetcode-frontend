@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1190,
+    "title": "Reverse Substrings Between Each Pair of Parentheses",
+    "slug": "reverse-substrings-between-each-pair-of-parentheses"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/1190_Reverse_Substrings_Between_Each_Pair_of_Parentheses.rs",
+    "latestSha": "917b134904a2ddf4ca215bbdce0d70c3d45b9f06",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-10-05T23:16:25+08:00",
+    "lastCommittedAt": "2026-10-05T23:44:01+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "962c880ac5181d3382821c8e57cf0a9a28a1a9a72df3468594e413bdc4f7fb60"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "Stack-based substring reversal",
+      "summary": "Use a stack to track opening-parenthesis boundaries and reverse the accumulated substring whenever a closing parenthesis is encountered. Revision 2 builds the output directly instead of mutating the input buffer, while preserving the same core strategy.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "99590200bab9811a1a65e5ff0801b6168ddca653",
+          "shortSha": "9959020",
+          "parentSha": "88cc65daac86e7ac52af080c612804a1fbd642f4",
+          "authoredAt": "2026-10-05T23:16:25+08:00",
+          "committedAt": "2026-10-05T23:16:25+08:00",
+          "chronologicalIndex": 420,
+          "problemId": 1190,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1190_Reverse_Substrings_Between_Each_Pair_of_Parentheses.rs",
+          "sourceFilename": "1190_Reverse_Substrings_Between_Each_Pair_of_Parentheses.rs",
+          "code": "impl Solution {\n    pub fn reverse_parentheses(s: String) -> String {\n        let mut stack = Vec::with_capacity(s.len()/2);\n        let mut bytes = s.into_bytes();\n        for i in 0..bytes.len() {\n            let b = bytes[i];\n            match b {\n                b'(' => stack.push(i),\n                b')' => {\n                    let start = stack.pop().unwrap() + 1;\n                    bytes[start..i].reverse();\n                },\n                _ => {}\n            }\n        }\n        String::from_utf8(\n            bytes.into_iter().filter(|b| (b'a'..=b'z').contains(b)).collect()\n        ).unwrap()\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "c4dbdd814d8e7a4d885f64a45181b1fd8e90cc8ac423283d80e9a5171ca882fe",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 1190",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Stores opening-parenthesis indices in a stack and reverses each matched substring in place, then removes parentheses from the byte buffer.",
+          "warnings": []
+        },
+        {
+          "sha": "917b134904a2ddf4ca215bbdce0d70c3d45b9f06",
+          "shortSha": "917b134",
+          "parentSha": "99590200bab9811a1a65e5ff0801b6168ddca653",
+          "authoredAt": "2026-10-05T23:30:42+08:00",
+          "committedAt": "2026-10-05T23:44:01+08:00",
+          "chronologicalIndex": 421,
+          "problemId": 1190,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1190_Reverse_Substrings_Between_Each_Pair_of_Parentheses.rs",
+          "sourceFilename": "1190_Reverse_Substrings_Between_Each_Pair_of_Parentheses.rs",
+          "code": "impl Solution {\n    pub fn reverse_parentheses(s: String) -> String {\n        let mut stack = Vec::with_capacity(s.len() / 2);\n        let mut result = Vec::with_capacity(s.len());\n\n        for b in s.bytes() {\n            match b {\n                b'(' => stack.push(result.len()),\n                b')' => result[stack.pop().unwrap()..].reverse(),\n                _ => result.push(b),\n            }\n        }\n\n        unsafe { String::from_utf8_unchecked(result) }\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "cb6377de53f0578834e536cf860e0d9c3798896c2454c28c7e5dd0187da66cda",
+          "markedWrong": false,
+          "commitComment": "directly create result string",
+          "rawCommitSubject": "rust 1190: directly create result string",
+          "commitBody": "previous method did the reversals in-place. No point doing that since\nresult requires a new vector anyway",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/1190_Reverse_Substrings_Between_Each_Pair_of_Parentheses.rs b/rust/src/bin/1190_Reverse_Substrings_Between_Each_Pair_of_Parentheses.rs\nindex 2192965..784ddff 100644\n--- a/rust/src/bin/1190_Reverse_Substrings_Between_Each_Pair_of_Parentheses.rs\n+++ b/rust/src/bin/1190_Reverse_Substrings_Between_Each_Pair_of_Parentheses.rs\n@@ -1,21 +1,17 @@\n impl Solution {\n     pub fn reverse_parentheses(s: String) -> String {\n-        let mut stack = Vec::with_capacity(s.len()/2);\n-        let mut bytes = s.into_bytes();\n-        for i in 0..bytes.len() {\n-            let b = bytes[i];\n+        let mut stack = Vec::with_capacity(s.len() / 2);\n+        let mut result = Vec::with_capacity(s.len());\n+\n+        for b in s.bytes() {\n             match b {\n-                b'(' => stack.push(i),\n-                b')' => {\n-                    let start = stack.pop().unwrap() + 1;\n-                    bytes[start..i].reverse();\n-                },\n-                _ => {}\n+                b'(' => stack.push(result.len()),\n+                b')' => result[stack.pop().unwrap()..].reverse(),\n+                _ => result.push(b),\n             }\n         }\n-        String::from_utf8(\n-            bytes.into_iter().filter(|b| (b'a'..=b'z').contains(b)).collect()\n-        ).unwrap()\n+\n+        unsafe { String::from_utf8_unchecked(result) }\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 9,
+            "deletions": 13
+          },
+          "approachId": "approach-1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Builds the result directly while using stack offsets to reverse the current suffix on each closing parenthesis, avoiding in-place mutation of the input.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "99590200bab9811a1a65e5ff0801b6168ddca653",
+    "917b134904a2ddf4ca215bbdce0d70c3d45b9f06"
+  ],
+  "warnings": []
+}
