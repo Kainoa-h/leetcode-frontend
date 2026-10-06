@@ -1,0 +1,162 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1963,
+    "title": "Minimum Number of Swaps to Make the String Balanced",
+    "slug": "minimum-number-of-swaps-to-make-the-string-balanced"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/1963_minimum_number_of_swaps_to_make_the_string_balanced.rs",
+    "latestSha": "fe0330cbaada6c2d6d50800582eda72efc7a0067",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 4,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-10-06T16:42:22+08:00",
+    "lastCommittedAt": "2026-10-06T17:34:21+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-6-luna",
+    "promptVersion": "7",
+    "inputHash": "a0968c33d558f4d339e989d04327483d7e6466ce4fa1a3f13876b6ca25e7cd06"
+  },
+  "approaches": [
+    {
+      "id": "1",
+      "title": "Single-pass imbalance counting",
+      "summary": "Scan the string once while tracking bracket balance, then compute the swaps from the unmatched closing brackets or maximum prefix deficit. Revisions 2 and 3 refine the scan and express the same underlying strategy differently.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "337587d98b871f3da939225930ba5b226bb8a5f7",
+          "shortSha": "337587d",
+          "parentSha": "aec8ba0db9cca9b63d1abdf38f84385b93c0c77a",
+          "authoredAt": "2026-10-06T16:42:22+08:00",
+          "committedAt": "2026-10-06T16:42:22+08:00",
+          "chronologicalIndex": 428,
+          "problemId": 1963,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1963_minimum_number_of_swaps_to_make_the_string_balanced.rs",
+          "sourceFilename": "1963_minimum_number_of_swaps_to_make_the_string_balanced.rs",
+          "code": "impl Solution {\n    pub fn min_swaps(s: String) -> i32 {\n        let (_, errors) = s.chars().fold((0, 0), |(open, errors), c| match c {\n            '(' => (open + 1, errors),\n            _ if open > 0 => (open - 1, errors),\n            _ => (open, errors + 1),\n        });\n\n        (errors + 1) / 2\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "b99deaafe9dfe7ff43e7f36a255c14b7cafe145f1499d8540853308a11f2ec49",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 1963",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Count unmatched closing brackets in a character scan and return half rounded up.",
+          "warnings": []
+        },
+        {
+          "sha": "7379f39a03b75cd0ca26e43a7667e780dae800f9",
+          "shortSha": "7379f39",
+          "parentSha": "337587d98b871f3da939225930ba5b226bb8a5f7",
+          "authoredAt": "2026-10-06T16:51:07+08:00",
+          "committedAt": "2026-10-06T16:51:53+08:00",
+          "chronologicalIndex": 429,
+          "problemId": 1963,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1963_minimum_number_of_swaps_to_make_the_string_balanced.rs",
+          "sourceFilename": "1963_minimum_number_of_swaps_to_make_the_string_balanced.rs",
+          "code": "impl Solution {\n    pub fn min_swaps(s: String) -> i32 {\n        s.as_bytes()\n            .iter()\n            .fold((0, 0_u32), |(open, errors), b| match b {\n                b'[' => (open + 1, errors),\n                _ if open > 0 => (open - 1, errors),\n                _ => (open, errors + 1),\n            })\n            .1\n            .div_ceil(2) as i32\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "167ed1a90f4e1e7620b8ce48d65d282ae61ad3c607837b236144cb6738254c21",
+          "markedWrong": false,
+          "commitComment": "use u32 for built in ceiling div & faster iter w/ as_bytes()",
+          "rawCommitSubject": "rust 1963: use u32 for built in ceiling div & faster iter w/ as_bytes()",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/1963_minimum_number_of_swaps_to_make_the_string_balanced.rs b/rust/src/bin/1963_minimum_number_of_swaps_to_make_the_string_balanced.rs\nindex fdee1bf..4ed6798 100644\n--- a/rust/src/bin/1963_minimum_number_of_swaps_to_make_the_string_balanced.rs\n+++ b/rust/src/bin/1963_minimum_number_of_swaps_to_make_the_string_balanced.rs\n@@ -1,12 +1,14 @@\n impl Solution {\n     pub fn min_swaps(s: String) -> i32 {\n-        let (_, errors) = s.chars().fold((0, 0), |(open, errors), c| match c {\n-            '(' => (open + 1, errors),\n-            _ if open > 0 => (open - 1, errors),\n-            _ => (open, errors + 1),\n-        });\n-\n-        (errors + 1) / 2\n+        s.as_bytes()\n+            .iter()\n+            .fold((0, 0_u32), |(open, errors), b| match b {\n+                b'[' => (open + 1, errors),\n+                _ if open > 0 => (open - 1, errors),\n+                _ => (open, errors + 1),\n+            })\n+            .1\n+            .div_ceil(2) as i32\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 9,
+            "deletions": 7
+          },
+          "approachId": "1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Use byte iteration and `div_ceil` while retaining the unmatched-closing count.",
+          "warnings": []
+        },
+        {
+          "sha": "854a497c7a90b75d2314a32003aebefe6b92f51d",
+          "shortSha": "854a497",
+          "parentSha": "7379f39a03b75cd0ca26e43a7667e780dae800f9",
+          "authoredAt": "2026-10-06T17:30:48+08:00",
+          "committedAt": "2026-10-06T17:30:48+08:00",
+          "chronologicalIndex": 430,
+          "problemId": 1963,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1963_minimum_number_of_swaps_to_make_the_string_balanced.rs",
+          "sourceFilename": "1963_minimum_number_of_swaps_to_make_the_string_balanced.rs",
+          "code": "impl Solution {\n    pub fn min_swaps(s: String) -> i32 {\n        let mut open = 0;\n        let mut max_diff = 0;\n        for &c in s.as_bytes() {\n            match c {\n                b'[' => open += 1,\n                _ => open -= 1\n            }\n            max_diff = max_diff.min(open);\n        }\n        (-max_diff + 1) / 2\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "2cc73ec521354990cf8e445b1ff0c395e9048a1bd32f63c1f26b3394221ca89c",
+          "markedWrong": false,
+          "commitComment": "since open = close, max_diff = total errors. Reducing branching",
+          "rawCommitSubject": "rust 1963: since open = close, max_diff = total errors. Reducing branching",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/1963_minimum_number_of_swaps_to_make_the_string_balanced.rs b/rust/src/bin/1963_minimum_number_of_swaps_to_make_the_string_balanced.rs\nindex 4ed6798..195cb3d 100644\n--- a/rust/src/bin/1963_minimum_number_of_swaps_to_make_the_string_balanced.rs\n+++ b/rust/src/bin/1963_minimum_number_of_swaps_to_make_the_string_balanced.rs\n@@ -1,14 +1,15 @@\n impl Solution {\n     pub fn min_swaps(s: String) -> i32 {\n-        s.as_bytes()\n-            .iter()\n-            .fold((0, 0_u32), |(open, errors), b| match b {\n-                b'[' => (open + 1, errors),\n-                _ if open > 0 => (open - 1, errors),\n-                _ => (open, errors + 1),\n-            })\n-            .1\n-            .div_ceil(2) as i32\n+        let mut open = 0;\n+        let mut max_diff = 0;\n+        for &c in s.as_bytes() {\n+            match c {\n+                b'[' => open += 1,\n+                _ => open -= 1\n+            }\n+            max_diff = max_diff.min(open);\n+        }\n+        (-max_diff + 1) / 2\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 10,
+            "deletions": 9
+          },
+          "approachId": "1",
+          "narrativeIndex": 2,
+          "shortChangeSummary": "Track the minimum prefix balance and derive the swap count from the maximum deficit.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Explicitly swap mismatched brackets",
+      "summary": "Scan from the left and, whenever a closing bracket cannot be matched, swap it with an opening bracket found from the right. Count each performed swap.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "fe0330cbaada6c2d6d50800582eda72efc7a0067",
+          "shortSha": "fe0330c",
+          "parentSha": "854a497c7a90b75d2314a32003aebefe6b92f51d",
+          "authoredAt": "2026-10-06T17:34:21+08:00",
+          "committedAt": "2026-10-06T17:34:21+08:00",
+          "chronologicalIndex": 431,
+          "problemId": 1963,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1963_minimum_number_of_swaps_to_make_the_string_balanced.rs",
+          "sourceFilename": "1963_minimum_number_of_swaps_to_make_the_string_balanced.rs",
+          "code": "impl Solution {\n    pub fn min_swaps(s: String) -> i32 {\n        let mut swaps = 0;\n        let (mut left, mut right) = (0, s.len().saturating_sub(1));\n        let mut open = 0;\n        let mut bytes = s.into_bytes();\n\n        while left < right {\n            let c = bytes[left];\n            match c {\n                b'[' => open += 1,\n                _ if open > 0 => open -= 1,\n                _ => {\n                    while bytes[right] != b'[' {\n                        right -= 1;\n                    }\n                    bytes.swap(left, right);\n                    right -= 1;\n                    swaps += 1;\n                    open += 1;\n                }\n            }\n            left += 1;\n        }\n\n        swaps\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "ef8a9bc6f5ab2429fbac5662be82bd6b406948ad090cd0ed8231d422cca562f7",
+          "markedWrong": false,
+          "commitComment": "potentially slower? simulation approach",
+          "rawCommitSubject": "rust 1963: potentially slower? simulation approach",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/1963_minimum_number_of_swaps_to_make_the_string_balanced.rs b/rust/src/bin/1963_minimum_number_of_swaps_to_make_the_string_balanced.rs\nindex 195cb3d..4d13b97 100644\n--- a/rust/src/bin/1963_minimum_number_of_swaps_to_make_the_string_balanced.rs\n+++ b/rust/src/bin/1963_minimum_number_of_swaps_to_make_the_string_balanced.rs\n@@ -1,15 +1,29 @@\n impl Solution {\n     pub fn min_swaps(s: String) -> i32 {\n+        let mut swaps = 0;\n+        let (mut left, mut right) = (0, s.len().saturating_sub(1));\n         let mut open = 0;\n-        let mut max_diff = 0;\n-        for &c in s.as_bytes() {\n+        let mut bytes = s.into_bytes();\n+\n+        while left < right {\n+            let c = bytes[left];\n             match c {\n                 b'[' => open += 1,\n-                _ => open -= 1\n+                _ if open > 0 => open -= 1,\n+                _ => {\n+                    while bytes[right] != b'[' {\n+                        right -= 1;\n+                    }\n+                    bytes.swap(left, right);\n+                    right -= 1;\n+                    swaps += 1;\n+                    open += 1;\n+                }\n             }\n-            max_diff = max_diff.min(open);\n+            left += 1;\n         }\n-        (-max_diff + 1) / 2\n+\n+        swaps\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 19,
+            "deletions": 5
+          },
+          "approachId": "2",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replace deficit counting with a two-pointer simulation that swaps each unmatched closing bracket with a right-side opening bracket.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "337587d98b871f3da939225930ba5b226bb8a5f7",
+    "7379f39a03b75cd0ca26e43a7667e780dae800f9",
+    "854a497c7a90b75d2314a32003aebefe6b92f51d",
+    "fe0330cbaada6c2d6d50800582eda72efc7a0067"
+  ],
+  "warnings": []
+}

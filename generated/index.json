@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-06T02:22:15.288Z",
-  "sourceHeadSha": "aec8ba0db9cca9b63d1abdf38f84385b93c0c77a",
+  "generatedAt": "2026-10-06T09:35:32.990Z",
+  "sourceHeadSha": "fe0330cbaada6c2d6d50800582eda72efc7a0067",
   "questions": [
     {
       "id": 1,
@@ -2324,6 +2324,24 @@
       ],
       "firstCommittedAt": "2026-08-23T18:22:22+08:00",
       "lastCommittedAt": "2026-08-23T18:22:22+08:00"
+    },
+    {
+      "id": 1963,
+      "title": "Minimum Number of Swaps to Make the String Balanced",
+      "slug": "minimum-number-of-swaps-to-make-the-string-balanced",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/1963/rust/",
+          "revisionCount": 4,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-10-06T17:34:21+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-10-06T16:42:22+08:00",
+      "lastCommittedAt": "2026-10-06T17:34:21+08:00"
     },
     {
       "id": 1967,
