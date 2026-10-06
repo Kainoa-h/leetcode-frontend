@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 921,
+    "title": "Minimum Add to Make Parentheses Valid",
+    "slug": "minimum-add-to-make-parentheses-valid"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/921_minimum_add_to_make_parentheses_valid.rs",
+    "latestSha": "937b29426a124dc77d36d30d626167332deeece8",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 2,
+    "incorrectRevisionCount": 1,
+    "firstCommittedAt": "2026-10-06T09:53:15+08:00",
+    "lastCommittedAt": "2026-10-06T09:53:15+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-5.6-luna",
+    "promptVersion": "7",
+    "inputHash": "ad5c2b5c378f17f984c18123015195e105e9eccd2a7def4f846cfd04c70f5a97"
+  },
+  "approaches": [
+    {
+      "id": "approach-1",
+      "title": "Net parenthesis balance",
+      "summary": "Computes the absolute final difference between opening and closing parentheses. This is incorrect because it does not account for invalid closing parentheses appearing before matching openings.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "b32f78520b3fd1028f86506742801b3d274b230b",
+          "shortSha": "b32f785",
+          "parentSha": "1a8c2f5fba3cd6f63ca1f1de70e6bde7f1e0215f",
+          "authoredAt": "2026-10-06T09:45:01+08:00",
+          "committedAt": "2026-10-06T09:53:15+08:00",
+          "chronologicalIndex": 423,
+          "problemId": 921,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/921_minimum_add_to_make_parentheses_valid.rs",
+          "sourceFilename": "921_minimum_add_to_make_parentheses_valid.rs",
+          "code": "impl Solution {\n    pub fn min_add_to_make_valid(s: String) -> i32 {\n        s.chars()\n            .fold(0_i32, |acc, c| acc + if c == '(' { 1 } else { -1 })\n            .abs()\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "7eb1c80111684abaa9992d0645c1bc2a4168a31e5a4445d0962476b4d92a59ca",
+          "markedWrong": true,
+          "commitComment": "naive solution, fails to account for order",
+          "rawCommitSubject": "rust 921!: naive solution, fails to account for order",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach-1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Introduced a naive fold that returns the absolute net parenthesis balance. Marked incorrect because it ignores ordering.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "approach-2",
+      "title": "Track unmatched parentheses",
+      "summary": "Scans the string while tracking unmatched openings and immediately counting unmatched closing parentheses. The later revision preserves this strategy while expressing it as a functional fold.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "6a4fe615834b42679e4022555539c725a2304ca2",
+          "shortSha": "6a4fe61",
+          "parentSha": "b32f78520b3fd1028f86506742801b3d274b230b",
+          "authoredAt": "2026-10-06T09:45:23+08:00",
+          "committedAt": "2026-10-06T09:53:15+08:00",
+          "chronologicalIndex": 424,
+          "problemId": 921,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/921_minimum_add_to_make_parentheses_valid.rs",
+          "sourceFilename": "921_minimum_add_to_make_parentheses_valid.rs",
+          "code": "impl Solution {\n    pub fn min_add_to_make_valid(s: String) -> i32 {\n        let (mut open, mut close) = (0, 0);\n        let mut result = 0;\n        for ch in s.chars() {\n            match ch {\n                '(' => open += 1,\n                _ => close += 1\n            }\n            if close > open {\n                result += 1;\n                open = 0;\n                close = 0;\n            }\n        }\n        result + open - close\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "b3e121768a1924a9f54bc6770e2640926e0b8d6603559ddc120a677beec153df",
+          "markedWrong": false,
+          "commitComment": "standard parentheses tracking",
+          "rawCommitSubject": "rust 921: standard parentheses tracking",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/921_minimum_add_to_make_parentheses_valid.rs b/rust/src/bin/921_minimum_add_to_make_parentheses_valid.rs\nindex eb7390e..97bdc1c 100644\n--- a/rust/src/bin/921_minimum_add_to_make_parentheses_valid.rs\n+++ b/rust/src/bin/921_minimum_add_to_make_parentheses_valid.rs\n@@ -1,8 +1,19 @@\n impl Solution {\n     pub fn min_add_to_make_valid(s: String) -> i32 {\n-        s.chars()\n-            .fold(0_i32, |acc, c| acc + if c == '(' { 1 } else { -1 })\n-            .abs()\n+        let (mut open, mut close) = (0, 0);\n+        let mut result = 0;\n+        for ch in s.chars() {\n+            match ch {\n+                '(' => open += 1,\n+                _ => close += 1\n+            }\n+            if close > open {\n+                result += 1;\n+                open = 0;\n+                close = 0;\n+            }\n+        }\n+        result + open - close\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 14,
+            "deletions": 3
+          },
+          "approachId": "approach-2",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaced net-balance counting with standard tracking of unmatched openings, unmatched closings, and required insertions.",
+          "warnings": []
+        },
+        {
+          "sha": "937b29426a124dc77d36d30d626167332deeece8",
+          "shortSha": "937b294",
+          "parentSha": "6a4fe615834b42679e4022555539c725a2304ca2",
+          "authoredAt": "2026-10-06T09:53:01+08:00",
+          "committedAt": "2026-10-06T09:53:15+08:00",
+          "chronologicalIndex": 425,
+          "problemId": 921,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/921_minimum_add_to_make_parentheses_valid.rs",
+          "sourceFilename": "921_minimum_add_to_make_parentheses_valid.rs",
+          "code": "impl Solution {\n    pub fn min_add_to_make_valid(s: String) -> i32 {\n        let state = s.chars().fold((0, 0, 0), |mut state, c| {\n            match c {\n                '(' => state.0 += 1,\n                _ => state.1 += 1,\n            }\n            if state.1 > state.0 {\n                state.2 += 1;\n                state = (0, 0, state.2);\n            }\n            state\n        });\n        state.2 + state.0 - state.1\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "3952f2e38ee62fb392301febd1b160eb6037455badcb5a9bfbff0a6ea083cd0f",
+          "markedWrong": false,
+          "commitComment": "refactored into functional fold expression for fun",
+          "rawCommitSubject": "rust 921: refactored into functional fold expression for fun",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/921_minimum_add_to_make_parentheses_valid.rs b/rust/src/bin/921_minimum_add_to_make_parentheses_valid.rs\nindex 97bdc1c..e8160f7 100644\n--- a/rust/src/bin/921_minimum_add_to_make_parentheses_valid.rs\n+++ b/rust/src/bin/921_minimum_add_to_make_parentheses_valid.rs\n@@ -1,19 +1,17 @@\n impl Solution {\n     pub fn min_add_to_make_valid(s: String) -> i32 {\n-        let (mut open, mut close) = (0, 0);\n-        let mut result = 0;\n-        for ch in s.chars() {\n-            match ch {\n-                '(' => open += 1,\n-                _ => close += 1\n+        let state = s.chars().fold((0, 0, 0), |mut state, c| {\n+            match c {\n+                '(' => state.0 += 1,\n+                _ => state.1 += 1,\n             }\n-            if close > open {\n-                result += 1;\n-                open = 0;\n-                close = 0;\n+            if state.1 > state.0 {\n+                state.2 += 1;\n+                state = (0, 0, state.2);\n             }\n-        }\n-        result + open - close\n+            state\n+        });\n+        state.2 + state.0 - state.1\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 10,
+            "deletions": 12
+          },
+          "approachId": "approach-2",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Refactored the same tracking algorithm into a fold over a three-value state tuple without changing the core strategy.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "b32f78520b3fd1028f86506742801b3d274b230b",
+    "6a4fe615834b42679e4022555539c725a2304ca2",
+    "937b29426a124dc77d36d30d626167332deeece8"
+  ],
+  "warnings": []
+}
