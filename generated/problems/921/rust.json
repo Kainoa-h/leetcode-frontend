@@ -13,27 +13,27 @@
   "source": {
     "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
     "latestPath": "rust/src/bin/921_minimum_add_to_make_parentheses_valid.rs",
-    "latestSha": "96baf96ce0454ceec5650779da1118e324e026b2",
+    "latestSha": "aec8ba0db9cca9b63d1abdf38f84385b93c0c77a",
     "deleted": false
   },
   "statistics": {
-    "revisionCount": 4,
-    "approachCount": 1,
+    "revisionCount": 5,
+    "approachCount": 2,
     "incorrectRevisionCount": 1,
     "firstCommittedAt": "2026-10-06T09:53:15+08:00",
-    "lastCommittedAt": "2026-10-06T10:16:35+08:00"
+    "lastCommittedAt": "2026-10-06T10:21:15+08:00"
   },
   "analysis": {
     "status": "llm",
     "model": "openai/gpt-5.6-luna",
     "promptVersion": "7",
-    "inputHash": "ea21e8c2d8419f0bb989143809aeba86d00aaaef4995764f4e9cc7af55b37659"
+    "inputHash": "3f0fee3d47a7fcfad3b8e687cc8430b785515aaebebff59f5ba1effe29c8e8c5"
   },
   "approaches": [
     {
-      "id": "1",
-      "title": "One-pass parenthesis balance tracking",
-      "summary": "Scans the string once while tracking unmatched parentheses and counting additions needed. Revision 1 is an incorrect net-count approach because it ignores ordering; later revisions correctly handle unmatched closing and opening parentheses.",
+      "id": "approach-1",
+      "title": "Net balance without preserving order",
+      "summary": "Computes the absolute net difference between opening and closing parentheses. This is incorrect because it ignores invalid prefix order, as marked in revision 1.",
       "order": 0,
       "revisions": [
         {
@@ -55,11 +55,19 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "1",
+          "approachId": "approach-1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Introduced a net balance count and returned its absolute value. Incorrect because the final balance does not capture invalid prefix order.",
+          "shortChangeSummary": "Introduced a naive character-count balance using a fold and absolute value. Marked wrong because it fails to account for ordering and invalid prefixes.",
           "warnings": []
-        },
+        }
+      ]
+    },
+    {
+      "id": "approach-2",
+      "title": "Greedy tracking of unmatched parentheses",
+      "summary": "Scans the string while tracking unmatched opening parentheses and required closing parentheses. Later revisions preserve this greedy linear-time strategy while simplifying the state and fold implementation.",
+      "order": 1,
+      "revisions": [
         {
           "sha": "6a4fe615834b42679e4022555539c725a2304ca2",
           "shortSha": "6a4fe61",
@@ -82,9 +90,9 @@
             "additions": 14,
             "deletions": 3
           },
-          "approachId": "1",
-          "narrativeIndex": 1,
-          "shortChangeSummary": "Replaced net counting with a greedy scan that counts unmatched closing parentheses and remaining unmatched openings.",
+          "approachId": "approach-2",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaced net counting with sequential tracking of opening and closing parentheses, adding a result whenever a closing parenthesis lacks a match.",
           "warnings": []
         },
         {
@@ -109,9 +117,9 @@
             "additions": 10,
             "deletions": 12
           },
-          "approachId": "1",
-          "narrativeIndex": 2,
-          "shortChangeSummary": "Refactored the same greedy balance algorithm into a functional fold with tuple state.",
+          "approachId": "approach-2",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Refactored the same tracking algorithm into a functional fold with a three-element state tuple.",
           "warnings": []
         },
         {
@@ -136,9 +144,36 @@
             "additions": 9,
             "deletions": 7
           },
-          "approachId": "1",
+          "approachId": "approach-2",
+          "narrativeIndex": 2,
+          "shortChangeSummary": "Simplified the state to unmatched openings and needed closing parentheses, greedily matching each closing parenthesis when possible.",
+          "warnings": []
+        },
+        {
+          "sha": "aec8ba0db9cca9b63d1abdf38f84385b93c0c77a",
+          "shortSha": "aec8ba0",
+          "parentSha": "96baf96ce0454ceec5650779da1118e324e026b2",
+          "authoredAt": "2026-10-06T10:21:15+08:00",
+          "committedAt": "2026-10-06T10:21:15+08:00",
+          "chronologicalIndex": 427,
+          "problemId": 921,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/921_minimum_add_to_make_parentheses_valid.rs",
+          "sourceFilename": "921_minimum_add_to_make_parentheses_valid.rs",
+          "code": "impl Solution {\n    pub fn min_add_to_make_valid(s: String) -> i32 {\n        let (open, needed) = s.chars().fold((0, 0), |(open, needed), c| match c {\n            '(' => (open + 1, needed),\n            _ if open > 0 => (open - 1, needed),\n            _ => (open, needed + 1),\n        });\n        open + needed\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "bdaee86761301b1b0c6b6d4a7a0c0e7d9fc8b382c815d2f92d3363a4a2f2e132",
+          "markedWrong": false,
+          "commitComment": "proper immutable functional fold",
+          "rawCommitSubject": "rust 921: proper immutable functional fold",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/921_minimum_add_to_make_parentheses_valid.rs b/rust/src/bin/921_minimum_add_to_make_parentheses_valid.rs\nindex 46fb813..f2b187f 100644\n--- a/rust/src/bin/921_minimum_add_to_make_parentheses_valid.rs\n+++ b/rust/src/bin/921_minimum_add_to_make_parentheses_valid.rs\n@@ -1,19 +1,11 @@\n impl Solution {\n     pub fn min_add_to_make_valid(s: String) -> i32 {\n-        let state = s.chars().fold((0, 0), |mut state, c| {\n-            match c {\n-                '(' => state.0 += 1,\n-                _ => {\n-                    if state.0 > 0 {\n-                        state.0 -= 1;\n-                    } else {\n-                        state.1 += 1;\n-                    }\n-                }\n-            }\n-            state\n+        let (open, needed) = s.chars().fold((0, 0), |(open, needed), c| match c {\n+            '(' => (open + 1, needed),\n+            _ if open > 0 => (open - 1, needed),\n+            _ => (open, needed + 1),\n         });\n-        state.0 + state.1\n+        open + needed\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 5,
+            "deletions": 13
+          },
+          "approachId": "approach-2",
           "narrativeIndex": 3,
-          "shortChangeSummary": "Simplified the balance state to unmatched openings and required closing insertions, decrementing openings when possible.",
+          "shortChangeSummary": "Refactored the same greedy balance algorithm into an immutable functional fold with descriptive destructured state.",
           "warnings": []
         }
       ]
@@ -148,7 +183,8 @@
     "b32f78520b3fd1028f86506742801b3d274b230b",
     "6a4fe615834b42679e4022555539c725a2304ca2",
     "937b29426a124dc77d36d30d626167332deeece8",
-    "96baf96ce0454ceec5650779da1118e324e026b2"
+    "96baf96ce0454ceec5650779da1118e324e026b2",
+    "aec8ba0db9cca9b63d1abdf38f84385b93c0c77a"
   ],
   "warnings": []
 }
