@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-06T09:35:32.990Z",
-  "sourceHeadSha": "fe0330cbaada6c2d6d50800582eda72efc7a0067",
+  "generatedAt": "2026-10-07T09:10:45.791Z",
+  "sourceHeadSha": "028011ac5b0d3d5ce5a8c85fd1c420f399ccbf95",
   "questions": [
     {
       "id": 1,
@@ -200,6 +200,24 @@
       ],
       "firstCommittedAt": "2026-02-11T20:54:40+08:00",
       "lastCommittedAt": "2026-02-11T21:53:05+08:00"
+    },
+    {
+      "id": 16,
+      "title": "3sum Closest",
+      "slug": "3sum-closest",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/16/rust/",
+          "revisionCount": 2,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-10-07T17:04:30+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-10-07T15:21:08+08:00",
+      "lastCommittedAt": "2026-10-07T17:04:30+08:00"
     },
     {
       "id": 20,

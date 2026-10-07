@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 16,
+    "title": "3sum Closest",
+    "slug": "3sum-closest"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/16_3sum_closest.rs",
+    "latestSha": "028011ac5b0d3d5ce5a8c85fd1c420f399ccbf95",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-10-07T15:21:08+08:00",
+    "lastCommittedAt": "2026-10-07T17:04:30+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-6-luna",
+    "promptVersion": "7",
+    "inputHash": "554ec83cdf9981ed24447dcbf3972bb850b6673b1c45e4975037df148ba8cd95"
+  },
+  "approaches": [
+    {
+      "id": "1",
+      "title": "Sorted triple enumeration",
+      "summary": "Sort the numbers, then enumerate distinct triples with three nested loops. Stop scanning the innermost loop once its sum exceeds the target and track the closest sum.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "c48c14b55ea2d1c316df50f09772e0457275578e",
+          "shortSha": "c48c14b",
+          "parentSha": "fe0330cbaada6c2d6d50800582eda72efc7a0067",
+          "authoredAt": "2026-10-07T15:21:08+08:00",
+          "committedAt": "2026-10-07T15:21:08+08:00",
+          "chronologicalIndex": 432,
+          "problemId": 16,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/16_3sum_closest.rs",
+          "sourceFilename": "16_3sum_closest.rs",
+          "code": "impl Solution {\n    pub fn three_sum_closest(mut nums: Vec<i32>, target: i32) -> i32 {\n        let n = nums.len();\n        let mut closest_sum = i32::MAX;\n        nums.sort_unstable();\n\n        let min = nums[0..3].iter().sum();\n        if min > target {\n            return min;\n        }\n        let max = nums[n - 3..n].iter().sum();\n        if max < target {\n            return max;\n        }\n\n        for f in 0..nums.len() - 2 {\n            if f != 0 && nums[f] == nums[f - 1] {\n                continue;\n            }\n\n            for l in f + 1..nums.len() - 1 {\n                if l != f + 1 && nums[l] == nums[l - 1] {\n                    continue;\n                }\n\n                for r in l + 1..nums.len() {\n                    if r != l + 1 && nums[r] == nums[r - 1] {\n                        continue;\n                    }\n\n                    let sum = nums[f] + nums[l] + nums[r];\n                    let diff = (target - sum).abs();\n                    if (target - closest_sum).abs() > diff {\n                        closest_sum = sum;\n                    }\n                    if sum > target {\n                        break;\n                    }\n                }\n            }\n        }\n\n        closest_sum\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "d63de94fc3bb8bd04527f3d831b0f33eac28695e6394cbf23c1448b3c9902794",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 16",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Sorts the input and checks triples with three nested loops, skipping duplicate values and stopping the innermost scan when the sum exceeds the target.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Sorted two-pointer search",
+      "summary": "Sort the numbers, fix each first element, and use two pointers to search the remaining range. Move a pointer according to whether the current sum is below or above the target, with bounds-based short circuits.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "028011ac5b0d3d5ce5a8c85fd1c420f399ccbf95",
+          "shortSha": "028011a",
+          "parentSha": "c48c14b55ea2d1c316df50f09772e0457275578e",
+          "authoredAt": "2026-10-07T17:03:44+08:00",
+          "committedAt": "2026-10-07T17:04:30+08:00",
+          "chronologicalIndex": 433,
+          "problemId": 16,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/16_3sum_closest.rs",
+          "sourceFilename": "16_3sum_closest.rs",
+          "code": "use std::cmp::Ordering;\n\nimpl Solution {\n    pub fn three_sum_closest(mut nums: Vec<i32>, target: i32) -> i32 {\n        let n = nums.len();\n        let mut closest_sum = nums[0] + nums[1] + nums[2];\n        nums.sort_unstable();\n\n        for f in 0..n - 2 {\n            let min = nums[f] + nums[f + 1] + nums[f + 2];\n            if min > target {\n                if target.abs_diff(min) < target.abs_diff(closest_sum) {\n                    closest_sum = min;\n                }\n                break;\n            }\n            let max = nums[f] + nums[n - 2] + nums[n - 1];\n            if max < target {\n                if target.abs_diff(max) < target.abs_diff(closest_sum) {\n                    closest_sum = max;\n                }\n                continue;\n            }\n            let (mut l, mut r) = (f + 1, n - 1);\n\n            while l < r {\n                let sum = nums[f] + nums[l] + nums[r];\n\n                if target.abs_diff(sum) < target.abs_diff(closest_sum) {\n                    closest_sum = sum;\n                }\n\n                match sum.cmp(&target) {\n                    Ordering::Less => l += 1,\n                    Ordering::Equal => return closest_sum,\n                    Ordering::Greater => r -= 1,\n                }\n            }\n\n        }\n\n        closest_sum\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "2fcd49f8bf5888f5bcfc6f2f9ef9af4ad1c4217f906726d394ed94519aa0deed",
+          "markedWrong": false,
+          "commitComment": "same strat as 3sum, with short circuit",
+          "rawCommitSubject": "rust 16: same strat as 3sum, with short circuit",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/16_3sum_closest.rs b/rust/src/bin/16_3sum_closest.rs\nindex 3cacecc..4026f2b 100644\n--- a/rust/src/bin/16_3sum_closest.rs\n+++ b/rust/src/bin/16_3sum_closest.rs\n@@ -1,43 +1,42 @@\n+use std::cmp::Ordering;\n+\n impl Solution {\n     pub fn three_sum_closest(mut nums: Vec<i32>, target: i32) -> i32 {\n         let n = nums.len();\n-        let mut closest_sum = i32::MAX;\n+        let mut closest_sum = nums[0] + nums[1] + nums[2];\n         nums.sort_unstable();\n \n-        let min = nums[0..3].iter().sum();\n-        if min > target {\n-            return min;\n-        }\n-        let max = nums[n - 3..n].iter().sum();\n-        if max < target {\n-            return max;\n-        }\n-\n-        for f in 0..nums.len() - 2 {\n-            if f != 0 && nums[f] == nums[f - 1] {\n+        for f in 0..n - 2 {\n+            let min = nums[f] + nums[f + 1] + nums[f + 2];\n+            if min > target {\n+                if target.abs_diff(min) < target.abs_diff(closest_sum) {\n+                    closest_sum = min;\n+                }\n+                break;\n+            }\n+            let max = nums[f] + nums[n - 2] + nums[n - 1];\n+            if max < target {\n+                if target.abs_diff(max) < target.abs_diff(closest_sum) {\n+                    closest_sum = max;\n+                }\n                 continue;\n             }\n+            let (mut l, mut r) = (f + 1, n - 1);\n \n-            for l in f + 1..nums.len() - 1 {\n-                if l != f + 1 && nums[l] == nums[l - 1] {\n-                    continue;\n+            while l < r {\n+                let sum = nums[f] + nums[l] + nums[r];\n+\n+                if target.abs_diff(sum) < target.abs_diff(closest_sum) {\n+                    closest_sum = sum;\n                 }\n \n-                for r in l + 1..nums.len() {\n-                    if r != l + 1 && nums[r] == nums[r - 1] {\n-                        continue;\n-                    }\n-\n-                    let sum = nums[f] + nums[l] + nums[r];\n-                    let diff = (target - sum).abs();\n-                    if (target - closest_sum).abs() > diff {\n-                        closest_sum = sum;\n-                    }\n-                    if sum > target {\n-                        break;\n-                    }\n+                match sum.cmp(&target) {\n+                    Ordering::Less => l += 1,\n+                    Ordering::Equal => return closest_sum,\n+                    Ordering::Greater => r -= 1,\n                 }\n             }\n+\n         }\n \n         closest_sum\n",
+          "changedLineCounts": {
+            "additions": 27,
+            "deletions": 28
+          },
+          "approachId": "2",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaces triple enumeration with a two-pointer search for each fixed element, adding bounds-based short circuits and an exact-target early return.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "c48c14b55ea2d1c316df50f09772e0457275578e",
+    "028011ac5b0d3d5ce5a8c85fd1c420f399ccbf95"
+  ],
+  "warnings": []
+}
