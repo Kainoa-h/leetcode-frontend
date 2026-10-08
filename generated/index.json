@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-07T09:10:45.791Z",
-  "sourceHeadSha": "028011ac5b0d3d5ce5a8c85fd1c420f399ccbf95",
+  "generatedAt": "2026-10-08T04:13:56.689Z",
+  "sourceHeadSha": "00a17bafe828b623537faa7289f59bdcab3024d4",
   "questions": [
     {
       "id": 1,
@@ -1847,6 +1847,24 @@
       ],
       "firstCommittedAt": "2026-03-11T23:35:17+08:00",
       "lastCommittedAt": "2026-03-11T23:39:39+08:00"
+    },
+    {
+      "id": 1021,
+      "title": "Remove Outermost Parentheses",
+      "slug": "remove-outermost-parentheses",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/1021/rust/",
+          "revisionCount": 3,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-10-08T10:14:47+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-10-08T09:53:19+08:00",
+      "lastCommittedAt": "2026-10-08T10:14:47+08:00"
     },
     {
       "id": 1081,

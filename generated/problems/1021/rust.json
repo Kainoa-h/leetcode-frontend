@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1021,
+    "title": "Remove Outermost Parentheses",
+    "slug": "remove-outermost-parentheses"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/1021_remove_outermost_parentheses.rs",
+    "latestSha": "00a17bafe828b623537faa7289f59bdcab3024d4",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-10-08T09:53:19+08:00",
+    "lastCommittedAt": "2026-10-08T10:14:47+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-6-luna",
+    "promptVersion": "7",
+    "inputHash": "a39b9a7eab2593d0745e7192f4ba6024e376a30644a27c8f3a5a768459139445"
+  },
+  "approaches": [
+    {
+      "id": "depth-tracking",
+      "title": "Track nesting depth and filter outer parentheses",
+      "summary": "Scan parentheses while maintaining nesting depth, keeping each character only when it is inside a primitive component rather than its outermost pair. The revisions express this same strategy with different iterator formulations.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "84609d660cb4981c8dc2f8f24f74bf5d841c6a6e",
+          "shortSha": "84609d6",
+          "parentSha": "028011ac5b0d3d5ce5a8c85fd1c420f399ccbf95",
+          "authoredAt": "2026-10-08T09:53:19+08:00",
+          "committedAt": "2026-10-08T09:53:19+08:00",
+          "chronologicalIndex": 434,
+          "problemId": 1021,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1021_remove_outermost_parentheses.rs",
+          "sourceFilename": "1021_remove_outermost_parentheses.rs",
+          "code": "impl Solution {\n    pub fn remove_outer_parentheses(s: String) -> String {\n        let mut parity = 0;\n        s.chars()\n            .filter(|&c| {\n                let mut is_inside = parity > 0;\n                parity += if c == '(' { 1 } else { -1 };\n                if parity == 0 {\n                    is_inside = false;\n                }\n                is_inside\n            })\n            .collect()\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "0acd849fa05ea4b059d491ba465842827493a8ab0f086d31e0b1c09004119e20",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 1021",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "depth-tracking",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Tracks depth using a parity-named counter and filters characters based on whether they remain inside the current primitive pair.",
+          "warnings": []
+        },
+        {
+          "sha": "bc37aa0f1c6c73410381413232108ea1472b34b2",
+          "shortSha": "bc37aa0",
+          "parentSha": "84609d660cb4981c8dc2f8f24f74bf5d841c6a6e",
+          "authoredAt": "2026-10-08T10:01:44+08:00",
+          "committedAt": "2026-10-08T10:01:44+08:00",
+          "chronologicalIndex": 435,
+          "problemId": 1021,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1021_remove_outermost_parentheses.rs",
+          "sourceFilename": "1021_remove_outermost_parentheses.rs",
+          "code": "impl Solution {\n    pub fn remove_outer_parentheses(s: String) -> String {\n        let mut depth = 0;\n        s.chars()\n            .filter(|&c| match c {\n                '(' => {\n                    depth += 1;\n                    depth > 1\n                }\n                ')' => {\n                    depth -= 1;\n                    depth > 0\n                }\n                _ => unreachable!(),\n            })\n            .collect()\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "a8e34257d41d18d7e2596f22895d64b0da5f00a9961d01a632ebe710999c005c",
+          "markedWrong": false,
+          "commitComment": "cleaner",
+          "rawCommitSubject": "rust 1021: cleaner",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/1021_remove_outermost_parentheses.rs b/rust/src/bin/1021_remove_outermost_parentheses.rs\nindex cf4faf4..7d319ae 100644\n--- a/rust/src/bin/1021_remove_outermost_parentheses.rs\n+++ b/rust/src/bin/1021_remove_outermost_parentheses.rs\n@@ -1,14 +1,17 @@\n impl Solution {\n     pub fn remove_outer_parentheses(s: String) -> String {\n-        let mut parity = 0;\n+        let mut depth = 0;\n         s.chars()\n-            .filter(|&c| {\n-                let mut is_inside = parity > 0;\n-                parity += if c == '(' { 1 } else { -1 };\n-                if parity == 0 {\n-                    is_inside = false;\n+            .filter(|&c| match c {\n+                '(' => {\n+                    depth += 1;\n+                    depth > 1\n                 }\n-                is_inside\n+                ')' => {\n+                    depth -= 1;\n+                    depth > 0\n+                }\n+                _ => unreachable!(),\n             })\n             .collect()\n     }\n",
+          "changedLineCounts": {
+            "additions": 10,
+            "deletions": 7
+          },
+          "approachId": "depth-tracking",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Makes the depth updates explicit for opening and closing parentheses, with the same filtering strategy.",
+          "warnings": []
+        },
+        {
+          "sha": "00a17bafe828b623537faa7289f59bdcab3024d4",
+          "shortSha": "00a17ba",
+          "parentSha": "bc37aa0f1c6c73410381413232108ea1472b34b2",
+          "authoredAt": "2026-10-08T10:14:47+08:00",
+          "committedAt": "2026-10-08T10:14:47+08:00",
+          "chronologicalIndex": 436,
+          "problemId": 1021,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1021_remove_outermost_parentheses.rs",
+          "sourceFilename": "1021_remove_outermost_parentheses.rs",
+          "code": "impl Solution {\n    pub fn remove_outer_parentheses(s: String) -> String {\n        s.chars()\n            .scan(0, |depth, c| {\n                Some((\n                    c,\n                    if c == '(' {\n                        *depth += 1;\n                        *depth > 1\n                    } else {\n                        *depth -= 1;\n                        *depth > 0\n                    },\n                ))\n            })\n            .filter_map(|(c, keep)| keep.then_some(c))\n            .collect()\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "e1098dba3166ce94e8ea948dfb99cdcb2243493aaf9752dde1eefc435d57c436",
+          "markedWrong": false,
+          "commitComment": "pure func",
+          "rawCommitSubject": "rust 1021: pure func",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/1021_remove_outermost_parentheses.rs b/rust/src/bin/1021_remove_outermost_parentheses.rs\nindex 7d319ae..a16a290 100644\n--- a/rust/src/bin/1021_remove_outermost_parentheses.rs\n+++ b/rust/src/bin/1021_remove_outermost_parentheses.rs\n@@ -1,18 +1,19 @@\n impl Solution {\n     pub fn remove_outer_parentheses(s: String) -> String {\n-        let mut depth = 0;\n         s.chars()\n-            .filter(|&c| match c {\n-                '(' => {\n-                    depth += 1;\n-                    depth > 1\n-                }\n-                ')' => {\n-                    depth -= 1;\n-                    depth > 0\n-                }\n-                _ => unreachable!(),\n+            .scan(0, |depth, c| {\n+                Some((\n+                    c,\n+                    if c == '(' {\n+                        *depth += 1;\n+                        *depth > 1\n+                    } else {\n+                        *depth -= 1;\n+                        *depth > 0\n+                    },\n+                ))\n             })\n+            .filter_map(|(c, keep)| keep.then_some(c))\n             .collect()\n     }\n }\n",
+          "changedLineCounts": {
+            "additions": 12,
+            "deletions": 11
+          },
+          "approachId": "depth-tracking",
+          "narrativeIndex": 2,
+          "shortChangeSummary": "Uses `scan` to carry depth through the iterator, then filters out characters marked as outermost.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "84609d660cb4981c8dc2f8f24f74bf5d841c6a6e",
+    "bc37aa0f1c6c73410381413232108ea1472b34b2",
+    "00a17bafe828b623537faa7289f59bdcab3024d4"
+  ],
+  "warnings": []
+}
