@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-08T04:13:56.689Z",
-  "sourceHeadSha": "00a17bafe828b623537faa7289f59bdcab3024d4",
+  "generatedAt": "2026-10-09T08:58:17.692Z",
+  "sourceHeadSha": "dd5abbf3359a0759ce41c28ba56df370d96f0ee4",
   "questions": [
     {
       "id": 1,
@@ -2144,6 +2144,24 @@
       ],
       "firstCommittedAt": "2026-09-17T12:37:55+08:00",
       "lastCommittedAt": "2026-09-17T13:54:25+08:00"
+    },
+    {
+      "id": 1541,
+      "title": "Minimum Insertions to Balance A Parentheses String",
+      "slug": "minimum-insertions-to-balance-a-parentheses-string",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/1541/rust/",
+          "revisionCount": 3,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-10-09T16:57:22+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-10-09T15:11:58+08:00",
+      "lastCommittedAt": "2026-10-09T16:57:22+08:00"
     },
     {
       "id": 1614,
