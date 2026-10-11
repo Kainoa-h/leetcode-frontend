@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2333,
+    "title": "Minimum Sum of Squared Difference",
+    "slug": "minimum-sum-of-squared-difference"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/2333_minimum_sum_of_squared_difference.rs",
+    "latestSha": "3356086240155c77857b679fec4804c1b998d750",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 2,
+    "incorrectRevisionCount": 2,
+    "firstCommittedAt": "2026-10-11T11:36:42+08:00",
+    "lastCommittedAt": "2026-10-11T11:36:42+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-6-luna",
+    "promptVersion": "7",
+    "inputHash": "bf2fffba8490406f40a96e48746a0d53c35207ac6b4a7b23bd026c22f0c38c31"
+  },
+  "approaches": [
+    {
+      "id": "1",
+      "title": "Greedy maximum-heap decrement",
+      "summary": "Store absolute differences in a max-heap and repeatedly reduce the largest difference by one. Both revisions are marked wrong.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "b2ff292ad9ba4899dc87a99c252ab0be4cb87520",
+          "shortSha": "b2ff292",
+          "parentSha": "dd5abbf3359a0759ce41c28ba56df370d96f0ee4",
+          "authoredAt": "2026-10-10T15:34:10+08:00",
+          "committedAt": "2026-10-11T11:36:42+08:00",
+          "chronologicalIndex": 440,
+          "problemId": 2333,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2333_minimum_sum_of_squared_difference.rs",
+          "sourceFilename": "2333_minimum_sum_of_squared_difference.rs",
+          "code": "use std::collections::BinaryHeap;\n\nimpl Solution {\n    pub fn min_sum_square_diff(nums1: Vec<i32>, nums2: Vec<i32>, k1: i32, k2: i32) -> i64 {\n        let mut moves = k1 + k2;\n        let mut heap = nums1\n            .iter()\n            .zip(nums2.iter())\n            .map(|(&a, &b)| (a - b).abs())\n            .collect::<BinaryHeap<_>>();\n\n        while moves > 0 {\n            let x = heap.pop().unwrap();\n            if x == 0 {\n                break;\n            }\n            heap.push(x - 1);\n            moves -= 1;\n        }\n\n        heap.into_iter().map(|x| (x as i64).pow(2)).sum()\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "40c11308172229d61ba585ba0025e601cdfd908ffeb6486a7f4788c7236c2c57",
+          "markedWrong": true,
+          "commitComment": "TLE :(",
+          "rawCommitSubject": "rust 2333!: TLE :(",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Pop the largest difference, decrement it, and push it back for each available move; marked wrong (TLE).",
+          "warnings": []
+        },
+        {
+          "sha": "3d7c1ddd2138c9f62d7f45ccab4e79e0d386dfdf",
+          "shortSha": "3d7c1dd",
+          "parentSha": "b2ff292ad9ba4899dc87a99c252ab0be4cb87520",
+          "authoredAt": "2026-10-10T15:43:58+08:00",
+          "committedAt": "2026-10-11T11:36:42+08:00",
+          "chronologicalIndex": 441,
+          "problemId": 2333,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2333_minimum_sum_of_squared_difference.rs",
+          "sourceFilename": "2333_minimum_sum_of_squared_difference.rs",
+          "code": "use std::collections::BinaryHeap;\n\nimpl Solution {\n    pub fn min_sum_square_diff(nums1: Vec<i32>, nums2: Vec<i32>, k1: i32, k2: i32) -> i64 {\n        let mut moves = k1 + k2;\n        let mut heap = nums1\n            .iter()\n            .zip(nums2.iter())\n            .map(|(&a, &b)| (a - b).abs())\n            .collect::<BinaryHeap<_>>();\n\n        while moves > 0 {\n            let mut x = heap.peek_mut().unwrap();\n            if *x == 0 {\n                break;\n            }\n            *x -= 1;\n            moves -= 1;\n        }\n\n        heap.into_iter().map(|x| (x as i64).pow(2)).sum()\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "15a7b8ed84830c4a716bd9ecc176aca66e8855dbf2643ce018f35e919091c2e4",
+          "markedWrong": true,
+          "commitComment": "still tle but semantic improvements",
+          "rawCommitSubject": "rust 2333!: still tle but semantic improvements",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2333_minimum_sum_of_squared_difference.rs b/rust/src/bin/2333_minimum_sum_of_squared_difference.rs\nindex 040274c..2003609 100644\n--- a/rust/src/bin/2333_minimum_sum_of_squared_difference.rs\n+++ b/rust/src/bin/2333_minimum_sum_of_squared_difference.rs\n@@ -10,11 +10,11 @@ impl Solution {\n             .collect::<BinaryHeap<_>>();\n \n         while moves > 0 {\n-            let x = heap.pop().unwrap();\n-            if x == 0 {\n+            let mut x = heap.peek_mut().unwrap();\n+            if *x == 0 {\n                 break;\n             }\n-            heap.push(x - 1);\n+            *x -= 1;\n             moves -= 1;\n         }\n \n",
+          "changedLineCounts": {
+            "additions": 3,
+            "deletions": 3
+          },
+          "approachId": "1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Decrement the largest difference in place with `peek_mut` instead of popping and reinserting; marked wrong (still TLE).",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Sorted plateau leveling",
+      "summary": "Sort differences in descending order and use bulk reductions to level the largest values, then distribute any remaining moves. This avoids processing each move individually.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "3356086240155c77857b679fec4804c1b998d750",
+          "shortSha": "3356086",
+          "parentSha": "3d7c1ddd2138c9f62d7f45ccab4e79e0d386dfdf",
+          "authoredAt": "2026-10-11T11:36:30+08:00",
+          "committedAt": "2026-10-11T11:36:42+08:00",
+          "chronologicalIndex": 442,
+          "problemId": 2333,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2333_minimum_sum_of_squared_difference.rs",
+          "sourceFilename": "2333_minimum_sum_of_squared_difference.rs",
+          "code": "impl Solution {\n    pub fn min_sum_square_diff(nums1: Vec<i32>, nums2: Vec<i32>, k1: i32, k2: i32) -> i64 {\n        let mut moves = (k1 + k2) as i64;\n        let mut diff_sum = 0;\n        let mut diffs = nums1\n            .iter()\n            .zip(nums2.iter())\n            .map(|(&a, &b)| {\n                let x = (a - b).abs() as i64;\n                diff_sum += x;\n                x\n            })\n            .collect::<Vec<_>>();\n        let n = diffs.len();\n        if diff_sum < moves {\n            return 0;\n        }\n        if diffs.len() == 1 {\n            return (diffs[0] - moves).max(0).pow(2);\n        }\n        diffs.sort_by_key(|k| -k);\n\n        let mut plateau_len = 1;\n        while plateau_len < n {\n            let diff = diffs[plateau_len - 1] - diffs[plateau_len];\n            let needed = diff * plateau_len as i64;\n\n            if moves >= needed {\n                moves -= needed;\n                plateau_len += 1;\n            } else {\n                break;\n            }\n        }\n\n        let max_height = diffs[plateau_len - 1];\n        let div = plateau_len as i64;\n        let partial_subs = moves / div;\n        let remainder = (moves % div) as usize;\n\n        let max_height = max_height - partial_subs;\n\n        for x in diffs.iter_mut().take(plateau_len) {\n            *x = max_height;\n        }\n\n        for x in diffs.iter_mut().take(remainder) {\n            *x -= 1;\n        }\n\n        diffs.into_iter().map(|x| x.pow(2)).sum()\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "eb0be18fcee43d7c279af7c25834558c4422c32a651f04f6bf4a0318b83fa611",
+          "markedWrong": false,
+          "commitComment": "O(n) math solution",
+          "rawCommitSubject": "rust 2333: O(n) math solution",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2333_minimum_sum_of_squared_difference.rs b/rust/src/bin/2333_minimum_sum_of_squared_difference.rs\nindex 2003609..db3d354 100644\n--- a/rust/src/bin/2333_minimum_sum_of_squared_difference.rs\n+++ b/rust/src/bin/2333_minimum_sum_of_squared_difference.rs\n@@ -1,24 +1,54 @@\n-use std::collections::BinaryHeap;\n-\n impl Solution {\n     pub fn min_sum_square_diff(nums1: Vec<i32>, nums2: Vec<i32>, k1: i32, k2: i32) -> i64 {\n-        let mut moves = k1 + k2;\n-        let mut heap = nums1\n+        let mut moves = (k1 + k2) as i64;\n+        let mut diff_sum = 0;\n+        let mut diffs = nums1\n             .iter()\n             .zip(nums2.iter())\n-            .map(|(&a, &b)| (a - b).abs())\n-            .collect::<BinaryHeap<_>>();\n+            .map(|(&a, &b)| {\n+                let x = (a - b).abs() as i64;\n+                diff_sum += x;\n+                x\n+            })\n+            .collect::<Vec<_>>();\n+        let n = diffs.len();\n+        if diff_sum < moves {\n+            return 0;\n+        }\n+        if diffs.len() == 1 {\n+            return (diffs[0] - moves).max(0).pow(2);\n+        }\n+        diffs.sort_by_key(|k| -k);\n \n-        while moves > 0 {\n-            let mut x = heap.peek_mut().unwrap();\n-            if *x == 0 {\n+        let mut plateau_len = 1;\n+        while plateau_len < n {\n+            let diff = diffs[plateau_len - 1] - diffs[plateau_len];\n+            let needed = diff * plateau_len as i64;\n+\n+            if moves >= needed {\n+                moves -= needed;\n+                plateau_len += 1;\n+            } else {\n                 break;\n             }\n+        }\n+\n+        let max_height = diffs[plateau_len - 1];\n+        let div = plateau_len as i64;\n+        let partial_subs = moves / div;\n+        let remainder = (moves % div) as usize;\n+\n+        let max_height = max_height - partial_subs;\n+\n+        for x in diffs.iter_mut().take(plateau_len) {\n+            *x = max_height;\n+        }\n+\n+        for x in diffs.iter_mut().take(remainder) {\n             *x -= 1;\n-            moves -= 1;\n         }\n \n-        heap.into_iter().map(|x| (x as i64).pow(2)).sum()\n+        diffs.into_iter().map(|x| x.pow(2)).sum()\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 41,
+            "deletions": 11
+          },
+          "approachId": "2",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replace per-move heap updates with sorted plateau leveling and bulk arithmetic; marked correct.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "b2ff292ad9ba4899dc87a99c252ab0be4cb87520",
+    "3d7c1ddd2138c9f62d7f45ccab4e79e0d386dfdf",
+    "3356086240155c77857b679fec4804c1b998d750"
+  ],
+  "warnings": []
+}

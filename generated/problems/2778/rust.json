@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2778,
+    "title": "Sum of Squares of Special Elements",
+    "slug": "sum-of-squares-of-special-elements"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/2778_sum_of_squares_of_special_elements.rs",
+    "latestSha": "6ebb4af5d18940d12a915676d0c8cfe036092f1c",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-10-11T12:43:43+08:00",
+    "lastCommittedAt": "2026-10-11T12:45:46+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-6-luna",
+    "promptVersion": "7",
+    "inputHash": "be145088c1677e2102f7e3d929a1e0e1ee4bfc629209fdf69c0d3b53b31bd418"
+  },
+  "approaches": [
+    {
+      "id": "divisor_scan",
+      "title": "Scan elements and test divisibility",
+      "summary": "Iterate over array elements and add the square of each element whose 1-based index divides the array length. The second revision limits the scan to the first half and adds the final element separately.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "11b428c76ab29513af14d8093c46fab6fc1ba605",
+          "shortSha": "11b428c",
+          "parentSha": "3356086240155c77857b679fec4804c1b998d750",
+          "authoredAt": "2026-10-11T12:43:43+08:00",
+          "committedAt": "2026-10-11T12:43:43+08:00",
+          "chronologicalIndex": 443,
+          "problemId": 2778,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2778_sum_of_squares_of_special_elements.rs",
+          "sourceFilename": "2778_sum_of_squares_of_special_elements.rs",
+          "code": "impl Solution {\n    pub fn sum_of_squares(nums: Vec<i32>) -> i32 {\n        let n = nums.len();\n        nums.iter()\n            .enumerate()\n            .map(|(i, x)| if n.is_multiple_of(i + 1) { x.pow(2) } else { 0 })\n            .sum()\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "c43f637f1e1e7e996e1f31ddf2e303cb7febe4b0df05aaabf80d46c00d15c143",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 2778",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "divisor_scan",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Scans all elements and sums the squares at indices that divide the array length.",
+          "warnings": []
+        },
+        {
+          "sha": "6ebb4af5d18940d12a915676d0c8cfe036092f1c",
+          "shortSha": "6ebb4af",
+          "parentSha": "11b428c76ab29513af14d8093c46fab6fc1ba605",
+          "authoredAt": "2026-10-11T12:45:46+08:00",
+          "committedAt": "2026-10-11T12:45:46+08:00",
+          "chronologicalIndex": 444,
+          "problemId": 2778,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2778_sum_of_squares_of_special_elements.rs",
+          "sourceFilename": "2778_sum_of_squares_of_special_elements.rs",
+          "code": "impl Solution {\n    pub fn sum_of_squares(nums: Vec<i32>) -> i32 {\n        let n = nums.len();\n        let result = nums.iter().take(n/2)\n            .enumerate()\n            .map(|(i, x)| if n.is_multiple_of(i + 1) { x.pow(2) } else { 0 })\n            .sum::<i32>();\n        result + nums[n-1].pow(2)\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "0b695892dcdb325736e7df3f606a314bdac1d5cf542bd3502cbf3695e5adc3f9",
+          "markedWrong": false,
+          "commitComment": "slight optimisation, doesn't rly matter since n <= 50",
+          "rawCommitSubject": "rust 2778: slight optimisation, doesn't rly matter since n <= 50",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2778_sum_of_squares_of_special_elements.rs b/rust/src/bin/2778_sum_of_squares_of_special_elements.rs\nindex 8269128..edb0f54 100644\n--- a/rust/src/bin/2778_sum_of_squares_of_special_elements.rs\n+++ b/rust/src/bin/2778_sum_of_squares_of_special_elements.rs\n@@ -1,10 +1,11 @@\n impl Solution {\n     pub fn sum_of_squares(nums: Vec<i32>) -> i32 {\n         let n = nums.len();\n-        nums.iter()\n+        let result = nums.iter().take(n/2)\n             .enumerate()\n             .map(|(i, x)| if n.is_multiple_of(i + 1) { x.pow(2) } else { 0 })\n-            .sum()\n+            .sum::<i32>();\n+        result + nums[n-1].pow(2)\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 3,
+            "deletions": 2
+          },
+          "approachId": "divisor_scan",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Scans only the first half, then adds the last element’s square, since the final index always divides the length.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "11b428c76ab29513af14d8093c46fab6fc1ba605",
+    "6ebb4af5d18940d12a915676d0c8cfe036092f1c"
+  ],
+  "warnings": []
+}

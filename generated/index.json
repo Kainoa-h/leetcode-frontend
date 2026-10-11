@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-09T08:58:17.692Z",
-  "sourceHeadSha": "dd5abbf3359a0759ce41c28ba56df370d96f0ee4",
+  "generatedAt": "2026-10-11T04:46:25.826Z",
+  "sourceHeadSha": "6ebb4af5d18940d12a915676d0c8cfe036092f1c",
   "questions": [
     {
       "id": 1,
@@ -2695,6 +2695,24 @@
       "lastCommittedAt": "2026-09-30T16:57:17+08:00"
     },
     {
+      "id": 2333,
+      "title": "Minimum Sum of Squared Difference",
+      "slug": "minimum-sum-of-squared-difference",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/2333/rust/",
+          "revisionCount": 3,
+          "approachCount": 2,
+          "incorrectRevisionCount": 2,
+          "lastCommittedAt": "2026-10-11T11:36:42+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-10-11T11:36:42+08:00",
+      "lastCommittedAt": "2026-10-11T11:36:42+08:00"
+    },
+    {
       "id": 2452,
       "title": "Words Within Two Edits of Dictionary",
       "slug": "words-within-two-edits-of-dictionary",
@@ -2810,6 +2828,24 @@
       ],
       "firstCommittedAt": "2026-04-01T22:27:50+08:00",
       "lastCommittedAt": "2026-04-01T22:27:54+08:00"
+    },
+    {
+      "id": 2778,
+      "title": "Sum of Squares of Special Elements",
+      "slug": "sum-of-squares-of-special-elements",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/2778/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-10-11T12:45:46+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-10-11T12:43:43+08:00",
+      "lastCommittedAt": "2026-10-11T12:45:46+08:00"
     },
     {
       "id": 2839,
