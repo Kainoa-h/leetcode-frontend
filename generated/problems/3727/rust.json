@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3727,
+    "title": "Maximum Alternating Sum of Squares",
+    "slug": "maximum-alternating-sum-of-squares"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3727_maximum_alternating_sum_of_squares.rs",
+    "latestSha": "4800d28a5ad33ef3732a9b788ec2dca705d6dfdb",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-10-13T11:26:06+08:00",
+    "lastCommittedAt": "2026-10-13T11:26:06+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-6-luna",
+    "promptVersion": "7",
+    "inputHash": "714698bcbf846e1fef8c96c6127f1c3e68ef4b23fe20519d12389e89a8a9402c"
+  },
+  "approaches": [
+    {
+      "id": "1",
+      "title": "Sort and split into halves",
+      "summary": "Square the values, sort them, then subtract the sum of the smaller half from the sum of the larger half. Revision 1 pairs from the ends of a descending sort; revision 2 simplifies this to an ascending sort and split.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "a35175c9b19d9b592ad53ab79fda5a0a22005cac",
+          "shortSha": "a35175c",
+          "parentSha": "6ebb4af5d18940d12a915676d0c8cfe036092f1c",
+          "authoredAt": "2026-10-13T10:55:12+08:00",
+          "committedAt": "2026-10-13T11:26:06+08:00",
+          "chronologicalIndex": 445,
+          "problemId": 3727,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3727_maximum_alternating_sum_of_squares.rs",
+          "sourceFilename": "3727_maximum_alternating_sum_of_squares.rs",
+          "code": "impl Solution {\n    pub fn max_alternating_sum(nums: Vec<i32>) -> i64 {\n        let n = nums.len();\n        let mut squares = nums.iter().map(|&x| (x as i64).pow(2)).collect::<Vec<_>>();\n        squares.sort_unstable_by_key(|x| -x);\n        let (mut left, mut right) = (0, n - 1);\n        let mut sum = 0;\n        if !nums.len().is_multiple_of(2) {\n            sum = squares[n/2];\n        }\n        while left < right {\n            sum += squares[left];\n            sum -= squares[right];\n            left += 1;\n            right -= 1;\n        }\n        sum\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "da7365f1a2226a6ed6af3800034d92d75384b7b15bf361a46743216323b1724a",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 3727",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Sort squared values descending and add/subtract matching values from opposite ends, including the middle square when the count is odd.",
+          "warnings": []
+        },
+        {
+          "sha": "8892aee671127f912b611e7c6893c0cdcb828d20",
+          "shortSha": "8892aee",
+          "parentSha": "a35175c9b19d9b592ad53ab79fda5a0a22005cac",
+          "authoredAt": "2026-10-13T11:05:25+08:00",
+          "committedAt": "2026-10-13T11:26:06+08:00",
+          "chronologicalIndex": 446,
+          "problemId": 3727,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3727_maximum_alternating_sum_of_squares.rs",
+          "sourceFilename": "3727_maximum_alternating_sum_of_squares.rs",
+          "code": "impl Solution {\n    pub fn max_alternating_sum(nums: Vec<i32>) -> i64 {\n        let mut squares = nums.iter().map(|&x| (x as i64).pow(2)).collect::<Vec<_>>();\n        squares.sort_unstable();\n        let (subs, adds) = squares.split_at(squares.len()/2);\n        adds.iter().sum::<i64>() - subs.iter().sum::<i64>()\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "93616b29e6d3de0fb7cefed32869e5ee4664e5abe74cfe53f9184801f4ee89b5",
+          "markedWrong": false,
+          "commitComment": "simplifed. Should vectorise better?",
+          "rawCommitSubject": "rust 3727: simplifed. Should vectorise better?",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3727_maximum_alternating_sum_of_squares.rs b/rust/src/bin/3727_maximum_alternating_sum_of_squares.rs\nindex 94457af..8caf0f1 100644\n--- a/rust/src/bin/3727_maximum_alternating_sum_of_squares.rs\n+++ b/rust/src/bin/3727_maximum_alternating_sum_of_squares.rs\n@@ -1,20 +1,9 @@\n impl Solution {\n     pub fn max_alternating_sum(nums: Vec<i32>) -> i64 {\n-        let n = nums.len();\n         let mut squares = nums.iter().map(|&x| (x as i64).pow(2)).collect::<Vec<_>>();\n-        squares.sort_unstable_by_key(|x| -x);\n-        let (mut left, mut right) = (0, n - 1);\n-        let mut sum = 0;\n-        if !nums.len().is_multiple_of(2) {\n-            sum = squares[n/2];\n-        }\n-        while left < right {\n-            sum += squares[left];\n-            sum -= squares[right];\n-            left += 1;\n-            right -= 1;\n-        }\n-        sum\n+        squares.sort_unstable();\n+        let (subs, adds) = squares.split_at(squares.len()/2);\n+        adds.iter().sum::<i64>() - subs.iter().sum::<i64>()\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 3,
+            "deletions": 14
+          },
+          "approachId": "1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Simplify the calculation by sorting ascending, splitting at the midpoint, and subtracting the lower-half sum from the upper-half sum.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Select the midpoint without sorting",
+      "summary": "Use an nth-element selection to partition values by absolute magnitude, then subtract the smaller-side squared sum from the larger-side squared sum and include the midpoint square.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "4800d28a5ad33ef3732a9b788ec2dca705d6dfdb",
+          "shortSha": "4800d28",
+          "parentSha": "8892aee671127f912b611e7c6893c0cdcb828d20",
+          "authoredAt": "2026-10-13T11:21:18+08:00",
+          "committedAt": "2026-10-13T11:26:06+08:00",
+          "chronologicalIndex": 447,
+          "problemId": 3727,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3727_maximum_alternating_sum_of_squares.rs",
+          "sourceFilename": "3727_maximum_alternating_sum_of_squares.rs",
+          "code": "impl Solution {\n    pub fn max_alternating_sum(mut nums: Vec<i32>) -> i64 {\n        let n = nums.len();\n        let (small, mid, large) = nums.select_nth_unstable_by_key(n / 2, |x| x.abs());\n        let mut sum = large.iter().map(|&x| (x as i64).pow(2)).sum::<i64>();\n        sum += (*mid as i64).pow(2);\n        sum -= small.iter().map(|&x| (x as i64).pow(2)).sum::<i64>();\n        sum\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "3d9665469d6e537b3cc2c985ea4c96de1a940fe20125fb2d837712ea6d101ee7",
+          "markedWrong": false,
+          "commitComment": "select_nth_unstable_by_key built in introselect!!",
+          "rawCommitSubject": "rust 3727: select_nth_unstable_by_key built in introselect!!",
+          "commitBody": "- quickselect has avg O(n) performance but worst case O(n^2)\n- introselect is a variant that brings the worst case down to O(nlogn)",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3727_maximum_alternating_sum_of_squares.rs b/rust/src/bin/3727_maximum_alternating_sum_of_squares.rs\nindex 8caf0f1..50e42ab 100644\n--- a/rust/src/bin/3727_maximum_alternating_sum_of_squares.rs\n+++ b/rust/src/bin/3727_maximum_alternating_sum_of_squares.rs\n@@ -1,9 +1,11 @@\n impl Solution {\n-    pub fn max_alternating_sum(nums: Vec<i32>) -> i64 {\n-        let mut squares = nums.iter().map(|&x| (x as i64).pow(2)).collect::<Vec<_>>();\n-        squares.sort_unstable();\n-        let (subs, adds) = squares.split_at(squares.len()/2);\n-        adds.iter().sum::<i64>() - subs.iter().sum::<i64>()\n+    pub fn max_alternating_sum(mut nums: Vec<i32>) -> i64 {\n+        let n = nums.len();\n+        let (small, mid, large) = nums.select_nth_unstable_by_key(n / 2, |x| x.abs());\n+        let mut sum = large.iter().map(|&x| (x as i64).pow(2)).sum::<i64>();\n+        sum += (*mid as i64).pow(2);\n+        sum -= small.iter().map(|&x| (x as i64).pow(2)).sum::<i64>();\n+        sum\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 7,
+            "deletions": 5
+          },
+          "approachId": "2",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replace full sorting with `select_nth_unstable_by_key` to partition around the median magnitude before calculating the sum.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "a35175c9b19d9b592ad53ab79fda5a0a22005cac",
+    "8892aee671127f912b611e7c6893c0cdcb828d20",
+    "4800d28a5ad33ef3732a9b788ec2dca705d6dfdb"
+  ],
+  "warnings": []
+}

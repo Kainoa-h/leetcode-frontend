@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-11T04:46:25.826Z",
-  "sourceHeadSha": "6ebb4af5d18940d12a915676d0c8cfe036092f1c",
+  "generatedAt": "2026-10-13T03:26:56.610Z",
+  "sourceHeadSha": "4800d28a5ad33ef3732a9b788ec2dca705d6dfdb",
   "questions": [
     {
       "id": 1,
@@ -3629,6 +3629,24 @@
       ],
       "firstCommittedAt": "2026-08-27T10:53:23+08:00",
       "lastCommittedAt": "2026-08-27T11:22:45+08:00"
+    },
+    {
+      "id": 3727,
+      "title": "Maximum Alternating Sum of Squares",
+      "slug": "maximum-alternating-sum-of-squares",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3727/rust/",
+          "revisionCount": 3,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-10-13T11:26:06+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-10-13T11:26:06+08:00",
+      "lastCommittedAt": "2026-10-13T11:26:06+08:00"
     },
     {
       "id": 3731,
