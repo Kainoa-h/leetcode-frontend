@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-13T03:26:56.610Z",
-  "sourceHeadSha": "4800d28a5ad33ef3732a9b788ec2dca705d6dfdb",
+  "generatedAt": "2026-10-13T12:47:32.523Z",
+  "sourceHeadSha": "8b6d638837eb854649fc221ad3077f0fa03f138a",
   "questions": [
     {
       "id": 1,
@@ -218,6 +218,24 @@
       ],
       "firstCommittedAt": "2026-10-07T15:21:08+08:00",
       "lastCommittedAt": "2026-10-07T17:04:30+08:00"
+    },
+    {
+      "id": 17,
+      "title": "Letter Combinations of A Phone Number",
+      "slug": "letter-combinations-of-a-phone-number",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/17/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-10-13T20:39:03+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-10-13T20:39:03+08:00",
+      "lastCommittedAt": "2026-10-13T20:39:03+08:00"
     },
     {
       "id": 20,

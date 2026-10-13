@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 17,
+    "title": "Letter Combinations of A Phone Number",
+    "slug": "letter-combinations-of-a-phone-number"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/17_letter_combinations_of_a_phone_number.rs",
+    "latestSha": "8b6d638837eb854649fc221ad3077f0fa03f138a",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-10-13T20:39:03+08:00",
+    "lastCommittedAt": "2026-10-13T20:39:03+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "7",
+    "inputHash": "3453717f7a4af864123f8d0aff8f8e82dd58c49fa19e13abed2d7196731c212d"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "8b6d638837eb854649fc221ad3077f0fa03f138a",
+          "shortSha": "8b6d638",
+          "parentSha": "4800d28a5ad33ef3732a9b788ec2dca705d6dfdb",
+          "authoredAt": "2026-10-13T20:39:03+08:00",
+          "committedAt": "2026-10-13T20:39:03+08:00",
+          "chronologicalIndex": 448,
+          "problemId": 17,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/17_letter_combinations_of_a_phone_number.rs",
+          "sourceFilename": "17_letter_combinations_of_a_phone_number.rs",
+          "code": "impl Solution {\n    pub fn letter_combinations(digits: String) -> Vec<String> {\n        let map = |d: char| -> &'static str {\n            match d {\n                '2' => \"abc\",\n                '3' => \"def\",\n                '4' => \"ghi\",\n                '5' => \"jkl\",\n                '6' => \"mno\",\n                '7' => \"pqrs\",\n                '8' => \"tuv\",\n                '9' => \"wxyz\",\n                _ => unreachable!(),\n            }\n        };\n        let mut result = Vec::<String>::with_capacity(3_usize.pow(digits.len() as u32));\n\n        for x in map(digits.as_bytes()[0] as char).chars() {\n            result.push(x.to_string());\n        }\n\n        for c in digits.chars().skip(1) {\n            let letters = map(c);\n            let base_slice = result[0..].to_vec();\n            for _ in 1..letters.len() {\n                result.extend_from_slice(&base_slice);\n            }\n            for (slice, c) in result.chunks_mut(base_slice.len()).zip(letters.chars()) {\n                slice.iter_mut().for_each(|x| x.push(c));\n            }\n        }\n\n        result\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "374e42019370278e8a01af07b45dd902cb8347452513ff090ab628941bc85679",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 17",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "8b6d638837eb854649fc221ad3077f0fa03f138a"
+  ],
+  "warnings": []
+}

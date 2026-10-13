@@ -24,7 +24,7 @@
     "lastCommittedAt": "2026-10-13T11:26:06+08:00"
   },
   "analysis": {
-    "status": "llm",
+    "status": "cached",
     "model": "openai/gpt-6-luna",
     "promptVersion": "7",
     "inputHash": "714698bcbf846e1fef8c96c6127f1c3e68ef4b23fe20519d12389e89a8a9402c"
