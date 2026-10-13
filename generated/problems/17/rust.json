@@ -13,27 +13,27 @@
   "source": {
     "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
     "latestPath": "rust/src/bin/17_letter_combinations_of_a_phone_number.rs",
-    "latestSha": "8b6d638837eb854649fc221ad3077f0fa03f138a",
+    "latestSha": "da4649d1ccb7ca2b7fb5c84630fa1146b82e7880",
     "deleted": false
   },
   "statistics": {
-    "revisionCount": 1,
-    "approachCount": 1,
+    "revisionCount": 3,
+    "approachCount": 2,
     "incorrectRevisionCount": 0,
     "firstCommittedAt": "2026-10-13T20:39:03+08:00",
-    "lastCommittedAt": "2026-10-13T20:39:03+08:00"
+    "lastCommittedAt": "2026-10-14T01:16:03+08:00"
   },
   "analysis": {
-    "status": "fallback",
-    "model": null,
+    "status": "llm",
+    "model": "openai/gpt-6-luna",
     "promptVersion": "7",
-    "inputHash": "3453717f7a4af864123f8d0aff8f8e82dd58c49fa19e13abed2d7196731c212d"
+    "inputHash": "ef68c240b8b73fd8ee23f38f76883621d6e4fb7970cf6b9ddf3db60e4d3fd9b0"
   },
   "approaches": [
     {
-      "id": "chronological",
-      "title": "Solution history",
-      "summary": "Revisions in chronological order.",
+      "id": "1",
+      "title": "Iterative combination expansion",
+      "summary": "Build combinations one digit at a time by duplicating the existing results for each mapped letter, then append that letter to each group. Revision 2 keeps this strategy while replacing the match-based mapping with an indexed array.",
       "order": 0,
       "revisions": [
         {
@@ -55,16 +55,80 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "chronological",
+          "approachId": "1",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Updates the solution.",
+          "shortChangeSummary": "Initialize results from the first digit, then expand them for each remaining digit by copying and appending mapped letters.",
+          "warnings": []
+        },
+        {
+          "sha": "fb0665aba0ef8d2634bcc5e52ecc2ba189535185",
+          "shortSha": "fb0665a",
+          "parentSha": "8b6d638837eb854649fc221ad3077f0fa03f138a",
+          "authoredAt": "2026-10-13T21:27:34+08:00",
+          "committedAt": "2026-10-13T21:27:34+08:00",
+          "chronologicalIndex": 449,
+          "problemId": 17,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/17_letter_combinations_of_a_phone_number.rs",
+          "sourceFilename": "17_letter_combinations_of_a_phone_number.rs",
+          "code": "impl Solution {\n    pub fn letter_combinations(digits: String) -> Vec<String> {\n        let map = [\"abc\", \"def\", \"ghi\", \"jkl\", \"mno\", \"pqrs\", \"tuv\", \"wxyz\"];\n        let mut result = Vec::<String>::with_capacity(3_usize.pow(digits.len() as u32));\n\n        for x in map[(digits.as_bytes()[0] - b'2') as usize].chars() {\n            result.push(x.to_string());\n        }\n\n        for c in digits.chars().skip(1) {\n            let letters = map[(c as u8 - b'2') as usize];\n            let base_slice = result[0..].to_vec();\n            for _ in 1..letters.len() {\n                result.extend_from_slice(&base_slice);\n            }\n            for (slice, c) in result.chunks_mut(base_slice.len()).zip(letters.chars()) {\n                slice.iter_mut().for_each(|x| x.push(c));\n            }\n        }\n\n        result\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "6bc3dabe43b18a9756cea7ff444cb66c8c7164ef5a7b2efca48366023b6ca258",
+          "markedWrong": false,
+          "commitComment": "simplify map",
+          "rawCommitSubject": "rust 17: simplify map",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/17_letter_combinations_of_a_phone_number.rs b/rust/src/bin/17_letter_combinations_of_a_phone_number.rs\nindex f54c836..7865b22 100644\n--- a/rust/src/bin/17_letter_combinations_of_a_phone_number.rs\n+++ b/rust/src/bin/17_letter_combinations_of_a_phone_number.rs\n@@ -1,26 +1,14 @@\n impl Solution {\n     pub fn letter_combinations(digits: String) -> Vec<String> {\n-        let map = |d: char| -> &'static str {\n-            match d {\n-                '2' => \"abc\",\n-                '3' => \"def\",\n-                '4' => \"ghi\",\n-                '5' => \"jkl\",\n-                '6' => \"mno\",\n-                '7' => \"pqrs\",\n-                '8' => \"tuv\",\n-                '9' => \"wxyz\",\n-                _ => unreachable!(),\n-            }\n-        };\n+        let map = [\"abc\", \"def\", \"ghi\", \"jkl\", \"mno\", \"pqrs\", \"tuv\", \"wxyz\"];\n         let mut result = Vec::<String>::with_capacity(3_usize.pow(digits.len() as u32));\n \n-        for x in map(digits.as_bytes()[0] as char).chars() {\n+        for x in map[(digits.as_bytes()[0] - b'2') as usize].chars() {\n             result.push(x.to_string());\n         }\n \n         for c in digits.chars().skip(1) {\n-            let letters = map(c);\n+            let letters = map[(c as u8 - b'2') as usize];\n             let base_slice = result[0..].to_vec();\n             for _ in 1..letters.len() {\n                 result.extend_from_slice(&base_slice);\n",
+          "changedLineCounts": {
+            "additions": 3,
+            "deletions": 15
+          },
+          "approachId": "1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Replace the character match closure with an indexed array of digit-to-letter mappings; keep the iterative expansion.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Depth-first backtracking",
+      "summary": "Recursively choose a letter for each digit, pushing and popping it in a shared buffer. Copy the completed buffer into the results at each leaf.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "da4649d1ccb7ca2b7fb5c84630fa1146b82e7880",
+          "shortSha": "da4649d",
+          "parentSha": "fb0665aba0ef8d2634bcc5e52ecc2ba189535185",
+          "authoredAt": "2026-10-14T01:16:03+08:00",
+          "committedAt": "2026-10-14T01:16:03+08:00",
+          "chronologicalIndex": 450,
+          "problemId": 17,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/17_letter_combinations_of_a_phone_number.rs",
+          "sourceFilename": "17_letter_combinations_of_a_phone_number.rs",
+          "code": "impl Solution {\n    pub fn letter_combinations(digits: String) -> Vec<String> {\n        const MAP: [&str; 8] = [\"abc\", \"def\", \"ghi\", \"jkl\", \"mno\", \"pqrs\", \"tuv\", \"wxyz\"];\n\n        fn dfs(digits: &[u8], current: &mut String, result: &mut Vec<String>) {\n            if current.len() == digits.len() {\n                result.push(current.to_owned());\n                return;\n            }\n            let index = current.len();\n            let letters = MAP[(digits[index] - b'2') as usize];\n            for l in letters.chars() {\n                current.push(l);\n                dfs(digits, current, result);\n                current.pop();\n            }\n        }\n\n        let mut result = Vec::<String>::with_capacity(3_usize.pow(digits.len() as u32));\n        let mut current = String::with_capacity(digits.len());\n        dfs(digits.as_bytes(),&mut current, &mut result);\n        result\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "378751ea1c0875ab5d15a95623bca8e857a3ffd2e5ae5cc6f6cb375739277ec2",
+          "markedWrong": false,
+          "commitComment": "dfs/backtrack approach with minimal cloning",
+          "rawCommitSubject": "rust 17: dfs/backtrack approach with minimal cloning",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/17_letter_combinations_of_a_phone_number.rs b/rust/src/bin/17_letter_combinations_of_a_phone_number.rs\nindex 7865b22..3fb33e1 100644\n--- a/rust/src/bin/17_letter_combinations_of_a_phone_number.rs\n+++ b/rust/src/bin/17_letter_combinations_of_a_phone_number.rs\n@@ -1,23 +1,24 @@\n impl Solution {\n     pub fn letter_combinations(digits: String) -> Vec<String> {\n-        let map = [\"abc\", \"def\", \"ghi\", \"jkl\", \"mno\", \"pqrs\", \"tuv\", \"wxyz\"];\n-        let mut result = Vec::<String>::with_capacity(3_usize.pow(digits.len() as u32));\n-\n-        for x in map[(digits.as_bytes()[0] - b'2') as usize].chars() {\n-            result.push(x.to_string());\n-        }\n+        const MAP: [&str; 8] = [\"abc\", \"def\", \"ghi\", \"jkl\", \"mno\", \"pqrs\", \"tuv\", \"wxyz\"];\n \n-        for c in digits.chars().skip(1) {\n-            let letters = map[(c as u8 - b'2') as usize];\n-            let base_slice = result[0..].to_vec();\n-            for _ in 1..letters.len() {\n-                result.extend_from_slice(&base_slice);\n+        fn dfs(digits: &[u8], current: &mut String, result: &mut Vec<String>) {\n+            if current.len() == digits.len() {\n+                result.push(current.to_owned());\n+                return;\n             }\n-            for (slice, c) in result.chunks_mut(base_slice.len()).zip(letters.chars()) {\n-                slice.iter_mut().for_each(|x| x.push(c));\n+            let index = current.len();\n+            let letters = MAP[(digits[index] - b'2') as usize];\n+            for l in letters.chars() {\n+                current.push(l);\n+                dfs(digits, current, result);\n+                current.pop();\n             }\n         }\n \n+        let mut result = Vec::<String>::with_capacity(3_usize.pow(digits.len() as u32));\n+        let mut current = String::with_capacity(digits.len());\n+        dfs(digits.as_bytes(),&mut current, &mut result);\n         result\n     }\n }\n",
+          "changedLineCounts": {
+            "additions": 14,
+            "deletions": 13
+          },
+          "approachId": "2",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replace iterative result expansion with recursive depth-first search and a reusable mutable string buffer.",
           "warnings": []
         }
       ]
     }
   ],
   "chronologicalRevisionShas": [
-    "8b6d638837eb854649fc221ad3077f0fa03f138a"
+    "8b6d638837eb854649fc221ad3077f0fa03f138a",
+    "fb0665aba0ef8d2634bcc5e52ecc2ba189535185",
+    "da4649d1ccb7ca2b7fb5c84630fa1146b82e7880"
   ],
   "warnings": []
 }
