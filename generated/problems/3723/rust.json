@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3723,
+    "title": "Maximize Sum of Squares of Digits",
+    "slug": "maximize-sum-of-squares-of-digits"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3723_maximize_sum_of_squares_of_digits.rs",
+    "latestSha": "fd4d4f9f4d24d8b4234f431aa939f7034488aaad",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-10-14T10:35:48+08:00",
+    "lastCommittedAt": "2026-10-14T11:17:05+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-6-luna",
+    "promptVersion": "7",
+    "inputHash": "3e88f7539138e50729e94aa1317378ed844993ddb4244c234af456e8e3efadbb"
+  },
+  "approaches": [
+    {
+      "id": "greedy-digit-construction",
+      "title": "Greedily construct the digits",
+      "summary": "Place as many 9s as possible, then the remaining sum as one digit, and fill the rest with zeros. Return an empty string when the requested sum exceeds the digits’ maximum possible total.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "8849a9ff4e99452263f766f73dfc94672179772f",
+          "shortSha": "8849a9f",
+          "parentSha": "da4649d1ccb7ca2b7fb5c84630fa1146b82e7880",
+          "authoredAt": "2026-10-14T10:35:45+08:00",
+          "committedAt": "2026-10-14T10:35:48+08:00",
+          "chronologicalIndex": 451,
+          "problemId": 3723,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3723_maximize_sum_of_squares_of_digits.rs",
+          "sourceFilename": "3723_maximize_sum_of_squares_of_digits.rs",
+          "code": "impl Solution {\n    pub fn max_sum_of_squares(mut num: i32, mut sum: i32) -> String {\n        let mut result = String::new();\n        while num > 0 && sum > 0 {\n            if sum > 9 {\n                result.push('9');\n                sum -= 9;\n            } else {\n                result.push_str(&sum.to_string());\n                sum = 0;\n            }\n\n            num -= 1;\n        }\n\n        if sum > 0 {\n            return String::new();\n        }\n\n        for _ in 0..num {\n            result.push('0');\n            \n        }\n        \n        result\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "8094fb2ebbab74575b62000c59939ff0c2394a8dc07cdb6ac1a29ed533f3379e",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 3723",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "greedy-digit-construction",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Build the result incrementally, consuming up to 9 from the sum per digit and appending zeros afterward.",
+          "warnings": []
+        },
+        {
+          "sha": "6961c486c98386e44216e22b075bcdca9efe2151",
+          "shortSha": "6961c48",
+          "parentSha": "8849a9ff4e99452263f766f73dfc94672179772f",
+          "authoredAt": "2026-10-14T11:04:04+08:00",
+          "committedAt": "2026-10-14T11:04:04+08:00",
+          "chronologicalIndex": 452,
+          "problemId": 3723,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3723_maximize_sum_of_squares_of_digits.rs",
+          "sourceFilename": "3723_maximize_sum_of_squares_of_digits.rs",
+          "code": "impl Solution {\n    pub fn max_sum_of_squares(mut num: i32, mut sum: i32) -> String {\n        if sum > 9 * num {\n            return String::new();\n        }\n\n        let mut result = String::with_capacity(num as usize);\n        let nines = sum / 9;\n        let remain = sum % 9;\n        (0..nines).for_each(|_| result.push('9'));\n        if remain > 0 {\n            result.push((b'0' + remain as u8) as char);\n        }\n        (result.len()..num as usize).for_each(|_| result.push('0'));\n\n        result\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "4f317347069ab3d90605b5838d7fad0f2253c728f7fac174c581fdeded842712",
+          "markedWrong": false,
+          "commitComment": "neater algo",
+          "rawCommitSubject": "rust 3723: neater algo",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3723_maximize_sum_of_squares_of_digits.rs b/rust/src/bin/3723_maximize_sum_of_squares_of_digits.rs\nindex 2dbf7f6..e251d26 100644\n--- a/rust/src/bin/3723_maximize_sum_of_squares_of_digits.rs\n+++ b/rust/src/bin/3723_maximize_sum_of_squares_of_digits.rs\n@@ -1,27 +1,18 @@\n impl Solution {\n     pub fn max_sum_of_squares(mut num: i32, mut sum: i32) -> String {\n-        let mut result = String::new();\n-        while num > 0 && sum > 0 {\n-            if sum > 9 {\n-                result.push('9');\n-                sum -= 9;\n-            } else {\n-                result.push_str(&sum.to_string());\n-                sum = 0;\n-            }\n-\n-            num -= 1;\n-        }\n-\n-        if sum > 0 {\n+        if sum > 9 * num {\n             return String::new();\n         }\n \n-        for _ in 0..num {\n-            result.push('0');\n-            \n+        let mut result = String::with_capacity(num as usize);\n+        let nines = sum / 9;\n+        let remain = sum % 9;\n+        (0..nines).for_each(|_| result.push('9'));\n+        if remain > 0 {\n+            result.push((b'0' + remain as u8) as char);\n         }\n-        \n+        (result.len()..num as usize).for_each(|_| result.push('0'));\n+\n         result\n     }\n }\n",
+          "changedLineCounts": {
+            "additions": 9,
+            "deletions": 18
+          },
+          "approachId": "greedy-digit-construction",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Compute the number of 9s and the remainder directly, preallocate the string, and check feasibility up front.",
+          "warnings": []
+        },
+        {
+          "sha": "fd4d4f9f4d24d8b4234f431aa939f7034488aaad",
+          "shortSha": "fd4d4f9",
+          "parentSha": "6961c486c98386e44216e22b075bcdca9efe2151",
+          "authoredAt": "2026-10-14T11:13:42+08:00",
+          "committedAt": "2026-10-14T11:17:05+08:00",
+          "chronologicalIndex": 453,
+          "problemId": 3723,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3723_maximize_sum_of_squares_of_digits.rs",
+          "sourceFilename": "3723_maximize_sum_of_squares_of_digits.rs",
+          "code": "impl Solution {\n    pub fn max_sum_of_squares(num: i32, sum: i32) -> String {\n        if sum > 9 * num {\n            return String::new();\n        }\n\n        let mut result = vec![b'0'; num as usize];\n        let nines = (sum / 9) as usize;\n        let remain = (sum % 9) as u8;\n        result[0..nines].fill(b'9');\n        if remain > 0 {\n            result[nines] = b'0' + remain;\n        }\n\n        unsafe { String::from_utf8_unchecked(result) }\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "31c2d556faf97105f24d3bc02bfdece3affa1e4a5709cc8f1c189d056bc0abb3",
+          "markedWrong": false,
+          "commitComment": "`fill` for memset vectorisation & less bounds checks",
+          "rawCommitSubject": "rust 3723: `fill` for memset vectorisation & less bounds checks",
+          "commitBody": "Using a fixed sized byte vector gives us access to faster memset\noperations like fill and forgoes the need to append '0's\n\nBetter over a String::with_capacity as .push_str would require\nallocating a temporary String to copy from, as well as having to append\n'0's at the end",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3723_maximize_sum_of_squares_of_digits.rs b/rust/src/bin/3723_maximize_sum_of_squares_of_digits.rs\nindex e251d26..3025193 100644\n--- a/rust/src/bin/3723_maximize_sum_of_squares_of_digits.rs\n+++ b/rust/src/bin/3723_maximize_sum_of_squares_of_digits.rs\n@@ -1,19 +1,18 @@\n impl Solution {\n-    pub fn max_sum_of_squares(mut num: i32, mut sum: i32) -> String {\n+    pub fn max_sum_of_squares(num: i32, sum: i32) -> String {\n         if sum > 9 * num {\n             return String::new();\n         }\n \n-        let mut result = String::with_capacity(num as usize);\n-        let nines = sum / 9;\n-        let remain = sum % 9;\n-        (0..nines).for_each(|_| result.push('9'));\n+        let mut result = vec![b'0'; num as usize];\n+        let nines = (sum / 9) as usize;\n+        let remain = (sum % 9) as u8;\n+        result[0..nines].fill(b'9');\n         if remain > 0 {\n-            result.push((b'0' + remain as u8) as char);\n+            result[nines] = b'0' + remain;\n         }\n-        (result.len()..num as usize).for_each(|_| result.push('0'));\n \n-        result\n+        unsafe { String::from_utf8_unchecked(result) }\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 7,
+            "deletions": 8
+          },
+          "approachId": "greedy-digit-construction",
+          "narrativeIndex": 2,
+          "shortChangeSummary": "Use a fixed-size byte vector, fill the leading 9s, set the remainder digit, and convert it to a string.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "8849a9ff4e99452263f766f73dfc94672179772f",
+    "6961c486c98386e44216e22b075bcdca9efe2151",
+    "fd4d4f9f4d24d8b4234f431aa939f7034488aaad"
+  ],
+  "warnings": []
+}

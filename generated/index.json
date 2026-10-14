@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-13T17:16:37.611Z",
-  "sourceHeadSha": "da4649d1ccb7ca2b7fb5c84630fa1146b82e7880",
+  "generatedAt": "2026-10-14T03:17:50.559Z",
+  "sourceHeadSha": "fd4d4f9f4d24d8b4234f431aa939f7034488aaad",
   "questions": [
     {
       "id": 1,
@@ -3647,6 +3647,24 @@
       ],
       "firstCommittedAt": "2026-08-27T10:53:23+08:00",
       "lastCommittedAt": "2026-08-27T11:22:45+08:00"
+    },
+    {
+      "id": 3723,
+      "title": "Maximize Sum of Squares of Digits",
+      "slug": "maximize-sum-of-squares-of-digits",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3723/rust/",
+          "revisionCount": 3,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-10-14T11:17:05+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-10-14T10:35:48+08:00",
+      "lastCommittedAt": "2026-10-14T11:17:05+08:00"
     },
     {
       "id": 3727,
