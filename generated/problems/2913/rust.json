@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2913,
+    "title": "Subarrays Distinct Element Sum of Squares I",
+    "slug": "subarrays-distinct-element-sum-of-squares-i"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/2913_subarrays_distinct_element_sum_of_squares_I.rs",
+    "latestSha": "11bc151bfee5b4fe2d65af2f83e3b91ef5091f4d",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-10-15T11:31:23+08:00",
+    "lastCommittedAt": "2026-10-15T11:31:23+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-6-luna",
+    "promptVersion": "7",
+    "inputHash": "3dba1be5393652581023f94b833a1265a471951a379eee5b66441f9511c2d08a"
+  },
+  "approaches": [
+    {
+      "id": "1",
+      "title": "Enumerate subarrays and track distinct values",
+      "summary": "For each starting index, extend the subarray while tracking its distinct-value count and add the count squared to the result. The second revision reuses a version-tagged array instead of reinitializing the seen array for each start.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "fdbdf10eec1252237924bbc4566e722128f7576f",
+          "shortSha": "fdbdf10",
+          "parentSha": "fd4d4f9f4d24d8b4234f431aa939f7034488aaad",
+          "authoredAt": "2026-10-15T11:18:46+08:00",
+          "committedAt": "2026-10-15T11:31:23+08:00",
+          "chronologicalIndex": 454,
+          "problemId": 2913,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2913_subarrays_distinct_element_sum_of_squares_I.rs",
+          "sourceFilename": "2913_subarrays_distinct_element_sum_of_squares_I.rs",
+          "code": "impl Solution {\n    pub fn sum_counts(nums: Vec<i32>) -> i32 {\n        let mut result = 0;\n        for i in 0..nums.len() {\n            let mut set = [true; 101];\n            let mut distinct = 0_i32;\n            for &x in nums.iter().skip(i) {\n                if set[x as usize] {\n                    distinct += 1;\n                }\n                set[x as usize] = false;\n                result += distinct.pow(2);\n            }\n        }\n\n        result\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "0c83e43c23ce526c9a714da461a6eb61e46d3e0a1bd2d557524507b90249d0eb",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 2913",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Enumerates subarrays from each starting index using a freshly initialized array to track seen values, adding the squared distinct count for each subarray.",
+          "warnings": []
+        },
+        {
+          "sha": "11bc151bfee5b4fe2d65af2f83e3b91ef5091f4d",
+          "shortSha": "11bc151",
+          "parentSha": "fdbdf10eec1252237924bbc4566e722128f7576f",
+          "authoredAt": "2026-10-15T11:28:06+08:00",
+          "committedAt": "2026-10-15T11:31:23+08:00",
+          "chronologicalIndex": 455,
+          "problemId": 2913,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2913_subarrays_distinct_element_sum_of_squares_I.rs",
+          "sourceFilename": "2913_subarrays_distinct_element_sum_of_squares_I.rs",
+          "code": "impl Solution {\n    pub fn sum_counts(nums: Vec<i32>) -> i32 {\n        let mut versioned_seen = [0_usize; 101];\n        let mut result = 0;\n        for i in 0..nums.len() {\n            let mut distinct = 0_i32;\n            for &x in nums.iter().skip(i) {\n                if versioned_seen[x as usize] != i + 1 {\n                    versioned_seen[x as usize] = i + 1;\n                    distinct += 1;\n                }\n                result += distinct.pow(2);\n            }\n        }\n\n        result\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "8fa7d6c6de7a1924feb9c26fa701d5d9c7b81d7051e6b60c88e0b89890e3cbe0",
+          "markedWrong": false,
+          "commitComment": "i+1 denotes if it has been seen before, no need to reallocate 101 buffer",
+          "rawCommitSubject": "rust 2913: i+1 denotes if it has been seen before, no need to reallocate 101 buffer",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2913_subarrays_distinct_element_sum_of_squares_I.rs b/rust/src/bin/2913_subarrays_distinct_element_sum_of_squares_I.rs\nindex 2668d20..c076c94 100644\n--- a/rust/src/bin/2913_subarrays_distinct_element_sum_of_squares_I.rs\n+++ b/rust/src/bin/2913_subarrays_distinct_element_sum_of_squares_I.rs\n@@ -1,14 +1,14 @@\n impl Solution {\n     pub fn sum_counts(nums: Vec<i32>) -> i32 {\n+        let mut versioned_seen = [0_usize; 101];\n         let mut result = 0;\n         for i in 0..nums.len() {\n-            let mut set = [true; 101];\n             let mut distinct = 0_i32;\n             for &x in nums.iter().skip(i) {\n-                if set[x as usize] {\n+                if versioned_seen[x as usize] != i + 1 {\n+                    versioned_seen[x as usize] = i + 1;\n                     distinct += 1;\n                 }\n-                set[x as usize] = false;\n                 result += distinct.pow(2);\n             }\n         }\n",
+          "changedLineCounts": {
+            "additions": 3,
+            "deletions": 3
+          },
+          "approachId": "1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Keeps the same enumeration strategy, but uses the starting index as a version tag in one reusable array to avoid reinitializing it.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "fdbdf10eec1252237924bbc4566e722128f7576f",
+    "11bc151bfee5b4fe2d65af2f83e3b91ef5091f4d"
+  ],
+  "warnings": []
+}

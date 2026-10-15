@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-14T03:17:50.559Z",
-  "sourceHeadSha": "fd4d4f9f4d24d8b4234f431aa939f7034488aaad",
+  "generatedAt": "2026-10-15T03:32:19.511Z",
+  "sourceHeadSha": "11bc151bfee5b4fe2d65af2f83e3b91ef5091f4d",
   "questions": [
     {
       "id": 1,
@@ -2954,6 +2954,24 @@
       ],
       "firstCommittedAt": "2026-03-24T22:01:08+08:00",
       "lastCommittedAt": "2026-03-24T22:44:17+08:00"
+    },
+    {
+      "id": 2913,
+      "title": "Subarrays Distinct Element Sum of Squares I",
+      "slug": "subarrays-distinct-element-sum-of-squares-i",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/2913/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-10-15T11:31:23+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-10-15T11:31:23+08:00",
+      "lastCommittedAt": "2026-10-15T11:31:23+08:00"
     },
     {
       "id": 2946,
