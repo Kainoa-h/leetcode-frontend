@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3551,
+    "title": "Minimum Swaps to Sort By Digit Sum",
+    "slug": "minimum-swaps-to-sort-by-digit-sum"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3551_minimum_swaps_to_sort_by_digit_sum.rs",
+    "latestSha": "0922b7c5ebca069d6114ee85fee0f9004c0c9feb",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 2,
+    "incorrectRevisionCount": 1,
+    "firstCommittedAt": "2026-10-17T22:28:20+08:00",
+    "lastCommittedAt": "2026-10-17T22:28:20+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-6-luna",
+    "promptVersion": "7",
+    "inputHash": "376d74a8a085b935d1071926d5459c6b686dab4a05426185eb780eb9d4e601cb"
+  },
+  "approaches": [
+    {
+      "id": "1",
+      "title": "Count mismatched positions",
+      "summary": "Sort the values by digit sum, then estimate swaps as half the number of positions that differ from the sorted order. This does not correctly account for arbitrary permutation cycles.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "9f7c94117490374a3cc5b942a5da326d98f737de",
+          "shortSha": "9f7c941",
+          "parentSha": "11bc151bfee5b4fe2d65af2f83e3b91ef5091f4d",
+          "authoredAt": "2026-10-17T14:29:41+08:00",
+          "committedAt": "2026-10-17T22:28:20+08:00",
+          "chronologicalIndex": 456,
+          "problemId": 3551,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3551_minimum_swaps_to_sort_by_digit_sum.rs",
+          "sourceFilename": "3551_minimum_swaps_to_sort_by_digit_sum.rs",
+          "code": "impl Solution {\n    pub fn min_swaps(nums: Vec<i32>) -> i32 {\n        let mut sorted = nums.to_vec();\n        sorted.sort_by_cached_key(|&x| {\n            std::iter::successors(Some(x), |&n| {\n                let next = n / 10;\n                (next > 0).then_some(next)\n            })\n            .map(|n| n % 10)\n            .sum::<i32>()\n        });\n        nums.iter().zip(sorted.iter()).filter(|(a, b)| a != b).count() as i32 / 2\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "5e94c3301cc1ceef336af5872a8d2dad16fbbc0717a713b60ca30d3e6a173f23",
+          "markedWrong": true,
+          "commitComment": "wrong",
+          "rawCommitSubject": "rust 3551!: wrong",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Sorts by digit sum and returns half the count of mismatched positions; marked wrong.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Count permutation cycles",
+      "summary": "Sort indexed values by digit sum and value, then map each sorted position to its original index. Count permutation cycles and return the minimum swaps as the array length minus the number of cycles.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "0922b7c5ebca069d6114ee85fee0f9004c0c9feb",
+          "shortSha": "0922b7c",
+          "parentSha": "9f7c94117490374a3cc5b942a5da326d98f737de",
+          "authoredAt": "2026-10-17T18:14:21+08:00",
+          "committedAt": "2026-10-17T22:28:20+08:00",
+          "chronologicalIndex": 457,
+          "problemId": 3551,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3551_minimum_swaps_to_sort_by_digit_sum.rs",
+          "sourceFilename": "3551_minimum_swaps_to_sort_by_digit_sum.rs",
+          "code": "impl Solution {\n    pub fn min_swaps(nums: Vec<i32>) -> i32 {\n        let n = nums.len();\n        let mut sorted = nums\n            .iter()\n            .cloned()\n            .enumerate()\n            .collect::<Vec<(usize, i32)>>();\n        sorted.sort_by_cached_key(|&x| {\n            (\n                std::iter::successors(Some(x.1), |&n| {\n                    let next = n / 10;\n                    (next > 0).then_some(next)\n                })\n                .map(|n| n % 10)\n                .sum::<i32>(),\n                x.1,\n            )\n        });\n\n        let mut og_index_map = vec![0; n];\n        for (idx, &(og_idx, _)) in sorted.iter().enumerate() {\n            og_index_map[idx] = og_idx;\n        }\n\n        let mut visited = vec![false; n];\n        let mut cycles = 0;\n        for i in 0..n {\n            if !visited[i] {\n                cycles += 1;\n\n                let mut curr = i;\n                while !visited[curr] {\n                    visited[curr] = true;\n                    curr = og_index_map[curr];\n                }\n            }\n        }\n\n        (n - cycles) as i32\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "6f910e3b50f7318c26101af82bbcea7ec45603041442a0f33aa29dde94403405",
+          "markedWrong": false,
+          "commitComment": "gemini to the rescue!",
+          "rawCommitSubject": "rust 3551: gemini to the rescue!",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3551_minimum_swaps_to_sort_by_digit_sum.rs b/rust/src/bin/3551_minimum_swaps_to_sort_by_digit_sum.rs\nindex c7eb93a..703f81d 100644\n--- a/rust/src/bin/3551_minimum_swaps_to_sort_by_digit_sum.rs\n+++ b/rust/src/bin/3551_minimum_swaps_to_sort_by_digit_sum.rs\n@@ -1,15 +1,43 @@\n impl Solution {\n     pub fn min_swaps(nums: Vec<i32>) -> i32 {\n-        let mut sorted = nums.to_vec();\n+        let n = nums.len();\n+        let mut sorted = nums\n+            .iter()\n+            .cloned()\n+            .enumerate()\n+            .collect::<Vec<(usize, i32)>>();\n         sorted.sort_by_cached_key(|&x| {\n-            std::iter::successors(Some(x), |&n| {\n-                let next = n / 10;\n-                (next > 0).then_some(next)\n-            })\n-            .map(|n| n % 10)\n-            .sum::<i32>()\n+            (\n+                std::iter::successors(Some(x.1), |&n| {\n+                    let next = n / 10;\n+                    (next > 0).then_some(next)\n+                })\n+                .map(|n| n % 10)\n+                .sum::<i32>(),\n+                x.1,\n+            )\n         });\n-        nums.iter().zip(sorted.iter()).filter(|(a, b)| a != b).count() as i32 / 2\n+\n+        let mut og_index_map = vec![0; n];\n+        for (idx, &(og_idx, _)) in sorted.iter().enumerate() {\n+            og_index_map[idx] = og_idx;\n+        }\n+\n+        let mut visited = vec![false; n];\n+        let mut cycles = 0;\n+        for i in 0..n {\n+            if !visited[i] {\n+                cycles += 1;\n+\n+                let mut curr = i;\n+                while !visited[curr] {\n+                    visited[curr] = true;\n+                    curr = og_index_map[curr];\n+                }\n+            }\n+        }\n+\n+        (n - cycles) as i32\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 36,
+            "deletions": 8
+          },
+          "approachId": "2",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Adds value-based tie-breaking and counts permutation cycles to compute the minimum swaps.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "9f7c94117490374a3cc5b942a5da326d98f737de",
+    "0922b7c5ebca069d6114ee85fee0f9004c0c9feb"
+  ],
+  "warnings": []
+}
