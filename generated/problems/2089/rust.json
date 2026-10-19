@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2089,
+    "title": "Find Target Indices After Sorting Array",
+    "slug": "find-target-indices-after-sorting-array"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/2089_find_target_indices_after_sorting_array.rs",
+    "latestSha": "05dc97280e1357e0387964c049a6d98e899baed2",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-10-19T14:15:26+08:00",
+    "lastCommittedAt": "2026-10-19T14:15:26+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-6-luna",
+    "promptVersion": "7",
+    "inputHash": "0e13552655da118816b3049cd0d9a72a96f0bbfdd8ec8465fce5ae53a9f4a97f"
+  },
+  "approaches": [
+    {
+      "id": "sort-and-filter",
+      "title": "Sort, then collect matching indices",
+      "summary": "Sort the array and enumerate it, collecting the indices whose values equal the target.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "0da5ffede74581db461fb8b416e4756d168c706d",
+          "shortSha": "0da5ffe",
+          "parentSha": "0922b7c5ebca069d6114ee85fee0f9004c0c9feb",
+          "authoredAt": "2026-10-19T14:09:34+08:00",
+          "committedAt": "2026-10-19T14:15:26+08:00",
+          "chronologicalIndex": 458,
+          "problemId": 2089,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2089_find_target_indices_after_sorting_array.rs",
+          "sourceFilename": "2089_find_target_indices_after_sorting_array.rs",
+          "code": "impl Solution {\n    pub fn target_indices(mut nums: Vec<i32>, target: i32) -> Vec<i32> {\n        nums.sort_unstable();\n        nums.iter()\n            .enumerate()\n            .filter_map(|(i, &x)| (x == target).then_some(i as i32))\n            .collect::<Vec<i32>>()\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "c56e2c9a8726578f1d8aaafaea56f4cc0d3c3e66e96fa8c34dd35a3bfb30791b",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 2089",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "sort-and-filter",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Sorts the array, then returns the indices of all elements equal to the target.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "count-and-range",
+      "title": "Count values below and equal to the target",
+      "summary": "Count elements smaller than the target and elements equal to it. Those counts determine the contiguous range of target indices after sorting, so sorting is unnecessary.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "05dc97280e1357e0387964c049a6d98e899baed2",
+          "shortSha": "05dc972",
+          "parentSha": "0da5ffede74581db461fb8b416e4756d168c706d",
+          "authoredAt": "2026-10-19T14:12:59+08:00",
+          "committedAt": "2026-10-19T14:15:26+08:00",
+          "chronologicalIndex": 459,
+          "problemId": 2089,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2089_find_target_indices_after_sorting_array.rs",
+          "sourceFilename": "2089_find_target_indices_after_sorting_array.rs",
+          "code": "impl Solution {\n    pub fn target_indices(nums: Vec<i32>, target: i32) -> Vec<i32> {\n        let mut before_len = 0;\n        let mut target_len = 0;\n        for n in nums {\n            before_len += i32::from(n < target);\n            target_len += i32::from(n == target)\n        }\n        (before_len..before_len+target_len).collect()\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "e6b7c8db70e5a11d5e6963af64f51dcce1b099a9f8a51ac025e0b9483fb1ae12",
+          "markedWrong": false,
+          "commitComment": "no sort needed",
+          "rawCommitSubject": "rust 2089: no sort needed",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2089_find_target_indices_after_sorting_array.rs b/rust/src/bin/2089_find_target_indices_after_sorting_array.rs\nindex 0ad3a45..cc84cd6 100644\n--- a/rust/src/bin/2089_find_target_indices_after_sorting_array.rs\n+++ b/rust/src/bin/2089_find_target_indices_after_sorting_array.rs\n@@ -1,10 +1,12 @@\n impl Solution {\n-    pub fn target_indices(mut nums: Vec<i32>, target: i32) -> Vec<i32> {\n-        nums.sort_unstable();\n-        nums.iter()\n-            .enumerate()\n-            .filter_map(|(i, &x)| (x == target).then_some(i as i32))\n-            .collect::<Vec<i32>>()\n+    pub fn target_indices(nums: Vec<i32>, target: i32) -> Vec<i32> {\n+        let mut before_len = 0;\n+        let mut target_len = 0;\n+        for n in nums {\n+            before_len += i32::from(n < target);\n+            target_len += i32::from(n == target)\n+        }\n+        (before_len..before_len+target_len).collect()\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 8,
+            "deletions": 6
+          },
+          "approachId": "count-and-range",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaces sorting and filtering with counts of values below and equal to the target, then returns the resulting index range.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "0da5ffede74581db461fb8b416e4756d168c706d",
+    "05dc97280e1357e0387964c049a6d98e899baed2"
+  ],
+  "warnings": []
+}

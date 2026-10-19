@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-17T14:28:57.078Z",
-  "sourceHeadSha": "0922b7c5ebca069d6114ee85fee0f9004c0c9feb",
+  "generatedAt": "2026-10-19T06:16:16.955Z",
+  "sourceHeadSha": "05dc97280e1357e0387964c049a6d98e899baed2",
   "questions": [
     {
       "id": 1,
@@ -2540,6 +2540,24 @@
       ],
       "firstCommittedAt": "2026-04-20T20:58:49+08:00",
       "lastCommittedAt": "2026-04-20T20:58:49+08:00"
+    },
+    {
+      "id": 2089,
+      "title": "Find Target Indices After Sorting Array",
+      "slug": "find-target-indices-after-sorting-array",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/2089/rust/",
+          "revisionCount": 2,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-10-19T14:15:26+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-10-19T14:15:26+08:00",
+      "lastCommittedAt": "2026-10-19T14:15:26+08:00"
     },
     {
       "id": 2091,
