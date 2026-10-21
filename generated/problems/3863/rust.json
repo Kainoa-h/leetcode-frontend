@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3863,
+    "title": "Minimum Operations to Sort A String",
+    "slug": "minimum-operations-to-sort-a-string"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3863_minimum_operations_to_sort_a_string.rs",
+    "latestSha": "b107256aa714c712145a1ff80681379b0d63505c",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-10-21T12:19:11+08:00",
+    "lastCommittedAt": "2026-10-21T12:19:11+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-6-luna",
+    "promptVersion": "7",
+    "inputHash": "e89fc754b20fe6bfcfbafd3e8e7fd2d2598f47f2c5315697dd7cd6c98c401360"
+  },
+  "approaches": [
+    {
+      "id": "1",
+      "title": "Classify by sortedness and character extrema",
+      "summary": "Determine the minimum operation count from whether the string is already sorted and how its endpoints compare with the other characters. The implementations progressively reformulate these linear-time checks using a frequency bucket and then interior extrema.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "7028f2bcd2ac38b6aa457080479b5f9ee66ace1d",
+          "shortSha": "7028f2b",
+          "parentSha": "001b8525b1bfd5f7564db95d92722ba7238d1dd7",
+          "authoredAt": "2026-10-21T10:59:41+08:00",
+          "committedAt": "2026-10-21T12:19:11+08:00",
+          "chronologicalIndex": 461,
+          "problemId": 3863,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3863_minimum_operations_to_sort_a_string.rs",
+          "sourceFilename": "3863_minimum_operations_to_sort_a_string.rs",
+          "code": "impl Solution {\n    pub fn min_operations(s: String) -> i32 {\n        if s.len() <= 1 {\n            return 0;\n        }\n        let bytes = s.as_bytes();\n        if s.len() == 2 {\n            return if bytes[0] <= bytes[1] { 0 } else { -1 };\n        }\n\n        if bytes.windows(2).all(|w| w[0] <= w[1]) {\n            return 0;\n        }\n\n        if bytes.iter().skip(1).all(|&b| bytes[0] <= b)\n            || bytes\n                .iter()\n                .rev()\n                .skip(1)\n                .all(|&b| bytes[bytes.len() - 1] >= b)\n        {\n            return 1;\n        }\n\n        if bytes.iter().skip(1).all(|&b| bytes[0] > b)\n            && bytes\n                .iter()\n                .rev()\n                .skip(1)\n                .all(|&b| bytes[bytes.len() - 1] < b)\n        {\n            return 3;\n        }\n\n        2\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "958be807a4e3768a94b3da82d9b66bc165e25253506cde3f794f79780eb59bfb",
+          "markedWrong": false,
+          "commitComment": "basic approach",
+          "rawCommitSubject": "rust 3863: basic approach",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Checks sortedness and scans the remaining characters against the first and last characters to classify the required operations.",
+          "warnings": []
+        },
+        {
+          "sha": "97c610b3b836420b0baf8ff58d8c968b9e0d75ca",
+          "shortSha": "97c610b",
+          "parentSha": "7028f2bcd2ac38b6aa457080479b5f9ee66ace1d",
+          "authoredAt": "2026-10-21T11:58:25+08:00",
+          "committedAt": "2026-10-21T12:19:11+08:00",
+          "chronologicalIndex": 462,
+          "problemId": 3863,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3863_minimum_operations_to_sort_a_string.rs",
+          "sourceFilename": "3863_minimum_operations_to_sort_a_string.rs",
+          "code": "impl Solution {\n    pub fn min_operations(s: String) -> i32 {\n        if s.len() <= 1 {\n            return 0;\n        }\n        let bytes = s.as_bytes();\n\n        if s.len() == 2 {\n            return if bytes[0] <= bytes[1] { 0 } else { -1 };\n        }\n\n        let mut bucket = [0; 256];\n        let mut sorted = true;\n        for i in 0..bytes.len() {\n            bucket[bytes[i] as usize] += 1;\n            if i > 0 && bytes[i - 1] > bytes[i] {\n                sorted = false;\n            }\n        }\n        if sorted {\n            return 0;\n        }\n\n        let min = bucket[b'a' as usize..].iter().position(|&b| b > 0).unwrap() as u8 + b'a';\n        let max = bucket[b'a' as usize..=b'z' as usize]\n            .iter()\n            .rposition(|&b| b > 0)\n            .unwrap() as u8\n            + b'a';\n\n        if min == bytes[0] || max == bytes[bytes.len() - 1] {\n            return 1;\n        }\n\n        if max == bytes[0]\n            && min == bytes[bytes.len() - 1]\n            && bucket[min as usize] == 1\n            && bucket[max as usize] == 1\n        {\n            return 3;\n        }\n\n        2\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "f4d370298743507e018b0374e0891c2839c0abd5fb7dbcccc6463750834a8db1",
+          "markedWrong": false,
+          "commitComment": "single loop but slower",
+          "rawCommitSubject": "rust 3863: single loop but slower",
+          "commitBody": "- bucket addition prevents vectorisation of the loop\n- bucket addition and initalisation also takes up time",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3863_minimum_operations_to_sort_a_string.rs b/rust/src/bin/3863_minimum_operations_to_sort_a_string.rs\nindex ba300e1..affb018 100644\n--- a/rust/src/bin/3863_minimum_operations_to_sort_a_string.rs\n+++ b/rust/src/bin/3863_minimum_operations_to_sort_a_string.rs\n@@ -4,30 +4,38 @@ impl Solution {\n             return 0;\n         }\n         let bytes = s.as_bytes();\n+\n         if s.len() == 2 {\n             return if bytes[0] <= bytes[1] { 0 } else { -1 };\n         }\n \n-        if bytes.windows(2).all(|w| w[0] <= w[1]) {\n+        let mut bucket = [0; 256];\n+        let mut sorted = true;\n+        for i in 0..bytes.len() {\n+            bucket[bytes[i] as usize] += 1;\n+            if i > 0 && bytes[i - 1] > bytes[i] {\n+                sorted = false;\n+            }\n+        }\n+        if sorted {\n             return 0;\n         }\n \n-        if bytes.iter().skip(1).all(|&b| bytes[0] <= b)\n-            || bytes\n-                .iter()\n-                .rev()\n-                .skip(1)\n-                .all(|&b| bytes[bytes.len() - 1] >= b)\n-        {\n+        let min = bucket[b'a' as usize..].iter().position(|&b| b > 0).unwrap() as u8 + b'a';\n+        let max = bucket[b'a' as usize..=b'z' as usize]\n+            .iter()\n+            .rposition(|&b| b > 0)\n+            .unwrap() as u8\n+            + b'a';\n+\n+        if min == bytes[0] || max == bytes[bytes.len() - 1] {\n             return 1;\n         }\n \n-        if bytes.iter().skip(1).all(|&b| bytes[0] > b)\n-            && bytes\n-                .iter()\n-                .rev()\n-                .skip(1)\n-                .all(|&b| bytes[bytes.len() - 1] < b)\n+        if max == bytes[0]\n+            && min == bytes[bytes.len() - 1]\n+            && bucket[min as usize] == 1\n+            && bucket[max as usize] == 1\n         {\n             return 3;\n         }\n",
+          "changedLineCounts": {
+            "additions": 22,
+            "deletions": 14
+          },
+          "approachId": "1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Uses a frequency bucket to find the overall minimum and maximum characters and their counts, while checking sortedness in the same pass.",
+          "warnings": []
+        },
+        {
+          "sha": "b107256aa714c712145a1ff80681379b0d63505c",
+          "shortSha": "b107256",
+          "parentSha": "97c610b3b836420b0baf8ff58d8c968b9e0d75ca",
+          "authoredAt": "2026-10-21T12:14:01+08:00",
+          "committedAt": "2026-10-21T12:19:11+08:00",
+          "chronologicalIndex": 463,
+          "problemId": 3863,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3863_minimum_operations_to_sort_a_string.rs",
+          "sourceFilename": "3863_minimum_operations_to_sort_a_string.rs",
+          "code": "impl Solution {\n    pub fn min_operations(s: String) -> i32 {\n        if s.len() <= 1 { return 0; }\n\n        let bytes = s.as_bytes();\n        if bytes.is_sorted() { return 0; }\n        if s.len() == 2 { return -1; }\n\n        let (min_mid, max_mid) = bytes[1..bytes.len() - 1]\n            .iter()\n            .fold((u8::MAX, u8::MIN), |(min, max), &b| {\n                (min.min(b), max.max(b))\n            });\n        let (first, last) = (bytes[0], bytes[bytes.len() - 1]);\n\n        if first <= last && (first <= min_mid || last >= max_mid) {\n            return 1;\n        }\n\n        if first > last && (first > max_mid && last < min_mid) {\n            return 3;\n        }\n\n        2\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "cf94b3d2cd928451b6e38f839d52b852279b2fa946537a3ab78d246204daae0e",
+          "markedWrong": false,
+          "commitComment": "fast 2 pass approach",
+          "rawCommitSubject": "rust 3863: fast 2 pass approach",
+          "commitBody": "- check len == 2 after sorted for simpler case\n- fast .is_sorted() check can early escape\n- fold operation can be vectorised\n- simplified checks by finding the min and max of [1..len-1]",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3863_minimum_operations_to_sort_a_string.rs b/rust/src/bin/3863_minimum_operations_to_sort_a_string.rs\nindex affb018..5e49239 100644\n--- a/rust/src/bin/3863_minimum_operations_to_sort_a_string.rs\n+++ b/rust/src/bin/3863_minimum_operations_to_sort_a_string.rs\n@@ -1,42 +1,23 @@\n impl Solution {\n     pub fn min_operations(s: String) -> i32 {\n-        if s.len() <= 1 {\n-            return 0;\n-        }\n-        let bytes = s.as_bytes();\n-\n-        if s.len() == 2 {\n-            return if bytes[0] <= bytes[1] { 0 } else { -1 };\n-        }\n+        if s.len() <= 1 { return 0; }\n \n-        let mut bucket = [0; 256];\n-        let mut sorted = true;\n-        for i in 0..bytes.len() {\n-            bucket[bytes[i] as usize] += 1;\n-            if i > 0 && bytes[i - 1] > bytes[i] {\n-                sorted = false;\n-            }\n-        }\n-        if sorted {\n-            return 0;\n-        }\n+        let bytes = s.as_bytes();\n+        if bytes.is_sorted() { return 0; }\n+        if s.len() == 2 { return -1; }\n \n-        let min = bucket[b'a' as usize..].iter().position(|&b| b > 0).unwrap() as u8 + b'a';\n-        let max = bucket[b'a' as usize..=b'z' as usize]\n+        let (min_mid, max_mid) = bytes[1..bytes.len() - 1]\n             .iter()\n-            .rposition(|&b| b > 0)\n-            .unwrap() as u8\n-            + b'a';\n+            .fold((u8::MAX, u8::MIN), |(min, max), &b| {\n+                (min.min(b), max.max(b))\n+            });\n+        let (first, last) = (bytes[0], bytes[bytes.len() - 1]);\n \n-        if min == bytes[0] || max == bytes[bytes.len() - 1] {\n+        if first <= last && (first <= min_mid || last >= max_mid) {\n             return 1;\n         }\n \n-        if max == bytes[0]\n-            && min == bytes[bytes.len() - 1]\n-            && bucket[min as usize] == 1\n-            && bucket[max as usize] == 1\n-        {\n+        if first > last && (first > max_mid && last < min_mid) {\n             return 3;\n         }\n \n",
+          "changedLineCounts": {
+            "additions": 11,
+            "deletions": 30
+          },
+          "approachId": "1",
+          "narrativeIndex": 2,
+          "shortChangeSummary": "Checks sortedness first, then folds over interior characters to obtain their minimum and maximum and applies simplified endpoint comparisons.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "7028f2bcd2ac38b6aa457080479b5f9ee66ace1d",
+    "97c610b3b836420b0baf8ff58d8c968b9e0d75ca",
+    "b107256aa714c712145a1ff80681379b0d63505c"
+  ],
+  "warnings": []
+}

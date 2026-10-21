@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-19T06:16:16.955Z",
-  "sourceHeadSha": "05dc97280e1357e0387964c049a6d98e899baed2",
+  "generatedAt": "2026-10-21T04:20:14.764Z",
+  "sourceHeadSha": "b107256aa714c712145a1ff80681379b0d63505c",
   "questions": [
     {
       "id": 1,
@@ -434,6 +434,24 @@
       ],
       "firstCommittedAt": "2026-01-24T00:39:07+08:00",
       "lastCommittedAt": "2026-01-24T00:39:07+08:00"
+    },
+    {
+      "id": 38,
+      "title": "Count and Say",
+      "slug": "count-and-say",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/38/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-10-21T12:19:11+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-10-21T12:19:11+08:00",
+      "lastCommittedAt": "2026-10-21T12:19:11+08:00"
     },
     {
       "id": 42,
@@ -3836,6 +3854,24 @@
       ],
       "firstCommittedAt": "2026-07-07T03:01:52Z",
       "lastCommittedAt": "2026-07-07T03:01:52Z"
+    },
+    {
+      "id": 3863,
+      "title": "Minimum Operations to Sort A String",
+      "slug": "minimum-operations-to-sort-a-string",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3863/rust/",
+          "revisionCount": 3,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-10-21T12:19:11+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-10-21T12:19:11+08:00",
+      "lastCommittedAt": "2026-10-21T12:19:11+08:00"
     },
     {
       "id": 3867,

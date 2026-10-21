@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 38,
+    "title": "Count and Say",
+    "slug": "count-and-say"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/38_count_and_say.rs",
+    "latestSha": "001b8525b1bfd5f7564db95d92722ba7238d1dd7",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-10-21T12:19:11+08:00",
+    "lastCommittedAt": "2026-10-21T12:19:11+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "7",
+    "inputHash": "484f6dd1a6204e7ac491eea2e21d8f63c106a56bb87c7daa13f33c8cee341727"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "001b8525b1bfd5f7564db95d92722ba7238d1dd7",
+          "shortSha": "001b852",
+          "parentSha": "05dc97280e1357e0387964c049a6d98e899baed2",
+          "authoredAt": "2026-10-17T23:11:33+08:00",
+          "committedAt": "2026-10-21T12:19:11+08:00",
+          "chronologicalIndex": 460,
+          "problemId": 38,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/38_count_and_say.rs",
+          "sourceFilename": "38_count_and_say.rs",
+          "code": "impl Solution {\n    pub fn count_and_say(n: i32) -> String {\n        if n == 1 {\n            return \"1\".to_string();\n        }\n\n        let cns = Solution::count_and_say(n - 1).into_bytes();\n        let mut result = String::with_capacity(cns.len() * 2);\n        for arr in cns.chunk_by(|a, b| a == b) {\n            result.push((b'0' + arr.len() as u8) as char);\n            result.push(arr[0] as char);\n        }\n        result\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "053459a09d111bae7d207c93bb0e7465364cbca654a45d743de4f9853cf3e1ba",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 38",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "001b8525b1bfd5f7564db95d92722ba7238d1dd7"
+  ],
+  "warnings": []
+}
