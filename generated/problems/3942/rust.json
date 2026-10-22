@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3942,
+    "title": "Minimum Operations to Sort A Permutation",
+    "slug": "minimum-operations-to-sort-a-permutation"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3942_minimum_operations_to_sort_a_permutation.rs",
+    "latestSha": "a6e0249b420e9041b898ef6d839704b801b50428",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-10-22T12:39:46+08:00",
+    "lastCommittedAt": "2026-10-22T12:39:46+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-6-luna",
+    "promptVersion": "7",
+    "inputHash": "5fa6f7e584a68730baeeccadef7cf5690110cc72771da01072ed5a7732f3f283"
+  },
+  "approaches": [
+    {
+      "id": "run-based-validation",
+      "title": "Validate consecutive runs and derive the operation count",
+      "summary": "Check whether the permutation forms the required ascending or descending consecutive runs, then use the relevant boundary position to compute the minimum operations. The later revision replaces allocated run-length lists with direct checks around the position of zero.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "052230feff80f2123227b22e4828ffce5e74b40a",
+          "shortSha": "052230f",
+          "parentSha": "b107256aa714c712145a1ff80681379b0d63505c",
+          "authoredAt": "2026-10-22T12:04:45+08:00",
+          "committedAt": "2026-10-22T12:39:46+08:00",
+          "chronologicalIndex": 464,
+          "problemId": 3942,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3942_minimum_operations_to_sort_a_permutation.rs",
+          "sourceFilename": "3942_minimum_operations_to_sort_a_permutation.rs",
+          "code": "impl Solution {\n    pub fn min_operations(nums: Vec<i32>) -> i32 {\n        let n = nums.len();\n        if n == 2 {\n            return i32::from(nums[0] > nums[1]);\n        }\n        let acs = nums\n            .chunk_by(|&a, &b| a + 1 == b)\n            .map(|c| c.len())\n            .collect::<Vec<_>>();\n        let desc = nums\n            .chunk_by(|&a, &b| a - 1 == b)\n            .map(|c| c.len())\n            .collect::<Vec<_>>();\n        if acs.len() == 1 {\n            return 0;\n        }\n        if desc.len() == 1 {\n            return 1;\n        }\n        if acs.len() == 2 {\n            let zero_pos = acs[0];\n            return usize::min(zero_pos, n - zero_pos + 2) as i32;\n        }\n        if desc.len() == 2 {\n            let last_pos = desc[0];\n            return usize::min(last_pos + 1, n - last_pos + 1) as i32;\n        }\n\n        -1\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "decd25abf73267980c326e7c15ffe685109bf91a149172612bf33a3599525ffe",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 3942",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "run-based-validation",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Build ascending and descending consecutive-run lengths, handle the fully ordered cases, and use the run boundary to calculate the operation count.",
+          "warnings": []
+        },
+        {
+          "sha": "a6e0249b420e9041b898ef6d839704b801b50428",
+          "shortSha": "a6e0249",
+          "parentSha": "052230feff80f2123227b22e4828ffce5e74b40a",
+          "authoredAt": "2026-10-22T12:39:07+08:00",
+          "committedAt": "2026-10-22T12:39:46+08:00",
+          "chronologicalIndex": 465,
+          "problemId": 3942,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3942_minimum_operations_to_sort_a_permutation.rs",
+          "sourceFilename": "3942_minimum_operations_to_sort_a_permutation.rs",
+          "code": "impl Solution {\n    pub fn min_operations(nums: Vec<i32>) -> i32 {\n        let n = nums.len();\n        let Some(zero) = nums.iter().position(|&x| x == 0) else {\n            return -1;\n        };\n        let is_cont = |s1: &[i32], s2: &[i32], d: i32| {\n            s1.windows(2).all(|w| w[0] - w[1] == d) && s2.windows(2).all(|w| w[0] - w[1] == d)\n        };\n        let asc = is_cont(&nums[0..zero], &nums[zero..], -1);\n        let desc = is_cont(&nums[0..=zero], &nums[zero + 1..], 1);\n\n        if asc {\n            return usize::min(zero, n - zero + 2) as i32;\n        }\n\n        if desc {\n            return usize::min(zero + 2, n - zero) as i32;\n        }\n\n        -1\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "06fa6d7eb7684be61b911f76f37fae1ad286f69002b6f4180e7dadd8fbbf8ab6",
+          "markedWrong": false,
+          "commitComment": "no allocation, simplier conditions",
+          "rawCommitSubject": "rust 3942: no allocation, simplier conditions",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3942_minimum_operations_to_sort_a_permutation.rs b/rust/src/bin/3942_minimum_operations_to_sort_a_permutation.rs\nindex c95282f..2779543 100644\n--- a/rust/src/bin/3942_minimum_operations_to_sort_a_permutation.rs\n+++ b/rust/src/bin/3942_minimum_operations_to_sort_a_permutation.rs\n@@ -1,30 +1,21 @@\n impl Solution {\n     pub fn min_operations(nums: Vec<i32>) -> i32 {\n         let n = nums.len();\n-        if n == 2 {\n-            return i32::from(nums[0] > nums[1]);\n-        }\n-        let acs = nums\n-            .chunk_by(|&a, &b| a + 1 == b)\n-            .map(|c| c.len())\n-            .collect::<Vec<_>>();\n-        let desc = nums\n-            .chunk_by(|&a, &b| a - 1 == b)\n-            .map(|c| c.len())\n-            .collect::<Vec<_>>();\n-        if acs.len() == 1 {\n-            return 0;\n-        }\n-        if desc.len() == 1 {\n-            return 1;\n-        }\n-        if acs.len() == 2 {\n-            let zero_pos = acs[0];\n-            return usize::min(zero_pos, n - zero_pos + 2) as i32;\n+        let Some(zero) = nums.iter().position(|&x| x == 0) else {\n+            return -1;\n+        };\n+        let is_cont = |s1: &[i32], s2: &[i32], d: i32| {\n+            s1.windows(2).all(|w| w[0] - w[1] == d) && s2.windows(2).all(|w| w[0] - w[1] == d)\n+        };\n+        let asc = is_cont(&nums[0..zero], &nums[zero..], -1);\n+        let desc = is_cont(&nums[0..=zero], &nums[zero + 1..], 1);\n+\n+        if asc {\n+            return usize::min(zero, n - zero + 2) as i32;\n         }\n-        if desc.len() == 2 {\n-            let last_pos = desc[0];\n-            return usize::min(last_pos + 1, n - last_pos + 1) as i32;\n+\n+        if desc {\n+            return usize::min(zero + 2, n - zero) as i32;\n         }\n \n         -1\n",
+          "changedLineCounts": {
+            "additions": 14,
+            "deletions": 23
+          },
+          "approachId": "run-based-validation",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Find zero and check continuity on the slices around it without allocating run-length vectors; compute the result from zero’s position.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "052230feff80f2123227b22e4828ffce5e74b40a",
+    "a6e0249b420e9041b898ef6d839704b801b50428"
+  ],
+  "warnings": []
+}

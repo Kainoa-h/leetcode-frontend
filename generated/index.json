@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-21T04:20:14.764Z",
-  "sourceHeadSha": "b107256aa714c712145a1ff80681379b0d63505c",
+  "generatedAt": "2026-10-22T04:40:27.321Z",
+  "sourceHeadSha": "a6e0249b420e9041b898ef6d839704b801b50428",
   "questions": [
     {
       "id": 1,
@@ -3980,6 +3980,24 @@
       ],
       "firstCommittedAt": "2026-09-05T11:18:33+08:00",
       "lastCommittedAt": "2026-09-05T11:18:33+08:00"
+    },
+    {
+      "id": 3942,
+      "title": "Minimum Operations to Sort A Permutation",
+      "slug": "minimum-operations-to-sort-a-permutation",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3942/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-10-22T12:39:46+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-10-22T12:39:46+08:00",
+      "lastCommittedAt": "2026-10-22T12:39:46+08:00"
     }
   ]
 }
