@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-22T04:40:27.321Z",
-  "sourceHeadSha": "a6e0249b420e9041b898ef6d839704b801b50428",
+  "generatedAt": "2026-10-23T04:51:13.416Z",
+  "sourceHeadSha": "46b0cc578c849653438caac8ffbedc02ab2d76fd",
   "questions": [
     {
       "id": 1,
@@ -3611,6 +3611,24 @@
       ],
       "firstCommittedAt": "2026-06-03T21:56:30+08:00",
       "lastCommittedAt": "2026-06-03T21:56:30+08:00"
+    },
+    {
+      "id": 3644,
+      "title": "Maximum K to Sort A Permutation",
+      "slug": "maximum-k-to-sort-a-permutation",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3644/rust/",
+          "revisionCount": 3,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-10-23T12:50:28+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-10-23T11:41:16+08:00",
+      "lastCommittedAt": "2026-10-23T12:50:28+08:00"
     },
     {
       "id": 3653,

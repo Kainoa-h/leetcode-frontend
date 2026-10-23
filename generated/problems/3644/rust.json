@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3644,
+    "title": "Maximum K to Sort A Permutation",
+    "slug": "maximum-k-to-sort-a-permutation"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3644_maximum_k_to_sort_a_permutation.rs",
+    "latestSha": "46b0cc578c849653438caac8ffbedc02ab2d76fd",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-10-23T11:41:16+08:00",
+    "lastCommittedAt": "2026-10-23T12:50:28+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-6-luna",
+    "promptVersion": "7",
+    "inputHash": "cb4a9dcc7016c0026aee46d1092535b7b7c5bea069891564ab97f3a01a0755f7"
+  },
+  "approaches": [
+    {
+      "id": "mismatched_values_bitwise_and",
+      "title": "AND values at misplaced positions",
+      "summary": "Scan the permutation and bitwise-AND the values whose indices do not match them. Return 0 if no positions are misplaced.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "03bac14651376c70cd884835c38118f60eaad0cb",
+          "shortSha": "03bac14",
+          "parentSha": "a6e0249b420e9041b898ef6d839704b801b50428",
+          "authoredAt": "2026-10-23T11:29:50+08:00",
+          "committedAt": "2026-10-23T11:41:16+08:00",
+          "chronologicalIndex": 466,
+          "problemId": 3644,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3644_maximum_k_to_sort_a_permutation.rs",
+          "sourceFilename": "3644_maximum_k_to_sort_a_permutation.rs",
+          "code": "impl Solution {\n    pub fn sort_permutation(nums: Vec<i32>) -> i32 {\n        let mut and = i32::MAX;\n        for (idx, &n) in nums.iter().enumerate() {\n            if idx as i32 != n {\n                and &= n;\n            }\n        }\n        if and == i32::MAX { 0 } else { and }\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "81923961c9cff6d5e39c509749071eb2fa1a5f5f0a539f120929fdaa00b44f04",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 3644",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "mismatched_values_bitwise_and",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Uses a loop to AND each misplaced value into an accumulator.",
+          "warnings": []
+        },
+        {
+          "sha": "871369e9ff5127bd0971468a30adbafef67de4f9",
+          "shortSha": "871369e",
+          "parentSha": "03bac14651376c70cd884835c38118f60eaad0cb",
+          "authoredAt": "2026-10-23T11:41:06+08:00",
+          "committedAt": "2026-10-23T11:41:16+08:00",
+          "chronologicalIndex": 467,
+          "problemId": 3644,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3644_maximum_k_to_sort_a_permutation.rs",
+          "sourceFilename": "3644_maximum_k_to_sort_a_permutation.rs",
+          "code": "impl Solution {\n    pub fn sort_permutation(nums: Vec<i32>) -> i32 {\n        let and = nums\n            .iter()\n            .enumerate()\n            .filter(|&(i, &n)| i as i32 != n)\n            .fold(i32::MAX, |acc, (_, &n)| acc & n);\n        if and == i32::MAX { 0 } else { and }\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "f499720da21004af0d6ca49b0cba8dd20f849a1c4f0be16f2befdc12033fa231",
+          "markedWrong": false,
+          "commitComment": "functional!",
+          "rawCommitSubject": "rust 3644: functional!",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3644_maximum_k_to_sort_a_permutation.rs b/rust/src/bin/3644_maximum_k_to_sort_a_permutation.rs\nindex abe06b2..5c06c31 100644\n--- a/rust/src/bin/3644_maximum_k_to_sort_a_permutation.rs\n+++ b/rust/src/bin/3644_maximum_k_to_sort_a_permutation.rs\n@@ -1,11 +1,10 @@\n impl Solution {\n     pub fn sort_permutation(nums: Vec<i32>) -> i32 {\n-        let mut and = i32::MAX;\n-        for (idx, &n) in nums.iter().enumerate() {\n-            if idx as i32 != n {\n-                and &= n;\n-            }\n-        }\n+        let and = nums\n+            .iter()\n+            .enumerate()\n+            .filter(|&(i, &n)| i as i32 != n)\n+            .fold(i32::MAX, |acc, (_, &n)| acc & n);\n         if and == i32::MAX { 0 } else { and }\n     }\n }\n",
+          "changedLineCounts": {
+            "additions": 5,
+            "deletions": 6
+          },
+          "approachId": "mismatched_values_bitwise_and",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Rewrites the scan with iterator filtering and folding; the algorithm is unchanged.",
+          "warnings": []
+        },
+        {
+          "sha": "46b0cc578c849653438caac8ffbedc02ab2d76fd",
+          "shortSha": "46b0cc5",
+          "parentSha": "871369e9ff5127bd0971468a30adbafef67de4f9",
+          "authoredAt": "2026-10-23T12:30:45+08:00",
+          "committedAt": "2026-10-23T12:50:28+08:00",
+          "chronologicalIndex": 468,
+          "problemId": 3644,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3644_maximum_k_to_sort_a_permutation.rs",
+          "sourceFilename": "3644_maximum_k_to_sort_a_permutation.rs",
+          "code": "impl Solution {\n    pub fn sort_permutation(nums: Vec<i32>) -> i32 {\n        let and = nums.iter().enumerate().fold(i32::MAX, |acc, (i, &n)| {\n            let mask = -i32::from(i as i32 == n);\n            acc & (n | mask)\n        });\n        if and == i32::MAX { 0 } else { and }\n    }\n}\n\nstruct Solution {}\n\nuse std::hint::black_box;\nfn main() {\n    assert_eq!(Solution::sort_permutation(black_box(vec![3, 2, 1, 0])), 0);\n    assert_eq!(Solution::sort_permutation(black_box(vec![0, 1, 3, 2])), 2);\n    assert_eq!(Solution::sort_permutation(black_box((0..10_000).collect())), 0);\n}\n",
+          "codeHash": "a3a3d5fab4d5da1ea22c370272697eb865aa7159deba2cb48f0eb539dbcb34d5",
+          "markedWrong": false,
+          "commitComment": "explicitly branchless loop using bitmasking",
+          "rawCommitSubject": "rust 3644: explicitly branchless loop using bitmasking",
+          "commitBody": "Removed branching using bitmask trick:\n\ni == n evalutes to 0d1 or 0d0.\nnegating performs two's compliment, 0b1111 or 0b0000 (4 bit example)\nmaking it all ones or all zeros\n\nThis then can be bitwise or against `n`.\nif i == n, acc is & with all ones which does nothing\n\nVectorisation for current and all previous iterations proved with:\n\ncargo rustc --release --bin 3644_maximum_k_to_sort_a_permutation -- \\\n  -C target-cpu=native \\\n  -C debuginfo=1 \\\n  -C llvm-args=-unroll-threshold=0 \\\n  -C llvm-args=-pass-remarks=loop-vectorize \\\n  -C llvm-args=-pass-remarks-missed=loop-vectorize \\\n  -C llvm-args=-pass-remarks-analysis=loop-vectorize\n\nin all iterations, the if statements go through if-conversion and become\nbranchless anyways. So they were all effectively branchless to begin\nwith. Didn't check the asm, but apart from this commit, the previous\niterations should have almost the same asm",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3644_maximum_k_to_sort_a_permutation.rs b/rust/src/bin/3644_maximum_k_to_sort_a_permutation.rs\nindex 5c06c31..71ef1c2 100644\n--- a/rust/src/bin/3644_maximum_k_to_sort_a_permutation.rs\n+++ b/rust/src/bin/3644_maximum_k_to_sort_a_permutation.rs\n@@ -1,12 +1,18 @@\n impl Solution {\n     pub fn sort_permutation(nums: Vec<i32>) -> i32 {\n-        let and = nums\n-            .iter()\n-            .enumerate()\n-            .filter(|&(i, &n)| i as i32 != n)\n-            .fold(i32::MAX, |acc, (_, &n)| acc & n);\n+        let and = nums.iter().enumerate().fold(i32::MAX, |acc, (i, &n)| {\n+            let mask = -i32::from(i as i32 == n);\n+            acc & (n | mask)\n+        });\n         if and == i32::MAX { 0 } else { and }\n     }\n }\n \n struct Solution {}\n+\n+use std::hint::black_box;\n+fn main() {\n+    assert_eq!(Solution::sort_permutation(black_box(vec![3, 2, 1, 0])), 0);\n+    assert_eq!(Solution::sort_permutation(black_box(vec![0, 1, 3, 2])), 2);\n+    assert_eq!(Solution::sort_permutation(black_box((0..10_000).collect())), 0);\n+}\n",
+          "changedLineCounts": {
+            "additions": 11,
+            "deletions": 5
+          },
+          "approachId": "mismatched_values_bitwise_and",
+          "narrativeIndex": 2,
+          "shortChangeSummary": "Uses a bitmask in the fold to ignore correctly placed values without an explicit filter; the underlying AND strategy is unchanged.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "03bac14651376c70cd884835c38118f60eaad0cb",
+    "871369e9ff5127bd0971468a30adbafef67de4f9",
+    "46b0cc578c849653438caac8ffbedc02ab2d76fd"
+  ],
+  "warnings": []
+}
