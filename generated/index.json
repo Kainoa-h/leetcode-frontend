@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-25T04:21:03.404Z",
-  "sourceHeadSha": "d67b95d753ef7c3d1d93cf2b6ac28d1fb096d754",
+  "generatedAt": "2026-10-25T08:58:20.556Z",
+  "sourceHeadSha": "856ae7bcbde6ab2b0195b864b80ba11bf6885aab",
   "questions": [
     {
       "id": 1,
@@ -1973,6 +1973,24 @@
       ],
       "firstCommittedAt": "2026-10-05T23:16:25+08:00",
       "lastCommittedAt": "2026-10-06T00:19:57+08:00"
+    },
+    {
+      "id": 1254,
+      "title": "Number of Closed Islands",
+      "slug": "number-of-closed-islands",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/1254/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-10-25T16:57:45+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-10-25T16:10:58+08:00",
+      "lastCommittedAt": "2026-10-25T16:57:45+08:00"
     },
     {
       "id": 1260,
