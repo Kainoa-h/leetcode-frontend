@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2409,
+    "title": "Count Days Spent Together",
+    "slug": "count-days-spent-together"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/2409_count_days_spent_together.rs",
+    "latestSha": "d67b95d753ef7c3d1d93cf2b6ac28d1fb096d754",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-10-25T11:43:14+08:00",
+    "lastCommittedAt": "2026-10-25T12:20:13+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-6-luna",
+    "promptVersion": "7",
+    "inputHash": "141c01ec536c92d6ae3bdd49d68baa7394d6329eef1de1df2d2227493966b019"
+  },
+  "approaches": [
+    {
+      "id": "enumerate-days",
+      "title": "Enumerate calendar days",
+      "summary": "Parse dates into month/day pairs, then visit each day of the year and count those contained in both date ranges.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "6d65d2a60206fe302f9640c55e7538562e1c1c5c",
+          "shortSha": "6d65d2a",
+          "parentSha": "46b0cc578c849653438caac8ffbedc02ab2d76fd",
+          "authoredAt": "2026-10-25T11:43:14+08:00",
+          "committedAt": "2026-10-25T11:43:14+08:00",
+          "chronologicalIndex": 469,
+          "problemId": 2409,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2409_count_days_spent_together.rs",
+          "sourceFilename": "2409_count_days_spent_together.rs",
+          "code": "impl Solution {\n    pub fn count_days_together(\n        arrive_alice: String,\n        leave_alice: String,\n        arrive_bob: String,\n        leave_bob: String,\n    ) -> i32 {\n        const DAYS_IN_MTHS: [usize; 13] = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];\n        let to_tup = |x: String| (x[0..2].parse::<usize>().unwrap(), x[3..5].parse::<usize>().unwrap());\n        let arrive_alice = to_tup(arrive_alice);\n        let leave_alice = to_tup(leave_alice);\n        let arrive_bob = to_tup(arrive_bob);\n        let leave_bob = to_tup(leave_bob);\n\n        let mut result = 0;\n        for m in 1..=12 {\n            for d in 1..=DAYS_IN_MTHS[m] {\n                let date = (m, d);\n                if arrive_alice <= date && arrive_bob <= date && leave_alice >= date && leave_bob >= date {\n                    result += 1;\n                }\n            }\n        }\n        result\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "5440faefdac0b2cc06c7a4c13d991cbe48cf6813d803fd47300da46d015a7cb6",
+          "markedWrong": false,
+          "commitComment": "brute force",
+          "rawCommitSubject": "rust 2409: brute force",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "enumerate-days",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Checks every calendar day against both inclusive date ranges and counts the overlap.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "ordinal-date-overlap",
+      "title": "Convert dates to day numbers",
+      "summary": "Map each date to its day number in the year, intersect the two inclusive ranges, and compute the overlap length.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "a3104b5a08e0fbd014c63b986e258609d1f36760",
+          "shortSha": "a3104b5",
+          "parentSha": "6d65d2a60206fe302f9640c55e7538562e1c1c5c",
+          "authoredAt": "2026-10-25T12:00:38+08:00",
+          "committedAt": "2026-10-25T12:00:38+08:00",
+          "chronologicalIndex": 470,
+          "problemId": 2409,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2409_count_days_spent_together.rs",
+          "sourceFilename": "2409_count_days_spent_together.rs",
+          "code": "impl Solution {\n    pub fn count_days_together(\n        arrive_alice: String,\n        leave_alice: String,\n        arrive_bob: String,\n        leave_bob: String,\n    ) -> i32 {\n        const DAYS_IN_MTHS: [i32; 13] = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];\n        let days_prefix = DAYS_IN_MTHS\n            .iter()\n            .scan(0, |acc, &x| {\n                *acc += x;\n                Some(*acc)\n            })\n            .collect::<Vec<i32>>();\n        let to_days = |x: String| {\n            let mth = x[0..2].parse::<usize>().unwrap();\n            let day = x[3..5].parse::<i32>().unwrap();\n            days_prefix[mth - 1] + day\n        };\n        let arrive_alice = to_days(arrive_alice);\n        let leave_alice = to_days(leave_alice);\n        let arrive_bob = to_days(arrive_bob);\n        let leave_bob = to_days(leave_bob);\n        let start = arrive_alice.max(arrive_bob);\n        let end = leave_alice.min(leave_bob);\n        if end < start {\n            0\n        } else {\n            end - start + 1\n        }\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "50e7f8d32fd76ed7b17d883b00a6af7606c56410f8c08f1b7ffa4d9954820748",
+          "markedWrong": false,
+          "commitComment": "constant time approach",
+          "rawCommitSubject": "rust 2409: constant time approach",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2409_count_days_spent_together.rs b/rust/src/bin/2409_count_days_spent_together.rs\nindex fb92c6e..586e34c 100644\n--- a/rust/src/bin/2409_count_days_spent_together.rs\n+++ b/rust/src/bin/2409_count_days_spent_together.rs\n@@ -5,23 +5,30 @@ impl Solution {\n         arrive_bob: String,\n         leave_bob: String,\n     ) -> i32 {\n-        const DAYS_IN_MTHS: [usize; 13] = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];\n-        let to_tup = |x: String| (x[0..2].parse::<usize>().unwrap(), x[3..5].parse::<usize>().unwrap());\n-        let arrive_alice = to_tup(arrive_alice);\n-        let leave_alice = to_tup(leave_alice);\n-        let arrive_bob = to_tup(arrive_bob);\n-        let leave_bob = to_tup(leave_bob);\n-\n-        let mut result = 0;\n-        for m in 1..=12 {\n-            for d in 1..=DAYS_IN_MTHS[m] {\n-                let date = (m, d);\n-                if arrive_alice <= date && arrive_bob <= date && leave_alice >= date && leave_bob >= date {\n-                    result += 1;\n-                }\n-            }\n+        const DAYS_IN_MTHS: [i32; 13] = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];\n+        let days_prefix = DAYS_IN_MTHS\n+            .iter()\n+            .scan(0, |acc, &x| {\n+                *acc += x;\n+                Some(*acc)\n+            })\n+            .collect::<Vec<i32>>();\n+        let to_days = |x: String| {\n+            let mth = x[0..2].parse::<usize>().unwrap();\n+            let day = x[3..5].parse::<i32>().unwrap();\n+            days_prefix[mth - 1] + day\n+        };\n+        let arrive_alice = to_days(arrive_alice);\n+        let leave_alice = to_days(leave_alice);\n+        let arrive_bob = to_days(arrive_bob);\n+        let leave_bob = to_days(leave_bob);\n+        let start = arrive_alice.max(arrive_bob);\n+        let end = leave_alice.min(leave_bob);\n+        if end < start {\n+            0\n+        } else {\n+            end - start + 1\n         }\n-        result\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 23,
+            "deletions": 16
+          },
+          "approachId": "ordinal-date-overlap",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaces day-by-day enumeration with day-number conversion and a direct interval intersection.",
+          "warnings": []
+        },
+        {
+          "sha": "d67b95d753ef7c3d1d93cf2b6ac28d1fb096d754",
+          "shortSha": "d67b95d",
+          "parentSha": "a3104b5a08e0fbd014c63b986e258609d1f36760",
+          "authoredAt": "2026-10-25T12:14:51+08:00",
+          "committedAt": "2026-10-25T12:20:13+08:00",
+          "chronologicalIndex": 471,
+          "problemId": 2409,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2409_count_days_spent_together.rs",
+          "sourceFilename": "2409_count_days_spent_together.rs",
+          "code": "impl Solution {\n    pub fn count_days_together(\n        arrive_alice: String,\n        leave_alice: String,\n        arrive_bob: String,\n        leave_bob: String,\n    ) -> i32 {\n        const fn compute_prefix() -> [i32;13] {\n            const DAYS_IN_MTHS: [i32; 13] = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];\n            let mut prefix = [0;13];\n            let mut i = 1;\n            let mut sum = 0;\n            while i < 13 {\n                prefix[i] = sum;\n                sum += DAYS_IN_MTHS[i];\n                i+=1;\n            }\n            prefix\n        }\n        const DAYS_PREFIX: [i32;13] = compute_prefix();\n        let to_days = |x: &str| {\n            let b = x.as_bytes();\n            let mth = ((b[0] - b'0') * 10 + b[1] - b'0') as usize;\n            let day = ((b[3] - b'0') * 10 + b[4] - b'0') as i32;\n            DAYS_PREFIX[mth] + day\n        };\n        let start = to_days(&arrive_alice).max(to_days(&arrive_bob));\n        let end = to_days(&leave_alice).min(to_days(&leave_bob));\n        (end - start + 1).max(0)\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "9ce4c818dbb113eddb772d918f5757b64d1b9da27206c744db2ad0e4c30e0ad1",
+          "markedWrong": false,
+          "commitComment": "hella optimisations",
+          "rawCommitSubject": "rust 2409: hella optimisations",
+          "commitBody": "- move prefix calculation to compile time\n- borrowing date strings instead of moving ownership\n- direct parsing of date string with byte arithmetic\n- replace result if statement with branchless .max (if-conversion\nalready did this, so this is just explicitly making it branchless)",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2409_count_days_spent_together.rs b/rust/src/bin/2409_count_days_spent_together.rs\nindex 586e34c..d6dcba4 100644\n--- a/rust/src/bin/2409_count_days_spent_together.rs\n+++ b/rust/src/bin/2409_count_days_spent_together.rs\n@@ -5,30 +5,28 @@ impl Solution {\n         arrive_bob: String,\n         leave_bob: String,\n     ) -> i32 {\n-        const DAYS_IN_MTHS: [i32; 13] = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];\n-        let days_prefix = DAYS_IN_MTHS\n-            .iter()\n-            .scan(0, |acc, &x| {\n-                *acc += x;\n-                Some(*acc)\n-            })\n-            .collect::<Vec<i32>>();\n-        let to_days = |x: String| {\n-            let mth = x[0..2].parse::<usize>().unwrap();\n-            let day = x[3..5].parse::<i32>().unwrap();\n-            days_prefix[mth - 1] + day\n-        };\n-        let arrive_alice = to_days(arrive_alice);\n-        let leave_alice = to_days(leave_alice);\n-        let arrive_bob = to_days(arrive_bob);\n-        let leave_bob = to_days(leave_bob);\n-        let start = arrive_alice.max(arrive_bob);\n-        let end = leave_alice.min(leave_bob);\n-        if end < start {\n-            0\n-        } else {\n-            end - start + 1\n+        const fn compute_prefix() -> [i32;13] {\n+            const DAYS_IN_MTHS: [i32; 13] = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];\n+            let mut prefix = [0;13];\n+            let mut i = 1;\n+            let mut sum = 0;\n+            while i < 13 {\n+                prefix[i] = sum;\n+                sum += DAYS_IN_MTHS[i];\n+                i+=1;\n+            }\n+            prefix\n         }\n+        const DAYS_PREFIX: [i32;13] = compute_prefix();\n+        let to_days = |x: &str| {\n+            let b = x.as_bytes();\n+            let mth = ((b[0] - b'0') * 10 + b[1] - b'0') as usize;\n+            let day = ((b[3] - b'0') * 10 + b[4] - b'0') as i32;\n+            DAYS_PREFIX[mth] + day\n+        };\n+        let start = to_days(&arrive_alice).max(to_days(&arrive_bob));\n+        let end = to_days(&leave_alice).min(to_days(&leave_bob));\n+        (end - start + 1).max(0)\n     }\n }\n \n",
+          "changedLineCounts": {
+            "additions": 21,
+            "deletions": 23
+          },
+          "approachId": "ordinal-date-overlap",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Keeps the interval-intersection strategy while computing month prefixes at compile time and parsing date bytes directly.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "6d65d2a60206fe302f9640c55e7538562e1c1c5c",
+    "a3104b5a08e0fbd014c63b986e258609d1f36760",
+    "d67b95d753ef7c3d1d93cf2b6ac28d1fb096d754"
+  ],
+  "warnings": []
+}

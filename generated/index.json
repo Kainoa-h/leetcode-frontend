@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-23T04:51:13.416Z",
-  "sourceHeadSha": "46b0cc578c849653438caac8ffbedc02ab2d76fd",
+  "generatedAt": "2026-10-25T04:21:03.404Z",
+  "sourceHeadSha": "d67b95d753ef7c3d1d93cf2b6ac28d1fb096d754",
   "questions": [
     {
       "id": 1,
@@ -2765,6 +2765,24 @@
       ],
       "firstCommittedAt": "2026-10-11T11:36:42+08:00",
       "lastCommittedAt": "2026-10-11T11:36:42+08:00"
+    },
+    {
+      "id": 2409,
+      "title": "Count Days Spent Together",
+      "slug": "count-days-spent-together",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/2409/rust/",
+          "revisionCount": 3,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-10-25T12:20:13+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-10-25T11:43:14+08:00",
+      "lastCommittedAt": "2026-10-25T12:20:13+08:00"
     },
     {
       "id": 2452,
