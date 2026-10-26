@@ -13,27 +13,27 @@
   "source": {
     "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
     "latestPath": "rust/src/bin/66_plus_one.rs",
-    "latestSha": "075fa7787949180540998b276f093bdf2356af8f",
+    "latestSha": "daee4f3eb5527a9d2ab35995db5d7ae079762408",
     "deleted": false
   },
   "statistics": {
-    "revisionCount": 2,
+    "revisionCount": 3,
     "approachCount": 1,
     "incorrectRevisionCount": 0,
     "firstCommittedAt": "2026-10-26T23:57:46+08:00",
-    "lastCommittedAt": "2026-10-27T00:03:24+08:00"
+    "lastCommittedAt": "2026-10-27T00:11:08+08:00"
   },
   "analysis": {
     "status": "llm",
     "model": "openai/gpt-6-luna",
     "promptVersion": "7",
-    "inputHash": "f29a1b25526c94ce2d3eb685e405e6a52690445dbfc5be0f696eb549506b0d55"
+    "inputHash": "d374c9991a3d9ba055a3142c91be564b261d1b1f961b843fd11f5aadbcde9743"
   },
   "approaches": [
     {
-      "id": "1",
-      "title": "In-place right-to-left increment",
-      "summary": "Scan digits from right to left, increment the first digit below 9, and zero trailing 9s. If every digit was 9, prepend 1.",
+      "id": "right-to-left-carry",
+      "title": "Increment digits from the right",
+      "summary": "Find the rightmost digit that can be incremented, increment it, and zero any trailing nines. If every digit is nine, zero them all and prepend one.",
       "order": 0,
       "revisions": [
         {
@@ -55,9 +55,9 @@
           "commitBody": "",
           "diffFromPreviousRelevantRevision": null,
           "changedLineCounts": null,
-          "approachId": "1",
+          "approachId": "right-to-left-carry",
           "narrativeIndex": 0,
-          "shortChangeSummary": "Tracks carry explicitly while scanning backward; on overflow, builds a new vector with a leading 1.",
+          "shortChangeSummary": "Walk backward, increment the first digit below nine, and track whether a carry requires prepending one.",
           "warnings": []
         },
         {
@@ -82,9 +82,36 @@
             "additions": 4,
             "deletions": 13
           },
-          "approachId": "1",
+          "approachId": "right-to-left-carry",
           "narrativeIndex": 1,
-          "shortChangeSummary": "Returns immediately after incrementing a digit below 9; otherwise, prepends 1 after zeroing all digits.",
+          "shortChangeSummary": "Simplify carry handling with an early return; prepend one only if the loop zeroes every digit.",
+          "warnings": []
+        },
+        {
+          "sha": "daee4f3eb5527a9d2ab35995db5d7ae079762408",
+          "shortSha": "daee4f3",
+          "parentSha": "075fa7787949180540998b276f093bdf2356af8f",
+          "authoredAt": "2026-10-27T00:11:08+08:00",
+          "committedAt": "2026-10-27T00:11:08+08:00",
+          "chronologicalIndex": 478,
+          "problemId": 66,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/66_plus_one.rs",
+          "sourceFilename": "66_plus_one.rs",
+          "code": "impl Solution {\n    pub fn plus_one(mut digits: Vec<i32>) -> Vec<i32> {\n        match digits.iter().rposition(|&d| d < 9) {\n            Some(i) => {\n                digits[i] += 1;\n                digits[i + 1..].fill(0);\n            }\n            None => {\n                digits.fill(0);\n                digits.insert(0, 1);\n            }\n        };\n        digits\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "58cc5f25aaac2a1ad00eb960fbf98c6d8943d821c473355083e663f825d0d640",
+          "markedWrong": false,
+          "commitComment": "beautiful rposition approach",
+          "rawCommitSubject": "rust 66: beautiful rposition approach",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/66_plus_one.rs b/rust/src/bin/66_plus_one.rs\nindex 9f8ebc6..702a4ab 100644\n--- a/rust/src/bin/66_plus_one.rs\n+++ b/rust/src/bin/66_plus_one.rs\n@@ -1,13 +1,15 @@\n impl Solution {\n     pub fn plus_one(mut digits: Vec<i32>) -> Vec<i32> {\n-        for d in digits.iter_mut().rev() {\n-            if *d < 9 {\n-                *d += 1;\n-                return digits;\n-            } \n-            *d = 0;\n-        }\n-        digits.insert(0, 1);\n+        match digits.iter().rposition(|&d| d < 9) {\n+            Some(i) => {\n+                digits[i] += 1;\n+                digits[i + 1..].fill(0);\n+            }\n+            None => {\n+                digits.fill(0);\n+                digits.insert(0, 1);\n+            }\n+        };\n         digits\n     }\n }\n",
+          "changedLineCounts": {
+            "additions": 10,
+            "deletions": 8
+          },
+          "approachId": "right-to-left-carry",
+          "narrativeIndex": 2,
+          "shortChangeSummary": "Use `rposition` to find the rightmost digit below nine, then increment it and zero the suffix; handle the all-nines case separately.",
           "warnings": []
         }
       ]
@@ -92,7 +119,8 @@
   ],
   "chronologicalRevisionShas": [
     "d5e7de053a66877d0b06233309782568dc213b6c",
-    "075fa7787949180540998b276f093bdf2356af8f"
+    "075fa7787949180540998b276f093bdf2356af8f",
+    "daee4f3eb5527a9d2ab35995db5d7ae079762408"
   ],
   "warnings": []
 }
