@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3619,
+    "title": "Count Islands With Total Value Divisible By K",
+    "slug": "count-islands-with-total-value-divisible-by-k"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3619_count_islands_with_total_value_divisible_by_k.rs",
+    "latestSha": "567a62c50c4b8c424620332958ad7bc2e8d1a4e6",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-10-26T15:29:52+08:00",
+    "lastCommittedAt": "2026-10-26T15:41:08+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-6-luna",
+    "promptVersion": "7",
+    "inputHash": "b4511ab7d638f4db0a8d9649e4b2a996011ef1ddd8bf9da75ac422274b17628c"
+  },
+  "approaches": [
+    {
+      "id": "1",
+      "title": "Flood-fill each island and sum its values",
+      "summary": "Scan the grid for unvisited nonzero cells, then use an iterative depth-first flood fill to mark each island visited and compute its total. Count the island when its sum is divisible by k.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "f78ae47e5239df44c92216672b15c13dd7daf306",
+          "shortSha": "f78ae47",
+          "parentSha": "856ae7bcbde6ab2b0195b864b80ba11bf6885aab",
+          "authoredAt": "2026-10-26T15:29:52+08:00",
+          "committedAt": "2026-10-26T15:29:52+08:00",
+          "chronologicalIndex": 474,
+          "problemId": 3619,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3619_count_islands_with_total_value_divisible_by_k.rs",
+          "sourceFilename": "3619_count_islands_with_total_value_divisible_by_k.rs",
+          "code": "impl Solution {\n    pub fn count_islands(mut grid: Vec<Vec<i32>>, k: i32) -> i32 {\n        let (rows, cols) = (grid.len(), grid[0].len());\n        let mut islands = 0;\n        for r in 0..rows {\n            for c in 0..cols {\n                if grid[r][c] != 0 {\n                    let sum = Self::flood_and_sum(&mut grid, r, c);\n                    islands += i32::from(sum % k as i64 == 0);\n                }\n            }\n        }\n        islands\n    }\n\n    fn flood_and_sum(grid: &mut [Vec<i32>], row: usize, col: usize) -> i64 {\n        const DIRS: [(isize, isize); 4] = [(1, 0), (-1, 0), (0, -1), (0, 1)];\n        let mut sum = grid[row][col] as i64;\n        grid[row][col] = 0;\n        let mut stack = vec![(row, col)];\n        while let Some((r, c)) = stack.pop() {\n            for (dr, dc) in DIRS {\n                let (nr, nc) = (r.wrapping_add_signed(dr), c.wrapping_add_signed(dc));\n                if let Some(cell) = grid.get_mut(nr).and_then(|row| row.get_mut(nc))\n                    && *cell != 0\n                {\n                    sum += *cell as i64;\n                    *cell = 0;\n                    stack.push((nr, nc));\n                }\n            }\n        }\n        sum\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "a2b8ba21a50a8a0fbbb5e54247425f64d6a26562e89122a8e2af764bc23934cc",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 3619",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Implement iterative flood fill with a newly allocated stack per island, sum each island’s values, and count sums divisible by k.",
+          "warnings": []
+        },
+        {
+          "sha": "567a62c50c4b8c424620332958ad7bc2e8d1a4e6",
+          "shortSha": "567a62c",
+          "parentSha": "f78ae47e5239df44c92216672b15c13dd7daf306",
+          "authoredAt": "2026-10-26T15:41:08+08:00",
+          "committedAt": "2026-10-26T15:41:08+08:00",
+          "chronologicalIndex": 475,
+          "problemId": 3619,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3619_count_islands_with_total_value_divisible_by_k.rs",
+          "sourceFilename": "3619_count_islands_with_total_value_divisible_by_k.rs",
+          "code": "impl Solution {\n    pub fn count_islands(mut grid: Vec<Vec<i32>>, k: i32) -> i32 {\n        let (rows, cols) = (grid.len(), grid[0].len());\n        let mut stack = Vec::new();\n        let mut islands = 0;\n        for r in 0..rows {\n            for c in 0..cols {\n                if grid[r][c] != 0 {\n                    let sum = Self::flood_and_sum(&mut grid, &mut stack, r, c);\n                    islands += i32::from(sum % k as i64 == 0);\n                }\n            }\n        }\n        islands\n    }\n\n    fn flood_and_sum(\n        grid: &mut [Vec<i32>],\n        stack: &mut Vec<(usize, usize)>,\n        row: usize,\n        col: usize,\n    ) -> i64 {\n        const DIRS: [(isize, isize); 4] = [(1, 0), (-1, 0), (0, -1), (0, 1)];\n        let mut sum = grid[row][col] as i64;\n        grid[row][col] = 0;\n        stack.clear();\n        stack.push((row, col));\n        while let Some((r, c)) = stack.pop() {\n            for (dr, dc) in DIRS {\n                let (nr, nc) = (r.wrapping_add_signed(dr), c.wrapping_add_signed(dc));\n                if let Some(cell) = grid.get_mut(nr).and_then(|row| row.get_mut(nc))\n                    && *cell != 0\n                {\n                    sum += *cell as i64;\n                    *cell = 0;\n                    stack.push((nr, nc));\n                }\n            }\n        }\n        sum\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "1625ab7a34ebdd8a4e088eb0d9a7bec6d71f7ab7015d5e21de01dda09a95d07f",
+          "markedWrong": false,
+          "commitComment": "reuse stack allocation",
+          "rawCommitSubject": "rust 3619: reuse stack allocation",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3619_count_islands_with_total_value_divisible_by_k.rs b/rust/src/bin/3619_count_islands_with_total_value_divisible_by_k.rs\nindex 7667c68..820fe33 100644\n--- a/rust/src/bin/3619_count_islands_with_total_value_divisible_by_k.rs\n+++ b/rust/src/bin/3619_count_islands_with_total_value_divisible_by_k.rs\n@@ -1,11 +1,12 @@\n impl Solution {\n     pub fn count_islands(mut grid: Vec<Vec<i32>>, k: i32) -> i32 {\n         let (rows, cols) = (grid.len(), grid[0].len());\n+        let mut stack = Vec::new();\n         let mut islands = 0;\n         for r in 0..rows {\n             for c in 0..cols {\n                 if grid[r][c] != 0 {\n-                    let sum = Self::flood_and_sum(&mut grid, r, c);\n+                    let sum = Self::flood_and_sum(&mut grid, &mut stack, r, c);\n                     islands += i32::from(sum % k as i64 == 0);\n                 }\n             }\n@@ -13,11 +14,17 @@ impl Solution {\n         islands\n     }\n \n-    fn flood_and_sum(grid: &mut [Vec<i32>], row: usize, col: usize) -> i64 {\n+    fn flood_and_sum(\n+        grid: &mut [Vec<i32>],\n+        stack: &mut Vec<(usize, usize)>,\n+        row: usize,\n+        col: usize,\n+    ) -> i64 {\n         const DIRS: [(isize, isize); 4] = [(1, 0), (-1, 0), (0, -1), (0, 1)];\n         let mut sum = grid[row][col] as i64;\n         grid[row][col] = 0;\n-        let mut stack = vec![(row, col)];\n+        stack.clear();\n+        stack.push((row, col));\n         while let Some((r, c)) = stack.pop() {\n             for (dr, dc) in DIRS {\n                 let (nr, nc) = (r.wrapping_add_signed(dr), c.wrapping_add_signed(dc));\n",
+          "changedLineCounts": {
+            "additions": 10,
+            "deletions": 3
+          },
+          "approachId": "1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Reuse one stack across flood fills, clearing it before processing each island to avoid allocating a new stack each time.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "f78ae47e5239df44c92216672b15c13dd7daf306",
+    "567a62c50c4b8c424620332958ad7bc2e8d1a4e6"
+  ],
+  "warnings": []
+}
