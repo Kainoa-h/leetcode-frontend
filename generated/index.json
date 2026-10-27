@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-26T16:11:59.562Z",
-  "sourceHeadSha": "daee4f3eb5527a9d2ab35995db5d7ae079762408",
+  "generatedAt": "2026-10-27T08:22:43.319Z",
+  "sourceHeadSha": "c65ff5361884b0cd5fe3cb0c7b99ffa7789f3eeb",
   "questions": [
     {
       "id": 1,
@@ -4088,6 +4088,24 @@
       ],
       "firstCommittedAt": "2026-10-22T12:39:46+08:00",
       "lastCommittedAt": "2026-10-22T12:39:46+08:00"
+    },
+    {
+      "id": 3963,
+      "title": "Create Grid With Exactly One Path",
+      "slug": "create-grid-with-exactly-one-path",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3963/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-10-27T16:14:17+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-10-27T16:06:49+08:00",
+      "lastCommittedAt": "2026-10-27T16:14:17+08:00"
     }
   ]
 }

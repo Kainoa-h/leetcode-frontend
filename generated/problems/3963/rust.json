@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3963,
+    "title": "Create Grid With Exactly One Path",
+    "slug": "create-grid-with-exactly-one-path"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3963_create_grid_with_exactly_one_path.rs",
+    "latestSha": "c65ff5361884b0cd5fe3cb0c7b99ffa7789f3eeb",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-10-27T16:06:49+08:00",
+    "lastCommittedAt": "2026-10-27T16:14:17+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-6-luna",
+    "promptVersion": "7",
+    "inputHash": "4b811db42a675e62afa559333cacc911c442281e2d535a1f10cc881a61c722a0"
+  },
+  "approaches": [
+    {
+      "id": "1",
+      "title": "Construct a grid with a single open route",
+      "summary": "Make the first row entirely open and each remaining row blocked except for its final cell, creating exactly one path through the grid.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "2aea7eaaf28b5665ba3bc893944c32f08c068091",
+          "shortSha": "2aea7ea",
+          "parentSha": "daee4f3eb5527a9d2ab35995db5d7ae079762408",
+          "authoredAt": "2026-10-27T16:06:49+08:00",
+          "committedAt": "2026-10-27T16:06:49+08:00",
+          "chronologicalIndex": 479,
+          "problemId": 3963,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3963_create_grid_with_exactly_one_path.rs",
+          "sourceFilename": "3963_create_grid_with_exactly_one_path.rs",
+          "code": "impl Solution {\n    pub fn create_grid(m: i32, n: i32) -> Vec<String> {\n        let (m , n) = (m as usize, n as usize);\n        let mut result = Vec::with_capacity(m);\n        result.push(\".\".repeat(n));\n        for _ in 1..m {\n            let mut s = \"#\".repeat(n-1);\n            s.push('.');\n            result.push(s);\n        }\n\n        result\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "e4872651cb4c939d358fa30ba9654a0a6f2fee54810761faaf9d1c047f59a82e",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 3963",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Build the first row with open cells, then use a loop to construct each remaining row with only its final cell open.",
+          "warnings": []
+        },
+        {
+          "sha": "c65ff5361884b0cd5fe3cb0c7b99ffa7789f3eeb",
+          "shortSha": "c65ff53",
+          "parentSha": "2aea7eaaf28b5665ba3bc893944c32f08c068091",
+          "authoredAt": "2026-10-27T16:14:17+08:00",
+          "committedAt": "2026-10-27T16:14:17+08:00",
+          "chronologicalIndex": 480,
+          "problemId": 3963,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3963_create_grid_with_exactly_one_path.rs",
+          "sourceFilename": "3963_create_grid_with_exactly_one_path.rs",
+          "code": "impl Solution {\n    pub fn create_grid(m: i32, n: i32) -> Vec<String> {\n        let (m , n) = (m as usize, n as usize);\n        let mut result = Vec::with_capacity(m);\n        result.push(\".\".repeat(n));\n        let s = format!(\"{}.\", \"#\".repeat(n-1));\n        result.resize(m, s);\n        result\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "320870918c37250511af2efe7a788370527096764e7de09ddea1b30736024431",
+          "markedWrong": false,
+          "commitComment": "more compact",
+          "rawCommitSubject": "rust 3963: more compact",
+          "commitBody": "- simplify string building with format! macro\n- remove need for manual loop with .resize",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/3963_create_grid_with_exactly_one_path.rs b/rust/src/bin/3963_create_grid_with_exactly_one_path.rs\nindex 7322abd..ddbd0b1 100644\n--- a/rust/src/bin/3963_create_grid_with_exactly_one_path.rs\n+++ b/rust/src/bin/3963_create_grid_with_exactly_one_path.rs\n@@ -3,12 +3,8 @@ impl Solution {\n         let (m , n) = (m as usize, n as usize);\n         let mut result = Vec::with_capacity(m);\n         result.push(\".\".repeat(n));\n-        for _ in 1..m {\n-            let mut s = \"#\".repeat(n-1);\n-            s.push('.');\n-            result.push(s);\n-        }\n-\n+        let s = format!(\"{}.\", \"#\".repeat(n-1));\n+        result.resize(m, s);\n         result\n     }\n }\n",
+          "changedLineCounts": {
+            "additions": 2,
+            "deletions": 6
+          },
+          "approachId": "1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Keep the same grid construction strategy, but build the repeated row with `format!` and fill the grid using `resize`.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "2aea7eaaf28b5665ba3bc893944c32f08c068091",
+    "c65ff5361884b0cd5fe3cb0c7b99ffa7789f3eeb"
+  ],
+  "warnings": []
+}
