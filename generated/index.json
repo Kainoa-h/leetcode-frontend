@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-27T08:22:43.319Z",
-  "sourceHeadSha": "c65ff5361884b0cd5fe3cb0c7b99ffa7789f3eeb",
+  "generatedAt": "2026-10-28T14:52:03.575Z",
+  "sourceHeadSha": "ffdd8aaf4bdf6acb373862553799dcc03a400369",
   "questions": [
     {
       "id": 1,
@@ -4034,6 +4034,24 @@
       ],
       "firstCommittedAt": "2026-09-03T11:04:21+08:00",
       "lastCommittedAt": "2026-09-03T17:49:39+08:00"
+    },
+    {
+      "id": 3882,
+      "title": "Minimum Xor Path in A Grid",
+      "slug": "minimum-xor-path-in-a-grid",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3882/rust/",
+          "revisionCount": 4,
+          "approachCount": 2,
+          "incorrectRevisionCount": 1,
+          "lastCommittedAt": "2026-10-28T22:48:13+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-10-28T17:19:34+08:00",
+      "lastCommittedAt": "2026-10-28T22:48:13+08:00"
     },
     {
       "id": 3903,
