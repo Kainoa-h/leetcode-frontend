@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-28T14:52:03.575Z",
-  "sourceHeadSha": "ffdd8aaf4bdf6acb373862553799dcc03a400369",
+  "generatedAt": "2026-10-31T09:36:37.476Z",
+  "sourceHeadSha": "f8c0be60ec5660d8e1c873a11be5a0fe840d99f2",
   "questions": [
     {
       "id": 1,
@@ -3719,6 +3719,24 @@
       ],
       "firstCommittedAt": "2026-04-08T10:26:27+08:00",
       "lastCommittedAt": "2026-04-08T10:26:27+08:00"
+    },
+    {
+      "id": 3665,
+      "title": "Twisted Mirror Path Count",
+      "slug": "twisted-mirror-path-count",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3665/rust/",
+          "revisionCount": 4,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-10-31T17:35:29+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-10-31T15:03:41+08:00",
+      "lastCommittedAt": "2026-10-31T17:35:29+08:00"
     },
     {
       "id": 3689,
