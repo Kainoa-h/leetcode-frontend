@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 4097,
+    "title": "Minimum Value of Merged Integers",
+    "slug": "minimum-value-of-merged-integers"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/4097_minimum_value_of_merged_integers.rs",
+    "latestSha": "02b3f46603092803ce9e78b30ec848a0e8587e48",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-11-02T07:29:57+08:00",
+    "lastCommittedAt": "2026-11-02T07:36:17+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-6-luna",
+    "promptVersion": "7",
+    "inputHash": "cc4a3bc16eb874c7b5f8795ea49402a4afb2711e86e3b8b332d5cd904b2bf697"
+  },
+  "approaches": [
+    {
+      "id": "pair-and-minimize",
+      "title": "Merge each adjacent pair and take the minimum",
+      "summary": "For each pair of numbers, compute the concatenation by shifting the first number by the number of decimal digits in the second, then return the smallest merged value.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "624deb536344581dd7e7f13fc5433dd605efa5da",
+          "shortSha": "624deb5",
+          "parentSha": "15dc5ff1b77d71aeab447adc1e592e2e648aa5cc",
+          "authoredAt": "2026-11-02T07:29:57+08:00",
+          "committedAt": "2026-11-02T07:29:57+08:00",
+          "chronologicalIndex": 498,
+          "problemId": 4097,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/4097_minimum_value_of_merged_integers.rs",
+          "sourceFilename": "4097_minimum_value_of_merged_integers.rs",
+          "code": "impl Solution {\n    pub fn min_merged_integer(nums: Vec<i32>) -> i32 {\n        let digits = |mut n: i32| -> u32 {\n            let mut digits = 0;\n            while n != 0 {\n                n /= 10;\n                digits += 1;\n            }\n            digits\n        };\n        nums.chunks(2)\n            .map(|c| {\n                let (a, b) = (c[0], c[1]);\n                a * 10_i32.pow(digits(b)) + b\n            })\n            .min()\n            .unwrap()\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "d38c87c194a0599f74205c45510acec4e921c5fd99f9feefba1dae8c1feec78b",
+          "markedWrong": false,
+          "commitComment": "naive brute force",
+          "rawCommitSubject": "rust 4097: naive brute force",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "pair-and-minimize",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Counts the second number’s digits by repeated division, computes each pair’s merged value, and takes the minimum.",
+          "warnings": []
+        },
+        {
+          "sha": "02b3f46603092803ce9e78b30ec848a0e8587e48",
+          "shortSha": "02b3f46",
+          "parentSha": "624deb536344581dd7e7f13fc5433dd605efa5da",
+          "authoredAt": "2026-11-02T07:36:17+08:00",
+          "committedAt": "2026-11-02T07:36:17+08:00",
+          "chronologicalIndex": 499,
+          "problemId": 4097,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/4097_minimum_value_of_merged_integers.rs",
+          "sourceFilename": "4097_minimum_value_of_merged_integers.rs",
+          "code": "impl Solution {\n    pub fn min_merged_integer(nums: Vec<i32>) -> i32 {\n        let digits = |n: i32| -> u32 { n.checked_ilog10().unwrap_or(0) + 1 };\n        nums.chunks_exact(2)\n            .map(|c| {\n                let (a, b) = (c[0], c[1]);\n                a * 10_i32.pow(digits(b)) + b\n            })\n            .min()\n            .unwrap()\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "a09e0f447ebf4a294e605b1b3643a6dc73c739f0a3620db7b8c4cfcd43e59322",
+          "markedWrong": false,
+          "commitComment": "ilog10 trick to get digit count in O(1)",
+          "rawCommitSubject": "rust 4097: ilog10 trick to get digit count in O(1)",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/4097_minimum_value_of_merged_integers.rs b/rust/src/bin/4097_minimum_value_of_merged_integers.rs\nindex 975d2ee..778daf6 100644\n--- a/rust/src/bin/4097_minimum_value_of_merged_integers.rs\n+++ b/rust/src/bin/4097_minimum_value_of_merged_integers.rs\n@@ -1,14 +1,7 @@\n impl Solution {\n     pub fn min_merged_integer(nums: Vec<i32>) -> i32 {\n-        let digits = |mut n: i32| -> u32 {\n-            let mut digits = 0;\n-            while n != 0 {\n-                n /= 10;\n-                digits += 1;\n-            }\n-            digits\n-        };\n-        nums.chunks(2)\n+        let digits = |n: i32| -> u32 { n.checked_ilog10().unwrap_or(0) + 1 };\n+        nums.chunks_exact(2)\n             .map(|c| {\n                 let (a, b) = (c[0], c[1]);\n                 a * 10_i32.pow(digits(b)) + b\n",
+          "changedLineCounts": {
+            "additions": 2,
+            "deletions": 9
+          },
+          "approachId": "pair-and-minimize",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Keeps the same pairing and minimization strategy, using `checked_ilog10` to count digits and `chunks_exact` for pairs.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "624deb536344581dd7e7f13fc5433dd605efa5da",
+    "02b3f46603092803ce9e78b30ec848a0e8587e48"
+  ],
+  "warnings": []
+}
