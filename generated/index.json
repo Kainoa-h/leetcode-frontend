@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-31T09:36:37.476Z",
-  "sourceHeadSha": "f8c0be60ec5660d8e1c873a11be5a0fe840d99f2",
+  "generatedAt": "2026-11-01T07:04:10.709Z",
+  "sourceHeadSha": "f1cb1eb504b7987640349ec76c9921a44fdbbfb1",
   "questions": [
     {
       "id": 1,
@@ -4142,6 +4142,24 @@
       ],
       "firstCommittedAt": "2026-10-27T16:06:49+08:00",
       "lastCommittedAt": "2026-10-27T16:14:17+08:00"
+    },
+    {
+      "id": 3970,
+      "title": "Shortest Path With At Most K Consecutive Identical Characters",
+      "slug": "shortest-path-with-at-most-k-consecutive-identical-characters",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/3970/rust/",
+          "revisionCount": 8,
+          "approachCount": 1,
+          "incorrectRevisionCount": 1,
+          "lastCommittedAt": "2026-11-01T15:03:26+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-10-31T23:43:22+08:00",
+      "lastCommittedAt": "2026-11-01T15:03:26+08:00"
     }
   ]
 }
