@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 453,
+    "title": "Minimum Moves to Equal Array Elements",
+    "slug": "minimum-moves-to-equal-array-elements"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/453_minimum_moves_to_equal_array_elements.rs",
+    "latestSha": "15dc5ff1b77d71aeab447adc1e592e2e648aa5cc",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-11-01T15:36:25+08:00",
+    "lastCommittedAt": "2026-11-01T15:36:25+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "7",
+    "inputHash": "57488f1c4e1701bd7b50106890adfd9199386890521424ebf345682f8bb829a6"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "15dc5ff1b77d71aeab447adc1e592e2e648aa5cc",
+          "shortSha": "15dc5ff",
+          "parentSha": "f1cb1eb504b7987640349ec76c9921a44fdbbfb1",
+          "authoredAt": "2026-11-01T15:36:25+08:00",
+          "committedAt": "2026-11-01T15:36:25+08:00",
+          "chronologicalIndex": 497,
+          "problemId": 453,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/453_minimum_moves_to_equal_array_elements.rs",
+          "sourceFilename": "453_minimum_moves_to_equal_array_elements.rs",
+          "code": "impl Solution {\n    pub fn min_moves(nums: Vec<i32>) -> i32 {\n        let (sum, min) = nums\n            .iter()\n            .fold((0, nums[0]), |(sum, min), &x| (sum + x, min.min(x)));\n        sum - (min * nums.len() as i32)\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "2ecad5da0811535abbc3119035d1e282da511d46ce3f6365e4417b44c1f3877a",
+          "markedWrong": false,
+          "commitComment": "invariant trick",
+          "rawCommitSubject": "rust 453: invariant trick",
+          "commitBody": "increasing everything except 1 item by 1 is the same as decreasing 1\nitem by 1.\n\nthe number of moves to decrease everything to 0 is the sum. Then we\nbackstop it at decreasing everything to the lowest number",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "invariant trick",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "15dc5ff1b77d71aeab447adc1e592e2e648aa5cc"
+  ],
+  "warnings": []
+}

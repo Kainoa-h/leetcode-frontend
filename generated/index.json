@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-01T07:04:10.709Z",
-  "sourceHeadSha": "f1cb1eb504b7987640349ec76c9921a44fdbbfb1",
+  "generatedAt": "2026-11-01T07:36:52.069Z",
+  "sourceHeadSha": "15dc5ff1b77d71aeab447adc1e592e2e648aa5cc",
   "questions": [
     {
       "id": 1,
@@ -1712,6 +1712,24 @@
       ],
       "firstCommittedAt": "2026-07-17T11:18:01+08:00",
       "lastCommittedAt": "2026-07-17T11:34:53+08:00"
+    },
+    {
+      "id": 453,
+      "title": "Minimum Moves to Equal Array Elements",
+      "slug": "minimum-moves-to-equal-array-elements",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/453/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-11-01T15:36:25+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-11-01T15:36:25+08:00",
+      "lastCommittedAt": "2026-11-01T15:36:25+08:00"
     },
     {
       "id": 486,
