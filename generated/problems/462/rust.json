@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 462,
+    "title": "Minimum Moves to Equal Array Elements II",
+    "slug": "minimum-moves-to-equal-array-elements-ii"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/462_minimum_moves_to_equal_array_elements_II.rs",
+    "latestSha": "f692daf76a5168f9188c7b2cbb5c5c3c6324ccc1",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-11-02T09:28:55+08:00",
+    "lastCommittedAt": "2026-11-02T09:28:55+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-6-luna",
+    "promptVersion": "7",
+    "inputHash": "88e4ec8a59ea58ba508b40ec46d1c7a82533b78f59f6305ad3e485403538370a"
+  },
+  "approaches": [
+    {
+      "id": "1",
+      "title": "Choose a median and sum distances",
+      "summary": "Use a median as the target value, which minimizes the total absolute difference, then sum each element’s distance from it.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "dc222ae20ad78c2e480c11b70a304465b04b1b33",
+          "shortSha": "dc222ae",
+          "parentSha": "02b3f46603092803ce9e78b30ec848a0e8587e48",
+          "authoredAt": "2026-11-02T09:17:53+08:00",
+          "committedAt": "2026-11-02T09:28:55+08:00",
+          "chronologicalIndex": 500,
+          "problemId": 462,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/462_minimum_moves_to_equal_array_elements_II.rs",
+          "sourceFilename": "462_minimum_moves_to_equal_array_elements_II.rs",
+          "code": "impl Solution {\n    pub fn min_moves2(mut nums: Vec<i32>) -> i32 {\n        nums.sort();\n        let mid = nums[nums.len()/2];\n        nums.iter().map(|x| (x - mid).abs()).sum()\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "5bf65919aa269dfb468f3942e4519e65f4ff99677a6bc73ae382f38e6579b20e",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 462",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Sort the array, take its middle element as the median, and sum absolute differences.",
+          "warnings": []
+        },
+        {
+          "sha": "f692daf76a5168f9188c7b2cbb5c5c3c6324ccc1",
+          "shortSha": "f692daf",
+          "parentSha": "dc222ae20ad78c2e480c11b70a304465b04b1b33",
+          "authoredAt": "2026-11-02T09:28:43+08:00",
+          "committedAt": "2026-11-02T09:28:55+08:00",
+          "chronologicalIndex": 501,
+          "problemId": 462,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/462_minimum_moves_to_equal_array_elements_II.rs",
+          "sourceFilename": "462_minimum_moves_to_equal_array_elements_II.rs",
+          "code": "impl Solution {\n    pub fn min_moves2(mut nums: Vec<i32>) -> i32 {\n        let m = nums.len() / 2;\n        let (_, &mut mid, _) = nums.select_nth_unstable(m);\n        nums.iter().map(|x| (x - mid).abs()).sum()\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "8d36bf55ea73ed099c822571d335e5389fd9fb95c15c1db81e0b1c258e50aaca",
+          "markedWrong": false,
+          "commitComment": "use quickselect instead of sorting",
+          "rawCommitSubject": "rust 462: use quickselect instead of sorting",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/462_minimum_moves_to_equal_array_elements_II.rs b/rust/src/bin/462_minimum_moves_to_equal_array_elements_II.rs\nindex 898b848..f7b21d6 100644\n--- a/rust/src/bin/462_minimum_moves_to_equal_array_elements_II.rs\n+++ b/rust/src/bin/462_minimum_moves_to_equal_array_elements_II.rs\n@@ -1,7 +1,7 @@\n impl Solution {\n     pub fn min_moves2(mut nums: Vec<i32>) -> i32 {\n-        nums.sort();\n-        let mid = nums[nums.len()/2];\n+        let m = nums.len() / 2;\n+        let (_, &mut mid, _) = nums.select_nth_unstable(m);\n         nums.iter().map(|x| (x - mid).abs()).sum()\n     }\n }\n",
+          "changedLineCounts": {
+            "additions": 2,
+            "deletions": 2
+          },
+          "approachId": "1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Use `select_nth_unstable` to find the median without fully sorting, then sum absolute differences.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "dc222ae20ad78c2e480c11b70a304465b04b1b33",
+    "f692daf76a5168f9188c7b2cbb5c5c3c6324ccc1"
+  ],
+  "warnings": []
+}
