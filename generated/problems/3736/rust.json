@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3736,
+    "title": "Minimum Moves to Equal Array Elements III",
+    "slug": "minimum-moves-to-equal-array-elements-iii"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/3736_minimum_moves_to_equal_array_elements_III.rs",
+    "latestSha": "3414e6b73c67717dfbe6bd2eca55650825592b0b",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-11-03T13:14:37+08:00",
+    "lastCommittedAt": "2026-11-03T13:14:37+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "7",
+    "inputHash": "753ba4246ded20d707d0d7a0a1be3aea2488c0de949b76b14cf30726d8276c7d"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "3414e6b73c67717dfbe6bd2eca55650825592b0b",
+          "shortSha": "3414e6b",
+          "parentSha": "f692daf76a5168f9188c7b2cbb5c5c3c6324ccc1",
+          "authoredAt": "2026-11-03T13:14:37+08:00",
+          "committedAt": "2026-11-03T13:14:37+08:00",
+          "chronologicalIndex": 502,
+          "problemId": 3736,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/3736_minimum_moves_to_equal_array_elements_III.rs",
+          "sourceFilename": "3736_minimum_moves_to_equal_array_elements_III.rs",
+          "code": "impl Solution {\n    pub fn min_moves(nums: Vec<i32>) -> i32 {\n        let (sum, max) = nums\n            .iter()\n            .fold((0, 0), |(sum, max), &x| (sum + x, max.max(x)));\n\n        max * nums.len() as i32 - sum\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "04095a1332dc9ce85d9b4a98cdcc31ce5c4504c94010e276820f8aaa9c75e2ca",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 3736",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "3414e6b73c67717dfbe6bd2eca55650825592b0b"
+  ],
+  "warnings": []
+}
