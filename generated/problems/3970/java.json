@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3970,
+    "title": "Shortest Path With At Most K Consecutive Identical Characters",
+    "slug": "shortest-path-with-at-most-k-consecutive-identical-characters"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/3970_shortest_path_with_at_most_k_consecutive_identical characters.java",
+    "latestSha": "26580a84f925233efd64960601c70f0bd3b5bb66",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-11-05T23:47:33+08:00",
+    "lastCommittedAt": "2026-11-05T23:47:33+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "7",
+    "inputHash": "963892dd440f8f43e09794c3772f22c6703102d2c469f64201b0e0fdd5637447"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "26580a84f925233efd64960601c70f0bd3b5bb66",
+          "shortSha": "26580a8",
+          "parentSha": "2b241d18f96a033527afd7fc31a819a545947216",
+          "authoredAt": "2026-11-05T23:47:33+08:00",
+          "committedAt": "2026-11-05T23:47:33+08:00",
+          "chronologicalIndex": 504,
+          "problemId": 3970,
+          "language": "java",
+          "sourcePath": "java/src/solutions/3970_shortest_path_with_at_most_k_consecutive_identical characters.java",
+          "sourceFilename": "3970_shortest_path_with_at_most_k_consecutive_identical characters.java",
+          "code": "import java.util.*;\n\nrecord State(int encoding, int weight) implements Comparable<State> {\n  @Override\n  public int compareTo(State o) {\n    return Integer.compare(this.weight, o.weight);\n  }\n}\n\nclass Solution {\n  public int shortestPath(int n, int[][] edges, String labels, int k) {\n    int[] edgesBucket = new int[n];\n    for (var edge : edges) {\n      edgesBucket[edge[0]]++;\n    }\n\n    int[] adjNodeStart = new int[n + 1];\n    var prefixSum = 0;\n    for (var i = 0; i < n; i++) {\n      adjNodeStart[i] = prefixSum;\n      prefixSum += edgesBucket[i];\n    }\n    adjNodeStart[n] = prefixSum;\n\n    int[] adjTo = new int[edges.length];\n    int[] adjWeights = new int[edges.length];\n\n    for (var edge : edges) {\n      var from = edge[0];\n      var idx = adjNodeStart[from] + --edgesBucket[from];\n      var to = edge[1];\n      adjTo[idx] = to;\n      var weight = edge[2];\n      adjWeights[idx] = weight;\n    }\n\n    int[] distances = new int[n * k];\n    Arrays.fill(distances, k, n * k, Integer.MAX_VALUE);\n    PriorityQueue<State> pq = new PriorityQueue<>();\n    pq.add(new State(0, 0));\n    while (!pq.isEmpty()) {\n      var state = pq.poll();\n      if (state.weight() != distances[state.encoding()]) {\n        continue;\n      }\n      var node = state.encoding() / k;\n      var count = state.encoding() % k;\n      if (node == n - 1) {\n        return state.weight();\n      }\n      var currChar = labels.charAt(node);\n      for (var eIdx = adjNodeStart[node]; eIdx < adjNodeStart[node + 1]; eIdx++) {\n        var weight = adjWeights[eIdx];\n        var sumWeight = weight + state.weight();\n        var to = adjTo[eIdx];\n        var newCount = 0;\n        if (labels.charAt(to) == currChar) {\n          newCount = count + 1;\n        }\n        if (newCount == k) {\n          continue;\n        }\n        var encoding = to * k + newCount;\n        if (distances[encoding] > sumWeight) {\n          distances[encoding] = sumWeight;\n          pq.add(new State(encoding, sumWeight));\n        }\n      }\n    }\n\n    return -1;\n  }\n}\n",
+          "codeHash": "e460464d8b15a272faad9f6c0cf159057fb0a7cf4839bf8e74dad60bc1de6e2d",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "java 3970",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "26580a84f925233efd64960601c70f0bd3b5bb66"
+  ],
+  "warnings": []
+}

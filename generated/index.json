@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-05T01:40:52.769Z",
-  "sourceHeadSha": "2b241d18f96a033527afd7fc31a819a545947216",
+  "generatedAt": "2026-11-05T15:48:11.961Z",
+  "sourceHeadSha": "26580a84f925233efd64960601c70f0bd3b5bb66",
   "questions": [
     {
       "id": 1,
@@ -4221,6 +4221,15 @@
       "slug": "shortest-path-with-at-most-k-consecutive-identical-characters",
       "languages": [
         {
+          "id": "java",
+          "label": "Java",
+          "route": "/problems/3970/java/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-11-05T23:47:33+08:00"
+        },
+        {
           "id": "rust",
           "label": "Rust",
           "route": "/problems/3970/rust/",
@@ -4231,7 +4240,7 @@
         }
       ],
       "firstCommittedAt": "2026-10-31T23:43:22+08:00",
-      "lastCommittedAt": "2026-11-01T15:03:26+08:00"
+      "lastCommittedAt": "2026-11-05T23:47:33+08:00"
     },
     {
       "id": 4097,
