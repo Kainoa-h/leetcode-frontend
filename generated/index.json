@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-03T05:23:28.549Z",
-  "sourceHeadSha": "3414e6b73c67717dfbe6bd2eca55650825592b0b",
+  "generatedAt": "2026-11-05T01:40:52.769Z",
+  "sourceHeadSha": "2b241d18f96a033527afd7fc31a819a545947216",
   "questions": [
     {
       "id": 1,
@@ -2171,6 +2171,24 @@
       ],
       "firstCommittedAt": "2026-06-30T15:03:54+08:00",
       "lastCommittedAt": "2026-06-30T15:03:54+08:00"
+    },
+    {
+      "id": 1385,
+      "title": "Find the Distance Value Between Two Arrays",
+      "slug": "find-the-distance-value-between-two-arrays",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/1385/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-11-05T09:40:06+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-11-05T09:40:06+08:00",
+      "lastCommittedAt": "2026-11-05T09:40:06+08:00"
     },
     {
       "id": 1386,

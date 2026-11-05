@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1385,
+    "title": "Find the Distance Value Between Two Arrays",
+    "slug": "find-the-distance-value-between-two-arrays"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/1385_find_the_distance_value_between_two_arrays.rs",
+    "latestSha": "2b241d18f96a033527afd7fc31a819a545947216",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-11-05T09:40:06+08:00",
+    "lastCommittedAt": "2026-11-05T09:40:06+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "7",
+    "inputHash": "2c38a2281ceba947c9e6982dd60638e7749528cefd1ff03ca328e8a477d8ff90"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "2b241d18f96a033527afd7fc31a819a545947216",
+          "shortSha": "2b241d1",
+          "parentSha": "3414e6b73c67717dfbe6bd2eca55650825592b0b",
+          "authoredAt": "2026-11-05T09:27:51+08:00",
+          "committedAt": "2026-11-05T09:40:06+08:00",
+          "chronologicalIndex": 503,
+          "problemId": 1385,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/1385_find_the_distance_value_between_two_arrays.rs",
+          "sourceFilename": "1385_find_the_distance_value_between_two_arrays.rs",
+          "code": "impl Solution {\n    pub fn find_the_distance_value(arr1: Vec<i32>, arr2: Vec<i32>, d: i32) -> i32 {\n        let mut count = arr1.len() as i32;\n        for a in arr1 {\n            for &b in &arr2 {\n                if (a - b).abs() <= d {\n                    count -= 1;\n                    break;\n                }\n            }\n        }\n        count\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "e3429e9cce313024c4e8969b93d40607e9ac80a20f18f92d8c0db44c88bf8c45",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 1385",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "2b241d18f96a033527afd7fc31a819a545947216"
+  ],
+  "warnings": []
+}
