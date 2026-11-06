@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-05T15:48:11.961Z",
-  "sourceHeadSha": "26580a84f925233efd64960601c70f0bd3b5bb66",
+  "generatedAt": "2026-11-06T15:29:21.207Z",
+  "sourceHeadSha": "fc3bd0faac332c4ca22ae045dfd7d16aaec8b4db",
   "questions": [
     {
       "id": 1,
@@ -2963,6 +2963,24 @@
       ],
       "firstCommittedAt": "2026-07-11T18:38:07+08:00",
       "lastCommittedAt": "2026-07-11T20:12:44+08:00"
+    },
+    {
+      "id": 2747,
+      "title": "Count Zero Request Servers",
+      "slug": "count-zero-request-servers",
+      "languages": [
+        {
+          "id": "java",
+          "label": "Java",
+          "route": "/problems/2747/java/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 1,
+          "lastCommittedAt": "2026-11-06T23:28:33+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-11-06T17:20:40+08:00",
+      "lastCommittedAt": "2026-11-06T23:28:33+08:00"
     },
     {
       "id": 2751,

@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2747,
+    "title": "Count Zero Request Servers",
+    "slug": "count-zero-request-servers"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/2747_count_zero_request_servers.java",
+    "latestSha": "fc3bd0faac332c4ca22ae045dfd7d16aaec8b4db",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 1,
+    "firstCommittedAt": "2026-11-06T17:20:40+08:00",
+    "lastCommittedAt": "2026-11-06T23:28:33+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-6-luna",
+    "promptVersion": "7",
+    "inputHash": "decd56afb87dbeb51eb644f1c835f0cf6e647091e7f1e41c0ab37d40a6c49fb3"
+  },
+  "approaches": [
+    {
+      "id": "sorted-query-window-sweep",
+      "title": "Sweep logs across sorted queries",
+      "summary": "Sort logs and queries by time, then sweep through each query’s time window to count active servers. The initial implementation is incorrect; the revision maintains per-server counts as the window moves.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "e21824e42b96495a0405ef9ff34587e6334a038d",
+          "shortSha": "e21824e",
+          "parentSha": "26580a84f925233efd64960601c70f0bd3b5bb66",
+          "authoredAt": "2026-11-06T17:20:40+08:00",
+          "committedAt": "2026-11-06T17:20:40+08:00",
+          "chronologicalIndex": 505,
+          "problemId": 2747,
+          "language": "java",
+          "sourcePath": "java/src/solutions/2747_count_zero_request_servers.java",
+          "sourceFilename": "2747_count_zero_request_servers.java",
+          "code": "import java.util.*;\n\nclass Solution {\n  public int[] countServers(int n, int[][] logs, int x, int[] queries) {\n    Arrays.sort(logs, (a, b) -> Integer.compare(a[1], b[1]));\n    Integer[] sortedQueriesIndexes = new Integer[queries.length];\n    for (int i = 0; i < queries.length; i++) {\n      sortedQueriesIndexes[i] = i;\n    }\n    Arrays.sort(sortedQueriesIndexes, (a, b) -> Integer.compare(queries[a], queries[b]));\n\n    int[] queryResults = new int[queries.length];\n    int pointer = 0;\n    {\n      int firstStart = queries[sortedQueriesIndexes[0]] - x;\n      while (logs[pointer][1] < firstStart) {\n        pointer++;\n      }\n    }\n    var nextStartPointer = pointer;\n    for (var i = 0; i < sortedQueriesIndexes.length; i++) {\n      var qIdx = sortedQueriesIndexes[i];\n      var end = queries[qIdx];\n      var start = end - x;\n      Integer nextStart = null;\n      if (i < sortedQueriesIndexes.length - 1) {\n        nextStart = queries[sortedQueriesIndexes[i + 1]] - x;\n      }\n      Set<Integer> set = new HashSet<>();\n      while (pointer < logs.length && logs[pointer][1] >= start && logs[pointer][1] <= end) {\n        set.add(logs[pointer][0]);\n        if (nextStart != null && logs[pointer][1] < nextStart) {\n          nextStartPointer++;\n        }\n        pointer++;\n      }\n      queryResults[qIdx] = n - set.size();\n      pointer = nextStartPointer;\n    }\n\n    return queryResults;\n  }\n\n  void main() {\n    Solution s = new Solution();\n    var ans1 = s.countServers(3, new int[][] { new int[] { 1, 3 }, new int[] { 2, 6 }, new int[] { 1, 5 } }, 5,\n        new int[] { 10, 11 });\n  }\n}\n",
+          "codeHash": "a60326667731d7267a5cf084ea343827e8cf6cd3ca71d0634f6ec9703ceafe97",
+          "markedWrong": true,
+          "commitComment": "fugged",
+          "rawCommitSubject": "java 2747!: fugged",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "sorted-query-window-sweep",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Attempts to process sorted queries with log pointers and a per-query set of servers. This implementation is marked wrong.",
+          "warnings": []
+        },
+        {
+          "sha": "fc3bd0faac332c4ca22ae045dfd7d16aaec8b4db",
+          "shortSha": "fc3bd0f",
+          "parentSha": "e21824e42b96495a0405ef9ff34587e6334a038d",
+          "authoredAt": "2026-11-06T23:28:33+08:00",
+          "committedAt": "2026-11-06T23:28:33+08:00",
+          "chronologicalIndex": 506,
+          "problemId": 2747,
+          "language": "java",
+          "sourcePath": "java/src/solutions/2747_count_zero_request_servers.java",
+          "sourceFilename": "2747_count_zero_request_servers.java",
+          "code": "import java.util.*;\n\nclass Solution {\n  public int[] countServers(int n, int[][] logs, int x, int[] queries) {\n    Arrays.sort(logs, (a, b) -> Integer.compare(a[1], b[1]));\n    Integer[] sortedQueriesIndexes = new Integer[queries.length];\n    for (int i = 0; i < queries.length; i++) {\n      sortedQueriesIndexes[i] = i;\n    }\n    Arrays.sort(sortedQueriesIndexes, (a, b) -> Integer.compare(queries[a], queries[b]));\n\n    int[] queryResults = new int[queries.length];\n    int[] serverBucketCount = new int[n + 1];\n    int serversInWindow = 0;\n    var left = 0;\n    var right = 0;\n\n    for (var qIdx: sortedQueriesIndexes) {\n      var end = queries[qIdx];\n      var start = end - x;\n\n      while (right < logs.length && logs[right][1] <= end) {\n        var server = logs[right][0];\n        serverBucketCount[server]++;\n        if (serverBucketCount[server] == 1) {\n          serversInWindow++;\n        }\n        right++;\n      }\n\n      while (left < logs.length && logs[left][1] < start) {\n        var server = logs[left][0];\n        serverBucketCount[server]--;\n        if (serverBucketCount[server] == 0) {\n          serversInWindow--;\n        }\n        left++;\n      }\n\n      queryResults[qIdx] = n - serversInWindow;\n    }\n\n    return queryResults;\n  }\n\n  void main() {\n    Solution s = new Solution();\n    var ans1 = s.countServers(3, new int[][] { new int[] { 1, 3 }, new int[] { 2, 6 }, new int[] { 1, 5 } }, 5,\n        new int[] { 10, 11 });\n  }\n}\n",
+          "codeHash": "b560272df145d44e94b874d18fcc78ab7db4cd10f9ae3c80ea174707480e242e",
+          "markedWrong": false,
+          "commitComment": "sliding window",
+          "rawCommitSubject": "java 2747: sliding window",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/java/src/solutions/2747_count_zero_request_servers.java b/java/src/solutions/2747_count_zero_request_servers.java\nindex ef37638..331292a 100644\n--- a/java/src/solutions/2747_count_zero_request_servers.java\n+++ b/java/src/solutions/2747_count_zero_request_servers.java\n@@ -10,32 +10,34 @@ class Solution {\n     Arrays.sort(sortedQueriesIndexes, (a, b) -> Integer.compare(queries[a], queries[b]));\n \n     int[] queryResults = new int[queries.length];\n-    int pointer = 0;\n-    {\n-      int firstStart = queries[sortedQueriesIndexes[0]] - x;\n-      while (logs[pointer][1] < firstStart) {\n-        pointer++;\n-      }\n-    }\n-    var nextStartPointer = pointer;\n-    for (var i = 0; i < sortedQueriesIndexes.length; i++) {\n-      var qIdx = sortedQueriesIndexes[i];\n+    int[] serverBucketCount = new int[n + 1];\n+    int serversInWindow = 0;\n+    var left = 0;\n+    var right = 0;\n+\n+    for (var qIdx: sortedQueriesIndexes) {\n       var end = queries[qIdx];\n       var start = end - x;\n-      Integer nextStart = null;\n-      if (i < sortedQueriesIndexes.length - 1) {\n-        nextStart = queries[sortedQueriesIndexes[i + 1]] - x;\n+\n+      while (right < logs.length && logs[right][1] <= end) {\n+        var server = logs[right][0];\n+        serverBucketCount[server]++;\n+        if (serverBucketCount[server] == 1) {\n+          serversInWindow++;\n+        }\n+        right++;\n       }\n-      Set<Integer> set = new HashSet<>();\n-      while (pointer < logs.length && logs[pointer][1] >= start && logs[pointer][1] <= end) {\n-        set.add(logs[pointer][0]);\n-        if (nextStart != null && logs[pointer][1] < nextStart) {\n-          nextStartPointer++;\n+\n+      while (left < logs.length && logs[left][1] < start) {\n+        var server = logs[left][0];\n+        serverBucketCount[server]--;\n+        if (serverBucketCount[server] == 0) {\n+          serversInWindow--;\n         }\n-        pointer++;\n+        left++;\n       }\n-      queryResults[qIdx] = n - set.size();\n-      pointer = nextStartPointer;\n+\n+      queryResults[qIdx] = n - serversInWindow;\n     }\n \n     return queryResults;\n",
+          "changedLineCounts": {
+            "additions": 23,
+            "deletions": 21
+          },
+          "approachId": "sorted-query-window-sweep",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Uses left and right pointers with per-server log counts to maintain the active window and count servers with requests.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "e21824e42b96495a0405ef9ff34587e6334a038d",
+    "fc3bd0faac332c4ca22ae045dfd7d16aaec8b4db"
+  ],
+  "warnings": []
+}
