@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1882,
+    "title": "Process Tasks Using Servers",
+    "slug": "process-tasks-using-servers"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/1882_process_tasks_using_servers.java",
+    "latestSha": "cd5b8eed379be7bdb1f784619385b2bb0f22bf86",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 4,
+    "approachCount": 1,
+    "incorrectRevisionCount": 2,
+    "firstCommittedAt": "2026-11-08T09:22:35+08:00",
+    "lastCommittedAt": "2026-11-08T09:47:11+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-6-luna",
+    "promptVersion": "7",
+    "inputHash": "6e9d5f81398110ea47019f738e9db7c3202eb4bbf5a267341326802603f918f8"
+  },
+  "approaches": [
+    {
+      "id": "1",
+      "title": "Priority-queue task/server simulation",
+      "summary": "Simulate task arrivals and server availability with priority queues: choose the lightest, lowest-index free server, and track busy servers by completion time. Later revisions refine how tasks are assigned and how the queues are ordered.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "3bc536a0c06f32ec1bb9de6eddef9b31217061b2",
+          "shortSha": "3bc536a",
+          "parentSha": "fc3bd0faac332c4ca22ae045dfd7d16aaec8b4db",
+          "authoredAt": "2026-11-08T09:22:35+08:00",
+          "committedAt": "2026-11-08T09:22:35+08:00",
+          "chronologicalIndex": 507,
+          "problemId": 1882,
+          "language": "java",
+          "sourcePath": "java/src/solutions/1882_process_tasks_using_servers.java",
+          "sourceFilename": "1882_process_tasks_using_servers.java",
+          "code": "import java.util.*;\n\nclass Solution {\n  private static class Server implements Comparable<Server> {\n    public final int id;\n    public final int weight;\n    public int time;\n\n    public Server(int id, int weight) {\n      this.id = id;\n      this.weight = weight;\n      this.time = 0;\n    }\n\n    @Override\n    public int compareTo(Solution.Server o) {\n\n      return Comparator.comparingInt((Server s) -> s.time)\n          .thenComparingInt(s -> s.weight)\n          .thenComparingInt(s -> s.id)\n          .compare(this, o);\n    }\n  }\n\n  public int[] assignTasks(int[] servers, int[] tasks) {\n    int[] result = new int[tasks.length];\n    PriorityQueue<Server> freeServersPQ = new PriorityQueue<>();\n    PriorityQueue<Server> busyServersPQ = new PriorityQueue<>();\n    for (int i = 0; i < servers.length; i++) {\n      freeServersPQ.add(new Server(i, servers[i]));\n    }\n\n    int idx = 0;\n    int seconds = 0;\n    while (idx < tasks.length) {\n      while (!busyServersPQ.isEmpty() && busyServersPQ.peek().time <= seconds) {\n        Server s = busyServersPQ.poll();\n        s.time = 0;\n        freeServersPQ.add(s);\n      }\n\n      if (freeServersPQ.isEmpty()) {\n        seconds = busyServersPQ.peek().time;\n        continue;\n      }\n\n      Server s = freeServersPQ.poll();\n      result[idx] = s.id;\n      s.time = seconds + tasks[idx];\n      busyServersPQ.add(s);\n      idx++;\n      seconds++;\n    }\n\n    return result;\n  }\n}\n",
+          "codeHash": "e2b5cfc1a28b2a9498fc3246a225b6621e53895effc876126c4f4aa39cfb43b6",
+          "markedWrong": true,
+          "commitComment": "what",
+          "rawCommitSubject": "java 1882!: what",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Initial simulation assigns one task per iteration using priority queues; marked wrong.",
+          "warnings": []
+        },
+        {
+          "sha": "10cd7b4334641c7413c85443914529ad5752b686",
+          "shortSha": "10cd7b4",
+          "parentSha": "3bc536a0c06f32ec1bb9de6eddef9b31217061b2",
+          "authoredAt": "2026-11-08T09:32:06+08:00",
+          "committedAt": "2026-11-08T09:32:06+08:00",
+          "chronologicalIndex": 508,
+          "problemId": 1882,
+          "language": "java",
+          "sourcePath": "java/src/solutions/1882_process_tasks_using_servers.java",
+          "sourceFilename": "1882_process_tasks_using_servers.java",
+          "code": "import java.util.*;\n\nclass Solution {\n  private static class Server implements Comparable<Server> {\n    public final int id;\n    public final int weight;\n    public int time;\n\n    public Server(int id, int weight) {\n      this.id = id;\n      this.weight = weight;\n      this.time = 0;\n    }\n\n    @Override\n    public int compareTo(Solution.Server o) {\n\n      return Comparator.comparingInt((Server s) -> s.time)\n          .thenComparingInt(s -> s.weight)\n          .thenComparingInt(s -> s.id)\n          .compare(this, o);\n    }\n  }\n\n  public int[] assignTasks(int[] servers, int[] tasks) {\n    int[] result = new int[tasks.length];\n    PriorityQueue<Server> freeServersPQ = new PriorityQueue<>();\n    PriorityQueue<Server> busyServersPQ = new PriorityQueue<>();\n    for (int i = 0; i < servers.length; i++) {\n      freeServersPQ.add(new Server(i, servers[i]));\n    }\n\n    int idx = 0;\n    int seconds = 0;\n    while (idx < tasks.length) {\n      while (!busyServersPQ.isEmpty() && busyServersPQ.peek().time <= seconds) {\n        Server s = busyServersPQ.poll();\n        s.time = 0;\n        freeServersPQ.add(s);\n      }\n\n      if (freeServersPQ.isEmpty()) {\n        seconds = busyServersPQ.peek().time;\n        continue;\n      }\n\n      while (idx <= seconds && !freeServersPQ.isEmpty() && idx < tasks.length) {\n        Server s = freeServersPQ.poll();\n        result[idx] = s.id;\n        s.time = seconds + tasks[idx];\n        busyServersPQ.add(s);\n        idx++;\n      }\n\n      seconds++;\n    }\n\n    return result;\n  }\n}\n",
+          "codeHash": "b6486b132655b38106bd64fb88fc695d4dbf62761ff768afc7b4dd8302742a51",
+          "markedWrong": true,
+          "commitComment": "TLE...",
+          "rawCommitSubject": "java 1882!: TLE...",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/java/src/solutions/1882_process_tasks_using_servers.java b/java/src/solutions/1882_process_tasks_using_servers.java\nindex 7d0e2bb..e049824 100644\n--- a/java/src/solutions/1882_process_tasks_using_servers.java\n+++ b/java/src/solutions/1882_process_tasks_using_servers.java\n@@ -44,11 +44,14 @@ class Solution {\n         continue;\n       }\n \n-      Server s = freeServersPQ.poll();\n-      result[idx] = s.id;\n-      s.time = seconds + tasks[idx];\n-      busyServersPQ.add(s);\n-      idx++;\n+      while (idx <= seconds && !freeServersPQ.isEmpty() && idx < tasks.length) {\n+        Server s = freeServersPQ.poll();\n+        result[idx] = s.id;\n+        s.time = seconds + tasks[idx];\n+        busyServersPQ.add(s);\n+        idx++;\n+      }\n+\n       seconds++;\n     }\n \n",
+          "changedLineCounts": {
+            "additions": 8,
+            "deletions": 5
+          },
+          "approachId": "1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Batches all currently eligible tasks onto free servers; marked wrong.",
+          "warnings": []
+        },
+        {
+          "sha": "409bee811be9e7b1b07d7c53b8a00443b2e9e0d1",
+          "shortSha": "409bee8",
+          "parentSha": "10cd7b4334641c7413c85443914529ad5752b686",
+          "authoredAt": "2026-11-08T09:40:46+08:00",
+          "committedAt": "2026-11-08T09:40:46+08:00",
+          "chronologicalIndex": 509,
+          "problemId": 1882,
+          "language": "java",
+          "sourcePath": "java/src/solutions/1882_process_tasks_using_servers.java",
+          "sourceFilename": "1882_process_tasks_using_servers.java",
+          "code": "import java.util.*;\n\nclass Solution {\n  private static class Server implements Comparable<Server> {\n    public final int id;\n    public final int weight;\n    public int time;\n\n    public Server(int id, int weight) {\n      this.id = id;\n      this.weight = weight;\n      this.time = 0;\n    }\n\n    private static final Comparator<Server> C = Comparator\n        .comparingInt((Server s) -> s.time)\n        .thenComparingInt(s -> s.weight)\n        .thenComparingInt(s -> s.id);\n\n    @Override\n    public int compareTo(Solution.Server o) {\n      return C.compare(this, o);\n    }\n  }\n\n  public int[] assignTasks(int[] servers, int[] tasks) {\n    int[] result = new int[tasks.length];\n    PriorityQueue<Server> freeServersPQ = new PriorityQueue<>();\n    PriorityQueue<Server> busyServersPQ = new PriorityQueue<>();\n    for (int i = 0; i < servers.length; i++) {\n      freeServersPQ.add(new Server(i, servers[i]));\n    }\n\n    int idx = 0;\n    int seconds = 0;\n    while (idx < tasks.length) {\n      while (!busyServersPQ.isEmpty() && busyServersPQ.peek().time <= seconds) {\n        Server s = busyServersPQ.poll();\n        s.time = 0;\n        freeServersPQ.add(s);\n      }\n\n      if (freeServersPQ.isEmpty()) {\n        seconds = busyServersPQ.peek().time;\n        continue;\n      }\n\n      while (idx <= seconds && !freeServersPQ.isEmpty() && idx < tasks.length) {\n        Server s = freeServersPQ.poll();\n        result[idx] = s.id;\n        s.time = seconds + tasks[idx];\n        busyServersPQ.add(s);\n        idx++;\n      }\n\n      seconds++;\n    }\n\n    return result;\n  }\n}\n",
+          "codeHash": "86c2d83de65e618e987436536201acb3c93c6d105f6e5790c4faf15b6313c997",
+          "markedWrong": false,
+          "commitComment": "static comparator",
+          "rawCommitSubject": "java 1882: static comparator",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/java/src/solutions/1882_process_tasks_using_servers.java b/java/src/solutions/1882_process_tasks_using_servers.java\nindex e049824..0d95548 100644\n--- a/java/src/solutions/1882_process_tasks_using_servers.java\n+++ b/java/src/solutions/1882_process_tasks_using_servers.java\n@@ -12,13 +12,14 @@ class Solution {\n       this.time = 0;\n     }\n \n+    private static final Comparator<Server> C = Comparator\n+        .comparingInt((Server s) -> s.time)\n+        .thenComparingInt(s -> s.weight)\n+        .thenComparingInt(s -> s.id);\n+\n     @Override\n     public int compareTo(Solution.Server o) {\n-\n-      return Comparator.comparingInt((Server s) -> s.time)\n-          .thenComparingInt(s -> s.weight)\n-          .thenComparingInt(s -> s.id)\n-          .compare(this, o);\n+      return C.compare(this, o);\n     }\n   }\n \n",
+          "changedLineCounts": {
+            "additions": 6,
+            "deletions": 5
+          },
+          "approachId": "1",
+          "narrativeIndex": 2,
+          "shortChangeSummary": "Extracts the server ordering into a static comparator while retaining the batching simulation.",
+          "warnings": []
+        },
+        {
+          "sha": "cd5b8eed379be7bdb1f784619385b2bb0f22bf86",
+          "shortSha": "cd5b8ee",
+          "parentSha": "409bee811be9e7b1b07d7c53b8a00443b2e9e0d1",
+          "authoredAt": "2026-11-08T09:47:11+08:00",
+          "committedAt": "2026-11-08T09:47:11+08:00",
+          "chronologicalIndex": 510,
+          "problemId": 1882,
+          "language": "java",
+          "sourcePath": "java/src/solutions/1882_process_tasks_using_servers.java",
+          "sourceFilename": "1882_process_tasks_using_servers.java",
+          "code": "import java.util.*;\n\nclass Solution {\n  private static class Server {\n    public final int id;\n    public final int weight;\n    public int time;\n\n    public Server(int id, int weight) {\n      this.id = id;\n      this.weight = weight;\n      this.time = 0;\n    }\n  }\n\n  public int[] assignTasks(int[] servers, int[] tasks) {\n    int[] result = new int[tasks.length];\n    PriorityQueue<Server> freeServersPQ = new PriorityQueue<>((a, b) -> {\n      if (a.weight != b.weight) {\n        return a.weight - b.weight;\n      }\n      return a.id - b.id;\n    });\n    PriorityQueue<Server> busyServersPQ = new PriorityQueue<>((a, b) -> a.time - b.time);\n    for (int i = 0; i < servers.length; i++) {\n      freeServersPQ.add(new Server(i, servers[i]));\n    }\n\n    int idx = 0;\n    int seconds = 0;\n    while (idx < tasks.length) {\n      while (!busyServersPQ.isEmpty() && busyServersPQ.peek().time <= seconds) {\n        freeServersPQ.add(busyServersPQ.poll());\n      }\n\n      if (freeServersPQ.isEmpty()) {\n        seconds = busyServersPQ.peek().time;\n        continue;\n      }\n\n      while (idx <= seconds && !freeServersPQ.isEmpty() && idx < tasks.length) {\n        Server s = freeServersPQ.poll();\n        result[idx] = s.id;\n        s.time = seconds + tasks[idx];\n        busyServersPQ.add(s);\n        idx++;\n      }\n\n      seconds++;\n    }\n\n    return result;\n  }\n}\n",
+          "codeHash": "af09905665db3a38d4de0fc3a31cc9d7befda118cd8cb8bc0dd2ef4a0cdf3c4d",
+          "markedWrong": false,
+          "commitComment": "faster comparator",
+          "rawCommitSubject": "java 1882: faster comparator",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/java/src/solutions/1882_process_tasks_using_servers.java b/java/src/solutions/1882_process_tasks_using_servers.java\nindex 0d95548..54a1cd7 100644\n--- a/java/src/solutions/1882_process_tasks_using_servers.java\n+++ b/java/src/solutions/1882_process_tasks_using_servers.java\n@@ -1,7 +1,7 @@\n import java.util.*;\n \n class Solution {\n-  private static class Server implements Comparable<Server> {\n+  private static class Server {\n     public final int id;\n     public final int weight;\n     public int time;\n@@ -11,22 +11,17 @@ class Solution {\n       this.weight = weight;\n       this.time = 0;\n     }\n-\n-    private static final Comparator<Server> C = Comparator\n-        .comparingInt((Server s) -> s.time)\n-        .thenComparingInt(s -> s.weight)\n-        .thenComparingInt(s -> s.id);\n-\n-    @Override\n-    public int compareTo(Solution.Server o) {\n-      return C.compare(this, o);\n-    }\n   }\n \n   public int[] assignTasks(int[] servers, int[] tasks) {\n     int[] result = new int[tasks.length];\n-    PriorityQueue<Server> freeServersPQ = new PriorityQueue<>();\n-    PriorityQueue<Server> busyServersPQ = new PriorityQueue<>();\n+    PriorityQueue<Server> freeServersPQ = new PriorityQueue<>((a, b) -> {\n+      if (a.weight != b.weight) {\n+        return a.weight - b.weight;\n+      }\n+      return a.id - b.id;\n+    });\n+    PriorityQueue<Server> busyServersPQ = new PriorityQueue<>((a, b) -> a.time - b.time);\n     for (int i = 0; i < servers.length; i++) {\n       freeServersPQ.add(new Server(i, servers[i]));\n     }\n@@ -35,9 +30,7 @@ class Solution {\n     int seconds = 0;\n     while (idx < tasks.length) {\n       while (!busyServersPQ.isEmpty() && busyServersPQ.peek().time <= seconds) {\n-        Server s = busyServersPQ.poll();\n-        s.time = 0;\n-        freeServersPQ.add(s);\n+        freeServersPQ.add(busyServersPQ.poll());\n       }\n \n       if (freeServersPQ.isEmpty()) {\n",
+          "changedLineCounts": {
+            "additions": 9,
+            "deletions": 16
+          },
+          "approachId": "1",
+          "narrativeIndex": 3,
+          "shortChangeSummary": "Uses separate priority-queue comparators for free servers (weight, then index) and busy servers (completion time).",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "3bc536a0c06f32ec1bb9de6eddef9b31217061b2",
+    "10cd7b4334641c7413c85443914529ad5752b686",
+    "409bee811be9e7b1b07d7c53b8a00443b2e9e0d1",
+    "cd5b8eed379be7bdb1f784619385b2bb0f22bf86"
+  ],
+  "warnings": []
+}
