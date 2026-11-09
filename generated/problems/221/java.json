@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 221,
+    "title": "Maximal Square",
+    "slug": "maximal-square"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/221_maximal_square.java",
+    "latestSha": "56205a38bfde77a764af5f7daa597b3708ff5265",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-11-09T22:30:38+08:00",
+    "lastCommittedAt": "2026-11-09T22:30:38+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "7",
+    "inputHash": "5936310e9a50277d328195fd839cea84aa3fc27597081d79c8fabf46dff703e2"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "56205a38bfde77a764af5f7daa597b3708ff5265",
+          "shortSha": "56205a3",
+          "parentSha": "c2d88058758168322f01bcc3186e47f9f313c5ec",
+          "authoredAt": "2026-11-09T17:16:40+08:00",
+          "committedAt": "2026-11-09T22:30:38+08:00",
+          "chronologicalIndex": 515,
+          "problemId": 221,
+          "language": "java",
+          "sourcePath": "java/src/solutions/221_maximal_square.java",
+          "sourceFilename": "221_maximal_square.java",
+          "code": "class Solution {\n  public int maximalSquare(char[][] matrix) {\n    final int rows = matrix.length;\n    final int cols = matrix[0].length;\n    int[][] dpGrid = new int[rows + 1][cols + 1];\n\n    var maxEdge = 0;\n    for (int row = 0; row < rows; row++) {\n      for (int col = 0; col < cols; col++) {\n        var cell = matrix[row][col];\n        if (cell == '0') {\n          dpGrid[row + 1][col + 1] = 0;\n          continue;\n        }\n\n        var topDP = dpGrid[row][col + 1];\n        var leftDP = dpGrid[row + 1][col];\n        var daigDP = dpGrid[row][col];\n\n        var edge = Math.min(topDP, Math.min(leftDP, daigDP)) + 1;\n        maxEdge = Math.max(maxEdge, edge);\n        dpGrid[row + 1][col + 1] = edge;\n      }\n    }\n\n    return maxEdge * maxEdge;\n  }\n}\n",
+          "codeHash": "568d6021ec8154a67664e12f8bc895034ff14be18357f56cafa27e05cbe26599",
+          "markedWrong": false,
+          "commitComment": "2d dp",
+          "rawCommitSubject": "java 221: 2d dp",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "2d dp",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "56205a38bfde77a764af5f7daa597b3708ff5265"
+  ],
+  "warnings": []
+}

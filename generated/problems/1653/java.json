@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 1653,
+    "title": "Minimum Deletions to Make String Balanced",
+    "slug": "minimum-deletions-to-make-string-balanced"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/1653_minimum_deletions_to_make_string_balanced.java",
+    "latestSha": "ef2fe7c8a93f2fde580a861af11e0e260fa27ff2",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 3,
+    "approachCount": 3,
+    "incorrectRevisionCount": 1,
+    "firstCommittedAt": "2026-11-09T22:30:38+08:00",
+    "lastCommittedAt": "2026-11-09T22:30:38+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-6-luna",
+    "promptVersion": "7",
+    "inputHash": "7a97ca1a158c46fe0eb2646afef6d448ad6bf3b6b3a23451a2e662d04ed65ef2"
+  },
+  "approaches": [
+    {
+      "id": "approach1",
+      "title": "Count violations in each direction",
+      "summary": "Count all `a`s occurring after a `b` and all `b`s occurring before an `a`, then return the smaller count. This heuristic is marked wrong because it does not necessarily find the minimum deletions.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "84ad5423c5f4f2a943f09b8ac0915eec83d4e479",
+          "shortSha": "84ad542",
+          "parentSha": "cd5b8eed379be7bdb1f784619385b2bb0f22bf86",
+          "authoredAt": "2026-11-09T13:10:14+08:00",
+          "committedAt": "2026-11-09T22:30:38+08:00",
+          "chronologicalIndex": 511,
+          "problemId": 1653,
+          "language": "java",
+          "sourcePath": "java/src/solutions/1653_minimum_deletions_to_make_string_balanced.java",
+          "sourceFilename": "1653_minimum_deletions_to_make_string_balanced.java",
+          "code": "class Solution {\n  public int minimumDeletions(String s) {\n    int removeAs = 0;\n    boolean seenB = false;\n    for (int i = 0; i < s.length(); i++) {\n      seenB = s.charAt(i) == 'b' || seenB;\n\n      if (seenB && s.charAt(i) == 'a') {\n        removeAs++;\n      }\n    }\n\n    int removeBs = 0;\n    boolean seenA = false;\n    for (int i = s.length() -1; i >= 0; i--) {\n      seenA = s.charAt(i) == 'a' || seenA;\n\n      if (seenA && s.charAt(i) == 'b') {\n        removeBs++;\n      }\n    }\n\n    return Math.min(removeAs, removeBs);\n  }\n}\n",
+          "codeHash": "5757da53d13516b5d588e9488ccf2fd874bb99e17173d1b280dfc8a1506be420",
+          "markedWrong": true,
+          "commitComment": "wrong heuristic",
+          "rawCommitSubject": "java 1653!: wrong heuristic",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "approach1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Introduces the two-direction violation-counting heuristic; marked wrong.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "approach2",
+      "title": "Try every split point",
+      "summary": "Treat each position as a possible boundary between the final `b` prefix and `a` suffix. Track `b`s to the left and `a`s to the right, and minimize their sum.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "e3c8facb95f8b709ef373a6485e5c65c1a47ac6a",
+          "shortSha": "e3c8fac",
+          "parentSha": "84ad5423c5f4f2a943f09b8ac0915eec83d4e479",
+          "authoredAt": "2026-11-09T13:50:50+08:00",
+          "committedAt": "2026-11-09T22:30:38+08:00",
+          "chronologicalIndex": 512,
+          "problemId": 1653,
+          "language": "java",
+          "sourcePath": "java/src/solutions/1653_minimum_deletions_to_make_string_balanced.java",
+          "sourceFilename": "1653_minimum_deletions_to_make_string_balanced.java",
+          "code": "class Solution {\n  public int minimumDeletions(String s) {\n    int aRight = 0;\n    for (int i = 0; i < s.length(); i++) {\n      if (s.charAt(i) == 'a') {\n        aRight += 1;\n      }\n    }\n\n    int bLeft = 0;\n    int moves = aRight;\n    for (int i = 0; i < s.length(); i++) {\n      if (s.charAt(i) == 'a') {\n        aRight--;\n      } else {\n        bLeft++;\n      }\n      moves = Math.min(moves, aRight + bLeft);\n    }\n\n    return moves;\n  }\n}\n\n",
+          "codeHash": "5a1e3ea336118df5fea7e6cf909b2aa7eccd961ae11f6228b404f52e72c59e8c",
+          "markedWrong": false,
+          "commitComment": "find middle",
+          "rawCommitSubject": "java 1653: find middle",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/java/src/solutions/1653_minimum_deletions_to_make_string_balanced.java b/java/src/solutions/1653_minimum_deletions_to_make_string_balanced.java\nindex 5ea77f2..eb3c9b5 100644\n--- a/java/src/solutions/1653_minimum_deletions_to_make_string_balanced.java\n+++ b/java/src/solutions/1653_minimum_deletions_to_make_string_balanced.java\n@@ -1,25 +1,24 @@\n class Solution {\n   public int minimumDeletions(String s) {\n-    int removeAs = 0;\n-    boolean seenB = false;\n+    int aRight = 0;\n     for (int i = 0; i < s.length(); i++) {\n-      seenB = s.charAt(i) == 'b' || seenB;\n-\n-      if (seenB && s.charAt(i) == 'a') {\n-        removeAs++;\n+      if (s.charAt(i) == 'a') {\n+        aRight += 1;\n       }\n     }\n \n-    int removeBs = 0;\n-    boolean seenA = false;\n-    for (int i = s.length() -1; i >= 0; i--) {\n-      seenA = s.charAt(i) == 'a' || seenA;\n-\n-      if (seenA && s.charAt(i) == 'b') {\n-        removeBs++;\n+    int bLeft = 0;\n+    int moves = aRight;\n+    for (int i = 0; i < s.length(); i++) {\n+      if (s.charAt(i) == 'a') {\n+        aRight--;\n+      } else {\n+        bLeft++;\n       }\n+      moves = Math.min(moves, aRight + bLeft);\n     }\n \n-    return Math.min(removeAs, removeBs);\n+    return moves;\n   }\n }\n+\n",
+          "changedLineCounts": {
+            "additions": 13,
+            "deletions": 14
+          },
+          "approachId": "approach2",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaces the heuristic with a linear scan that evaluates the deletion cost at each split.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "approach3",
+      "title": "One-pass dynamic programming",
+      "summary": "Maintain the minimum deletions for the prefix processed so far, along with the number of `b`s seen. For each `a`, choose between deleting it or deleting all preceding `b`s.",
+      "order": 2,
+      "revisions": [
+        {
+          "sha": "ef2fe7c8a93f2fde580a861af11e0e260fa27ff2",
+          "shortSha": "ef2fe7c",
+          "parentSha": "e3c8facb95f8b709ef373a6485e5c65c1a47ac6a",
+          "authoredAt": "2026-11-09T13:53:16+08:00",
+          "committedAt": "2026-11-09T22:30:38+08:00",
+          "chronologicalIndex": 513,
+          "problemId": 1653,
+          "language": "java",
+          "sourcePath": "java/src/solutions/1653_minimum_deletions_to_make_string_balanced.java",
+          "sourceFilename": "1653_minimum_deletions_to_make_string_balanced.java",
+          "code": "class Solution {\n  public int minimumDeletions(String s) {\n    int bSeen = 0;\n    int moves = 0;\n    for (int i = 0; i < s.length(); i++) {\n      if (s.charAt(i) == 'b') {\n        bSeen++;\n      } else {\n        moves = Math.min(bSeen, moves + 1);\n      }\n    }\n\n    return moves;\n  }\n}\n\n",
+          "codeHash": "126fe33690845073ff93e69fae30cad4610faea6b8a12db48d7cd62c83733eb5",
+          "markedWrong": false,
+          "commitComment": "dp approach",
+          "rawCommitSubject": "java 1653: dp approach",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/java/src/solutions/1653_minimum_deletions_to_make_string_balanced.java b/java/src/solutions/1653_minimum_deletions_to_make_string_balanced.java\nindex eb3c9b5..f01f21b 100644\n--- a/java/src/solutions/1653_minimum_deletions_to_make_string_balanced.java\n+++ b/java/src/solutions/1653_minimum_deletions_to_make_string_balanced.java\n@@ -1,21 +1,13 @@\n class Solution {\n   public int minimumDeletions(String s) {\n-    int aRight = 0;\n+    int bSeen = 0;\n+    int moves = 0;\n     for (int i = 0; i < s.length(); i++) {\n-      if (s.charAt(i) == 'a') {\n-        aRight += 1;\n-      }\n-    }\n-\n-    int bLeft = 0;\n-    int moves = aRight;\n-    for (int i = 0; i < s.length(); i++) {\n-      if (s.charAt(i) == 'a') {\n-        aRight--;\n+      if (s.charAt(i) == 'b') {\n+        bSeen++;\n       } else {\n-        bLeft++;\n+        moves = Math.min(bSeen, moves + 1);\n       }\n-      moves = Math.min(moves, aRight + bLeft);\n     }\n \n     return moves;\n",
+          "changedLineCounts": {
+            "additions": 5,
+            "deletions": 13
+          },
+          "approachId": "approach3",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaces split-point enumeration with a one-pass DP recurrence using constant state.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "84ad5423c5f4f2a943f09b8ac0915eec83d4e479",
+    "e3c8facb95f8b709ef373a6485e5c65c1a47ac6a",
+    "ef2fe7c8a93f2fde580a861af11e0e260fa27ff2"
+  ],
+  "warnings": []
+}

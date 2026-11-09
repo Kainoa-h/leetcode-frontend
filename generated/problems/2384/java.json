@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2384,
+    "title": "Largest Palindromic Number",
+    "slug": "largest-palindromic-number"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/2384_largest_palindromic_number.java",
+    "latestSha": "c2d88058758168322f01bcc3186e47f9f313c5ec",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-11-09T22:30:38+08:00",
+    "lastCommittedAt": "2026-11-09T22:30:38+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "7",
+    "inputHash": "f881c3e8e74b933472463ebc22dbae03f4711a012b1f75a48e8a2186b6e2b91e"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "c2d88058758168322f01bcc3186e47f9f313c5ec",
+          "shortSha": "c2d8805",
+          "parentSha": "ef2fe7c8a93f2fde580a861af11e0e260fa27ff2",
+          "authoredAt": "2026-11-09T15:47:43+08:00",
+          "committedAt": "2026-11-09T22:30:38+08:00",
+          "chronologicalIndex": 514,
+          "problemId": 2384,
+          "language": "java",
+          "sourcePath": "java/src/solutions/2384_largest_palindromic_number.java",
+          "sourceFilename": "2384_largest_palindromic_number.java",
+          "code": "class Solution {\n  public String largestPalindromic(String num) {\n    int[] bucket = new int[10];\n    for (int i = 0; i < num.length(); i++) {\n      bucket[num.charAt(i) - '0']++;\n    }\n    \n    StringBuilder left = new StringBuilder();\n    for (int i = 9; i >= 0; i--) {\n      var count = bucket[i];\n      if (count > 1 && (i != 0 || left.length() != 0)) {\n        var use = count / 2;\n        left.append(String.valueOf(i).repeat(use));\n        bucket[i] -= use * 2;\n      }\n    }\n\n    String mid = \"\";\n    for (int i = 9; i >= 0; i--) {\n      var count = bucket[i];\n      if (count > 0) {\n        mid = String.valueOf(i);\n        break;\n      }\n    }\n\n    StringBuilder right = new StringBuilder(left);\n    right.reverse();\n\n    left.append(mid);\n    left.append(right);\n\n    return left.toString();\n  }\n}\n",
+          "codeHash": "64d72ef16d78dea682a5c62d78f3d1ec7c65704dc7e25bd5ea5df29a59ad853e",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "java 2384",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "c2d88058758168322f01bcc3186e47f9f313c5ec"
+  ],
+  "warnings": []
+}

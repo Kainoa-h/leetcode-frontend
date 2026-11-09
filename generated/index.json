@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-08T01:56:02.801Z",
-  "sourceHeadSha": "cd5b8eed379be7bdb1f784619385b2bb0f22bf86",
+  "generatedAt": "2026-11-09T14:31:47.631Z",
+  "sourceHeadSha": "56205a38bfde77a764af5f7daa597b3708ff5265",
   "questions": [
     {
       "id": 1,
@@ -1435,6 +1435,24 @@
       "lastCommittedAt": "2026-07-27T21:53:24+08:00"
     },
     {
+      "id": 221,
+      "title": "Maximal Square",
+      "slug": "maximal-square",
+      "languages": [
+        {
+          "id": "java",
+          "label": "Java",
+          "route": "/problems/221/java/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-11-09T22:30:38+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-11-09T22:30:38+08:00",
+      "lastCommittedAt": "2026-11-09T22:30:38+08:00"
+    },
+    {
       "id": 226,
       "title": "Invert Binary Tree",
       "slug": "invert-binary-tree",
@@ -2308,6 +2326,24 @@
       "lastCommittedAt": "2026-09-28T14:06:45+08:00"
     },
     {
+      "id": 1653,
+      "title": "Minimum Deletions to Make String Balanced",
+      "slug": "minimum-deletions-to-make-string-balanced",
+      "languages": [
+        {
+          "id": "java",
+          "label": "Java",
+          "route": "/problems/1653/java/",
+          "revisionCount": 3,
+          "approachCount": 3,
+          "incorrectRevisionCount": 1,
+          "lastCommittedAt": "2026-11-09T22:30:38+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-11-09T22:30:38+08:00",
+      "lastCommittedAt": "2026-11-09T22:30:38+08:00"
+    },
+    {
       "id": 1658,
       "title": "Minimum Operations to Reduce X to Zero",
       "slug": "minimum-operations-to-reduce-x-to-zero",
@@ -2873,6 +2909,24 @@
       ],
       "firstCommittedAt": "2026-10-11T11:36:42+08:00",
       "lastCommittedAt": "2026-10-11T11:36:42+08:00"
+    },
+    {
+      "id": 2384,
+      "title": "Largest Palindromic Number",
+      "slug": "largest-palindromic-number",
+      "languages": [
+        {
+          "id": "java",
+          "label": "Java",
+          "route": "/problems/2384/java/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-11-09T22:30:38+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-11-09T22:30:38+08:00",
+      "lastCommittedAt": "2026-11-09T22:30:38+08:00"
     },
     {
       "id": 2409,
