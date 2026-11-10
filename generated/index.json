@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T14:31:47.631Z",
-  "sourceHeadSha": "56205a38bfde77a764af5f7daa597b3708ff5265",
+  "generatedAt": "2026-11-10T02:30:16.058Z",
+  "sourceHeadSha": "c139cb7a2e268d07b7ceccb9b9108fff4e5f344c",
   "questions": [
     {
       "id": 1,
@@ -3917,6 +3917,24 @@
       ],
       "firstCommittedAt": "2026-06-11T00:30:13+08:00",
       "lastCommittedAt": "2026-06-11T00:30:13+08:00"
+    },
+    {
+      "id": 3693,
+      "title": "Climbing Stairs II",
+      "slug": "climbing-stairs-ii",
+      "languages": [
+        {
+          "id": "java",
+          "label": "Java",
+          "route": "/problems/3693/java/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-11-10T10:29:40+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-11-10T10:12:55+08:00",
+      "lastCommittedAt": "2026-11-10T10:29:40+08:00"
     },
     {
       "id": 3702,
