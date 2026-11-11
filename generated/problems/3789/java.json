@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3789,
+    "title": "Minimum Cost to Acquire Required Items",
+    "slug": "minimum-cost-to-acquire-required-items"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/3789_minimum_cost_to_acquire_required_items.java",
+    "latestSha": "b2a852906ccfbf89e0039926aaaf0a1ae8eb4b70",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-11-11T10:00:56+08:00",
+    "lastCommittedAt": "2026-11-11T10:00:56+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "7",
+    "inputHash": "93bb4a68a5496608e840c1248ff12865b077c60f9d50ef700eba4abbdf12acc1"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "b2a852906ccfbf89e0039926aaaf0a1ae8eb4b70",
+          "shortSha": "b2a8529",
+          "parentSha": "c139cb7a2e268d07b7ceccb9b9108fff4e5f344c",
+          "authoredAt": "2026-11-11T10:00:17+08:00",
+          "committedAt": "2026-11-11T10:00:56+08:00",
+          "chronologicalIndex": 518,
+          "problemId": 3789,
+          "language": "java",
+          "sourcePath": "java/src/solutions/3789_minimum_cost_to_acquire_required_items.java",
+          "sourceFilename": "3789_minimum_cost_to_acquire_required_items.java",
+          "code": "class Solution {\n  public long minimumCost(int cost1, int cost2, int costBoth, int need1, int need2) {\n    final long cost12 = cost1 + cost2;\n    int sharedNeeds = Math.min(need1, need2);\n    need1 -= sharedNeeds;\n    need2 -= sharedNeeds;\n\n    long sharedCost = sharedNeeds * (long) Math.min(costBoth, cost12);\n    long need1Cost = need1 * (long) Math.min(costBoth, cost1);\n    long need2Cost = need2 * (long) Math.min(costBoth, cost2);\n    return sharedCost + need1Cost + need2Cost;\n  }\n}\n",
+          "codeHash": "32be8ccec470d9b547fba78d5d659d7596144d5f1307ece525d7307fcadf266e",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "java 3789",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "b2a852906ccfbf89e0039926aaaf0a1ae8eb4b70"
+  ],
+  "warnings": []
+}
