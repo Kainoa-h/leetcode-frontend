@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3105,
+    "title": "Longest Strictly Increasing or Strictly Decreasing Subarray",
+    "slug": "longest-strictly-increasing-or-strictly-decreasing-subarray"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/3105_longest_strictly_increasing_or_strictly_decreasing_subarray.java",
+    "latestSha": "8501597a58bb0afd7bea7b612168171b885cb2df",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-11-12T09:48:39+08:00",
+    "lastCommittedAt": "2026-11-12T09:49:21+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-6-luna",
+    "promptVersion": "7",
+    "inputHash": "461de651f2f8e21fe1e4b1b1bfee0feac15b361212b1a1963b52735fdec80908"
+  },
+  "approaches": [
+    {
+      "id": "1",
+      "title": "Track increasing and decreasing runs",
+      "summary": "Scan adjacent elements while maintaining the current strictly increasing and decreasing run lengths. Update the longest length as the scan proceeds.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "8565d75ceb69b29e97719b8f10635167807f88a3",
+          "shortSha": "8565d75",
+          "parentSha": "b2a852906ccfbf89e0039926aaaf0a1ae8eb4b70",
+          "authoredAt": "2026-11-12T09:48:39+08:00",
+          "committedAt": "2026-11-12T09:48:39+08:00",
+          "chronologicalIndex": 519,
+          "problemId": 3105,
+          "language": "java",
+          "sourcePath": "java/src/solutions/3105_longest_strictly_increasing_or_strictly_decreasing_subarray.java",
+          "sourceFilename": "3105_longest_strictly_increasing_or_strictly_decreasing_subarray.java",
+          "code": "class Solution {\n  public int longestMonotonicSubarray(int[] nums) {\n    var LongestRun = 1;\n    var incCurrentRun = 1;\n    var decCurrentRun = 1;\n    for (int i = 1; i < nums.length; i++) {\n      if (nums[i-1] < nums[i]) {\n        incCurrentRun++;\n      } else {\n        LongestRun = Math.max(LongestRun, incCurrentRun);\n        incCurrentRun = 1;\n      }\n      \n      if (nums[i-1] > nums[i]) {\n        decCurrentRun++;\n      } else {\n        LongestRun = Math.max(LongestRun, decCurrentRun);\n        decCurrentRun = 1;\n      }\n    }\n    return Math.max(LongestRun, Math.max(incCurrentRun, decCurrentRun));\n  }\n}\n",
+          "codeHash": "36f1e45496b2f877a5272e030f7b67141012c194551b1422de9a393409594468",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "java 3105",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Maintains separate increasing and decreasing counters, updating the maximum when runs end and after the scan.",
+          "warnings": []
+        },
+        {
+          "sha": "8501597a58bb0afd7bea7b612168171b885cb2df",
+          "shortSha": "8501597",
+          "parentSha": "8565d75ceb69b29e97719b8f10635167807f88a3",
+          "authoredAt": "2026-11-12T09:48:53+08:00",
+          "committedAt": "2026-11-12T09:49:21+08:00",
+          "chronologicalIndex": 520,
+          "problemId": 3105,
+          "language": "java",
+          "sourcePath": "java/src/solutions/3105_longest_strictly_increasing_or_strictly_decreasing_subarray.java",
+          "sourceFilename": "3105_longest_strictly_increasing_or_strictly_decreasing_subarray.java",
+          "code": "class Solution {\n  public int longestMonotonicSubarray(int[] nums) {\n    var longestRun = 1;\n    int incCurrentRun = 1, decCurrentRun = 1;\n    for (int i = 1; i < nums.length; i++) {\n      incCurrentRun =  (nums[i-1] < nums[i]) ? incCurrentRun + 1 : 1;\n      decCurrentRun =  (nums[i-1] > nums[i]) ? decCurrentRun + 1: 1;\n      longestRun = Math.max(longestRun, Math.max(incCurrentRun, decCurrentRun));\n    }\n    return longestRun;\n  }\n}\n",
+          "codeHash": "d27444019cdcc009a5d8a452e92296a2a7c0d6586a6cc14c7a6c40318ea04f27",
+          "markedWrong": false,
+          "commitComment": "simplified",
+          "rawCommitSubject": "java 3105: simplified",
+          "commitBody": "- use ternary\n- check max on every iteration",
+          "diffFromPreviousRelevantRevision": "diff --git a/java/src/solutions/3105_longest_strictly_increasing_or_strictly_decreasing_subarray.java b/java/src/solutions/3105_longest_strictly_increasing_or_strictly_decreasing_subarray.java\nindex a474aa0..03f913c 100644\n--- a/java/src/solutions/3105_longest_strictly_increasing_or_strictly_decreasing_subarray.java\n+++ b/java/src/solutions/3105_longest_strictly_increasing_or_strictly_decreasing_subarray.java\n@@ -1,23 +1,12 @@\n class Solution {\n   public int longestMonotonicSubarray(int[] nums) {\n-    var LongestRun = 1;\n-    var incCurrentRun = 1;\n-    var decCurrentRun = 1;\n+    var longestRun = 1;\n+    int incCurrentRun = 1, decCurrentRun = 1;\n     for (int i = 1; i < nums.length; i++) {\n-      if (nums[i-1] < nums[i]) {\n-        incCurrentRun++;\n-      } else {\n-        LongestRun = Math.max(LongestRun, incCurrentRun);\n-        incCurrentRun = 1;\n-      }\n-      \n-      if (nums[i-1] > nums[i]) {\n-        decCurrentRun++;\n-      } else {\n-        LongestRun = Math.max(LongestRun, decCurrentRun);\n-        decCurrentRun = 1;\n-      }\n+      incCurrentRun =  (nums[i-1] < nums[i]) ? incCurrentRun + 1 : 1;\n+      decCurrentRun =  (nums[i-1] > nums[i]) ? decCurrentRun + 1: 1;\n+      longestRun = Math.max(longestRun, Math.max(incCurrentRun, decCurrentRun));\n     }\n-    return Math.max(LongestRun, Math.max(incCurrentRun, decCurrentRun));\n+    return longestRun;\n   }\n }\n",
+          "changedLineCounts": {
+            "additions": 6,
+            "deletions": 17
+          },
+          "approachId": "1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Keeps the same two-counter scan, using ternary updates and checking the maximum on each iteration.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "8565d75ceb69b29e97719b8f10635167807f88a3",
+    "8501597a58bb0afd7bea7b612168171b885cb2df"
+  ],
+  "warnings": []
+}

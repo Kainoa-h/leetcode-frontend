@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-11T02:01:31.203Z",
-  "sourceHeadSha": "b2a852906ccfbf89e0039926aaaf0a1ae8eb4b70",
+  "generatedAt": "2026-11-12T01:49:54.702Z",
+  "sourceHeadSha": "8501597a58bb0afd7bea7b612168171b885cb2df",
   "questions": [
     {
       "id": 1,
@@ -3368,6 +3368,24 @@
       ],
       "firstCommittedAt": "2026-08-14T09:47:05+08:00",
       "lastCommittedAt": "2026-08-14T09:47:05+08:00"
+    },
+    {
+      "id": 3105,
+      "title": "Longest Strictly Increasing or Strictly Decreasing Subarray",
+      "slug": "longest-strictly-increasing-or-strictly-decreasing-subarray",
+      "languages": [
+        {
+          "id": "java",
+          "label": "Java",
+          "route": "/problems/3105/java/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-11-12T09:49:21+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-11-12T09:48:39+08:00",
+      "lastCommittedAt": "2026-11-12T09:49:21+08:00"
     },
     {
       "id": 3120,
