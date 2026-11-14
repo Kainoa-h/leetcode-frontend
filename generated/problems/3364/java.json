@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 3364,
+    "title": "Minimum Positive Sum Subarray",
+    "slug": "minimum-positive-sum-subarray"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/3364_minimum_positive_sum_subarray.java",
+    "latestSha": "f8c5be8f84495797688eb0777a3a5f907d35f814",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-11-14T16:51:02+08:00",
+    "lastCommittedAt": "2026-11-14T16:51:02+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "7",
+    "inputHash": "9b8aad25b84f03d4c30b8522cb33ae99e35e00a0859a41d333930a54f2a8beaa"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "f8c5be8f84495797688eb0777a3a5f907d35f814",
+          "shortSha": "f8c5be8",
+          "parentSha": "8501597a58bb0afd7bea7b612168171b885cb2df",
+          "authoredAt": "2026-11-14T16:50:48+08:00",
+          "committedAt": "2026-11-14T16:51:02+08:00",
+          "chronologicalIndex": 521,
+          "problemId": 3364,
+          "language": "java",
+          "sourcePath": "java/src/solutions/3364_minimum_positive_sum_subarray.java",
+          "sourceFilename": "3364_minimum_positive_sum_subarray.java",
+          "code": "import java.util.*;\n\nclass Solution {\n  public int minimumSumSubarray(List<Integer> nums, int l, int r) {\n    final int[] prefix = new int[nums.size() + 1];\n    int sum = 0;\n    for (int i = 0; i < nums.size(); i++) {\n      var x = nums.get(i);\n      prefix[i] = sum;\n      sum += x;\n    }\n    prefix[nums.size()] = sum;\n\n    int min = Integer.MAX_VALUE;\n    for (int startIdx = 0; startIdx < prefix.length - l + 1; startIdx++) {\n      for (int endIdx = startIdx + l; endIdx <= startIdx + r && endIdx < prefix.length; endIdx++) {\n        var subArraySum = prefix[endIdx] - prefix[startIdx];\n        if (subArraySum > 0) {\n          min = Math.min(min, subArraySum);\n        }\n      }\n    }\n    return min == Integer.MAX_VALUE ? -1 : min;\n  }\n}\n",
+          "codeHash": "2bb995deadbeefcd2850043af3de75bbd49f53b04708b8185fab707caed01afd",
+          "markedWrong": false,
+          "commitComment": "brute force search with prefix",
+          "rawCommitSubject": "java 3364: brute force search with prefix",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "brute force search with prefix",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "f8c5be8f84495797688eb0777a3a5f907d35f814"
+  ],
+  "warnings": []
+}

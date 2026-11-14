@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-12T01:49:54.702Z",
-  "sourceHeadSha": "8501597a58bb0afd7bea7b612168171b885cb2df",
+  "generatedAt": "2026-11-14T08:51:38.691Z",
+  "sourceHeadSha": "f8c5be8f84495797688eb0777a3a5f907d35f814",
   "questions": [
     {
       "id": 1,
@@ -3494,6 +3494,24 @@
       ],
       "firstCommittedAt": "2026-08-06T11:09:53+08:00",
       "lastCommittedAt": "2026-08-06T11:27:34+08:00"
+    },
+    {
+      "id": 3364,
+      "title": "Minimum Positive Sum Subarray",
+      "slug": "minimum-positive-sum-subarray",
+      "languages": [
+        {
+          "id": "java",
+          "label": "Java",
+          "route": "/problems/3364/java/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-11-14T16:51:02+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-11-14T16:51:02+08:00",
+      "lastCommittedAt": "2026-11-14T16:51:02+08:00"
     },
     {
       "id": 3418,
