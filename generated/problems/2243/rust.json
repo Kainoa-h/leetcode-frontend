@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2243,
+    "title": "Calculate Digit Sum of A String",
+    "slug": "calculate-digit-sum-of-a-string"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/2243_calculate_digit_sum_of_a_string.rs",
+    "latestSha": "72b64c3f173d77c7f64c36f846ee687d07975852",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-11-16T10:34:23+08:00",
+    "lastCommittedAt": "2026-11-16T10:55:17+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-6-luna",
+    "promptVersion": "7",
+    "inputHash": "9c71b0a84ad9564a8c783d5073d1d7760a99750a7c19e5f0db0d2faef992665f"
+  },
+  "approaches": [
+    {
+      "id": "chunk-and-sum",
+      "title": "Repeated chunk-and-sum",
+      "summary": "While the string is longer than k, split it into chunks of k digits, sum each chunk, and concatenate the sums for the next iteration. Swap buffers between rounds.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "a721eaddbc87dc1d7bc8eb2cd66c5e460c7d1e89",
+          "shortSha": "a721ead",
+          "parentSha": "aacfd9f496a701f965d802ef40cbd5842c8eb84a",
+          "authoredAt": "2026-11-16T10:29:23+08:00",
+          "committedAt": "2026-11-16T10:34:23+08:00",
+          "chronologicalIndex": 524,
+          "problemId": 2243,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2243_calculate_digit_sum_of_a_string.rs",
+          "sourceFilename": "2243_calculate_digit_sum_of_a_string.rs",
+          "code": "impl Solution {\n    pub fn digit_sum(mut s: String, k: i32) -> String {\n        let k = k as usize;\n        let mut sb = String::new();\n        while s.len() > k {\n            for chunk in s.as_bytes().chunks(k) {\n                sb += &chunk.iter().map(|&x| (x - b'0') as u32).sum::<u32>().to_string();\n            }\n            std::mem::swap(&mut s, &mut sb);\n            sb.clear();\n        }\n        s\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "2c8708b4dad4d74a9ff4bf0ddf877db5d00a568a6bc8ccae2444e06e8bbe6908",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 2243",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chunk-and-sum",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Build each chunk’s sum as a temporary string and append it to the output buffer.",
+          "warnings": []
+        },
+        {
+          "sha": "72b64c3f173d77c7f64c36f846ee687d07975852",
+          "shortSha": "72b64c3",
+          "parentSha": "a721eaddbc87dc1d7bc8eb2cd66c5e460c7d1e89",
+          "authoredAt": "2026-11-16T10:55:17+08:00",
+          "committedAt": "2026-11-16T10:55:17+08:00",
+          "chronologicalIndex": 525,
+          "problemId": 2243,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2243_calculate_digit_sum_of_a_string.rs",
+          "sourceFilename": "2243_calculate_digit_sum_of_a_string.rs",
+          "code": "use std::fmt::Write as _;\nimpl Solution {\n    pub fn digit_sum(mut s: String, k: i32) -> String {\n        let k = k as usize;\n        let mut sb = String::new();\n        while s.len() > k {\n            for chunk in s.as_bytes().chunks(k) {\n                let sum = chunk.iter().map(|&x| (x - b'0') as u32).sum::<u32>();\n                let _ = write!(sb, \"{sum}\");\n            }\n            std::mem::swap(&mut s, &mut sb);\n            sb.clear();\n        }\n        s\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "d2659d06f4c0a815513904f6033c209b0ddab029b3363b45a1083af0ec36e2b7",
+          "markedWrong": false,
+          "commitComment": "use write! macro to avoid creating temporary string",
+          "rawCommitSubject": "rust 2243: use write! macro to avoid creating temporary string",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2243_calculate_digit_sum_of_a_string.rs b/rust/src/bin/2243_calculate_digit_sum_of_a_string.rs\nindex f1dcc39..69e3c46 100644\n--- a/rust/src/bin/2243_calculate_digit_sum_of_a_string.rs\n+++ b/rust/src/bin/2243_calculate_digit_sum_of_a_string.rs\n@@ -1,10 +1,12 @@\n+use std::fmt::Write as _;\n impl Solution {\n     pub fn digit_sum(mut s: String, k: i32) -> String {\n         let k = k as usize;\n         let mut sb = String::new();\n         while s.len() > k {\n             for chunk in s.as_bytes().chunks(k) {\n-                sb += &chunk.iter().map(|&x| (x - b'0') as u32).sum::<u32>().to_string();\n+                let sum = chunk.iter().map(|&x| (x - b'0') as u32).sum::<u32>();\n+                let _ = write!(sb, \"{sum}\");\n             }\n             std::mem::swap(&mut s, &mut sb);\n             sb.clear();\n",
+          "changedLineCounts": {
+            "additions": 3,
+            "deletions": 1
+          },
+          "approachId": "chunk-and-sum",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Use the write! macro to append each chunk’s sum directly to the output buffer, avoiding a temporary string.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "a721eaddbc87dc1d7bc8eb2cd66c5e460c7d1e89",
+    "72b64c3f173d77c7f64c36f846ee687d07975852"
+  ],
+  "warnings": []
+}

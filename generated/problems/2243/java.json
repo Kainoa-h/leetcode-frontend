@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2243,
+    "title": "Calculate Digit Sum of A String",
+    "slug": "calculate-digit-sum-of-a-string"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/2243_calculate_digit_sum_of_a_string.java",
+    "latestSha": "aacfd9f496a701f965d802ef40cbd5842c8eb84a",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-11-16T10:14:33+08:00",
+    "lastCommittedAt": "2026-11-16T10:14:33+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-6-luna",
+    "promptVersion": "7",
+    "inputHash": "a41e387dc9a083f4519f71b1f05ca90a1dcc87da2f86b27c8de3e5c89588f2aa"
+  },
+  "approaches": [
+    {
+      "id": "1",
+      "title": "Repeatedly sum digits in fixed-size groups",
+      "summary": "Partition the current string into groups of up to k digits, append each group’s digit sum, and repeat until the string has at most k characters. The first revision uses recursion; the second performs the same process iteratively while reusing a StringBuilder.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "d399a1715b3a928d8293c2c7fe26cdbf39ef98ec",
+          "shortSha": "d399a17",
+          "parentSha": "f8c5be8f84495797688eb0777a3a5f907d35f814",
+          "authoredAt": "2026-11-16T10:09:44+08:00",
+          "committedAt": "2026-11-16T10:14:33+08:00",
+          "chronologicalIndex": 522,
+          "problemId": 2243,
+          "language": "java",
+          "sourcePath": "java/src/solutions/2243_calculate_digit_sum_of_a_string.java",
+          "sourceFilename": "2243_calculate_digit_sum_of_a_string.java",
+          "code": "class Solution {\n  public String digitSum(String s, int k) {\n    if (s.length() <= k) {\n      return s;\n    }\n    StringBuilder output = new StringBuilder();\n    for (int i = 0; i < s.length(); i += k) {\n      var segmentSum = 0;\n      for (int c = i; c < Math.min(i + k, s.length()); c++) {\n        segmentSum += s.charAt(c) - '0';\n      }\n      output.append(segmentSum);\n    }\n\n    return this.digitSum(output.toString(), k);\n  }\n}\n",
+          "codeHash": "5820b0b794ec9addae770a9a0a69801c38299cecc1e840fc3a0b9e5be5ff6c2f",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "java 2243",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "1",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Build the next string from each group’s digit sum, then recursively process it until its length is at most k.",
+          "warnings": []
+        },
+        {
+          "sha": "aacfd9f496a701f965d802ef40cbd5842c8eb84a",
+          "shortSha": "aacfd9f",
+          "parentSha": "d399a1715b3a928d8293c2c7fe26cdbf39ef98ec",
+          "authoredAt": "2026-11-16T10:14:25+08:00",
+          "committedAt": "2026-11-16T10:14:33+08:00",
+          "chronologicalIndex": 523,
+          "problemId": 2243,
+          "language": "java",
+          "sourcePath": "java/src/solutions/2243_calculate_digit_sum_of_a_string.java",
+          "sourceFilename": "2243_calculate_digit_sum_of_a_string.java",
+          "code": "class Solution {\n  public String digitSum(String s, final int k) {\n    StringBuilder sb = new StringBuilder();\n    while (s.length() > k) {\n      for (int i = 0; i < s.length(); i += k) {\n        var segmentSum = 0;\n        for (int c = i; c < Math.min(i + k, s.length()); c++) {\n          segmentSum += s.charAt(c) - '0';\n        }\n        sb.append(segmentSum);\n      }\n      s = sb.toString();\n      sb.setLength(0);\n    }\n\n    return s;\n  }\n}\n",
+          "codeHash": "0fd19d4494e1d90fc98cceada30413d00c02de36016a441f5cf7115f78854a46",
+          "markedWrong": false,
+          "commitComment": "reuse StringBuilder and unroll recursion",
+          "rawCommitSubject": "java 2243: reuse StringBuilder and unroll recursion",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/java/src/solutions/2243_calculate_digit_sum_of_a_string.java b/java/src/solutions/2243_calculate_digit_sum_of_a_string.java\nindex fe11023..e66de00 100644\n--- a/java/src/solutions/2243_calculate_digit_sum_of_a_string.java\n+++ b/java/src/solutions/2243_calculate_digit_sum_of_a_string.java\n@@ -1,17 +1,18 @@\n class Solution {\n-  public String digitSum(String s, int k) {\n-    if (s.length() <= k) {\n-      return s;\n-    }\n-    StringBuilder output = new StringBuilder();\n-    for (int i = 0; i < s.length(); i += k) {\n-      var segmentSum = 0;\n-      for (int c = i; c < Math.min(i + k, s.length()); c++) {\n-        segmentSum += s.charAt(c) - '0';\n+  public String digitSum(String s, final int k) {\n+    StringBuilder sb = new StringBuilder();\n+    while (s.length() > k) {\n+      for (int i = 0; i < s.length(); i += k) {\n+        var segmentSum = 0;\n+        for (int c = i; c < Math.min(i + k, s.length()); c++) {\n+          segmentSum += s.charAt(c) - '0';\n+        }\n+        sb.append(segmentSum);\n       }\n-      output.append(segmentSum);\n+      s = sb.toString();\n+      sb.setLength(0);\n     }\n \n-    return this.digitSum(output.toString(), k);\n+    return s;\n   }\n }\n",
+          "changedLineCounts": {
+            "additions": 12,
+            "deletions": 11
+          },
+          "approachId": "1",
+          "narrativeIndex": 1,
+          "shortChangeSummary": "Replace recursion with a loop and reuse a StringBuilder across iterations.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "d399a1715b3a928d8293c2c7fe26cdbf39ef98ec",
+    "aacfd9f496a701f965d802ef40cbd5842c8eb84a"
+  ],
+  "warnings": []
+}

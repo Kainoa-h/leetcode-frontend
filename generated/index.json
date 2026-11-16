@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-14T08:51:38.691Z",
-  "sourceHeadSha": "f8c5be8f84495797688eb0777a3a5f907d35f814",
+  "generatedAt": "2026-11-16T02:58:42.144Z",
+  "sourceHeadSha": "72b64c3f173d77c7f64c36f846ee687d07975852",
   "questions": [
     {
       "id": 1,
@@ -2855,6 +2855,33 @@
       ],
       "firstCommittedAt": "2026-08-13T15:49:00+08:00",
       "lastCommittedAt": "2026-08-13T15:49:00+08:00"
+    },
+    {
+      "id": 2243,
+      "title": "Calculate Digit Sum of A String",
+      "slug": "calculate-digit-sum-of-a-string",
+      "languages": [
+        {
+          "id": "java",
+          "label": "Java",
+          "route": "/problems/2243/java/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-11-16T10:14:33+08:00"
+        },
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/2243/rust/",
+          "revisionCount": 2,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-11-16T10:55:17+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-11-16T10:14:33+08:00",
+      "lastCommittedAt": "2026-11-16T10:55:17+08:00"
     },
     {
       "id": 2265,
