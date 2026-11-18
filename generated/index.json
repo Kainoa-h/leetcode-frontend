@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-16T02:58:42.144Z",
-  "sourceHeadSha": "72b64c3f173d77c7f64c36f846ee687d07975852",
+  "generatedAt": "2026-11-18T07:45:36.780Z",
+  "sourceHeadSha": "118f6d9e188073878b41aed11685132357c732de",
   "questions": [
     {
       "id": 1,
@@ -3233,6 +3233,33 @@
       ],
       "firstCommittedAt": "2026-10-15T11:31:23+08:00",
       "lastCommittedAt": "2026-10-15T11:31:23+08:00"
+    },
+    {
+      "id": 2914,
+      "title": "Minimum Number of Changes to Make Binary String Beautiful",
+      "slug": "minimum-number-of-changes-to-make-binary-string-beautiful",
+      "languages": [
+        {
+          "id": "java",
+          "label": "Java",
+          "route": "/problems/2914/java/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-11-18T15:45:04+08:00"
+        },
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/2914/rust/",
+          "revisionCount": 1,
+          "approachCount": 1,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-11-18T15:45:04+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-11-18T15:45:04+08:00",
+      "lastCommittedAt": "2026-11-18T15:45:04+08:00"
     },
     {
       "id": 2946,

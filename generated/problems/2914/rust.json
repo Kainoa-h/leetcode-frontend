@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2914,
+    "title": "Minimum Number of Changes to Make Binary String Beautiful",
+    "slug": "minimum-number-of-changes-to-make-binary-string-beautiful"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/2914_minimum_number_of_changes_to_make_binary_string_beautiful.rs",
+    "latestSha": "118f6d9e188073878b41aed11685132357c732de",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-11-18T15:45:04+08:00",
+    "lastCommittedAt": "2026-11-18T15:45:04+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "7",
+    "inputHash": "0a24cf57a203cc6151c71f9067c924ac6028de0018266b7970b49b33b7292020"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "118f6d9e188073878b41aed11685132357c732de",
+          "shortSha": "118f6d9",
+          "parentSha": "b93b3d8a01493843d579a907d0074e1cbaf61939",
+          "authoredAt": "2026-11-18T15:44:58+08:00",
+          "committedAt": "2026-11-18T15:45:04+08:00",
+          "chronologicalIndex": 527,
+          "problemId": 2914,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2914_minimum_number_of_changes_to_make_binary_string_beautiful.rs",
+          "sourceFilename": "2914_minimum_number_of_changes_to_make_binary_string_beautiful.rs",
+          "code": "impl Solution {\n    pub fn min_changes(s: String) -> i32 {\n        s.as_bytes()\n            .chunks_exact(2)\n            .map(|c| i32::from(c[0] != c[1]))\n            .sum()\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "f07ed1b05c1ee69516a2618f415447d1f25bce48d1c1c9cb1a7df527437084ff",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 2914",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "118f6d9e188073878b41aed11685132357c732de"
+  ],
+  "warnings": []
+}

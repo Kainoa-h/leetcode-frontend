@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2914,
+    "title": "Minimum Number of Changes to Make Binary String Beautiful",
+    "slug": "minimum-number-of-changes-to-make-binary-string-beautiful"
+  },
+  "language": {
+    "id": "java",
+    "label": "Java",
+    "shikiLanguage": "java"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "java/src/solutions/2914_minimum_number_of_changes_to_make_binary_string_beautiful.java",
+    "latestSha": "b93b3d8a01493843d579a907d0074e1cbaf61939",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 1,
+    "approachCount": 1,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-11-18T15:45:04+08:00",
+    "lastCommittedAt": "2026-11-18T15:45:04+08:00"
+  },
+  "analysis": {
+    "status": "fallback",
+    "model": null,
+    "promptVersion": "7",
+    "inputHash": "5684b0c95bebb7af7effd27ab1e62809c182599787305e3d813bf22b301e1f4c"
+  },
+  "approaches": [
+    {
+      "id": "chronological",
+      "title": "Solution history",
+      "summary": "Revisions in chronological order.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "b93b3d8a01493843d579a907d0074e1cbaf61939",
+          "shortSha": "b93b3d8",
+          "parentSha": "72b64c3f173d77c7f64c36f846ee687d07975852",
+          "authoredAt": "2026-11-18T15:42:50+08:00",
+          "committedAt": "2026-11-18T15:45:04+08:00",
+          "chronologicalIndex": 526,
+          "problemId": 2914,
+          "language": "java",
+          "sourcePath": "java/src/solutions/2914_minimum_number_of_changes_to_make_binary_string_beautiful.java",
+          "sourceFilename": "2914_minimum_number_of_changes_to_make_binary_string_beautiful.java",
+          "code": "class Solution {\n  public int minChanges(String s) {\n    int changes = 0;\n    for (int i = 0; i < s.length(); i+=2) {\n      changes += s.charAt(i) != s.charAt(i+1) ? 1 : 0;\n    }\n    return changes;\n  }\n}\n",
+          "codeHash": "075454f38ae6fc4d43a0c37f3ab63be79c77b71d239969196c29900c901d5ea5",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "java 2914",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "chronological",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Updates the solution.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "b93b3d8a01493843d579a907d0074e1cbaf61939"
+  ],
+  "warnings": []
+}
