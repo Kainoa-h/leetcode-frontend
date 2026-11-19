@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-18T07:45:36.780Z",
-  "sourceHeadSha": "118f6d9e188073878b41aed11685132357c732de",
+  "generatedAt": "2026-11-19T06:26:14.882Z",
+  "sourceHeadSha": "c01eaac13d2c55fdaf744da6a60d60282e801e6b",
   "questions": [
     {
       "id": 1,
@@ -3008,6 +3008,24 @@
       ],
       "firstCommittedAt": "2026-07-04T22:35:48+08:00",
       "lastCommittedAt": "2026-07-04T22:35:48+08:00"
+    },
+    {
+      "id": 2567,
+      "title": "Minimum Score By Changing Two Elements",
+      "slug": "minimum-score-by-changing-two-elements",
+      "languages": [
+        {
+          "id": "rust",
+          "label": "Rust",
+          "route": "/problems/2567/rust/",
+          "revisionCount": 2,
+          "approachCount": 2,
+          "incorrectRevisionCount": 0,
+          "lastCommittedAt": "2026-11-19T14:25:27+08:00"
+        }
+      ],
+      "firstCommittedAt": "2026-11-19T14:25:27+08:00",
+      "lastCommittedAt": "2026-11-19T14:25:27+08:00"
     },
     {
       "id": 2574,

@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "problem": {
+    "id": 2567,
+    "title": "Minimum Score By Changing Two Elements",
+    "slug": "minimum-score-by-changing-two-elements"
+  },
+  "language": {
+    "id": "rust",
+    "label": "Rust",
+    "shikiLanguage": "rust"
+  },
+  "source": {
+    "repositoryUrl": "https://github.com/Kainoa-h/BOMBBOMBOBMOBOMBOMBOMBOMBBOMB",
+    "latestPath": "rust/src/bin/2567_minimum_score_by_changing_two_elements.rs",
+    "latestSha": "c01eaac13d2c55fdaf744da6a60d60282e801e6b",
+    "deleted": false
+  },
+  "statistics": {
+    "revisionCount": 2,
+    "approachCount": 2,
+    "incorrectRevisionCount": 0,
+    "firstCommittedAt": "2026-11-19T14:25:27+08:00",
+    "lastCommittedAt": "2026-11-19T14:25:27+08:00"
+  },
+  "analysis": {
+    "status": "llm",
+    "model": "openai/gpt-6-luna",
+    "promptVersion": "7",
+    "inputHash": "48e77a851d56fdf3cdbb270a9ac10cff948edf9d18f821c187ad9b9231b42b8e"
+  },
+  "approaches": [
+    {
+      "id": "sorting",
+      "title": "Sort and compare candidate ranges",
+      "summary": "Sort the values, then take the minimum range remaining after removing two elements from one of the three possible positions at the extremes.",
+      "order": 0,
+      "revisions": [
+        {
+          "sha": "744b7e91e6b2164ed86ec11a9d9b2ff85bab5ae6",
+          "shortSha": "744b7e9",
+          "parentSha": "118f6d9e188073878b41aed11685132357c732de",
+          "authoredAt": "2026-11-19T11:20:31+08:00",
+          "committedAt": "2026-11-19T14:25:27+08:00",
+          "chronologicalIndex": 528,
+          "problemId": 2567,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2567_minimum_score_by_changing_two_elements.rs",
+          "sourceFilename": "2567_minimum_score_by_changing_two_elements.rs",
+          "code": "impl Solution {\n    pub fn minimize_sum(mut nums: Vec<i32>) -> i32 {\n        let n = nums.len();\n        nums.sort_unstable();\n        let change_first_two = nums[n - 1] - nums[2];\n        let change_last_two = nums[n - 3] - nums[0];\n        let change_outter_two = nums[n - 2] - nums[1];\n        change_first_two.min(change_last_two).min(change_outter_two)\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "400f26d78322ce59ba94321229357f83833de7b8b3619e6485a83e93b1fd3c54",
+          "markedWrong": false,
+          "commitComment": "",
+          "rawCommitSubject": "rust 2567",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": null,
+          "changedLineCounts": null,
+          "approachId": "sorting",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Sorts the array and compares the three candidate ranges.",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "id": "tracked-extremes",
+      "title": "Track the three smallest and largest values",
+      "summary": "Scan once to maintain the three smallest and three largest values, then compare the same three candidate ranges without sorting.",
+      "order": 1,
+      "revisions": [
+        {
+          "sha": "c01eaac13d2c55fdaf744da6a60d60282e801e6b",
+          "shortSha": "c01eaac",
+          "parentSha": "744b7e91e6b2164ed86ec11a9d9b2ff85bab5ae6",
+          "authoredAt": "2026-11-19T11:32:03+08:00",
+          "committedAt": "2026-11-19T14:25:27+08:00",
+          "chronologicalIndex": 529,
+          "problemId": 2567,
+          "language": "rust",
+          "sourcePath": "rust/src/bin/2567_minimum_score_by_changing_two_elements.rs",
+          "sourceFilename": "2567_minimum_score_by_changing_two_elements.rs",
+          "code": "impl Solution {\n    pub fn minimize_sum(mut nums: Vec<i32>) -> i32 {\n        let mut ft = [i32::MAX; 3];\n        let mut lt = [i32::MIN; 3];\n        for x in nums {\n            if x < ft[2] {\n                if x < ft[0] {\n                    ft = [x, ft[0], ft[1]];\n                } else if x < ft[1] {\n                    ft = [ft[0], x, ft[1]];\n                } else {\n                    ft[2] = x;\n                }\n            }\n\n            if x > lt[0] {\n                if x > lt[2] {\n                    lt = [lt[1], lt[2], x];\n                } else if x > lt[1] {\n                    lt = [lt[1], x, lt[2]];\n                } else {\n                    lt[0] = x;\n                }\n            }\n        }\n\n\n        let change_first_two = lt[2] - ft[2];\n        let change_last_two = lt[0] - ft[0];\n        let change_outter_two = lt[1] - ft[1];\n        change_first_two.min(change_last_two).min(change_outter_two)\n    }\n}\n\nstruct Solution {}\n",
+          "codeHash": "ba5c1818023719266098b1a3b8f0ec14d0cf11972e27063dd391a9d266b9a9a2",
+          "markedWrong": false,
+          "commitComment": "no sort",
+          "rawCommitSubject": "rust 2567: no sort",
+          "commitBody": "",
+          "diffFromPreviousRelevantRevision": "diff --git a/rust/src/bin/2567_minimum_score_by_changing_two_elements.rs b/rust/src/bin/2567_minimum_score_by_changing_two_elements.rs\nindex bfcfdf1..d86dcb3 100644\n--- a/rust/src/bin/2567_minimum_score_by_changing_two_elements.rs\n+++ b/rust/src/bin/2567_minimum_score_by_changing_two_elements.rs\n@@ -1,10 +1,33 @@\n impl Solution {\n     pub fn minimize_sum(mut nums: Vec<i32>) -> i32 {\n-        let n = nums.len();\n-        nums.sort_unstable();\n-        let change_first_two = nums[n - 1] - nums[2];\n-        let change_last_two = nums[n - 3] - nums[0];\n-        let change_outter_two = nums[n - 2] - nums[1];\n+        let mut ft = [i32::MAX; 3];\n+        let mut lt = [i32::MIN; 3];\n+        for x in nums {\n+            if x < ft[2] {\n+                if x < ft[0] {\n+                    ft = [x, ft[0], ft[1]];\n+                } else if x < ft[1] {\n+                    ft = [ft[0], x, ft[1]];\n+                } else {\n+                    ft[2] = x;\n+                }\n+            }\n+\n+            if x > lt[0] {\n+                if x > lt[2] {\n+                    lt = [lt[1], lt[2], x];\n+                } else if x > lt[1] {\n+                    lt = [lt[1], x, lt[2]];\n+                } else {\n+                    lt[0] = x;\n+                }\n+            }\n+        }\n+\n+\n+        let change_first_two = lt[2] - ft[2];\n+        let change_last_two = lt[0] - ft[0];\n+        let change_outter_two = lt[1] - ft[1];\n         change_first_two.min(change_last_two).min(change_outter_two)\n     }\n }\n",
+          "changedLineCounts": {
+            "additions": 28,
+            "deletions": 5
+          },
+          "approachId": "tracked-extremes",
+          "narrativeIndex": 0,
+          "shortChangeSummary": "Replaces sorting with a one-pass scan that tracks the three smallest and largest values.",
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "chronologicalRevisionShas": [
+    "744b7e91e6b2164ed86ec11a9d9b2ff85bab5ae6",
+    "c01eaac13d2c55fdaf744da6a60d60282e801e6b"
+  ],
+  "warnings": []
+}
